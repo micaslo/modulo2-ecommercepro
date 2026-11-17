@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import ProductsOnSale from './components/navbar/ProductsOnSale/ProductsOnSale'
 import './App.css'
+import Error404 from './components/Error-404/Error-404'
 
 function App() {
- 
+
   return (
     <>
-     <ProductsOnSale />
+     <Error404/>
     </>
   )
 }
