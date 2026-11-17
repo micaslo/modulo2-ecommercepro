@@ -1,0 +1,19 @@
+.model3DViewer {
+  width: 100%;
+  height: 520px;
+  background: var(--bg-surface-2);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.model3DViewerElement {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .model3DViewer {
+    height: 340px;
+  }
+}
