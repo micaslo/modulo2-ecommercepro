@@ -1,13 +1,18 @@
-import './App.css'
-import Error404 from './components/Error-404/Error-404'
+import { BrowserRouter } from "react-router-dom";
+import Navbar from "./components/navbar/Navbar";
+import "./App.css";
 
 function App() {
-
   return (
     <>
-     <Error404/>
+       <BrowserRouter>
+      <Navbar cartCount={0} />
+      <main>
+        <h1>Contenido</h1>
+      </main>
+    </BrowserRouter>
     </>
   )
 }
 
-export default App
+export default App;
