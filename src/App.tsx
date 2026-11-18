@@ -18,6 +18,10 @@ function App() {
   );
 }
 
+function TempNotFound() {
+  return <h1 style={{ padding: "2rem" }}>404</h1>;
+}
+
 export default function App() {
   return (
     <Routes>
