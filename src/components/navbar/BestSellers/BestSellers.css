@@ -1,35 +1,72 @@
 .bestSellers {
+  --bsBg: #1a3a6b;
+  --bsCard: #14305f;
+  --bsAccent: #ff8c00;
+  --bsText: #ffffff;
+  --bsMuted: #9fb3d1;
+  --bsGreen: #4ade80;
+  --bsCardH: 400px;
+
+  position: relative;
+  overflow: hidden;
+  padding: 48px 16px;
+  background: var(--bsBg);
+  color: var(--bsText);
+}
+
+.bestSellers::before {
+  content: '';
+  position: absolute;
+  top: -140px;
+  right: -120px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+.bestSellersInner {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 16px;
-  font-family: 'Proxima Nova', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  color: #333;
 }
 
 .bestSellersHeader {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  position: relative;
+  margin-bottom: 32px;
+  text-align: center;
 }
 
 .bestSellersTitle {
   margin: 0;
-  font-size: 22px;
-  font-weight: 400;
+  font-size: 28px;
+  font-weight: 600;
   line-height: 1.25;
+  color: var(--bsText);
+}
+
+.bestSellersTitle::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 2px;
+  background: var(--bsAccent);
 }
 
 .bestSellersLink {
-  flex-shrink: 0;
+  position: absolute;
+  top: 8px;
+  right: 0;
   font-size: 14px;
-  color: #3483fa;
+  color: var(--bsAccent);
   text-decoration: none;
 }
 
 .bestSellersLink:hover {
-  color: #2968c8;
+  text-decoration: underline;
 }
 
 .bestSellersCarousel {
@@ -38,9 +75,9 @@
 
 .bestSellersTrack {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   overflow-x: auto;
-  padding: 4px 2px 12px;
+  padding: 8px 4px 24px;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -52,7 +89,7 @@
 
 .bestSellersArrow {
   position: absolute;
-  top: 100px;
+  top: 110px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -63,21 +100,22 @@
   border: none;
   border-radius: 50%;
   background: #fff;
-  color: #3483fa;
+  color: var(--bsBg);
   font-size: 30px;
   line-height: 1;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .bestSellersArrow:hover {
-  transform: scale(1.06);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transform: scale(1.08);
+  background: var(--bsAccent);
+  color: #fff;
 }
 
 .bestSellersArrow:focus-visible {
-  outline: 2px solid #3483fa;
+  outline: 2px solid var(--bsAccent);
   outline-offset: 2px;
 }
 
@@ -89,30 +127,69 @@
   right: -14px;
 }
 
-.productCard {
+.bestSellersCard {
   flex: 0 0 220px;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #fff;
+  height: var(--bsCardH);
+  perspective: 1000px;
   scroll-snap-align: start;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-  transition: box-shadow 0.2s ease;
+  outline: none;
 }
 
-.productCard:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+.bestSellersCard:focus-visible {
+  outline: 2px solid var(--bsAccent);
+  outline-offset: 4px;
+  border-radius: 16px;
 }
 
-.productCardLink {
+.bestSellersCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .bestSellersCard:hover .bestSellersCardInner {
+    transform: rotateY(180deg);
+  }
+}
+
+.bestSellersCard:focus-within .bestSellersCardInner {
+  transform: rotateY(180deg);
+}
+
+.bestSellersCardFront,
+.bestSellersCardBack {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  color: inherit;
-  text-decoration: none;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-.productCardMedia {
+.bestSellersCardFront {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--bsCard);
+}
+
+.bestSellersCardBack {
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--bsAccent);
+  background: linear-gradient(160deg, #1f4a8a, var(--bsCard));
+  transform: rotateY(180deg);
+}
+
+.bestSellersCardMedia {
+  position: relative;
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   aspect-ratio: 1 / 1;
@@ -120,40 +197,56 @@
   background: #f5f5f5;
 }
 
-.productCardImage {
+.bestSellersCardImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.productCardBody {
+.bestSellersCardHint {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bsAccent);
+  color: #fff;
+  font-size: 16px;
+}
+
+.bestSellersCardBody {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 6px;
   padding: 16px;
 }
 
-.productCardTitle {
+.bestSellersCardTitle {
   display: -webkit-box;
   margin: 0;
   overflow: hidden;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.3;
-  color: #333;
+  color: var(--bsText);
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
-.productCardDiscount {
+.bestSellersCardDiscount {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 4px;
 }
 
-.productCardBadge {
+.bestSellersCardBadge {
   padding: 2px 6px;
   border-radius: 4px;
   background: #e6f7ec;
@@ -162,34 +255,54 @@
   font-weight: 600;
 }
 
-.productCardOldPrice {
+.bestSellersCardOldPrice {
   font-size: 13px;
-  color: #999;
+  color: var(--bsMuted);
   text-decoration: line-through;
 }
 
-.productCardPrice {
+.bestSellersCardPrice {
   margin: 0;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.1;
-  color: #333;
+  color: var(--bsAccent);
 }
 
-.productCardSold {
+.bestSellersCardSold {
   margin: 0;
   font-size: 12px;
-  color: #999;
+  color: var(--bsMuted);
 }
 
-.productCardInstallments {
+.bestSellersCardBackTitle {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--bsText);
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.bestSellersCardBackPrice {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--bsAccent);
+}
+
+.bestSellersCardInstallments {
   margin: 0;
   font-size: 13px;
   line-height: 1.3;
-  color: #333;
+  color: #d6e2f5;
 }
 
-.productCardTag {
+.bestSellersCardTag {
   align-self: flex-start;
   padding: 3px 8px;
   border-radius: 4px;
@@ -199,59 +312,99 @@
   font-weight: 600;
 }
 
-.productCardShipping {
+.bestSellersCardShipping {
   margin: 0;
   font-size: 13px;
   font-weight: 600;
-  color: #00a650;
+  color: var(--bsGreen);
 }
 
-.productCardFull {
+.bestSellersCardFull {
   margin: 0;
   font-size: 12px;
-  color: #00a650;
+  color: var(--bsGreen);
 }
 
-.productCardFull strong {
+.bestSellersCardFull strong {
   font-style: italic;
   font-weight: 800;
 }
 
+.bestSellersCardButton {
+  align-self: stretch;
+  margin-top: 4px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--bsAccent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+}
+
+.bestSellersCardButton:hover {
+  filter: brightness(1.1);
+}
+
+@media (hover: none) {
+  .bestSellersCardHint {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bestSellersCardInner {
+    transition: none;
+  }
+}
+
 @media (max-width: 1024px) {
   .bestSellersTitle {
-    font-size: 20px;
+    font-size: 24px;
   }
 
-  .productCard {
+  .bestSellersCard {
     flex-basis: 200px;
+  }
+
+  .bestSellers {
+    --bsCardH: 380px;
   }
 }
 
 @media (max-width: 600px) {
   .bestSellers {
-    padding: 16px 12px;
-  }
-
-  .bestSellersHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    --bsCardH: 360px;
+    padding: 32px 12px;
   }
 
   .bestSellersTitle {
-    font-size: 18px;
+    font-size: 22px;
   }
 
-  .productCard {
+  .bestSellersLink {
+    position: static;
+    display: block;
+    margin-top: 12px;
+  }
+
+  .bestSellersCard {
     flex-basis: 168px;
   }
 
-  .productCardBody {
+  .bestSellersCardBody {
     padding: 12px;
   }
 
-  .productCardPrice {
+  .bestSellersCardPrice {
     font-size: 20px;
+  }
+
+  .bestSellersCardBack {
+    gap: 8px;
+    padding: 14px;
   }
 
   .bestSellersArrow {

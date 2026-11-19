@@ -21,47 +21,58 @@ function ProductCard({ product }: ProductCardProps) {
   const { title, image, price, originalPrice, sold, installments, shipping, full, href } = product
 
   return (
-    <article className="productCard">
-      <a className="productCardLink" href={href}>
-        <div className="productCardMedia">
-          <img className="productCardImage" src={image} alt={title} loading="lazy" />
+    <article className="bestSellersCard" tabIndex={0}>
+      <div className="bestSellersCardInner">
+        <div className="bestSellersCardFront">
+          <div className="bestSellersCardMedia">
+            <img className="bestSellersCardImage" src={image} alt={title} loading="lazy" />
+            <span className="bestSellersCardHint" aria-hidden="true">↻</span>
+          </div>
+
+          <div className="bestSellersCardBody">
+            <h3 className="bestSellersCardTitle">{title}</h3>
+
+            {originalPrice && (
+              <div className="bestSellersCardDiscount">
+                <span className="bestSellersCardBadge">{getDiscount(price, originalPrice)}% OFF</span>
+                <span className="bestSellersCardOldPrice">{formatPrice(originalPrice)}</span>
+              </div>
+            )}
+
+            <p className="bestSellersCardPrice">{formatPrice(price)}</p>
+
+            {sold && <p className="bestSellersCardSold">{sold}</p>}
+          </div>
         </div>
 
-        <div className="productCardBody">
-          <h3 className="productCardTitle">{title}</h3>
+        <div className="bestSellersCardBack">
+          <h3 className="bestSellersCardBackTitle">{title}</h3>
 
-          {originalPrice && (
-            <div className="productCardDiscount">
-              <span className="productCardBadge">{getDiscount(price, originalPrice)}% OFF</span>
-              <span className="productCardOldPrice">{formatPrice(originalPrice)}</span>
-            </div>
-          )}
-
-          <p className="productCardPrice">{formatPrice(price)}</p>
-
-          {sold && <p className="productCardSold">{sold}</p>}
+          <p className="bestSellersCardBackPrice">{formatPrice(price)}</p>
 
           {installments && (
-            <p className="productCardInstallments">
+            <p className="bestSellersCardInstallments">
               {installments.count} cuotas de {formatPrice(installments.amount)} con{' '}
               {installments.provider}
             </p>
           )}
 
           {shipping === 'tomorrow' && (
-            <span className="productCardTag">{shippingLabels.tomorrow}</span>
+            <span className="bestSellersCardTag">{shippingLabels.tomorrow}</span>
           )}
           {shipping === 'free' && (
-            <p className="productCardShipping">{shippingLabels.free}</p>
+            <p className="bestSellersCardShipping">{shippingLabels.free}</p>
           )}
 
           {full && (
-            <p className="productCardFull">
+            <p className="bestSellersCardFull">
               <span aria-hidden="true">⚡</span> <strong>FULL</strong> por ser tu primera compra
             </p>
           )}
+
+          <a className="bestSellersCardButton" href={href}>Ver producto</a>
         </div>
-      </a>
+      </div>
     </article>
   )
 }
@@ -111,39 +122,41 @@ function BestSellers({
 
   return (
     <section className="bestSellers" aria-labelledby={titleId}>
-      <header className="bestSellersHeader">
-        <h2 className="bestSellersTitle" id={titleId}>{title}</h2>
-        <a className="bestSellersLink" href={linkHref}>{linkLabel}</a>
-      </header>
+      <div className="bestSellersInner">
+        <header className="bestSellersHeader">
+          <h2 className="bestSellersTitle" id={titleId}>{title}</h2>
+          <a className="bestSellersLink" href={linkHref}>{linkLabel}</a>
+        </header>
 
-      <div className="bestSellersCarousel">
-        {canScrollPrev && (
-          <button
-            type="button"
-            className="bestSellersArrow bestSellersArrowPrev"
-            onClick={() => scrollByPage(-1)}
-            aria-label="Ver productos anteriores"
-          >
-            ‹
-          </button>
-        )}
+        <div className="bestSellersCarousel">
+          {canScrollPrev && (
+            <button
+              type="button"
+              className="bestSellersArrow bestSellersArrowPrev"
+              onClick={() => scrollByPage(-1)}
+              aria-label="Ver productos anteriores"
+            >
+              ‹
+            </button>
+          )}
 
-        <div className="bestSellersTrack" ref={trackRef}>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          <div className="bestSellersTrack" ref={trackRef}>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          {canScrollNext && (
+            <button
+              type="button"
+              className="bestSellersArrow bestSellersArrowNext"
+              onClick={() => scrollByPage(1)}
+              aria-label="Ver más productos"
+            >
+              ›
+            </button>
+          )}
         </div>
-
-        {canScrollNext && (
-          <button
-            type="button"
-            className="bestSellersArrow bestSellersArrowNext"
-            onClick={() => scrollByPage(1)}
-            aria-label="Ver más productos"
-          >
-            ›
-          </button>
-        )}
       </div>
     </section>
   )
