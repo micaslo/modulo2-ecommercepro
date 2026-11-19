@@ -154,7 +154,6 @@
   color: var(--text-muted);
 }
 
-/* Lightbox */
 .carouselLightbox {
   position: fixed;
   inset: 0;
@@ -204,7 +203,6 @@
   background: var(--bg-surface-2);
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .carousel {
     grid-template-columns: 1fr;

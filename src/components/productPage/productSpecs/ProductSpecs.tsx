@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { ProductKeySpec, ProductSpecGroup } from "../../types/productMedia";
-import { SpecIcon } from "./ProductIcons";
+import type { ProductKeySpec, ProductSpecGroup } from "../../../types/productMedia";
+import { SpecIcon } from "../productIcons/ProductIcons";
 import "./ProductSpecs.css";
 
 interface ProductSpecsProps {

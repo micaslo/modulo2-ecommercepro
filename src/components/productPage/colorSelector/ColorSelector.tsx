@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ProductColorVariant } from "../../types/productMedia";
+import type { ProductColorVariant } from "../../../types/productMedia";
 import "./ColorSelector.css";
 
 interface ColorSelectorProps {

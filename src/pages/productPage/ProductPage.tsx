@@ -4,12 +4,12 @@ import { useProducts } from "../../context/ProductContext";
 import { getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import type { Product } from "../../types/productMedia";
-import ImageCarousel from "../../components/productPage/ImageCarousel";
-import ColorSelector from "../../components/productPage/ColorSelector";
-import ProductSpecs from "../../components/productPage/ProductSpecs";
-import Model3DViewer from "../../components/productPage/Model3DViewer";
-import RelatedProducts from "../../components/productPage/RelatedProducts";
-import ProductReviews from "../../components/productPage/ProductReviews";
+import ImageCarousel from "../../components/productPage/imageCarousel/ImageCarousel";
+import ColorSelector from "../../components/productPage/colorSelector/ColorSelector";
+import ProductSpecs from "../../components/productPage/productSpecs/ProductSpecs";
+import Model3DViewer from "../../components/productPage/model3DViewer/Model3DViewer";
+import RelatedProducts from "../../components/productPage/relatedProducts/RelatedProducts";
+import ProductReviews from "../../components/productPage/productReviews/ProductReviews";
 import {
   Cube3DIcon,
   HeartIcon,
@@ -17,7 +17,7 @@ import {
   SpecIcon,
   StarIcon,
   TruckIcon,
-} from "../../components/productPage/ProductIcons";
+} from "../../components/productPage/productIcons/ProductIcons";
 import "./ProductPage.css";
 
 const formatPrice = (value: number) =>
@@ -100,7 +100,6 @@ function ProductPageContent({
 
   return (
     <main className="productPage">
-      {/* Breadcrumb estilo Mercado Libre */}
       <nav className="productPageBreadcrumb" aria-label="Breadcrumb">
         <Link to="/" className="breadcrumbBack">
           Volver al listado
@@ -114,10 +113,7 @@ function ProductPageContent({
         <span aria-hidden="true">›</span>
         <span className="breadcrumbCurrent">{product.name}</span>
       </nav>
-
-      {/* 1. Tarjeta principal: Galería + Info + Caja de compra (sin anuncios) */}
       <section className="productPageMain pageCard">
-        {/* Columna izquierda: Carrusel de fotos */}
         <div className="productPageGallery">
           <ImageCarousel
             key={`${product.id}-${selectedColorId}`}
@@ -130,7 +126,6 @@ function ProductPageContent({
           />
         </div>
 
-        {/* Columna central: Título, rating, precio, selector de color y puntos clave */}
         <div className="productPageSummary">
           <div className="productMetaRow">
             <span className="productCondition">
@@ -194,7 +189,6 @@ function ProductPageContent({
             </p>
           </div>
 
-          {/* Selector de color (botones con miniatura + color) */}
           <ColorSelector
             colors={media.colors}
             selectedColorId={selectedColorId}
@@ -202,7 +196,6 @@ function ProductPageContent({
           />
         </div>
 
-        {/* Columna derecha: Buy box estilo Mercado Libre */}
         <aside className="productBuyBox">
           <div className="buyBoxShipping">
             <span className="buyBoxShippingIcon">
@@ -293,7 +286,6 @@ function ProductPageContent({
         </aside>
       </section>
 
-      {/* Lo que tenés que saber (contenedor propio para evitar huecos en desktop) */}
       <section className="productPageSection pageCard productHighlightsSection">
         <div className="sectionHeader">
           <h2>Lo que tenés que saber de este producto</h2>
@@ -308,14 +300,13 @@ function ProductPageContent({
         </ul>
       </section>
 
-      {/* 2. Características del producto (con íconos para teléfonos y autos) */}
       <ProductSpecs
         productKind={details.productKind}
         keySpecs={details.keySpecs}
         specGroups={details.specGroups}
       />
 
-      {/* 3. Mirá este producto en 3D */}
+
       {media.model3D && (
         <section className="productPageSection pageCard" id="modelo-3d">
           <div className="sectionHeader">
@@ -338,10 +329,8 @@ function ProductPageContent({
         </section>
       )}
 
-      {/* 4. Productos relacionados (4) */}
       <RelatedProducts currentProduct={product} allProducts={allProducts} />
 
-      {/* 5. Descripción */}
       <section
         className="productPageSection pageCard productDescription"
         id="descripcion"
@@ -369,7 +358,6 @@ function ProductPageContent({
         )}
       </section>
 
-      {/* 6. Opiniones del producto */}
       <ProductReviews
         key={product.id}
         productId={product.id}

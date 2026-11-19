@@ -22,7 +22,6 @@
   border-color: var(--color-primary);
 }
 
-/* Formulario */
 .reviewForm {
   display: flex;
   flex-direction: column;
@@ -85,7 +84,6 @@
   align-self: flex-start;
 }
 
-/* Layout 2 columnas estilo Mercado Libre */
 .reviewsLayout {
   display: grid;
   grid-template-columns: minmax(240px, 310px) minmax(0, 1fr);
@@ -131,7 +129,6 @@
   color: var(--text-muted);
 }
 
-/* Barras de distribución */
 .reviewsBars {
   display: flex;
   flex-direction: column;
@@ -183,7 +180,6 @@
   text-align: right;
 }
 
-/* Calificación de características */
 .reviewsFeatures {
   display: flex;
   flex-direction: column;
@@ -215,7 +211,6 @@
   color: var(--text-main);
 }
 
-/* Feed derecho */
 .reviewsFeed {
   display: flex;
   flex-direction: column;

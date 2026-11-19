@@ -18,7 +18,6 @@ interface MediaConfigEntry {
   defaultColor?: string;
 }
 
-/** slug del producto -> carpeta de imágenes, modo de color y carpeta del modelo 3D */
 const MEDIA_CONFIG: Record<string, MediaConfigEntry> = {
   "iphone-18-pro": {
     imagesDir: "iphone-18-pro",

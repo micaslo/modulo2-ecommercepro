@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Cube3DIcon } from "./ProductIcons";
+import { Cube3DIcon } from "../productIcons/ProductIcons";
 import "./Model3DViewer.css";
 
 interface Model3DViewerProps {
@@ -11,7 +11,6 @@ interface Model3DViewerProps {
 export default function Model3DViewer({ src, poster, alt }: Model3DViewerProps) {
   const [activated, setActivated] = useState(false);
 
-  // Carga la librería web-component de Google Model Viewer solo al activar
   useEffect(() => {
     if (activated) {
       import("@google/model-viewer");

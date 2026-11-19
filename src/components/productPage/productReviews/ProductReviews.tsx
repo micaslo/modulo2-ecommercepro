@@ -2,8 +2,8 @@ import { useState, type FormEvent } from "react";
 import type {
   ProductFeatureRating,
   ProductReview,
-} from "../../types/productMedia";
-import { StarIcon, ThumbsUpIcon } from "./ProductIcons";
+} from "../../../types/productMedia";
+import { StarIcon, ThumbsUpIcon } from "../productIcons/ProductIcons";
 import "./ProductReviews.css";
 
 interface ProductReviewsProps {
@@ -108,7 +108,7 @@ export default function ProductReviews({
         JSON.stringify(updated),
       );
     } catch {
-      // Ignora errores de cuota en localStorage
+      // 
     }
 
     setNewAuthor("");
@@ -232,7 +232,6 @@ export default function ProductReviews({
           )}
         </aside>
 
-        {/* Columna derecha: filtros y listado */}
         <div className="reviewsFeed">
           <div className="reviewsToolbar">
             <div className="reviewsFilterChips">

@@ -1,4 +1,4 @@
-import type { SpecIconKey } from "../../types/productMedia";
+import type { SpecIconKey } from "../../../types/productMedia";
 
 interface IconProps {
   className?: string;

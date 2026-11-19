@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import type { Product } from "../../types/productMedia";
-import { getCoverImage, getProductMedia } from "../../data/productMedia";
-import { getProductDetails } from "../../data/productDetails";
+import type { Product } from "../../../types/productMedia";
+import { getCoverImage, getProductMedia } from "../../../data/productMedia";
+import { getProductDetails } from "../../../data/productDetails";
 import "./RelatedProducts.css";
 
 interface RelatedProductsProps {
@@ -56,8 +56,6 @@ function buildRelatedCards(
     };
   });
 
-  // Si el catálogo tiene menos de 5 productos (ej. los 4 iniciales),
-  // completamos hasta 4 tarjetas con variantes de color reales de la misma categoría
   if (cards.length < 4) {
     const sameCategoryCandidates = [
       ...others.filter((p) => p.category === currentProduct.category),

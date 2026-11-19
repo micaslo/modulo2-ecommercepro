@@ -25,10 +25,10 @@ function TempNotFound() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<TempHome />} />
+      {/* <Route path="/" element={<TempHome />} /> */}
       <Route path="/product/:id" element={<ProductPage />} />
-      <Route path="/404" element={<TempNotFound />} />
-      <Route path="*" element={<TempNotFound />} />
+      <Route path="/404" element={<Error404 />} />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 }
