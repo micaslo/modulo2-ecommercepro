@@ -1,0 +1,93 @@
+.colorSelector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-1) 0;
+}
+
+.colorSelectorLabel {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.colorSelectorLabel strong {
+  color: var(--text-main);
+  font-weight: var(--fw-bold);
+}
+
+.colorSelectorGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.colorOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 78px;
+  padding: 6px 8px;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-main);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.colorOption:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.colorOption.isSelected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-soft);
+}
+
+.colorOptionThumb {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.colorOptionThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.colorOptionFooter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.colorOptionDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgb(16 36 66 / 0.25);
+  flex-shrink: 0;
+}
+
+.colorOptionName {
+  font-size: 0.7rem;
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.colorOption.isSelected .colorOptionName {
+  color: var(--text-main);
+  font-weight: var(--fw-bold);
+}
