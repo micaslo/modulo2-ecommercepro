@@ -1,0 +1,11 @@
+Model Information:
+* title:	SAMSUNG Galaxy S26 Ultra
+* source:	https://sketchfab.com/3d-models/samsung-galaxy-s26-ultra-ee14d453cc8d4c12bf9e0b3279f2f7fb
+* author:	zhe_kan (https://sketchfab.com/zhe_kan)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "SAMSUNG Galaxy S26 Ultra" (https://sketchfab.com/3d-models/samsung-galaxy-s26-ultra-ee14d453cc8d4c12bf9e0b3279f2f7fb) by zhe_kan (https://sketchfab.com/zhe_kan) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
