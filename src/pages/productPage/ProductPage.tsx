@@ -317,13 +317,12 @@ function ProductPageContent({
             <span className="sectionBadge">Vista interactiva 360°</span>
           </div>
           <p className="productPageHint">
-            Activá el modelo 3D interactivo para girar el producto, acercarlo y
-            revisar cada ángulo antes de decidir.
+            Girá el producto 360°, acercalo y revisá cada ángulo en tiempo real
+            antes de decidir.
           </p>
           <Model3DViewer
             key={media.model3D}
             src={media.model3D}
-            poster={activeImages[0]}
             alt={product.name}
           />
         </section>

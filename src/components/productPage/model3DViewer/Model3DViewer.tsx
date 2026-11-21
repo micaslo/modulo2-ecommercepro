@@ -1,74 +1,97 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Cube3DIcon } from "../productIcons/ProductIcons";
 import "./Model3DViewer.css";
 
 interface Model3DViewerProps {
   src: string;
-  poster?: string;
   alt: string;
 }
 
-export default function Model3DViewer({ src, poster, alt }: Model3DViewerProps) {
-  const [activated, setActivated] = useState(false);
+export default function Model3DViewer({ src, alt }: Model3DViewerProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const viewerRef = useRef<HTMLElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(
+    () => typeof IntersectionObserver === "undefined",
+  );
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   useEffect(() => {
-    if (activated) {
+    if (shouldLoad) return;
+    const node = containerRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (shouldLoad) {
       import("@google/model-viewer");
     }
-  }, [activated]);
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
+    const viewer = viewerRef.current;
+    if (!viewer) return;
+
+    const handleLoad = () => setIsLoaded(true);
+    viewer.addEventListener("load", handleLoad);
+    return () => viewer.removeEventListener("load", handleLoad);
+  }, [shouldLoad, src]);
 
   return (
     <div className="model3DWrapper">
-      <div className="model3DViewer">
-        {!activated ? (
-          <div className="model3DPosterState">
-            {poster && (
-              <img
-                src={poster}
-                alt={`Vista previa 3D de ${alt}`}
-                className="model3DPosterImg"
-              />
-            )}
-            <div className="model3DPosterOverlay">
-              <button
-                type="button"
-                className="model3DLaunchBtn"
-                onClick={() => setActivated(true)}
-              >
-                <Cube3DIcon size={22} />
-                <span>Explorar en 3D interactivo</span>
-              </button>
-              <p className="model3DPosterNote">
-                Rotá 360° y acercá los detalles en tiempo real
-              </p>
-            </div>
-          </div>
-        ) : (
+      <div ref={containerRef} className="model3DViewer">
+        {shouldLoad && (
           <model-viewer
+            ref={viewerRef}
             key={src}
             className="model3DViewerElement"
             src={src}
-            poster={poster}
             alt={`Modelo 3D de ${alt}`}
             reveal="auto"
-            camera-controls
-            auto-rotate
+            camera-controls=""
+            auto-rotate={autoRotate ? "" : undefined}
             shadow-intensity="1"
             touch-action="pan-y"
-          />
+          >
+            <div slot="progress-bar" className="model3DProgressBarHidden" />
+          </model-viewer>
+        )}
+
+        {!isLoaded && (
+          <div className="model3DLoadingOverlay" role="status" aria-live="polite">
+            <div className="model3DSpinnerWrap">
+              <span className="model3DSpinner" aria-hidden="true" />
+              <Cube3DIcon size={22} />
+            </div>
+            <p className="model3DLoadingText">Cargando modelo 3D...</p>
+          </div>
         )}
       </div>
 
       <div className="model3DFooter">
         <span className="model3DHintItem">🖱️ Arrastrá para girar 360°</span>
         <span className="model3DHintItem">🔍 Rueda o pellizco para hacer zoom</span>
-        {activated && (
+        {isLoaded && (
           <button
             type="button"
             className="model3DResetBtn"
-            onClick={() => setActivated(false)}
+            onClick={() => setAutoRotate((prev) => !prev)}
           >
-            Pausar visor 3D
+            {autoRotate ? "Pausar rotación" : "Reanudar rotación"}
           </button>
         )}
       </div>

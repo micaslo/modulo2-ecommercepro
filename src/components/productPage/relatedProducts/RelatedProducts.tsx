@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import type { Product } from "../../../types/productMedia";
 import { getCoverImage, getProductMedia } from "../../../data/productMedia";
 import { getProductDetails } from "../../../data/productDetails";
+import { CURATED_RELATED_PRODUCTS } from "../../../data/relatedProductsData";
 import "./RelatedProducts.css";
 
 interface RelatedProductsProps {
@@ -16,6 +17,7 @@ interface RelatedCardItem {
   price: number;
   originalPrice?: number;
   image: string;
+  imageFit?: "contain" | "cover";
   shippingLabel: string;
   installmentsCount: number;
   badge?: string;
@@ -28,10 +30,46 @@ const formatPrice = (value: number) =>
     maximumFractionDigits: 0,
   }).format(value);
 
+function productToCard(p: Product, showBadge = false): RelatedCardItem {
+  const details = getProductDetails(p);
+  return {
+    key: p.id,
+    to: `/product/${p.id}`,
+    title: p.name,
+    price: p.price,
+    originalPrice: details.originalPrice,
+    image: getCoverImage(p),
+    imageFit: "contain",
+    shippingLabel:
+      details.productKind === "car" ? "0 km · Entrega oficial" : "Envío gratis",
+    installmentsCount: details.installmentsCount,
+    badge: showBadge ? "Misma categoría" : undefined,
+  };
+}
+
 function buildRelatedCards(
   currentProduct: Product,
   allProducts: Product[],
 ): RelatedCardItem[] {
+  const curated = CURATED_RELATED_PRODUCTS[currentProduct.id];
+
+  if (curated) {
+    const cards: RelatedCardItem[] = [];
+
+    for (const entry of curated) {
+      if (entry.type === "product") {
+        const match = allProducts.find((p) => p.id === entry.productId);
+        if (match) {
+          cards.push(productToCard(match));
+        }
+      } else {
+        cards.push(entry.item);
+      }
+    }
+
+    return cards.slice(0, 4);
+  }
+
   const others = allProducts
     .filter((p) => p.id !== currentProduct.id)
     .sort((a, b) => {
@@ -40,21 +78,9 @@ function buildRelatedCards(
       return aSame - bSame;
     });
 
-  const cards: RelatedCardItem[] = others.slice(0, 4).map((p) => {
-    const details = getProductDetails(p);
-    return {
-      key: p.id,
-      to: `/product/${p.id}`,
-      title: p.name,
-      price: p.price,
-      originalPrice: details.originalPrice,
-      image: getCoverImage(p),
-      shippingLabel:
-        details.productKind === "car" ? "0 km · Entrega oficial" : "Envío gratis",
-      installmentsCount: details.installmentsCount,
-      badge: p.category === currentProduct.category ? "Misma categoría" : undefined,
-    };
-  });
+  const cards: RelatedCardItem[] = others
+    .slice(0, 4)
+    .map((p) => productToCard(p, p.category === currentProduct.category));
 
   if (cards.length < 4) {
     const sameCategoryCandidates = [
@@ -79,6 +105,7 @@ function buildRelatedCards(
           price: candidate.price,
           originalPrice: details.originalPrice,
           image: variant.previewImage,
+          imageFit: "contain",
           shippingLabel:
             details.productKind === "car"
               ? "0 km · Entrega oficial"
@@ -117,10 +144,13 @@ export default function RelatedProducts({
                 )
               : 0;
           const installmentAmount = Math.round(card.price / card.installmentsCount);
+          const isCover = card.imageFit === "cover";
 
           return (
             <Link key={card.key} to={card.to} className="relatedCard">
-              <div className="relatedCardMedia">
+              <div
+                className={`relatedCardMedia${isCover ? " relatedCardMedia--cover" : ""}`}
+              >
                 {card.badge && (
                   <span className="relatedCardBadge">{card.badge}</span>
                 )}
@@ -128,13 +158,18 @@ export default function RelatedProducts({
               </div>
 
               <div className="relatedCardBody">
-                <h3 className="relatedCardTitle">{card.title}</h3>
+                <h3 className="relatedCardTitle" title={card.title}>
+                  {card.title}
+                </h3>
 
-                {card.originalPrice && discountPercent > 0 && (
-                  <span className="relatedCardOldPrice">
-                    {formatPrice(card.originalPrice)}
-                  </span>
-                )}
+                <span
+                  className="relatedCardOldPrice"
+                  aria-hidden={!(card.originalPrice && discountPercent > 0)}
+                >
+                  {card.originalPrice && discountPercent > 0
+                    ? formatPrice(card.originalPrice)
+                    : "\u00A0"}
+                </span>
 
                 <div className="relatedCardPriceRow">
                   <strong className="relatedCardPrice">
