@@ -1,3 +1,5 @@
+import captivaScenicImg from "../assets/images/product-page/images/chevrolet-captiva/captiva-display-red.webp";
+import traverseScenicImg from "../assets/images/product-page/images/chevrolet-traverse/traverse-display-grey.webp";
 import jeepAvengerImg from "../assets/images/product-page/images/related-products/related-products-jeep-avenger.webp";
 import cheryArrizo8Img from "../assets/images/product-page/images/related-products/related-products-chery-arrizo-8.webp";
 import cheryTiggo8Img from "../assets/images/product-page/images/related-products/related-product-chery-tiggo-8.webp";
@@ -20,13 +22,20 @@ export interface StaticRelatedProduct {
   originalPrice?: number;
   image: string;
   imageFit?: "contain" | "cover";
+  imagePosition?: string;
   shippingLabel: string;
   installmentsCount: number;
   badge?: string;
 }
 
 export type RelatedProductEntry =
-  | { type: "product"; productId: string }
+  | {
+      type: "product";
+      productId: string;
+      imageOverride?: string;
+      imageFit?: "contain" | "cover";
+      imagePosition?: string;
+    }
   | { type: "static"; item: StaticRelatedProduct };
 
 const CAR_EXTRAS: RelatedProductEntry[] = [
@@ -40,6 +49,7 @@ const CAR_EXTRAS: RelatedProductEntry[] = [
       originalPrice: 47610000,
       image: jeepAvengerImg,
       imageFit: "cover",
+      imagePosition: "28% center",
       shippingLabel: "0 km · Entrega oficial",
       installmentsCount: 12,
     },
@@ -54,6 +64,7 @@ const CAR_EXTRAS: RelatedProductEntry[] = [
       originalPrice: 51900000,
       image: cheryArrizo8Img,
       imageFit: "cover",
+      imagePosition: "35% center",
       shippingLabel: "0 km · Entrega oficial",
       installmentsCount: 12,
     },
@@ -68,6 +79,7 @@ const CAR_EXTRAS: RelatedProductEntry[] = [
       originalPrice: 70112000,
       image: cheryTiggo8Img,
       imageFit: "cover",
+      imagePosition: "50% center",
       shippingLabel: "0 km · Entrega oficial",
       installmentsCount: 12,
     },
@@ -227,11 +239,23 @@ const JOYSTICK_EXTRAS: RelatedProductEntry[] = [
 
 export const CURATED_RELATED_PRODUCTS: Record<string, RelatedProductEntry[]> = {
   "chevrolet-traverse": [
-    { type: "product", productId: "chevrolet-captiva" },
+    {
+      type: "product",
+      productId: "chevrolet-captiva",
+      imageOverride: captivaScenicImg,
+      imageFit: "cover",
+      imagePosition: "60% center",
+    },
     ...CAR_EXTRAS,
   ],
   "chevrolet-captiva": [
-    { type: "product", productId: "chevrolet-traverse" },
+    {
+      type: "product",
+      productId: "chevrolet-traverse",
+      imageOverride: traverseScenicImg,
+      imageFit: "cover",
+      imagePosition: "50% center",
+    },
     ...CAR_EXTRAS,
   ],
   "iphone-18-pro": [
