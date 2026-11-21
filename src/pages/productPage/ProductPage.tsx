@@ -373,7 +373,7 @@ export default function ProductPage() {
   const { products, getProductById } = useProducts();
 
   const product = id ? getProductById(id) : undefined;
-  if (!product) return <Navigate to="/404" replace />;
+  if (!product) return <Navigate to="/error-404" replace />;
 
   return (
     <ProductPageContent

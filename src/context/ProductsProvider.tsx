@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import type { Product } from "../types/productMedia";
 import { initialProducts } from "../data/initialProducts";
-import { ProductsContext, type NewProduct } from "./productsContext";
+import { ProductsContext, type NewProduct } from "./ProductsContext";
 
 const STORAGE_KEY = "products";
 const SEEDED_IDS_KEY = "products_seeded_ids";
