@@ -1,0 +1,365 @@
+.sellProduct {
+  --spBg: #1a3a6b;
+  --spAccent: #ff8c00;
+  --spText: #1b2b45;
+  --spMuted: #6b7a90;
+  --spBorder: #d5deeb;
+  --spError: #d93025;
+  --spSuccess: #00a650;
+
+  position: relative;
+  overflow: hidden;
+  padding: 48px 16px;
+  background: var(--spBg);
+}
+
+.sellProduct::before {
+  content: '';
+  position: absolute;
+  top: -140px;
+  right: -120px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+.sellProductInner {
+  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.sellProductHeader {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.sellProductTitle {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.sellProductTitle::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 2px;
+  background: var(--spAccent);
+}
+
+.sellProductText {
+  max-width: 620px;
+  margin: 16px auto 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #d6e2f5;
+}
+
+.sellProductForm {
+  padding: 32px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.sellProductGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.sellProductField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sellProductFieldFull {
+  grid-column: 1 / -1;
+}
+
+.sellProductLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--spText);
+}
+
+.sellProductRequired {
+  color: var(--spAccent);
+}
+
+.sellProductInput {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--spBorder);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  color: var(--spText);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sellProductInput:focus {
+  outline: none;
+  border-color: var(--spAccent);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+}
+
+.sellProductInputInvalid {
+  border-color: var(--spError);
+}
+
+.sellProductTextarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.sellProductCounter {
+  align-self: flex-end;
+  font-size: 12px;
+  color: var(--spMuted);
+}
+
+.sellProductError {
+  font-size: 12px;
+  color: var(--spError);
+}
+
+.sellProductDropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 16px;
+  border: 2px dashed var(--spBorder);
+  border-radius: 12px;
+  background: #f6f9fe;
+  text-align: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.sellProductDropzone:hover {
+  border-color: var(--spAccent);
+  background: #fff7ec;
+}
+
+.sellProductDropzoneInvalid {
+  border-color: var(--spError);
+}
+
+.sellProductDropzoneIcon {
+  font-size: 28px;
+  color: var(--spAccent);
+}
+
+.sellProductDropzoneTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--spText);
+  word-break: break-all;
+}
+
+.sellProductDropzoneHelp {
+  font-size: 12px;
+  color: var(--spMuted);
+}
+
+.sellProductFileInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sellProductButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 999px;
+  background: var(--spAccent);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.sellProductButton:hover {
+  filter: brightness(1.08);
+}
+
+.sellProductButton:focus-visible {
+  outline: 2px solid var(--spBg);
+  outline-offset: 2px;
+}
+
+.sellProductReceipt {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 40px 32px;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.sellProductReceiptIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--spSuccess);
+  color: #fff;
+  font-size: 28px;
+}
+
+.sellProductReceiptTitle {
+  margin: 16px 0 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--spText);
+}
+
+.sellProductReceiptText {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--spMuted);
+}
+
+.sellProductReceiptList {
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.sellProductReceiptRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--spBorder);
+}
+
+.sellProductReceiptLabel {
+  font-size: 14px;
+  color: var(--spMuted);
+}
+
+.sellProductReceiptValue {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--spText);
+}
+
+@media (max-width: 700px) {
+  .sellProduct {
+    padding: 32px 12px;
+  }
+
+  .sellProductTitle {
+    font-size: 22px;
+  }
+
+  .sellProductForm {
+    padding: 20px;
+  }
+
+  .sellProductGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sellProductReceipt {
+    padding: 28px 20px;
+  }
+}
+.sellProductPreview {
+  margin-top: 24px;
+  overflow: hidden;
+  border: 1px solid var(--spBorder);
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+}
+
+.sellProductPreviewMedia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  padding: 16px;
+  background: #f5f5f5;
+}
+
+.sellProductPreviewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sellProductPreviewBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+}
+
+.sellProductPreviewTag {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e6f7ec;
+  color: #00743a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sellProductPreviewName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--spText);
+}
+
+.sellProductPreviewPrice {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--spAccent);
+}
+
+.sellProductPreviewCategory {
+  margin: 0;
+  font-size: 13px;
+  color: var(--spMuted);
+}
+
+.sellProductPreviewDescription {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--spText);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
