@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./productsOnSale.css";
+import "./ProductsOnSale.css";
 
 type Product = {
   id: number;
