@@ -138,7 +138,6 @@ function parsePhoneImages(
 
   return orderedKeys.map((colorKey) => {
     const views = colorGroups.get(colorKey)!;
-    // Priorizamos back (muestra espalda + frente) seguido de front, y luego el resto de la carpeta
     const colorImages = [views.back, views.front].filter(
       (img): img is string => Boolean(img),
     );
