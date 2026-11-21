@@ -162,8 +162,7 @@ function parseCarImages(
   const sharedMockups: string[] = [];
 
   for (const entry of entries) {
-    // Detecta exactamente <modelo>-<color> (imágenes sin fondo), ej: captiva-red, traverse-black
-    // Excluye mockups con fondo como captiva-grey-back, captiva-display-red, traverse-red-1
+
     const match = entry.baseName.match(/^[a-z0-9]+-([a-z]+)$/);
     if (match && KNOWN_COLORS.includes(match[1])) {
       colorCutouts.set(match[1], entry.url);
@@ -213,7 +212,7 @@ function parseControllerImages(
   const sharedImages: string[] = [];
 
   for (const entry of entries) {
-    // Detecta patrones como controller-black, controller-blue-detail, controller-camouflage-box
+
     const match = entry.baseName.match(/^[a-z0-9]+-([a-z]+)(?:-(.+))?$/);
     if (match && KNOWN_COLORS.includes(match[1])) {
       const colorKey = match[1];
@@ -284,10 +283,6 @@ function resolveConfig(product: Product): MediaConfigEntry | undefined {
   return undefined;
 }
 
-/**
- * Devuelve la galería (agrupada por color), lista de variantes de color y ruta al modelo 3D.
- * Si el producto no tiene carpeta local (ej: creado desde un panel admin), usa `product.image`.
- */
 export function getProductMedia(product: Product): ProductMedia {
   const config = resolveConfig(product);
   if (!config) {
@@ -323,7 +318,6 @@ export function getProductMedia(product: Product): ProductMedia {
   };
 }
 
-/** Imagen de portada para las tarjetas del catálogo o productos relacionados. */
 export function getCoverImage(product: Product, colorId?: string): string {
   const media = getProductMedia(product);
   if (colorId) {

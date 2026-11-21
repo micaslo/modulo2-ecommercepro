@@ -46,7 +46,6 @@
   font-weight: var(--fw-medium);
 }
 
-/* 3 columnas estilo Mercado Libre */
 .productPageMain {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(260px, 320px);
@@ -59,7 +58,6 @@
   min-width: 0;
 }
 
-/* Columna central */
 .productPageSummary {
   display: flex;
   flex-direction: column;
@@ -184,7 +182,6 @@
   color: var(--color-discount);
 }
 
-/* Lo que tenés que saber (contenedor propio) */
 .productHighlightsSection {
   display: flex;
   flex-direction: column;
@@ -402,7 +399,6 @@
   margin-top: 1px;
 }
 
-/* Secciones inferiores */
 .productPageSection {
   padding: var(--space-5);
 }
@@ -471,7 +467,6 @@
   color: var(--text-muted);
 }
 
-/* Responsive */
 @media (max-width: 1080px) {
   .productPageMain {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import type {
   ProductFeatureRating,
   ProductReview,
@@ -79,7 +79,7 @@ export default function ProductReviews({
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedComment = newComment.trim();
     if (!trimmedComment) return;
@@ -181,7 +181,6 @@ export default function ProductReviews({
       )}
 
       <div className="reviewsLayout">
-        {/* Columna izquierda: resumen de calificación y atributos */}
         <aside className="reviewsSummary">
           <div className="reviewsScoreHeader">
             <span className="reviewsAverage">{averageScore.toFixed(1)}</span>
