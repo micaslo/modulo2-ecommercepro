@@ -1,10 +1,14 @@
 import { useState } from "react";
-import type { ProductKeySpec, ProductSpecGroup } from "../../../types/productMedia";
+import type {
+  ProductDetails,
+  ProductKeySpec,
+  ProductSpecGroup,
+} from "../../../types/productMedia";
 import { SpecIcon } from "../productIcons/ProductIcons";
 import "./ProductSpecs.css";
 
 interface ProductSpecsProps {
-  productKind: "phone" | "car" | "general";
+  productKind: ProductDetails["productKind"];
   keySpecs: ProductKeySpec[];
   specGroups: ProductSpecGroup[];
 }
@@ -19,15 +23,22 @@ export default function ProductSpecs({
   const sectionTitle =
     productKind === "car"
       ? "Características del vehículo"
-      : "Características del producto";
+      : productKind === "camera"
+        ? "Características de la cámara"
+        : productKind === "gaming"
+          ? "Características del joystick"
+          : "Características del producto";
+
+  const sectionBadge =
+    productKind === "car" || productKind === "camera"
+      ? "Ficha técnica"
+      : "Especificaciones";
 
   return (
     <section className="productPageSection pageCard productSpecs" id="caracteristicas">
       <div className="sectionHeader">
         <h2>{sectionTitle}</h2>
-        <span className="sectionBadge">
-          {productKind === "car" ? "Ficha técnica" : "Especificaciones"}
-        </span>
+        <span className="sectionBadge">{sectionBadge}</span>
       </div>
 
       <div className="keySpecsGrid">

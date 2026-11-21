@@ -467,6 +467,372 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
       },
     ],
   },
+
+  "canon-eos-5d-mark-iv": {
+    productKind: "camera",
+    condition: "Nuevo",
+    soldText: "+25 vendidos",
+    originalPrice: 5490000,
+    installmentsCount: 12,
+    shippingTitle: "Envío gratis a todo el país",
+    shippingSubtitle: "Llegando en 24 a 48 hs hábiles · Envío asegurado",
+    warranty: "Garantía oficial Canon de 12 meses",
+    highlights: [
+      "Sensor CMOS Full Frame de 30.4 MP con procesador DIGIC 6+ para detalle profesional.",
+      "Incluye lente Canon EF 24-105mm f/4L IS II USM Serie L con estabilizador óptico.",
+      "Grabación de video 4K DCI (4096 × 2160) hasta 30 fps y Full HD hasta 60 fps.",
+      "Sistema AF de 61 puntos (41 en cruz) y tecnología Dual Pixel CMOS AF en Live View y video.",
+      "Cuerpo sellado en aleación de magnesio con pantalla táctil LCD de 3.2\", Wi-Fi, NFC y GPS.",
+    ],
+    keySpecs: [
+      { icon: "camera", label: "Resolución del sensor", value: "30.4 MP Full Frame" },
+      { icon: "lens", label: "Lente incluido", value: "EF 24-105mm f/4L IS II" },
+      { icon: "video", label: "Resolución de video", value: "4K DCI 30 fps · FHD 60" },
+      { icon: "cpu", label: "Procesador", value: "Canon DIGIC 6+" },
+      { icon: "screen", label: "Pantalla", value: 'LCD táctil 3.2" (1.62M)' },
+      { icon: "storage", label: "Ranuras de memoria", value: "Doble CF + SD UHS-I" },
+      { icon: "connect", label: "Conectividad", value: "Wi-Fi · NFC · GPS" },
+      { icon: "shield", label: "Construcción", value: "Magnesio sellado" },
+    ],
+    specGroups: [
+      {
+        title: "Características generales",
+        rows: [
+          { label: "Marca", value: "Canon" },
+          { label: "Modelo", value: "EOS 5D Mark IV" },
+          { label: "Tipo de cámara", value: "DSLR (Réflex digital) Full Frame" },
+          { label: "Montura", value: "Canon EF" },
+          { label: "Construcción", value: "Aleación de magnesio sellada contra polvo y humedad" },
+          { label: "Peso del cuerpo", value: "890 g (con batería y tarjeta)" },
+        ],
+      },
+      {
+        title: "Sensor y enfoque",
+        rows: [
+          { label: "Sensor", value: "CMOS Full Frame (36 × 24 mm) de 30.4 MP efectivos" },
+          { label: "Procesador de imagen", value: "DIGIC 6+" },
+          { label: "Rango ISO", value: "100 – 32.000 (expandible de 50 a 102.400)" },
+          { label: "Sistema AF", value: "61 puntos de enfoque (41 en cruz) + Dual Pixel CMOS AF" },
+          { label: "Disparo continuo", value: "Hasta 7 fotos por segundo (fps)" },
+          { label: "Velocidad de obturación", value: "1/8000 s a 30 s + modo Bulb" },
+        ],
+      },
+      {
+        title: "Lente incluido (Kit Serie L)",
+        rows: [
+          { label: "Modelo de lente", value: "Canon EF 24-105mm f/4L IS II USM" },
+          { label: "Apertura máxima", value: "f/4 constante en todo el rango focal" },
+          { label: "Estabilizador óptico", value: "Sí, Image Stabilizer (IS) hasta 4 pasos" },
+          { label: "Motor de enfoque", value: "USM ultrasónico silencioso y rápido" },
+          { label: "Diámetro de filtro", value: "77 mm" },
+        ],
+      },
+      {
+        title: "Video, pantalla y conectividad",
+        rows: [
+          { label: "Video 4K", value: "4K DCI (4096 × 2160) a 30/25/24 fps (Motion JPEG)" },
+          { label: "Video Full HD", value: "1080p hasta 60 fps · HD 720p hasta 120 fps" },
+          { label: "Pantalla trasera", value: 'LCD táctil Clear View II de 3.2" (1.62M puntos)' },
+          { label: "Visor óptico", value: "Pentaprisma con cobertura del 100%" },
+          { label: "Almacenamiento", value: "1x CompactFlash (UDMA 7) + 1x SD / SDHC / SDXC" },
+          { label: "Puertos e inalámbrico", value: "USB 3.0, Mini HDMI, Mic/Auriculares 3.5 mm, Wi-Fi, NFC y GPS" },
+        ],
+      },
+    ],
+    extendedDescription: [
+      "La Canon EOS 5D Mark IV es un estándar indiscutido en la fotografía profesional de eventos, retratos, moda, arquitectura y fotoperiodismo. Su sensor Full Frame de 30.4 megapíxeles combinado con el procesador DIGIC 6+ ofrece colores fieles, amplio rango dinámico y un excelente desempeño en condiciones de poca luz.",
+      "Este kit incluye el objetivo profesional Canon EF 24-105mm f/4L IS II USM de la reconocida Serie L, un zoom todoterreno con apertura constante f/4, estabilización óptica de imagen y sellado climático que te permite resolver desde planos amplios hasta retratos sin cambiar de lente.",
+      "Con grabación en 4K DCI, enfoque Dual Pixel CMOS AF súper suave en video y Live View, doble ranura para tarjetas CF/SD y conectividad Wi-Fi, NFC y GPS integrados, está lista para responder en sesiones exigentes tanto en estudio como en exteriores.",
+    ],
+    includedItems: [
+      "1x Cuerpo Canon EOS 5D Mark IV",
+      "1x Lente Canon EF 24-105mm f/4L IS II USM con parasol EW-83M y tapas",
+      "1x Batería recargable Canon LP-E6N y cargador LC-E6",
+      "1x Correa ancha Canon EOS, cable USB IFC-150U II y manuales oficiales",
+    ],
+    featureRatings: [
+      { label: "Calidad de imagen", score: 5.0 },
+      { label: "Construcción y ergonomía", score: 4.9 },
+      { label: "Versatilidad del lente kit", score: 4.9 },
+      { label: "Relación precio-calidad", score: 4.7 },
+    ],
+    reviews: [
+      {
+        id: "rev-can-1",
+        author: "Matías R.",
+        rating: 5,
+        date: "13 nov. 2026",
+        comment:
+          "Un tanque de guerra para sociales y estudio. El 24-105 f/4L II es súper nítido y la ergonomía del cuerpo es insuperable cuando trabajás muchas horas seguidas.",
+        helpful: 19,
+        verified: true,
+      },
+      {
+        id: "rev-can-2",
+        author: "Luciana V.",
+        rating: 5,
+        date: "05 nov. 2026",
+        comment:
+          "La calidad de color de Canon y el rango dinámico del sensor de 30 MP son espectaculares. Llegó sellada de fábrica y con envío asegurado.",
+        helpful: 14,
+        verified: true,
+      },
+      {
+        id: "rev-can-3",
+        author: "Emiliano S.",
+        rating: 5,
+        date: "26 oct. 2026",
+        comment:
+          "El Dual Pixel AF en pantalla táctil es rapidísimo para grabar entrevistas y el sellado climático me salvó trabajando bajo llovizna. Súper recomendable.",
+        helpful: 11,
+        verified: true,
+      },
+    ],
+  },
+
+  "nikon-z9": {
+    productKind: "camera",
+    condition: "Nuevo",
+    soldText: "+10 vendidos",
+    originalPrice: 11590000,
+    installmentsCount: 12,
+    shippingTitle: "Envío gratis a todo el país",
+    shippingSubtitle: "Llegando en 24 a 48 hs hábiles · Envío asegurado",
+    warranty: "Garantía oficial Nikon de 12 meses",
+    highlights: [
+      "Sensor CMOS BSI apilado Full Frame de 45.7 MP sin obturador mecánico (100% electrónico).",
+      "Procesador EXPEED 7 con enfoque automático por IA que detecta personas, animales, aves y vehículos.",
+      "Grabación interna de video profesional en 8K UHD hasta 60p (N-RAW 12 bits) y 4K hasta 120p.",
+      "Ráfaga de hasta 20 fps en RAW sin blackout y hasta 120 fps en JPEG para deportes y fauna.",
+      "Cuerpo de aleación de magnesio con empuñadura vertical integrada y pantalla inclinable en 4 ejes.",
+    ],
+    keySpecs: [
+      { icon: "camera", label: "Sensor Full Frame", value: "45.7 MP CMOS Apilado" },
+      { icon: "video", label: "Video profesional", value: "8K UHD · 4K 120p N-RAW" },
+      { icon: "cpu", label: "Procesador", value: "Nikon EXPEED 7" },
+      { icon: "lens", label: "Montura y VR", value: "Montura Z · VR 5 ejes" },
+      { icon: "screen", label: "Pantalla y visor", value: 'LCD 3.2" 4 ejes · Real-Live' },
+      { icon: "storage", label: "Memoria", value: "Doble CFexpress Tipo B" },
+      { icon: "connect", label: "Conectividad", value: "Wi-Fi · BT · LAN · GPS" },
+      { icon: "shield", label: "Construcción", value: "Magnesio sellado · Grip" },
+    ],
+    specGroups: [
+      {
+        title: "Características generales",
+        rows: [
+          { label: "Marca", value: "Nikon" },
+          { label: "Modelo", value: "Z 9 (Cuerpo profesional insignia)" },
+          { label: "Tipo de cámara", value: "Mirrorless (Sin espejo) Full Frame" },
+          { label: "Montura", value: "Nikon Z" },
+          { label: "Diseño", value: "Aleación de magnesio sellada con grip vertical integrado" },
+          { label: "Peso", value: "1.340 g (con batería y tarjetas)" },
+        ],
+      },
+      {
+        title: "Sensor, obturador y enfoque AF",
+        rows: [
+          { label: "Sensor", value: "CMOS BSI apilado Full Frame de 45.7 MP efectivos" },
+          { label: "Procesador", value: "EXPEED 7 de lectura ultrarrápida" },
+          { label: "Obturador", value: "100% electrónico silencioso hasta 1/32.000 s" },
+          { label: "Estabilización", value: "VR integrada en el cuerpo de 5 ejes (hasta 6 pasos Synchro VR)" },
+          { label: "Enfoque automático", value: "493 puntos con seguimiento 3D e IA (9 tipos de sujetos)" },
+          { label: "Ráfaga máxima", value: "20 fps RAW · 30 fps JPEG 45 MP · 120 fps JPEG 11 MP" },
+        ],
+      },
+      {
+        title: "Video profesional 8K",
+        rows: [
+          { label: "Resolución máxima", value: "8K UHD (7680 × 4320) interno hasta 60p (N-RAW)" },
+          { label: "Video 4K", value: "4K UHD sobremuestreado hasta 120p sin recorte" },
+          { label: "Codecs internos", value: "N-RAW 12 bits, ProRes RAW HQ, ProRes 422 HQ, H.265 10 bits" },
+          { label: "Duración continua", value: "Hasta 125 minutos en 8K 30p sin sobrecalentamiento" },
+        ],
+      },
+      {
+        title: "Pantalla, memoria y conectividad",
+        rows: [
+          { label: "Visor electrónico", value: "Real-Live Viewfinder OLED sin apagón (3.000 nits)" },
+          { label: "Pantalla trasera", value: 'LCD táctil de 3.2" abatible en 4 ejes (vertical y horizontal)' },
+          { label: "Almacenamiento", value: "Doble ranura CFexpress Tipo B / XQD" },
+          { label: "Batería", value: "EN-EL18d recargable de alta capacidad con carga USB-C PD" },
+          { label: "Puertos y redes", value: "HDMI Tipo A completo, Ethernet RJ-45, USB-C, Wi-Fi, Bluetooth y GPS" },
+        ],
+      },
+    ],
+    extendedDescription: [
+      "La Nikon Z 9 representa la cúspide de la ingeniería mirrorless Full Frame. Gracias a su sensor CMOS apilado de 45.7 megapíxeles y al procesador EXPEED 7, elimina por completo el obturador mecánico ofreciendo una velocidad de lectura líder, ráfagas silenciosas de hasta 120 fps y un visor Real-Live completamente libre de blackout.",
+      "Su sistema de enfoque automático impulsado por inteligencia artificial reconoce y sigue con precisión milimétrica ojos de personas, animales, aves y todo tipo de vehículos, convirtiéndola en la herramienta definitiva para deportes, naturaleza, prensa y comerciales.",
+      "En producción audiovisual, la Z 9 graba internamente en 8K UHD y 4K hasta 120p en formatos profesionales como N-RAW de 12 bits y ProRes 422 HQ, todo dentro de un cuerpo sellado de aleación de magnesio con grip vertical integrado y pantalla táctil inclinable en 4 ejes.",
+    ],
+    includedItems: [
+      "1x Cuerpo Nikon Z 9 con empuñadura vertical integrada",
+      "1x Batería recargable de ion de litio EN-EL18d y cargador MH-33",
+      "1x Correa AN-DC24, tapa de cuerpo BF-N1 y protector de zapata BS-1",
+      "1x Cable USB UC-E24, clip para cables y garantía oficial",
+    ],
+    featureRatings: [
+      { label: "Calidad de foto y video 8K", score: 5.0 },
+      { label: "Velocidad y enfoque AF", score: 5.0 },
+      { label: "Construcción y sellado", score: 4.9 },
+      { label: "Autonomía y ergonomía", score: 4.8 },
+    ],
+    reviews: [
+      {
+        id: "rev-nik-1",
+        author: "Esteban K.",
+        rating: 5,
+        date: "15 nov. 2026",
+        comment:
+          "Vengo de DSLR pro de Nikon y el visor sin blackout junto con el seguimiento 3D de aves y deportes es de otro planeta. No pierde foco nunca.",
+        helpful: 16,
+        verified: true,
+      },
+      {
+        id: "rev-nik-2",
+        author: "Paula M.",
+        rating: 5,
+        date: "06 nov. 2026",
+        comment:
+          "La usamos para publicidad en 8K N-RAW y 4K 120p y rinde como cámara de cine con la agilidad de una mirrorless. La pantalla de 4 ejes es comodísima.",
+        helpful: 12,
+        verified: true,
+      },
+      {
+        id: "rev-nik-3",
+        author: "Ramiro D.",
+        rating: 5,
+        date: "23 oct. 2026",
+        comment:
+          "Cuerpo impecable, súper sólido y la batería EN-EL18d te permite cubrir jornadas completas sin preocuparte. Excelente atención y envío impecable.",
+        helpful: 8,
+        verified: true,
+      },
+    ],
+  },
+
+  "ps5-dualsense": {
+    productKind: "gaming",
+    condition: "Nuevo",
+    soldText: "+500 vendidos",
+    originalPrice: 184999,
+    installmentsCount: 6,
+    shippingTitle: "Envío gratis a todo el país",
+    shippingSubtitle: "Llegando mañana · Despacho inmediato",
+    warranty: "Garantía oficial Sony Argentina de 12 meses",
+    highlights: [
+      "Respuesta háptica con activadores dobles que simulan texturas, impactos y retroceso en cada juego.",
+      "Gatillos adaptativos L2 y R2 con niveles dinámicos de fuerza y tensión según la acción.",
+      "Micrófono integrado con botón de silenciado dedicado, altavoz incorporado y jack de 3.5 mm.",
+      "Botón Crear para capturar, editar y transmitir tus mejores momentos de juego al instante.",
+      "Conectividad inalámbrica Bluetooth 5.1, batería recargable de 1560 mAh y puerto USB-C · Compatible con PS5, PC, Mac, iOS y Android.",
+    ],
+    keySpecs: [
+      { icon: "haptics", label: "Vibración", value: "Respuesta háptica doble" },
+      { icon: "gamepad", label: "Gatillos", value: "Adaptativos L2 / R2" },
+      { icon: "connect", label: "Conectividad", value: "Bluetooth 5.1 · USB-C" },
+      { icon: "battery", label: "Batería integrada", value: "1560 mAh recargable" },
+      { icon: "mic", label: "Audio y chat", value: "Mic integrado + Jack 3.5 mm" },
+      { icon: "cpu", label: "Sensores", value: "Movimiento 6 ejes + Touchpad" },
+      { icon: "screen", label: "Compatibilidad", value: "PS5 · PC · Mac · Móviles" },
+      { icon: "shield", label: "Peso y medidas", value: "280 g · 160×106×66 mm" },
+    ],
+    specGroups: [
+      {
+        title: "Características generales",
+        rows: [
+          { label: "Marca", value: "Sony" },
+          { label: "Línea", value: "PlayStation 5" },
+          { label: "Modelo", value: "DualSense Wireless Controller (CFI-ZCT1W)" },
+          { label: "Tipo", value: "Joystick inalámbrico con vibración háptica" },
+          { label: "Colores disponibles", value: "Blanco, Negro, Azul, Plata y Camuflado" },
+        ],
+      },
+      {
+        title: "Inmersión y controles",
+        rows: [
+          { label: "Respuesta háptica", value: "Activadores dobles de vibración dinámica" },
+          { label: "Gatillos adaptativos", value: "Resistencia variable en L2 y R2" },
+          { label: "Panel táctil", value: "Touchpad capacitivo de 2 puntos con clic y barra LED" },
+          { label: "Sensor de movimiento", value: "Sistema de 6 ejes (giroscopio + acelerómetro)" },
+          { label: "Botón Crear", value: "Captura de pantalla, video y transmisión rápida" },
+        ],
+      },
+      {
+        title: "Conectividad, audio y compatibilidad",
+        rows: [
+          { label: "Conexión inalámbrica", value: "Bluetooth 5.1 de baja latencia" },
+          { label: "Puertos", value: "USB Type-C (carga y datos) + conector auriculares 3.5 mm" },
+          { label: "Audio integrado", value: "Micrófono con botón Mute + parlante integrado" },
+          { label: "Plataformas compatibles", value: "PlayStation 5, Windows PC, macOS, iOS y Android" },
+        ],
+      },
+      {
+        title: "Batería y dimensiones",
+        rows: [
+          { label: "Batería", value: "Ion de litio recargable integrada de 1560 mAh" },
+          { label: "Dimensiones", value: "160 mm (ancho) × 106 mm (alto) × 66 mm (espesor)" },
+          { label: "Peso aproximado", value: "280 g" },
+        ],
+      },
+    ],
+    extendedDescription: [
+      "El Joystick Inalámbrico Sony DualSense para PlayStation 5 redefine la sensación de juego gracias a su tecnología de respuesta háptica con activadores dobles y gatillos adaptativos que transmiten físicamente cada superficie, aceleración o tensión del arco directamente en tus manos.",
+      "Su diseño ergonómico en dos tonos incorpora un panel táctil con barra luminosa, sensor de movimiento de 6 ejes, altavoz integrado y micrófono con botón de silenciado rápido, además de conector de 3.5 mm para sumar tus auriculares favoritos.",
+      "Equipado con Bluetooth 5.1, batería recargable de 1560 mAh y puerto USB Type-C, funciona de forma nativa en PlayStation 5 y también se conecta sin esfuerzo a PC con Windows, Mac, iOS y Android. Elegí tu variante favorita entre Blanco, Negro, Azul, Plata y Camuflado.",
+    ],
+    includedItems: [
+      "1x Joystick inalámbrico Sony DualSense para PS5 (color seleccionado)",
+      "1x Manual de usuario y garantía oficial Sony",
+    ],
+    featureRatings: [
+      { label: "Comodidad y ergonomía", score: 4.9 },
+      { label: "Respuesta háptica y gatillos", score: 5.0 },
+      { label: "Calidad de materiales", score: 4.9 },
+      { label: "Relación precio-calidad", score: 4.8 },
+    ],
+    reviews: [
+      {
+        id: "rev-ps5-1",
+        author: "Tomás B.",
+        rating: 5,
+        date: "16 nov. 2026",
+        comment:
+          "Me pedí el camuflado y el acabado está buenísimo. Los gatillos adaptativos en shooters y juegos de carreras te cambian completamente la inmersión.",
+        helpful: 27,
+        verified: true,
+      },
+      {
+        id: "rev-ps5-2",
+        author: "Agustina L.",
+        rating: 5,
+        date: "09 nov. 2026",
+        comment:
+          "100% original en caja sellada. Lo uso tanto en la PS5 como en la PC por Bluetooth y anda perfecto. El azul es súper fachero en persona.",
+        helpful: 18,
+        verified: true,
+      },
+      {
+        id: "rev-ps5-3",
+        author: "Joaquín P.",
+        rating: 5,
+        date: "01 nov. 2026",
+        comment:
+          "Muy cómodo para sesiones largas y el botón de silenciar el micrófono directo en el joystick es súper práctico. Llegó al día siguiente.",
+        helpful: 13,
+        verified: true,
+      },
+      {
+        id: "rev-ps5-4",
+        author: "Valentina C.",
+        rating: 4,
+        date: "22 oct. 2026",
+        comment:
+          "Excelente control, el color plata se ve muy elegante. Solo tener en cuenta que no incluye el cable USB-C en la caja, pero anda espectacular.",
+        helpful: 9,
+        verified: true,
+      },
+    ],
+  },
 };
 
 export function getProductDetails(product: Product): ProductDetails {

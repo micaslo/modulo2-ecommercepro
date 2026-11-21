@@ -9,13 +9,19 @@ const imageModules = import.meta.glob<string>(
   { eager: true, import: "default" },
 );
 
-type MediaMode = "phone" | "car";
+type MediaMode = "phone" | "car" | "controller" | "gallery";
+
+interface ColorMeta {
+  label: string;
+  hex: string;
+}
 
 interface MediaConfigEntry {
   imagesDir: string;
   modelDir?: string;
   mode: MediaMode;
   defaultColor?: string;
+  colorOverrides?: Record<string, Partial<ColorMeta>>;
 }
 
 const MEDIA_CONFIG: Record<string, MediaConfigEntry> = {
@@ -43,9 +49,29 @@ const MEDIA_CONFIG: Record<string, MediaConfigEntry> = {
     mode: "car",
     defaultColor: "black",
   },
+  "canon-eos-5d-mark-iv": {
+    imagesDir: "canon",
+    modelDir: "canon_eos_5d_mark_iv",
+    mode: "gallery",
+  },
+  "nikon-z9": {
+    imagesDir: "nikon",
+    modelDir: "nikon_d6",
+    mode: "gallery",
+  },
+  "ps5-dualsense": {
+    imagesDir: "PS5-controller",
+    modelDir: "playstation_5_dualsense",
+    mode: "controller",
+    defaultColor: "white",
+    colorOverrides: {
+      blue: { label: "Azul", hex: "#4bb5f5" },
+      grey: { label: "Plata", hex: "#b8bec7" },
+    },
+  },
 };
 
-const COLOR_META: Record<string, { label: string; hex: string }> = {
+const COLOR_META: Record<string, ColorMeta> = {
   burgundy: { label: "Borgoña", hex: "#6b1f32" },
   black: { label: "Negro", hex: "#1e232b" },
   white: { label: "Blanco", hex: "#f4f6f8" },
@@ -59,6 +85,7 @@ const COLOR_META: Record<string, { label: string; hex: string }> = {
   blue: { label: "Azul", hex: "#285ea8" },
   gold: { label: "Dorado", hex: "#d6b87c" },
   green: { label: "Verde", hex: "#3d7a5b" },
+  camouflage: { label: "Camuflado", hex: "#5a6065" },
 };
 
 const KNOWN_COLORS = Object.keys(COLOR_META);
@@ -165,6 +192,72 @@ function parseCarImages(
   });
 }
 
+const CONTROLLER_SUFFIX_ORDER: Record<string, number> = {
+  "": 0,
+  detail: 1,
+  hand: 2,
+  hands: 2,
+  specs: 3,
+  tech: 4,
+  inside: 5,
+  measures: 6,
+  box: 7,
+};
+
+function parseControllerImages(
+  entries: ImageEntry[],
+  defaultColor?: string,
+  colorOverrides?: Record<string, Partial<ColorMeta>>,
+): ProductColorVariant[] {
+  const colorGroups = new Map<string, Array<{ suffix: string; url: string }>>();
+  const sharedImages: string[] = [];
+
+  for (const entry of entries) {
+    // Detecta patrones como controller-black, controller-blue-detail, controller-camouflage-box
+    const match = entry.baseName.match(/^[a-z0-9]+-([a-z]+)(?:-(.+))?$/);
+    if (match && KNOWN_COLORS.includes(match[1])) {
+      const colorKey = match[1];
+      const suffix = match[2] ?? "";
+      const list = colorGroups.get(colorKey) ?? [];
+      list.push({ suffix, url: entry.url });
+      colorGroups.set(colorKey, list);
+      continue;
+    }
+    sharedImages.push(entry.url);
+  }
+
+  const orderedKeys = Array.from(colorGroups.keys()).sort((a, b) => {
+    if (a === defaultColor) return -1;
+    if (b === defaultColor) return 1;
+    return a.localeCompare(b);
+  });
+
+  return orderedKeys.map((colorKey) => {
+    const items = colorGroups.get(colorKey)!.sort((a, b) => {
+      const orderA = CONTROLLER_SUFFIX_ORDER[a.suffix] ?? 99;
+      const orderB = CONTROLLER_SUFFIX_ORDER[b.suffix] ?? 99;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.suffix.localeCompare(b.suffix);
+    });
+
+    const colorImages = items.map((item) => item.url);
+    const baseMeta = COLOR_META[colorKey] ?? { label: colorKey, hex: "#91a0b4" };
+    const override = colorOverrides?.[colorKey];
+    const meta: ColorMeta = {
+      label: override?.label ?? baseMeta.label,
+      hex: override?.hex ?? baseMeta.hex,
+    };
+
+    return {
+      id: colorKey,
+      label: meta.label,
+      hex: meta.hex,
+      previewImage: colorImages[0] ?? sharedImages[0] ?? "",
+      images: [...colorImages, ...sharedImages],
+    };
+  });
+}
+
 function resolveConfig(product: Product): MediaConfigEntry | undefined {
   if (MEDIA_CONFIG[product.id]) return MEDIA_CONFIG[product.id];
   const lowerName = product.name.toLowerCase();
@@ -174,6 +267,20 @@ function resolveConfig(product: Product): MediaConfigEntry | undefined {
   }
   if (lowerName.includes("captiva")) return MEDIA_CONFIG["chevrolet-captiva"];
   if (lowerName.includes("traverse")) return MEDIA_CONFIG["chevrolet-traverse"];
+  if (lowerName.includes("canon") || lowerName.includes("5d")) {
+    return MEDIA_CONFIG["canon-eos-5d-mark-iv"];
+  }
+  if (lowerName.includes("nikon") || lowerName.includes("z 9") || lowerName.includes("z9")) {
+    return MEDIA_CONFIG["nikon-z9"];
+  }
+  if (
+    lowerName.includes("dualsense") ||
+    lowerName.includes("ps5") ||
+    lowerName.includes("playstation") ||
+    lowerName.includes("joystick")
+  ) {
+    return MEDIA_CONFIG["ps5-dualsense"];
+  }
   return undefined;
 }
 
@@ -191,10 +298,18 @@ export function getProductMedia(product: Product): ProductMedia {
   }
 
   const entries = getFolderEntries(config.imagesDir);
-  const colors =
-    config.mode === "phone"
-      ? parsePhoneImages(entries, config.defaultColor)
-      : parseCarImages(entries, config.defaultColor);
+  let colors: ProductColorVariant[] = [];
+  if (config.mode === "phone") {
+    colors = parsePhoneImages(entries, config.defaultColor);
+  } else if (config.mode === "car") {
+    colors = parseCarImages(entries, config.defaultColor);
+  } else if (config.mode === "controller") {
+    colors = parseControllerImages(
+      entries,
+      config.defaultColor,
+      config.colorOverrides,
+    );
+  }
 
   const fallbackImages = entries.map((e) => e.url);
   const defaultImages =

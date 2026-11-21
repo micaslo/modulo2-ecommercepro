@@ -41,4 +41,34 @@ export const initialProducts: Product[] = [
       "SUV grande para toda la familia, con gran espacio interior, motor potente y tecnología de seguridad avanzada.",
     stock: 2,
   },
+  {
+    id: "canon-eos-5d-mark-iv",
+    name: "Cámara Canon EOS 5D Mark IV + Lente EF 24-105mm f/4L IS II USM",
+    price: 4950000,
+    category: "Cámaras y Accesorios",
+    image: "",
+    description:
+      "Cámara réflex profesional Full Frame de 30.4 MP con procesador DIGIC 6+, grabación 4K DCI y Dual Pixel CMOS AF. Incluye lente Serie L EF 24-105mm f/4L IS II USM estabilizado.",
+    stock: 5,
+  },
+  {
+    id: "nikon-z9",
+    name: "Cámara Sin Espejo Nikon Z 9 45.7 MP 8K Video Profesional",
+    price: 10490000,
+    category: "Cámaras y Accesorios",
+    image: "",
+    description:
+      "Cámara mirrorless profesional Full Frame con sensor CMOS apilado de 45.7 MP, procesador EXPEED 7, grabación interna 8K UHD y ráfaga de hasta 120 fps sin blackout.",
+    stock: 3,
+  },
+  {
+    id: "ps5-dualsense",
+    name: "Joystick Inalámbrico Sony DualSense PS5",
+    price: 159999,
+    category: "Gaming",
+    image: "",
+    description:
+      "Control inalámbrico oficial Sony DualSense para PlayStation 5 con respuesta háptica inmersiva, gatillos adaptativos, micrófono integrado y compatibilidad con PC, Mac y móviles. Disponible en varios colores.",
+    stock: 24,
+  },
 ];

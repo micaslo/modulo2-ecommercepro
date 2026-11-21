@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
-import { useProducts } from "../../context/ProductContext";
+import { useProducts } from "../../hooks/useProducts";
 import { getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import type { Product } from "../../types/productMedia";

@@ -38,6 +38,21 @@ export function SpecIcon({
           <circle cx="12" cy="13" r="3.5" />
         </svg>
       );
+    case "lens":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="8.5" />
+          <circle cx="12" cy="12" r="3.5" />
+          <path d="M12 3.5 14.8 9.2M19.4 7.8 14.6 10.6M19.4 16.2 13.5 14.5M12 20.5 9.2 14.8M4.6 16.2 9.4 13.4M4.6 7.8 10.5 9.5" />
+        </svg>
+      );
+    case "video":
+      return (
+        <svg {...common}>
+          <rect x="2.5" y="6.5" width="13.5" height="11" rx="2" />
+          <path d="m16 10.5 5.5-3v9l-5.5-3Z" />
+        </svg>
+      );
     case "cpu":
       return (
         <svg {...common}>
@@ -144,6 +159,29 @@ export function SpecIcon({
           <path d="M5 12.55a11 11 0 0 1 14 0" />
           <path d="M8.5 16a6 6 0 0 1 7 0" />
           <circle cx="12" cy="19" r="1" fill="currentColor" />
+        </svg>
+      );
+    case "gamepad":
+      return (
+        <svg {...common}>
+          <path d="M6.5 8.5h11a4 4 0 0 1 3.9 4.8l-.8 3.6a2.3 2.3 0 0 1-3.9 1.1L14.8 16H9.2l-1.9 2a2.3 2.3 0 0 1-3.9-1.1l-.8-3.6a4 4 0 0 1 3.9-4.8Z" />
+          <path d="M7.5 11.5v3M6 13h3" />
+          <circle cx="15.5" cy="12" r="0.8" fill="currentColor" />
+          <circle cx="17.5" cy="14" r="0.8" fill="currentColor" />
+        </svg>
+      );
+    case "haptics":
+      return (
+        <svg {...common}>
+          <rect x="8" y="6" width="8" height="12" rx="2.5" />
+          <path d="M4.8 8.5c-1.1 2-1.1 5 0 7M2.2 6.5c-1.5 3.2-1.5 7.8 0 11M19.2 8.5c1.1 2 1.1 5 0 7M21.8 6.5c1.5 3.2 1.5 7.8 0 11" />
+        </svg>
+      );
+    case "mic":
+      return (
+        <svg {...common}>
+          <rect x="9" y="3" width="6" height="10" rx="3" />
+          <path d="M5.5 10.5a6.5 6.5 0 0 0 13 0M12 17v4M8.5 21h7" />
         </svg>
       );
   }

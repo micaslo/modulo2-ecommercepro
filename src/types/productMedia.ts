@@ -25,6 +25,8 @@ export interface ProductMedia {
 export type SpecIconKey =
   | "screen"
   | "camera"
+  | "lens"
+  | "video"
   | "cpu"
   | "ram"
   | "storage"
@@ -38,7 +40,10 @@ export type SpecIconKey =
   | "fuel"
   | "sunroof"
   | "trunk"
-  | "connect";
+  | "connect"
+  | "gamepad"
+  | "haptics"
+  | "mic";
 
 export interface ProductKeySpec {
   icon: SpecIconKey;
@@ -72,7 +77,7 @@ export interface ProductReview {
 }
 
 export interface ProductDetails {
-  productKind: "phone" | "car" | "general";
+  productKind: "phone" | "car" | "camera" | "gaming" | "general";
   condition: string;
   soldText: string;
   originalPrice?: number;
