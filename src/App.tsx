@@ -22,7 +22,7 @@ function App() {
               <h1>Contenido</h1>
               <HowToGetThere />
               <PageToCreateAnAccount />
-              <ResellersSection/>
+              <ResellersSection />
             </main>
           }
         />
@@ -31,6 +31,7 @@ function App() {
         <Route path="/error-404" element={<Error404 />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
+      <Footer />
       <ButtonWsp />
     </>
   );
