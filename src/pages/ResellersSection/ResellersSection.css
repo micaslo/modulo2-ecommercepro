@@ -1,0 +1,289 @@
+.resellers-page {
+  min-height: 100vh;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(ellipse at 8% 8%, var(--color-primary-soft), transparent 34rem),
+    var(--bg-body);
+  color: var(--text-main);
+}
+
+.resellers-shell {
+  width: min(100%, var(--container-max));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.resellers-intro {
+  padding-top: clamp(0rem, 3vw, 2rem);
+}
+
+.resellers-eyebrow,
+.resellers-form-step {
+  display: inline-block;
+  color: var(--color-primary-active);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+}
+
+.resellers-intro h1 {
+  max-width: 680px;
+  margin: var(--space-3) 0 var(--space-4);
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+}
+
+.resellers-lead {
+  max-width: 620px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+}
+
+.resellers-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-6) 0 var(--space-7);
+}
+
+.resellers-benefit {
+  min-height: 142px;
+  padding: var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.resellers-benefit-value {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-primary-active);
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+}
+
+.resellers-benefit p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.resellers-benefit-renewal .resellers-benefit-value {
+  color: var(--color-secondary);
+}
+
+.resellers-selection-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.resellers-selection-heading h2 {
+  margin: var(--space-1) 0 0;
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+}
+
+.resellers-random-tag {
+  flex: 0 0 auto;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.resellers-products {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.resellers-product {
+  min-width: 0;
+  min-height: 145px;
+  padding: var(--space-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.resellers-product-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin-bottom: var(--space-2);
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  font-size: 1.35rem;
+}
+
+.resellers-product-category {
+  display: block;
+  color: var(--text-subtle);
+  font-size: 0.68rem;
+  line-height: 1.3;
+}
+
+.resellers-product h3 {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+}
+
+.resellers-form-panel {
+  padding: clamp(1.35rem, 3vw, 2.25rem);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.resellers-form-panel h2 {
+  margin: var(--space-2) 0 var(--space-2);
+  font-size: clamp(1.6rem, 3vw, 2.15rem);
+}
+
+.resellers-form-description {
+  margin: 0 0 var(--space-5);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.resellers-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.resellers-field {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+
+.resellers-field input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  font: inherit;
+  font-weight: var(--fw-regular);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.resellers-field input::placeholder {
+  color: var(--text-subtle);
+}
+
+.resellers-field input:focus-visible {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 22%, transparent);
+}
+
+.resellers-submit {
+  display: flex;
+  min-height: 50px;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-brand);
+  color: var(--color-on-primary);
+  font: inherit;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: filter var(--transition), transform var(--transition);
+}
+
+.resellers-submit:hover {
+  filter: brightness(1.05);
+}
+
+.resellers-submit:active {
+  transform: scale(0.98);
+}
+
+.resellers-form-feedback {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-info-soft);
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+}
+
+.resellers-privacy {
+  margin: var(--space-4) 0 0;
+  color: var(--text-subtle);
+  font-size: var(--fs-xs);
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .resellers-shell {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .resellers-intro {
+    padding-top: 0;
+  }
+
+  .resellers-form-panel {
+    width: min(100%, 680px);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .resellers-page {
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .resellers-benefits {
+    grid-template-columns: 1fr;
+    margin-bottom: var(--space-6);
+  }
+
+  .resellers-benefit {
+    min-height: 0;
+  }
+
+  .resellers-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resellers-product:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .resellers-selection-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .resellers-form-panel {
+    padding: var(--space-5);
+  }
+}
