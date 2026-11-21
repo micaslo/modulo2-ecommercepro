@@ -6,6 +6,7 @@ import HowToGetThere from "./pages/How-to-get-there/How-to-get-there";
 import PageToCreateAnAccount from "./pages/CreateAnAccount/CreateAnAccount";
 import ProductPage from "./pages/productPage/ProductPage";
 import Error404 from "./pages/Error-404/Error-404";
+import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/error-404" element={<Error404 />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
+      <ButtonWsp />
     </>
   );
 }
