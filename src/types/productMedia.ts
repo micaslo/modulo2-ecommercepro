@@ -8,6 +8,8 @@ export interface Product {
   stock: number;
 }
 
+export type NewProduct = Omit<Product, "id">;
+
 export interface ProductColorVariant {
   id: string;
   label: string;

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { type NewProduct } from "../context/ProductsContext";
-import type { Product } from "../types/productMedia";
+import type { NewProduct, Product } from "../types/productMedia";
 import { initialProducts } from "../data/initialProducts";
 
 const STORAGE_KEY = "products";
