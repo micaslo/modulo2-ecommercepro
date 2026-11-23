@@ -746,6 +746,45 @@
   color: var(--text-main);
 }
 
+.cvcInputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cvcInputWrap input {
+  padding-right: 44px;
+}
+
+.cvcRevealBtn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  transition: color var(--transition), background var(--transition);
+}
+
+.cvcRevealBtn:hover {
+  color: var(--text-main);
+  background: var(--bg-surface-2);
+}
+
+.cvcRevealBtn.isHolding {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
 .installmentsPlaceholder {
   padding: var(--space-4);
   border-radius: var(--radius-sm);

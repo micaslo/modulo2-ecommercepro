@@ -3,6 +3,7 @@ import {
   FaCarSide,
   FaExclamationTriangle,
   FaRobot,
+  FaTag,
   FaTimes,
 } from "react-icons/fa";
 import "./CartModals.css";
@@ -180,6 +181,73 @@ export function CarAgentModal({
             onClick={handleClose}
           >
             Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface CouponAlreadyAppliedModalProps {
+  isOpen: boolean;
+  couponCode: string;
+  onClose: () => void;
+}
+
+export function CouponAlreadyAppliedModal({
+  isOpen,
+  couponCode,
+  onClose,
+}: CouponAlreadyAppliedModalProps) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="cartModalOverlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="coupon-duplicate-modal-title"
+      onClick={onClose}
+    >
+      <div className="cartModalCard" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="cartModalClose"
+          onClick={onClose}
+          aria-label="Cerrar ventana"
+        >
+          <FaTimes />
+        </button>
+
+        <div className="cartModalIcon cartModalIcon--info">
+          <FaTag />
+        </div>
+
+        <h3 id="coupon-duplicate-modal-title" className="cartModalTitle">
+          Ya tenés ese descuento aplicado
+        </h3>
+
+        <p className="cartModalText">
+          El cupón <strong>{couponCode}</strong> ya se encuentra activo en tu
+          resumen de compra.
+        </p>
+
+        <div className="cartModalActions">
+          <button
+            type="button"
+            className="btn-primary cartModalPrimaryBtn"
+            onClick={onClose}
+          >
+            Entendido
           </button>
         </div>
       </div>

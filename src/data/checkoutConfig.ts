@@ -34,28 +34,11 @@ export const ARGENTINA_PROVINCES: string[] = [
 export const FISCAL_CONDITIONS: Array<{
   value: FiscalCondition;
   label: string;
-  description: string;
 }> = [
-  {
-    value: "consumidor_final",
-    label: "Consumidor Final",
-    description: "Factura B · Solo DNI",
-  },
-  {
-    value: "monotributista",
-    label: "Monotributista",
-    description: "Factura A/B · DNI y CUIT",
-  },
-  {
-    value: "responsable_inscripto",
-    label: "Responsable Inscripto",
-    description: "Factura A · DNI, CUIT y Razón Social",
-  },
-  {
-    value: "exento",
-    label: "Exento",
-    description: "Factura B · DNI, CUIT y Razón Social",
-  },
+  { value: "consumidor_final", label: "Consumidor Final" },
+  { value: "monotributista", label: "Monotributista" },
+  { value: "responsable_inscripto", label: "Responsable Inscripto" },
+  { value: "exento", label: "Exento" },
 ];
 
 export const PROMO_COUPONS: Record<string, { discountPercent: number; label: string }> = {
@@ -77,25 +60,18 @@ export function stripDigits(value: string): string {
   return value.replace(/\D/g, "");
 }
 
-/**
- * Detecta la marca de tarjeta a partir de los dígitos ingresados.
- * Soporta Visa, Mastercard y American Express.
- */
 export function detectCardBrand(rawNumber: string): CardBrand {
   const digits = stripDigits(rawNumber);
   if (!digits) return "unknown";
 
-  // American Express: comienza con 34 o 37
   if (/^3[47]/.test(digits)) {
     return "amex";
   }
 
-  // Visa: comienza con 4
   if (/^4/.test(digits)) {
     return "visa";
   }
 
-  // Mastercard: 51-55 o serie 2 (2221-2720)
   if (
     /^5[1-5]/.test(digits) ||
     /^222[1-9]/.test(digits) ||
@@ -156,12 +132,6 @@ interface RawPlan {
   cftnaLabel: string;
 }
 
-/**
- * Planes de cuotas por marca con valores nacionales de referencia en Argentina:
- * - Visa: 1, 3, 6, 9 y 12 cuotas SIN interés.
- * - American Express: 1, 3 y 6 cuotas SIN interés; 9 y 12 cuotas CON interés.
- * - Mastercard: 1 cuota SIN interés; 3, 6, 9 y 12 cuotas CON interés (tasas nacionales).
- */
 const BRAND_PLANS: Record<Exclude<CardBrand, "unknown">, RawPlan[]> = {
   visa: [
     { count: 1, interestRate: 0, cftnaLabel: "CFT 0,00%" },

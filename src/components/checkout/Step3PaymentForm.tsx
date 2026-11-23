@@ -1,7 +1,13 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import Cards, { type Focused } from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
-import { FaArrowLeft, FaCreditCard, FaLock } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaCreditCard,
+  FaEye,
+  FaEyeSlash,
+  FaLock,
+} from "react-icons/fa";
 import {
   detectCardBrand,
   formatARS,
@@ -33,6 +39,7 @@ export default function Step3PaymentForm({
   onConfirmPayment,
 }: Step3PaymentFormProps) {
   const [focused, setFocused] = useState<Focused>("");
+  const [showCvc, setShowCvc] = useState(false);
   const [errors, setErrors] = useState<PaymentFormErrors>({});
   const [touched, setTouched] = useState<
     Partial<Record<keyof PaymentFormData, boolean>>
@@ -139,8 +146,8 @@ export default function Step3PaymentForm({
             number={digitsOnly}
             name={data.name}
             expiry={stripDigits(data.expiry)}
-            cvc={data.cvc}
-            focused={focused}
+            cvc={showCvc ? data.cvc : "•".repeat(data.cvc.length)}
+            focused={showCvc ? "cvc" : focused}
             acceptedCards={["visa", "mastercard", "american-express"]}
             placeholders={{ name: "TU NOMBRE" }}
             locale={{ valid: "VÁLIDA HASTA" }}
@@ -247,23 +254,44 @@ export default function Step3PaymentForm({
                 ? "Código de seguridad (CID · 4 dígitos)"
                 : "Código de seguridad (CVC · 3 dígitos)"}
             </label>
-            <input
-              id="card-cvc"
-              name="cvc"
-              type="text"
-              inputMode="numeric"
-              autoComplete="cc-csc"
-              placeholder={brand === "amex" ? "1234" : "123"}
-              value={data.cvc}
-              maxLength={brand === "amex" ? 4 : 3}
-              className={errors.cvc ? "isInvalid" : ""}
-              onFocus={() => setFocused("cvc")}
-              onChange={handleCvcChange}
-              onBlur={() => {
-                setFocused("");
-                handleBlur("cvc");
-              }}
-            />
+            <div className="cvcInputWrap">
+              <input
+                id="card-cvc"
+                name="cvc"
+                type={showCvc ? "text" : "password"}
+                inputMode="numeric"
+                autoComplete="cc-csc"
+                placeholder={brand === "amex" ? "••••" : "•••"}
+                value={data.cvc}
+                maxLength={brand === "amex" ? 4 : 3}
+                className={errors.cvc ? "isInvalid" : ""}
+                onFocus={() => setFocused("cvc")}
+                onChange={handleCvcChange}
+                onBlur={() => {
+                  setFocused("");
+                  setShowCvc(false);
+                  handleBlur("cvc");
+                }}
+              />
+              <button
+                type="button"
+                className={`cvcRevealBtn ${showCvc ? "isHolding" : ""}`}
+                aria-label="Mantené presionado para ver el código de seguridad"
+                title="Mantené presionado para ver el código"
+                onMouseDown={(e) => e.preventDefault()}
+                onPointerDown={() => setShowCvc(true)}
+                onPointerUp={() => setShowCvc(false)}
+                onPointerLeave={() => setShowCvc(false)}
+                onPointerCancel={() => setShowCvc(false)}
+                onKeyDown={(e) => {
+                  if (e.key === " " || e.key === "Enter") setShowCvc(true);
+                }}
+                onKeyUp={() => setShowCvc(false)}
+                onBlur={() => setShowCvc(false)}
+              >
+                {showCvc ? <FaEye size={16} /> : <FaEyeSlash size={16} />}
+              </button>
+            </div>
             {errors.cvc && (
               <span className="fieldError" role="alert">
                 {errors.cvc}

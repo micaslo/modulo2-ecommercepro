@@ -330,7 +330,7 @@ export default function Step2CustomerForm({
           >
             {FISCAL_CONDITIONS.map((item) => (
               <option key={item.value} value={item.value}>
-                {item.label} — {item.description}
+                {item.label}
               </option>
             ))}
           </select>

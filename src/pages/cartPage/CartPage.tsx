@@ -10,13 +10,16 @@ import {
   stripDigits,
 } from "../../data/checkoutConfig";
 import CheckoutStepper from "../../components/checkout/CheckoutStepper";
-import OrderSummarySidebar from "../../components/checkout/OrderSummarySidebar";
+import OrderSummarySidebar, {
+  type ApplyCouponResult,
+} from "../../components/checkout/OrderSummarySidebar";
 import Step1CartList from "../../components/checkout/Step1CartList";
 import Step2CustomerForm from "../../components/checkout/Step2CustomerForm";
 import Step3PaymentForm from "../../components/checkout/Step3PaymentForm";
 import Step4ThankYou from "../../components/checkout/Step4ThankYou";
 import {
   CarAgentModal,
+  CouponAlreadyAppliedModal,
   StockLimitModal,
 } from "../../components/checkout/CartModals";
 import type {
@@ -90,6 +93,11 @@ export default function CartPage() {
     productName: string;
   }>({ open: false, productName: "" });
 
+  const [duplicateCouponModal, setDuplicateCouponModal] = useState<{
+    open: boolean;
+    couponCode: string;
+  }>({ open: false, couponCode: "" });
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [step]);
@@ -116,11 +124,15 @@ export default function CartPage() {
     );
   }, [paymentData.number, paymentData.installments, netAmount]);
 
-  const handleApplyCoupon = (code: string): boolean => {
+  const handleApplyCoupon = (code: string): ApplyCouponResult => {
     const normalized = code.trim().toUpperCase();
-    if (!PROMO_COUPONS[normalized]) return false;
+    if (!PROMO_COUPONS[normalized]) return "invalid";
+    if (appliedCoupon === normalized) {
+      setDuplicateCouponModal({ open: true, couponCode: normalized });
+      return "already_applied";
+    }
     setAppliedCoupon(normalized);
-    return true;
+    return "applied";
   };
 
   const handleQuickAddProduct = (product: Product) => {
@@ -291,6 +303,14 @@ export default function CartPage() {
         isOpen={carModal.open}
         productName={carModal.productName}
         onClose={() => setCarModal((prev) => ({ ...prev, open: false }))}
+      />
+
+      <CouponAlreadyAppliedModal
+        isOpen={duplicateCouponModal.open}
+        couponCode={duplicateCouponModal.couponCode}
+        onClose={() =>
+          setDuplicateCouponModal((prev) => ({ ...prev, open: false }))
+        }
       />
     </main>
   );

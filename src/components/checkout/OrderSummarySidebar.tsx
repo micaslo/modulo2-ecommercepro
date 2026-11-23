@@ -3,6 +3,8 @@ import { FaShieldAlt, FaTag, FaTimes } from "react-icons/fa";
 import { formatARS, PROMO_COUPONS } from "../../data/checkoutConfig";
 import type { CartItem, CheckoutStep, InstallmentOption } from "../../types/cart";
 
+export type ApplyCouponResult = "applied" | "already_applied" | "invalid";
+
 interface OrderSummarySidebarProps {
   items: CartItem[];
   subtotal: number;
@@ -10,7 +12,7 @@ interface OrderSummarySidebarProps {
   discountAmount: number;
   selectedInstallment: InstallmentOption | null;
   currentStep: CheckoutStep;
-  onApplyCoupon: (code: string) => boolean;
+  onApplyCoupon: (code: string) => ApplyCouponResult;
   onRemoveCoupon: () => void;
 }
 
@@ -53,8 +55,11 @@ export default function OrderSummarySidebar({
       setCouponFeedback("Ingresá un código de cupón.");
       return;
     }
-    const ok = onApplyCoupon(cleaned);
-    if (ok) {
+    const result = onApplyCoupon(cleaned);
+    if (result === "applied") {
+      setCouponFeedback(null);
+      setCouponInput("");
+    } else if (result === "already_applied") {
       setCouponFeedback(null);
       setCouponInput("");
     } else {
