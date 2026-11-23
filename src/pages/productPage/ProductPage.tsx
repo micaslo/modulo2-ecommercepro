@@ -20,7 +20,7 @@ import ProductReviews from "../../components/productPage/productReviews/ProductR
 import {
   CarAgentModal,
   StockLimitModal,
-} from "../../components/checkout/CartModals";
+} from "../../components/checkout/cartModals/CartModals";
 import {
   Cube3DIcon,
   HeartIcon,

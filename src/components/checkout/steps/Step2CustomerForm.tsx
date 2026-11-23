@@ -1,16 +1,16 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import { FaArrowLeft, FaArrowRight, FaInfoCircle } from "react-icons/fa";
 import {
   ARGENTINA_PROVINCES,
   FISCAL_CONDITIONS,
   formatCuitDisplay,
   stripDigits,
-} from "../../data/checkoutConfig";
+} from "../../../data/checkoutConfig";
 import {
   validateCustomerForm,
   type CustomerFormErrors,
-} from "../../schemas/checkoutSchema";
-import type { CustomerFormData, FiscalCondition } from "../../types/cart";
+} from "../../../schemas/checkoutSchema";
+import type { CustomerFormData, FiscalCondition } from "../../../types/cart";
 
 interface Step2CustomerFormProps {
   data: CustomerFormData;
@@ -94,7 +94,7 @@ export default function Step2CustomerForm({
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = validateCustomerForm(data);
     setErrors(validationErrors);
@@ -132,7 +132,6 @@ export default function Step2CustomerForm({
       </div>
 
       <form className="checkoutForm" onSubmit={handleSubmit} noValidate>
-        {/* Nombre y Apellido */}
         <div className="formRowTwo">
           <div className="formField">
             <label htmlFor="checkout-firstName">Nombre</label>
@@ -173,7 +172,6 @@ export default function Step2CustomerForm({
           </div>
         </div>
 
-        {/* Correo electrónico */}
         <div className="formField">
           <label htmlFor="checkout-email">Correo electrónico</label>
           <input
@@ -192,7 +190,6 @@ export default function Step2CustomerForm({
           )}
         </div>
 
-        {/* Teléfono con +54 */}
         <div className="formField">
           <label htmlFor="checkout-phone">Teléfono</label>
           <div className="phoneInputGroup">
@@ -221,7 +218,6 @@ export default function Step2CustomerForm({
           )}
         </div>
 
-        {/* Dirección de envío */}
         <div className="formSectionDivider">
           <span>Domicilio de entrega</span>
         </div>
@@ -312,7 +308,6 @@ export default function Step2CustomerForm({
           </div>
         </div>
 
-        {/* Condición fiscal */}
         <div className="formSectionDivider">
           <span>Condición fiscal</span>
         </div>
@@ -338,7 +333,6 @@ export default function Step2CustomerForm({
 
         <div className="fiscalFieldsPanel">
           <div className={showCuit ? "formRowTwo" : "formFieldSingle"}>
-            {/* DNI con ventanita flotante al escribir */}
             <div className="formField formField--withPopover">
               <label htmlFor="checkout-dni">
                 Documento (DNI sin puntos)

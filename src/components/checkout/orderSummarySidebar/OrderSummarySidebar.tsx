@@ -1,7 +1,7 @@
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { FaShieldAlt, FaTag, FaTimes } from "react-icons/fa";
-import { formatARS, PROMO_COUPONS } from "../../data/checkoutConfig";
-import type { CartItem, CheckoutStep, InstallmentOption } from "../../types/cart";
+import { formatARS, PROMO_COUPONS } from "../../../data/checkoutConfig";
+import type { CartItem, CheckoutStep, InstallmentOption } from "../../../types/cart";
 
 export type ApplyCouponResult = "applied" | "already_applied" | "invalid";
 
@@ -37,7 +37,6 @@ export default function OrderSummarySidebar({
       : 0;
   const finalTotal = netAfterCoupon + interestAmount;
 
-  // Ahorro comparado con precios originales (si tienen descuento de lista) + cupón
   const catalogSavings = items.reduce((sum, item) => {
     if (item.originalPrice && item.originalPrice > item.price) {
       return sum + (item.originalPrice - item.price) * item.quantity;
@@ -48,7 +47,7 @@ export default function OrderSummarySidebar({
 
   const couponInfo = appliedCoupon ? PROMO_COUPONS[appliedCoupon] : null;
 
-  const handleCouponSubmit = (e: FormEvent) => {
+  const handleCouponSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const cleaned = couponInput.trim().toUpperCase();
     if (!cleaned) {

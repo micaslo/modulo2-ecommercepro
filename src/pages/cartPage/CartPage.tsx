@@ -9,19 +9,19 @@ import {
   PROMO_COUPONS,
   stripDigits,
 } from "../../data/checkoutConfig";
-import CheckoutStepper from "../../components/checkout/CheckoutStepper";
+import CheckoutStepper from "../../components/checkout/checkoutStepper/CheckoutStepper";
 import OrderSummarySidebar, {
   type ApplyCouponResult,
-} from "../../components/checkout/OrderSummarySidebar";
-import Step1CartList from "../../components/checkout/Step1CartList";
-import Step2CustomerForm from "../../components/checkout/Step2CustomerForm";
-import Step3PaymentForm from "../../components/checkout/Step3PaymentForm";
-import Step4ThankYou from "../../components/checkout/Step4ThankYou";
+} from "../../components/checkout/orderSummarySidebar/OrderSummarySidebar";
+import Step1CartList from "../../components/checkout/steps/Step1CartList";
+import Step2CustomerForm from "../../components/checkout/steps/Step2CustomerForm";
+import Step3PaymentForm from "../../components/checkout/steps/Step3PaymentForm";
+import Step4ThankYou from "../../components/checkout/steps/Step4ThankYou";
 import {
   CarAgentModal,
   CouponAlreadyAppliedModal,
   StockLimitModal,
-} from "../../components/checkout/CartModals";
+} from "../../components/checkout/cartModals/CartModals";
 import type {
   CheckoutStep,
   CompletedOrder,

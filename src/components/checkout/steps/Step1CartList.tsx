@@ -7,11 +7,11 @@ import {
   FaShoppingCart,
   FaTrashAlt,
 } from "react-icons/fa";
-import { formatARS } from "../../data/checkoutConfig";
-import { getCoverImage } from "../../data/productMedia";
-import { getProductDetails } from "../../data/productDetails";
-import type { CartActionResult, CartItem } from "../../types/cart";
-import type { Product } from "../../types/productMedia";
+import { formatARS } from "../../../data/checkoutConfig";
+import { getCoverImage } from "../../../data/productMedia";
+import { getProductDetails } from "../../../data/productDetails";
+import type { CartActionResult, CartItem } from "../../../types/cart";
+import type { Product } from "../../../types/productMedia";
 
 interface Step1CartListProps {
   items: CartItem[];

@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import Cards, { type Focused } from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
@@ -16,12 +16,12 @@ import {
   getCardBrandLabel,
   getInstallmentOptions,
   stripDigits,
-} from "../../data/checkoutConfig";
+} from "../../../data/checkoutConfig";
 import {
   validatePaymentForm,
   type PaymentFormErrors,
-} from "../../schemas/checkoutSchema";
-import type { InstallmentOption, PaymentFormData } from "../../types/cart";
+} from "../../../schemas/checkoutSchema";
+import type { InstallmentOption, PaymentFormData } from "../../../types/cart";
 
 interface Step3PaymentFormProps {
   data: PaymentFormData;
@@ -105,7 +105,7 @@ export default function Step3PaymentForm({
     updateField("cvc", stripDigits(e.target.value).slice(0, maxLen));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = validatePaymentForm(data);
     setErrors(validationErrors);

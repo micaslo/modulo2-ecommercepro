@@ -1,5 +1,5 @@
 import { FaCheck } from "react-icons/fa";
-import type { CheckoutStep } from "../../types/cart";
+import type { CheckoutStep } from "../../../types/cart";
 
 interface CheckoutStepperProps {
   currentStep: CheckoutStep;
