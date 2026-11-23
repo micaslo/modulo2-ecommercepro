@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useProducts } from "../../hooks/useProducts";
+import { useCart } from "../../hooks/useCart";
 import { getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import type { Product } from "../../types/productMedia";
@@ -10,6 +17,10 @@ import ProductSpecs from "../../components/productPage/productSpecs/ProductSpecs
 import Model3DViewer from "../../components/productPage/model3DViewer/Model3DViewer";
 import RelatedProducts from "../../components/productPage/relatedProducts/RelatedProducts";
 import ProductReviews from "../../components/productPage/productReviews/ProductReviews";
+import {
+  CarAgentModal,
+  StockLimitModal,
+} from "../../components/checkout/CartModals";
 import {
   Cube3DIcon,
   HeartIcon,
@@ -37,12 +48,18 @@ function ProductPageContent({
   allProducts,
 }: ProductPageContentProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const [stockModalOpen, setStockModalOpen] = useState(false);
+  const [carModalOpen, setCarModalOpen] = useState(false);
 
   const media = getProductMedia(product);
   const details = getProductDetails(product);
+  const isCar =
+    details.productKind === "car" || product.category === "Vehículos";
 
   const queryColor = searchParams.get("color");
   const selectedColorId =
@@ -87,14 +104,39 @@ function ProductPageContent({
     const colorSuffix = activeColorVariant
       ? ` (${activeColorVariant.label})`
       : "";
-    if (mode === "cart") {
-      setActionMessage(
-        `Agregaste ${quantity} ${quantity === 1 ? "unidad" : "unidades"} de ${product.name}${colorSuffix} al carrito.`,
-      );
-    } else {
-      setActionMessage(
-        `Iniciando compra de ${quantity} ${quantity === 1 ? "unidad" : "unidades"} de ${product.name}${colorSuffix}.`,
-      );
+    const coverImage =
+      activeColorVariant?.previewImage ?? activeImages[0] ?? product.image;
+
+    const result = addToCart({
+      product,
+      quantity,
+      image: coverImage,
+      colorId: activeColorVariant?.id,
+      colorLabel: activeColorVariant?.label,
+      originalPrice: details.originalPrice,
+      isCar,
+    });
+
+    if (!result.ok) {
+      if (result.reason === "car_limit") {
+        setCarModalOpen(true);
+      } else if (result.reason === "stock_limit") {
+        setStockModalOpen(true);
+      }
+      return;
+    }
+
+    if (mode === "buy") {
+      navigate("/carrito");
+      return;
+    }
+
+    setActionMessage(
+      `Agregaste ${quantity} ${quantity === 1 ? "unidad" : "unidades"} de ${product.name}${colorSuffix} al carrito.`,
+    );
+
+    if (result.reachedStockLimit) {
+      setStockModalOpen(true);
     }
   };
 
@@ -264,7 +306,10 @@ function ProductPageContent({
 
           {actionMessage && (
             <p className="buyBoxFeedback" role="status">
-              {actionMessage}
+              {actionMessage}{" "}
+              <Link to="/carrito" style={{ fontWeight: 700 }}>
+                Ver carrito
+              </Link>
             </p>
           )}
 
@@ -362,6 +407,19 @@ function ProductPageContent({
         productId={product.id}
         initialReviews={details.reviews}
         featureRatings={details.featureRatings}
+      />
+
+      <StockLimitModal
+        isOpen={stockModalOpen}
+        productName={product.name}
+        maxStock={product.stock}
+        onClose={() => setStockModalOpen(false)}
+      />
+
+      <CarAgentModal
+        isOpen={carModalOpen}
+        productName={product.name}
+        onClose={() => setCarModalOpen(false)}
       />
     </main>
   );

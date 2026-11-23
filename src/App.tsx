@@ -6,15 +6,19 @@ import "./App.css";
 import HowToGetThere from "./pages/How-to-get-there/How-to-get-there";
 import PageToCreateAnAccount from "./pages/CreateAnAccount/CreateAnAccount";
 import ProductPage from "./pages/productPage/ProductPage";
+import CartPage from "./pages/cartPage/CartPage";
 import Error404 from "./pages/Error-404/Error-404";
 import SellProductSection from "./components/sellProduct/SellProductSection";
 import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
+import { useCart } from "./hooks/useCart";
 
 function App() {
+  const { totalItems, subtotal } = useCart();
+
   return (
     <>
-      <Navbar cartCount={0} />
+      <Navbar cartCount={totalItems} cartTotal={subtotal} />
       <Routes>
         <Route
           path="/"
@@ -28,6 +32,8 @@ function App() {
           }
         />
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/carrito" element={<CartPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/sell-my-product" element={<SellProductSection />} />
         <Route path="/error-404" element={<Error404 />} />
