@@ -127,7 +127,7 @@ function ProductPageContent({
     }
 
     if (mode === "buy") {
-      navigate("/carrito");
+      navigate("/cart");
       return;
     }
 
@@ -307,7 +307,7 @@ function ProductPageContent({
           {actionMessage && (
             <p className="buyBoxFeedback" role="status">
               {actionMessage}{" "}
-              <Link to="/carrito" style={{ fontWeight: 700 }}>
+              <Link to="/cart" style={{ fontWeight: 700 }}>
                 Ver carrito
               </Link>
             </p>

@@ -32,7 +32,6 @@ function App() {
           }
         />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/carrito" element={<CartPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/sell-my-product" element={<SellProductSection />} />

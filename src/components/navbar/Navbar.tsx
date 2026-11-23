@@ -141,7 +141,7 @@ export default function Navbar({
             </Link>
 
             <Link
-              to="/carrito"
+              to="/cart"
               className="navbar__cart"
               aria-label={`Carrito, ${cartCount} productos`}
               onClick={closeMenu}

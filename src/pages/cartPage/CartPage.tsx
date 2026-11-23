@@ -79,7 +79,6 @@ export default function CartPage() {
     null,
   );
 
-  // Modales de límite de stock y límite de autos
   const [stockModal, setStockModal] = useState<{
     open: boolean;
     productName: string;
@@ -95,7 +94,6 @@ export default function CartPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [step]);
 
-  // Si se vacía el carrito estando en pasos 2 o 3, volver al paso 1
   const effectiveStep: CheckoutStep =
     step !== 4 && items.length === 0 ? 1 : step;
 
