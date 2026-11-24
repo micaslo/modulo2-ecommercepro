@@ -14,7 +14,7 @@ import TilliBot from "./components/TilliBot/TilliBot";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import { useCart } from "./hooks/useCart";
 import WishList from "./pages/WishList/WishList";
-import ResellersSection from "./pages/ResellersSection/ResellersSection";
+
 
 function App() {
   const { totalItems, subtotal } = useCart();
