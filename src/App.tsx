@@ -13,6 +13,7 @@ import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
 import TilliBot from "./components/TilliBot/TilliBot";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import { useCart } from "./hooks/useCart";
+import WishList from "./pages/WishList/WishList";
 
 function App() {
   const { totalItems, subtotal } = useCart();
@@ -29,6 +30,7 @@ function App() {
               <HowToGetThere />
               <PageToCreateAnAccount />
               <ResellersSection />
+              <WishList />
             </main>
           }
         />
@@ -36,6 +38,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/sell-my-product" element={<SellProductSection />} />
+        <Route path="/favoritos" element={<WishList />} />
         <Route path="/error-404" element={<Error404 />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
@@ -47,4 +50,3 @@ function App() {
 }
 
 export default App;
-
