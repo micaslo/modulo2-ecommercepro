@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
-// import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
+ import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
 import Footer from "./components/footer/footer";
 import "./App.css";
 import HowToGetThere from "./pages/How-to-get-there/How-to-get-there";
@@ -21,17 +21,18 @@ function App() {
     <>
       <Navbar cartCount={totalItems} cartTotal={subtotal} />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <main>
-              <h1>Contenido</h1>
-              <HowToGetThere />
-              <PageToCreateAnAccount />
-              <ResellersSection />
-            </main>
-          }
-        />
+       <Route
+  path="/"
+  element={
+    <main>
+      <h1>Contenido</h1>
+      <BestSellersPage />
+      <HowToGetThere />
+      <PageToCreateAnAccount />
+      <ResellersSection />
+    </main>
+  }
+/>
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />
