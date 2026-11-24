@@ -6,7 +6,7 @@ export type SortOption =
   | "name-desc";
 
 interface Sortable {
-  name: string;
+  title: string;
   price: number | string;
 }
 
@@ -29,9 +29,9 @@ export function sortProducts<T extends Sortable>(
     case "price-asc":
       return copy.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
     case "name-asc":
-      return copy.sort((a, b) => a.name.localeCompare(b.name, "es"));
+   return copy.sort((a, b) => a.title.localeCompare(b.title, "es"));
     case "name-desc":
-      return copy.sort((a, b) => b.name.localeCompare(a.name, "es"));
+     return copy.sort((a, b) => b.title.localeCompare(a.title, "es"));;
     default:
       return products;
   }

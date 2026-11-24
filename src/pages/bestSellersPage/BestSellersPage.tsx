@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import ProductsOnSale from "../../components/navbar/ProductsOnSale/ProductsOnSale";
-import BestSellers from "../../components/navbar/BestSellers/BestSellers";
+import BestSellers from "../../components/BestSellers/BestSellers";
 import SortSelect from "../../components/SortSelect/SortSelect";
 import { bestSellersCategories } from "../../services/bestSellersData";
 import { sortProducts, type SortOption } from "../../utils/sortProducts";
