@@ -26,6 +26,9 @@ export default function WishList() {
       getResellerFeaturedProducts(products).map((product) => product.id),
     ),
   );
+  const [search, setSearch] = useState("");
+  const [availability, setAvailability] = useState("all");
+  const [sortBy, setSortBy] = useState("recent");
 
   useEffect(() => {
     const refreshWishlist = () => setWishlistIds(getWishlistIds());
@@ -40,6 +43,25 @@ export default function WishList() {
   const savedProducts = wishlistIds
     .map((id) => products.find((product) => product.id === id))
     .filter((product) => product !== undefined);
+
+  const visibleProducts = savedProducts
+    .filter((product) => {
+      const matchesSearch = `${product.name} ${product.category}`
+        .toLocaleLowerCase("es")
+        .includes(search.trim().toLocaleLowerCase("es"));
+      const matchesAvailability =
+        availability === "all" ||
+        (availability === "available" && product.stock > 0) ||
+        (availability === "unavailable" && product.stock <= 0);
+
+      return matchesSearch && matchesAvailability;
+    })
+    .sort((a, b) => {
+      if (sortBy === "price-ascending") return a.price - b.price;
+      if (sortBy === "price-descending") return b.price - a.price;
+      if (sortBy === "name") return a.name.localeCompare(b.name, "es");
+      return wishlistIds.indexOf(a.id) - wishlistIds.indexOf(b.id);
+    });
 
   function handleClearWishlist() {
     clearWishlist();
@@ -77,15 +99,59 @@ export default function WishList() {
           </div>
         ) : (
           <>
+            <div className="wishlist-toolbar">
+              <label className="wishlist-search">
+                <span className="wishlist-visually-hidden">Buscar en tu lista</span>
+                <span aria-hidden="true">⌕</span>
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Buscar en esta lista"
+                />
+              </label>
+
+              <label className="wishlist-select-wrap">
+                <span className="wishlist-visually-hidden">Filtrar por disponibilidad</span>
+                <select
+                  value={availability}
+                  onChange={(event) => setAvailability(event.target.value)}
+                >
+                  <option value="all">Todos los productos</option>
+                  <option value="available">Disponibles</option>
+                  <option value="unavailable">Sin stock</option>
+                </select>
+              </label>
+
+              <label className="wishlist-select-wrap">
+                <span className="wishlist-visually-hidden">Ordenar productos</span>
+                <select
+                  value={sortBy}
+                  onChange={(event) => setSortBy(event.target.value)}
+                >
+                  <option value="recent">Agregados recientemente</option>
+                  <option value="price-ascending">Precio: menor a mayor</option>
+                  <option value="price-descending">Precio: mayor a menor</option>
+                  <option value="name">Nombre: A a Z</option>
+                </select>
+              </label>
+            </div>
+
             <p className="wishlist-count" aria-live="polite">
-              {savedProducts.length} {savedProducts.length === 1 ? "producto guardado" : "productos guardados"}
+              {visibleProducts.length} de {savedProducts.length} {savedProducts.length === 1 ? "producto guardado" : "productos guardados"}
             </p>
-            <div className="wishlist-grid">
-              {savedProducts.map((product) => {
+
+            {visibleProducts.length === 0 ? (
+              <div className="wishlist-no-results">
+                No encontramos productos que coincidan con esos filtros.
+              </div>
+            ) : (
+              <div className="wishlist-list">
+                {visibleProducts.map((product) => {
                 const image = getCoverImage(product);
 
                 return (
-                  <article className="wishlist-card" key={product.id}>
+                  <article className="wishlist-item" key={product.id}>
                     <Link
                       className="wishlist-image-link"
                       to={`/product/${product.id}`}
@@ -97,13 +163,18 @@ export default function WishList() {
                         <span className="wishlist-image-placeholder" aria-hidden="true">♡</span>
                       )}
                     </Link>
-                    <div className="wishlist-card-content">
+                    <div className="wishlist-item-details">
                       <span className="wishlist-category">{product.category}</span>
-                      <h2>
+                      <h2 className="wishlist-product-name">
                         <Link to={`/product/${product.id}`}>{product.name}</Link>
                       </h2>
                       <p className="wishlist-price">{formatPrice(product.price)}</p>
-                      <div className="wishlist-card-actions">
+                      <p className={`wishlist-stock ${product.stock > 0 ? "is-available" : "is-unavailable"}`}>
+                        {product.stock > 0
+                          ? `Disponible · ${product.stock} en stock`
+                          : "Sin stock por el momento"}
+                      </p>
+                      <div className="wishlist-item-actions">
                         <Link className="wishlist-view" to={`/product/${product.id}`}>
                           Ver producto
                         </Link>
@@ -119,8 +190,9 @@ export default function WishList() {
                     </div>
                   </article>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            )}
           </>
         )}
       </section>
