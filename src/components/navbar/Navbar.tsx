@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { getWishlistIds, WISHLIST_CHANGE_EVENT } from "../../utils/wishlist";
 import "./Navbar.css";
 
@@ -52,18 +52,20 @@ export default function Navbar({
     Math.max(wishlistCount, getWishlistIds().length),
   );
   const navigate = useNavigate();
+  const location = useLocation();
 
   const closeMenu = () => setMenuOpen(false);
 
   useEffect(() => {
     const syncWishlistCount = () => setCurrentWishlistCount(getWishlistIds().length);
+    syncWishlistCount();
     window.addEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount);
     window.addEventListener("storage", syncWishlistCount);
     return () => {
       window.removeEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount);
       window.removeEventListener("storage", syncWishlistCount);
     };
-  }, []);
+  }, [location.pathname]);
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();

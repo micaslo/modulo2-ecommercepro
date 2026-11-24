@@ -14,6 +14,7 @@ import TilliBot from "./components/TilliBot/TilliBot";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import { useCart } from "./hooks/useCart";
 import WishList from "./pages/WishList/WishList";
+import ResellersSection from "./pages/ResellersSection/ResellersSection";
 
 function App() {
   const { totalItems, subtotal } = useCart();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/sell-my-product" element={<SellProductSection />} />
         <Route path="/favoritos" element={<WishList />} />
+        <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/error-404" element={<Error404 />} />
         <Route path="*" element={<Error404 />} />
       </Routes>

@@ -15,6 +15,19 @@ export function getWishlistIds(): string[] {
   }
 }
 
+export function seedWishlistIfMissing(defaultIds: string[]): string[] {
+  try {
+    const saved = localStorage.getItem(WISHLIST_STORAGE_KEY);
+    if (saved !== null) return getWishlistIds();
+
+    const ids = [...new Set(defaultIds)].slice(0, 5);
+    localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(ids));
+    return ids;
+  } catch {
+    return [];
+  }
+}
+
 function saveWishlistIds(ids: string[]) {
   try {
     localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(ids));

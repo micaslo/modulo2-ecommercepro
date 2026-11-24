@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImage } from "../../data/productMedia";
 import { useProducts } from "../../hooks/useProducts";
+import { getResellerFeaturedProducts } from "../../utils/resellerFeaturedProducts";
 import {
   clearWishlist,
   getWishlistIds,
   removeWishlistProduct,
+  seedWishlistIfMissing,
   WISHLIST_CHANGE_EVENT,
 } from "../../utils/wishlist";
 import "./WishList.css";
@@ -19,7 +21,11 @@ const formatPrice = (price: number) =>
 
 export default function WishList() {
   const { products } = useProducts();
-  const [wishlistIds, setWishlistIds] = useState<string[]>(getWishlistIds);
+  const [wishlistIds, setWishlistIds] = useState<string[]>(() =>
+    seedWishlistIfMissing(
+      getResellerFeaturedProducts(products).map((product) => product.id),
+    ),
+  );
 
   useEffect(() => {
     const refreshWishlist = () => setWishlistIds(getWishlistIds());
