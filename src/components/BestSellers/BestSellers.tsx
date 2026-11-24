@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import type { Product, ShippingType } from '../../../types/productCategory'
+import type { Product, ShippingType } from '../../types/productCategory'
 import './BestSellers.css'
 
 const formatPrice = (value: number): string =>
