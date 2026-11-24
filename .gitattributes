@@ -1,0 +1,4 @@
+# Tratar modelos 3D como assets generados/binarios para que GitHub no los cuente en diffs ni estadísticas de lenguaje
+*.gltf linguist-generated=true binary
+*.glb binary
+*.bin binary
