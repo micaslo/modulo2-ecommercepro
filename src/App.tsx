@@ -10,6 +10,7 @@ import CartPage from "./pages/cartPage/CartPage";
 import Error404 from "./pages/Error-404/Error-404";
 import SellProductSection from "./components/sellProduct/SellProductSection";
 import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
+import TilliBot from "./components/TilliBot/TilliBot";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import { useCart } from "./hooks/useCart";
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />
+      <TilliBot />
       <ButtonWsp />
     </>
   );
