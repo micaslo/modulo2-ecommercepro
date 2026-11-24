@@ -15,6 +15,7 @@ import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import { useCart } from "./hooks/useCart";
 import WishList from "./pages/WishList/WishList";
 
+import SobreNosotros from "./components/sobrenosotros/sobrenosotros";
 
 function App() {
   const { totalItems, subtotal } = useCart();
@@ -62,6 +63,12 @@ function App() {
       <ButtonWsp />
     </>
   );
+    <Routes>
+      <Route path="/" element={<h1>Home - DeTodito Market</h1>} />
+      <Route path="/sobrenosotros" element={<SobreNosotros />} />
+      <Route path="/productos" element={<h1>Productos</h1>} />
+    </Routes>
+
 }
 
 export default App;
