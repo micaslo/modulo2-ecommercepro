@@ -10,7 +10,7 @@ import {
   FaCcAmex,
   FaLock,
 } from "react-icons/fa6";
-import "./Footer.css";
+import "./footer.css";
 
 const WHATSAPP_URL = "https://wa.me/3810000000";
 const EMAIL = "contacto@detodito.com";
