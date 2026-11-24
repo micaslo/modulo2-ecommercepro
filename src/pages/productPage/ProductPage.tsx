@@ -11,6 +11,11 @@ import { useCart } from "../../hooks/useCart";
 import { getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import type { Product } from "../../types/productMedia";
+import {
+  getWishlistIds,
+  toggleWishlistProduct,
+  WISHLIST_CHANGE_EVENT,
+} from "../../utils/wishlist";
 import ImageCarousel from "../../components/productPage/imageCarousel/ImageCarousel";
 import ColorSelector from "../../components/productPage/colorSelector/ColorSelector";
 import ProductSpecs from "../../components/productPage/productSpecs/ProductSpecs";
@@ -70,6 +75,18 @@ function ProductPageContent({
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [product.id, queryColor]);
+
+  useEffect(() => {
+    const syncFavorite = () =>
+      setIsFavorite(getWishlistIds().includes(product.id));
+    syncFavorite();
+    window.addEventListener(WISHLIST_CHANGE_EVENT, syncFavorite);
+    window.addEventListener("storage", syncFavorite);
+    return () => {
+      window.removeEventListener(WISHLIST_CHANGE_EVENT, syncFavorite);
+      window.removeEventListener("storage", syncFavorite);
+    };
+  }, [product.id]);
 
   const activeColorVariant =
     media.colors.find((c) => c.id === selectedColorId) ?? media.colors[0];
@@ -177,7 +194,7 @@ function ProductPageContent({
             <button
               type="button"
               className={`productFavBtn ${isFavorite ? "isActive" : ""}`}
-              onClick={() => setIsFavorite((prev) => !prev)}
+              onClick={() => toggleWishlistProduct(product.id)}
               aria-label={
                 isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"
               }

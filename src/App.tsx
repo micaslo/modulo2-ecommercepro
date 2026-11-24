@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
- import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
+import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
 import Footer from "./components/footer/footer";
 import "./App.css";
 import HowToGetThere from "./pages/How-to-get-there/How-to-get-there";
@@ -13,6 +13,8 @@ import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
 import TilliBot from "./components/TilliBot/TilliBot";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import { useCart } from "./hooks/useCart";
+import WishList from "./pages/WishList/WishList";
+
 
 function App() {
   const { totalItems, subtotal } = useCart();
@@ -21,7 +23,7 @@ function App() {
     <>
       <Navbar cartCount={totalItems} cartTotal={subtotal} />
       <Routes>
-       <Route
+      <Route
   path="/"
   element={
     <main>
@@ -30,13 +32,28 @@ function App() {
       <HowToGetThere />
       <PageToCreateAnAccount />
       <ResellersSection />
+      <WishList />
     </main>
   }
 />
+        <Route
+          path="/"
+          element={
+            <main>
+              <h1>Contenido</h1>
+              <HowToGetThere />
+              <PageToCreateAnAccount />
+              <ResellersSection />
+              <WishList />
+            </main>
+          }
+        />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/sell-my-product" element={<SellProductSection />} />
+        <Route path="/favoritos" element={<WishList />} />
+        <Route path="/resellers" element={<ResellersSection />} />
         <Route path="/error-404" element={<Error404 />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
@@ -48,4 +65,3 @@ function App() {
 }
 
 export default App;
-
