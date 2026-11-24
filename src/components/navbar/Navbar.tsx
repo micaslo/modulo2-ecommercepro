@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { getWishlistIds, WISHLIST_CHANGE_EVENT } from "../../utils/wishlist";
 import "./Navbar.css";
 
 interface NavbarProps {
@@ -47,9 +48,24 @@ export default function Navbar({
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [category, setCategory] = useState<string>(categories[0]);
   const [query, setQuery] = useState<string>("");
+  const [currentWishlistCount, setCurrentWishlistCount] = useState(() =>
+    Math.max(wishlistCount, getWishlistIds().length),
+  );
   const navigate = useNavigate();
+  const location = useLocation();
 
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    const syncWishlistCount = () => setCurrentWishlistCount(getWishlistIds().length);
+    syncWishlistCount();
+    window.addEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount);
+    window.addEventListener("storage", syncWishlistCount);
+    return () => {
+      window.removeEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount);
+      window.removeEventListener("storage", syncWishlistCount);
+    };
+  }, [location.pathname]);
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -131,12 +147,12 @@ export default function Navbar({
             <Link
               to="/favoritos"
               className="navbar__icon-btn"
-              aria-label={`Favoritos, ${wishlistCount}`}
+              aria-label={`Favoritos, ${currentWishlistCount}`}
               onClick={closeMenu}
             >
               ♡
-              {wishlistCount > 0 && (
-                <span className="navbar__badge">{wishlistCount}</span>
+              {currentWishlistCount > 0 && (
+                <span className="navbar__badge">{currentWishlistCount}</span>
               )}
             </Link>
 
