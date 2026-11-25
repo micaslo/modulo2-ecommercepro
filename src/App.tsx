@@ -13,10 +13,7 @@ import ProductPage from "./pages/productPage/ProductPage";
 import CartPage from "./pages/cartPage/CartPage";
 import Error404 from "./pages/Error-404/Error-404";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
-import WishList from "./pages/WishList/WishList";
-import CatalogPage from "./pages/catalogPage/CatalogPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
-import AdminPage from "./pages/adminPage/AdminPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import LoginPage from "./pages/LoginPage/LoginPage";
 
@@ -33,7 +30,7 @@ function App() {
 
   return (
     <>
-      {/* NAVBAR */}
+  
 
       {!esLogin && (
         <Navbar
@@ -44,7 +41,7 @@ function App() {
 
       <Routes>
 
-        {/* INICIO */}
+     
 
         <Route
           path="/"
@@ -58,14 +55,11 @@ function App() {
           }
         />
 
-        {/* INICIAR SESIÓN */}
-
         <Route
           path="/login"
           element={<LoginPage />}
         />
 
-        {/* SOBRE NOSOTROS */}
 
         <Route
           path="/sobrenosotros"
@@ -81,7 +75,6 @@ function App() {
           element={<Navigate to="/sobrenosotros" replace />}
         />
 
-        {/* PRODUCTOS */}
 
         <Route
           path="/perfil"
@@ -96,49 +89,37 @@ function App() {
           element={<ProductPage />}
         />
 
-        {/* CARRITO */}
-
         <Route
           path="/cart"
           element={<CartPage />}
         />
 
-        {/* REVENDEDORES */}
+    
 
         <Route
           path="/resellers"
           element={<ResellersSection />}
         />
 
-        {/* VENDER PRODUCTOS */}
+        
 
         <Route
           path="/sell-my-product"
           element={<SellProductSection />}
         />
 
-        {/* FAVORITOS */}
-
-        <Route
-          path="/favoritos"
-          element={<WishList />}
-        />
-
-        {/* CREAR CUENTA */}
 
         <Route
           path="/crear-cuenta"
           element={<PageToCreateAnAccount />}
         />
 
-        {/* CÓMO LLEGAR */}
+       
 
         <Route
           path="/como-llegar"
           element={<HowToGetThere />}
         />
-
-        {/* ERROR 404 */}
 
         <Route
           path="/error-404"
