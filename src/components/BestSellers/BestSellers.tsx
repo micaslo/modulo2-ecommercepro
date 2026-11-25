@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { Product, ShippingType } from '../../types/productCategory'
 import './BestSellers.css'
 
@@ -25,7 +26,12 @@ function ProductCard({ product }: ProductCardProps) {
       <div className="bestSellersCardInner">
         <div className="bestSellersCardFront">
           <div className="bestSellersCardMedia">
-            <img className="bestSellersCardImage" src={image} alt={title} loading="lazy" />
+            <img
+              className={`bestSellersCardImage ${String(product.id).startsWith('samsung') ? 'bestSellersCardImage--samsung' : ''}`.trim()}
+              src={image}
+              alt={title}
+              loading="lazy"
+            />
             <span className="bestSellersCardHint" aria-hidden="true">↻</span>
           </div>
 
@@ -70,7 +76,7 @@ function ProductCard({ product }: ProductCardProps) {
             </p>
           )}
 
-          <a className="bestSellersCardButton" href={href}>Ver producto</a>
+          <Link className="bestSellersCardButton" to={href}>Ver producto</Link>
         </div>
       </div>
     </article>
@@ -82,6 +88,7 @@ interface BestSellersProps {
   products: Product[]
   linkLabel?: string
   linkHref?: string
+  className?: string
 }
 
 function BestSellers({
@@ -89,19 +96,18 @@ function BestSellers({
   products,
   linkLabel = 'Ir a Más vendidos',
   linkHref = '#',
+  className,
 }: BestSellersProps) {
   const titleId = useId()
   const trackRef = useRef<HTMLDivElement>(null)
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(false)
+  const [hasOverflow, setHasOverflow] = useState(false)
 
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
 
     const updateArrows = (): void => {
-      setCanScrollPrev(track.scrollLeft > 4)
-      setCanScrollNext(track.scrollLeft + track.clientWidth < track.scrollWidth - 4)
+      setHasOverflow(track.scrollWidth > track.clientWidth + 4)
     }
 
     updateArrows()
@@ -117,11 +123,26 @@ function BestSellers({
   const scrollByPage = (direction: 1 | -1): void => {
     const track = trackRef.current
     if (!track) return
+
+    const maxScroll = track.scrollWidth - track.clientWidth
+    const atStart = track.scrollLeft <= 4
+    const atEnd = track.scrollLeft >= maxScroll - 4
+
+    if (direction === 1 && atEnd) {
+      track.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+
+    if (direction === -1 && atStart) {
+      track.scrollTo({ left: maxScroll, behavior: 'smooth' })
+      return
+    }
+
     track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: 'smooth' })
   }
 
   return (
-    <section className="bestSellers" aria-labelledby={titleId}>
+    <section className={`bestSellers ${className ?? ''}`.trim()} aria-labelledby={titleId}>
       <div className="bestSellersInner">
         <header className="bestSellersHeader">
           <h2 className="bestSellersTitle" id={titleId}>{title}</h2>
@@ -129,7 +150,7 @@ function BestSellers({
         </header>
 
         <div className="bestSellersCarousel">
-          {canScrollPrev && (
+          {hasOverflow && (
             <button
               type="button"
               className="bestSellersArrow bestSellersArrowPrev"
@@ -146,7 +167,7 @@ function BestSellers({
             ))}
           </div>
 
-          {canScrollNext && (
+          {hasOverflow && (
             <button
               type="button"
               className="bestSellersArrow bestSellersArrowNext"

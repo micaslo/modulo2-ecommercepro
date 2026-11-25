@@ -1,42 +1,72 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import ProductsOnSale from "../../components/navbar/ProductsOnSale/ProductsOnSale";
 import BestSellers from "../../components/BestSellers/BestSellers";
-import SortSelect from "../../components/SortSelect/SortSelect";
-import { bestSellersCategories } from "../../services/bestSellersData";
-import { sortProducts, type SortOption } from "../../utils/sortProducts";
+import { getCoverImage } from "../../data/productMedia";
+import { getProductDetails } from "../../data/productDetails";
+import { useProducts } from "../../hooks/useProducts";
+import type { Product as CatalogProduct } from "../../types/productMedia";
+import type {
+  BestSellersCategory,
+  Product,
+} from "../../types/productCategory";
+
+function toBestSeller(product: CatalogProduct): Product {
+  const details = getProductDetails(product);
+  const originalPrice =
+    details.originalPrice && details.originalPrice > product.price
+      ? details.originalPrice
+      : undefined;
+
+  return {
+    id: product.id,
+    title: product.name,
+    image: getCoverImage(product) || product.image,
+    price: product.price,
+    originalPrice,
+    sold: details.soldText,
+    installments: {
+      count: details.installmentsCount,
+      amount: Math.round(product.price / details.installmentsCount),
+      provider: "Mercado Crédito",
+    },
+    shipping: product.stock > 0 ? "tomorrow" : undefined,
+    href: `/product/${product.id}`,
+  };
+}
+
+function groupByCategory(products: CatalogProduct[]): BestSellersCategory[] {
+  const grouped = new Map<string, Product[]>();
+
+  for (const product of products) {
+    const items = grouped.get(product.category) ?? [];
+    items.push(toBestSeller(product));
+    grouped.set(product.category, items);
+  }
+
+  return Array.from(grouped, ([name, items]) => ({
+    id: name.toLowerCase().replace(/\s+/g, "-"),
+    name,
+    products: items,
+  }));
+}
 
 function BestSellersPage() {
-  const [sortBy, setSortBy] = useState<SortOption>("none");
+  const { products } = useProducts();
 
-  const globalProducts = useMemo(
-    () =>
-      sortProducts(
-        bestSellersCategories.flatMap((category) => category.products),
-        sortBy,
-      ),
-    [sortBy],
-  );
+  const categories = useMemo(() => groupByCategory(products), [products]);
 
   return (
     <>
       <ProductsOnSale />
-      <SortSelect value={sortBy} onChange={setSortBy} />
 
-      {sortBy === "none" ? (
-        bestSellersCategories.map((category) => (
-          <BestSellers
-            key={category.id}
-            title={`Más vendidos de la semana en ${category.name}`}
-            products={category.products}
-          />
-        ))
-      ) : (
+      {categories.map((category) => (
         <BestSellers
-          key={sortBy}
-          title="Todos los más vendidos"
-          products={globalProducts}
+          key={category.id}
+          className={category.name === "Tecnología" ? "bestSellers--technology" : undefined}
+          title={`Más vendidos de la semana en ${category.name}`}
+          products={category.products}
         />
-      )}
+      ))}
     </>
   );
 }

@@ -203,6 +203,19 @@
   object-fit: contain;
 }
 
+.bestSellers--technology .bestSellersCardMedia {
+  overflow: hidden;
+}
+
+.bestSellers--technology .bestSellersCardImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.bestSellers--technology .bestSellersCardImage--samsung {
+  transform: scale(1.2);
+}
+
 .bestSellersCardHint {
   position: absolute;
   top: 8px;
