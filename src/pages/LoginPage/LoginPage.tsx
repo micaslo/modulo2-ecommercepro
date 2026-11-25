@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
+import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -77,19 +79,18 @@ function LoginPage() {
           ‹
         </Link>
 
-        <Link to="/" className="login-header-logo">
-          <span className="login-logo-icon">🛍</span>
-          <span>
-            De<span>Todito</span>
-          </span>
+        <Link to="/" className="login-header-logo" aria-label="Tienda Liebre, inicio">
+          <img
+            src={logoDarkText}
+            alt="Tienda Liebre"
+            className="login-header-logo__img"
+          />
         </Link>
 
-        <span className="login-header-title">
-          Iniciar sesión
-        </span>
+        <span className="login-header-title">Iniciar sesión</span>
 
-        <div className="login-user-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
+        <div className="login-user-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
             <circle cx="12" cy="8" r="3.5" />
             <path d="M5 20c0-4 2.8-6 7-6s7 2 7 6" />
           </svg>
@@ -98,26 +99,22 @@ function LoginPage() {
 
       <section className="login-content">
         <div className="login-intro">
-          <div className="login-brand-icon">
-            <span>🛍️</span>
-            <small>De Todito</small>
+          <div className="login-brand-icon" aria-hidden="true">
+            <img src={logoIsotype} alt="" />
           </div>
 
           <h1>¡Bienvenido de nuevo!</h1>
 
           <p>
             Ingresá tus credenciales para acceder
-            <br className="desktop-break" />
-            a tu cuenta de De Todito.
+            <br className="desktop-break" /> a tu cuenta de Tienda Liebre.
           </p>
         </div>
 
         <section className="login-card">
           <form onSubmit={handleSubmit}>
             <div className="login-field">
-              <label htmlFor="login-email">
-                Correo electrónico
-              </label>
+              <label htmlFor="login-email">Correo electrónico</label>
 
               <div className="login-input-wrapper">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -138,9 +135,7 @@ function LoginPage() {
             </div>
 
             <div className="login-field">
-              <label htmlFor="login-password">
-                Contraseña
-              </label>
+              <label htmlFor="login-password">Contraseña</label>
 
               <div className="login-input-wrapper">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -162,9 +157,7 @@ function LoginPage() {
                 <button
                   type="button"
                   className="login-eye"
-                  onClick={() =>
-                    setMostrarContrasena(!mostrarContrasena)
-                  }
+                  onClick={() => setMostrarContrasena(!mostrarContrasena)}
                   aria-label={
                     mostrarContrasena
                       ? "Ocultar contraseña"
@@ -201,9 +194,7 @@ function LoginPage() {
                   onChange={(e) => setNoSoyRobot(e.target.checked)}
                 />
 
-                <span className="login-captcha-text">
-                  No soy un robot
-                </span>
+                <span className="login-captcha-text">No soy un robot</span>
               </label>
 
               <div className="login-captcha-brand">
@@ -213,8 +204,6 @@ function LoginPage() {
             </div>
 
             <div className="login-options">
-              <span></span>
-
               <button
                 type="button"
                 className="login-forgot"
@@ -225,17 +214,14 @@ function LoginPage() {
             </div>
 
             {mensaje && (
-              <div
-                className={`login-message ${tipoMensaje}`}
-                role="alert"
-              >
+              <div className={`login-message ${tipoMensaje}`} role="alert">
                 {mensaje}
               </div>
             )}
 
             <button type="submit" className="login-submit">
               Iniciar sesión
-              <span>→</span>
+              <span aria-hidden="true">→</span>
             </button>
 
             <div className="login-divider">
@@ -250,7 +236,7 @@ function LoginPage() {
                 onClick={accesoGoogle}
                 aria-label="Ingresar con Google"
               >
-                <FcGoogle size={30} />
+                <FcGoogle size={26} />
               </button>
             </div>
           </form>
@@ -260,7 +246,7 @@ function LoginPage() {
           <span>¿No tenés una cuenta?</span>
 
           <Link to="/crear-cuenta">
-            Registrate <span>›</span>
+            Registrate <span aria-hidden="true">›</span>
           </Link>
         </div>
       </section>
