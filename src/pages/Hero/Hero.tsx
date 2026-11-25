@@ -18,26 +18,54 @@ const products = [
   {
     name: "Auriculares",
     image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=520&q=85",
-    className: "headphones",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=90",
+    category: "TECNOLOGÍA",
+    offer: "OFERTA BLACK FRIDAY",
   },
   {
     name: "Zapatillas",
     image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=520&q=85",
-    className: "sneakers",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=90",
+    category: "MODA",
+    offer: "40% OFF",
   },
   {
     name: "Reloj",
     image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=520&q=85",
-    className: "watch",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=90",
+    category: "ACCESORIOS",
+    offer: "PRECIO ESPECIAL",
+  },
+  {
+    name: "Smartphone",
+    image:
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=90",
+    category: "TECNOLOGÍA",
+    offer: "ÚLTIMAS UNIDADES",
+  },
+  {
+    name: "Celular",
+    image:
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=90",
+    category: "TECNOLOGÍA",
+    offer: "RENOVÁ TU CELULAR",
+  },
+  {
+    name: "Mochila",
+    image:
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=90",
+    category: "VIAJE",
+    offer: "OFERTA BLACK FRIDAY",
   },
 ];
 
 export default function Hero() {
   const [activePayment, setActivePayment] = useState(0);
   const [paymentPaused, setPaymentPaused] = useState(false);
+  const [activeProduct, setActiveProduct] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+
+  const currentProduct = products[activeProduct];
 
   useEffect(() => {
     if (paymentPaused) return;
@@ -48,6 +76,16 @@ export default function Hero() {
 
     return () => window.clearInterval(timer);
   }, [paymentPaused]);
+
+  useEffect(() => {
+    if (carouselPaused) return;
+
+    const timer = window.setInterval(() => {
+      setActiveProduct((current) => (current + 1) % products.length);
+    }, 4000);
+
+    return () => window.clearInterval(timer);
+  }, [carouselPaused]);
 
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -94,7 +132,11 @@ export default function Hero() {
         </div>
 
         <div className="hero__feature-grid">
-          <article className="hero__feature">
+          <article
+            className="hero__feature"
+            onMouseEnter={() => setCarouselPaused(true)}
+            onMouseLeave={() => setCarouselPaused(false)}
+          >
             <div className="hero__feature-copy">
               <p className="hero__eyebrow">
                 <span className="hero__sparkle">✳</span>
@@ -112,49 +154,101 @@ export default function Hero() {
               </a>
             </div>
 
-            <div className="hero__products" aria-label="Productos destacados">
-              {products.map((product, index) => (
-                <article
-                  className={`hero__product hero__product--${product.className}`}
-                  key={product.name}
+            <div
+              className="hero__carousel"
+              aria-roledescription="carrusel"
+              aria-label="Ofertas Black Friday"
+            >
+              <div className="hero__carousel-image" key={currentProduct.name}>
+                <img src={currentProduct.image} alt={currentProduct.name} />
+                <span className="hero__carousel-category">
+                  {currentProduct.category}
+                </span>
+                <span
+                  className={`hero__carousel-offer${
+                    activeProduct === 1 ? " hero__carousel-offer--red" : ""
+                  }`}
                 >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    loading={index === 0 ? "eager" : "lazy"}
+                  {currentProduct.offer}
+                </span>
+
+                <div
+                  className="hero__carousel-payment"
+                  aria-label="Promociones con tarjetas"
+                >
+                  <span className="hero__carousel-payment-title">
+                    Pagá en cuotas sin interés
+                  </span>
+                  <span><b className="hero__carousel-visa">VISA</b> 12 cuotas</span>
+                  <span><b className="hero__carousel-amex">AMEX</b> 6 cuotas</span>
+                </div>
+              </div>
+
+              <button
+                className="hero__carousel-arrow hero__carousel-arrow--prev"
+                type="button"
+                aria-label="Producto anterior"
+                onClick={() =>
+                  setActiveProduct(
+                    (activeProduct + products.length - 1) % products.length,
+                  )
+                }
+              >
+                ‹
+              </button>
+              <button
+                className="hero__carousel-arrow hero__carousel-arrow--next"
+                type="button"
+                aria-label="Producto siguiente"
+                onClick={() =>
+                  setActiveProduct((activeProduct + 1) % products.length)
+                }
+              >
+                ›
+              </button>
+
+              <div className="hero__carousel-dots" aria-label="Elegir producto">
+                {products.map((product, index) => (
+                  <button
+                    key={product.name}
+                    type="button"
+                    className={`hero__carousel-dot${
+                      index === activeProduct ? " is-active" : ""
+                    }`}
+                    aria-label={`Ver ${product.name}`}
+                    aria-current={index === activeProduct ? "true" : undefined}
+                    onClick={() => setActiveProduct(index)}
                   />
-                  <span className="hero__product-tag">Black Friday</span>
-                  <span className="hero__product-name">{product.name}</span>
-                </article>
-              ))}
+                ))}
+              </div>
             </div>
           </article>
 
           <aside className="hero__side-promos" aria-label="Promociones destacadas">
             <article className="hero__promo hero__promo--coins">
               <span className="hero__promo-kicker">Tecnología en oferta</span>
-              <h2>Equipate<br />por menos</h2>
+              <h2>Celulares<br />para elegir</h2>
               <a href="#tecnologia" className="hero__promo-link">
                 Ver productos <span aria-hidden="true">↗</span>
               </a>
               <img
                 className="hero__promo-image"
-                src={products[0].image}
-                alt="Auriculares en oferta"
+                src={products[3].image}
+                alt="Celular en oferta"
                 loading="lazy"
               />
             </article>
 
             <article className="hero__promo hero__promo--coupon">
               <span className="hero__promo-kicker">Últimas unidades</span>
-              <h2>Encontrá tu<br />próximo favorito</h2>
+              <h2>Zapatillas<br />40% OFF</h2>
               <a href="#ofertas" className="hero__promo-link">
                 Comprar ahora <span aria-hidden="true">↗</span>
               </a>
               <img
                 className="hero__promo-image"
                 src={products[1].image}
-                alt="Zapatilla en oferta"
+                alt="Zapatillas con 40% de descuento"
                 loading="lazy"
               />
             </article>
