@@ -1,4 +1,4 @@
-import { useCallback, useState, type ChangeEvent, type FormEvent } from "react";
+import { useCallback, useState, type ChangeEvent, type SubmitEvent } from "react";
 import type { NewProduct, Product } from "../types/productMedia";
 import {
   normalizeProductCode,
@@ -81,7 +81,7 @@ export function useAdminProductForm({
   );
 
   const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       const nextErrors = validateProductForm(

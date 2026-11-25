@@ -1,4 +1,4 @@
-import { useEffect, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, type ChangeEvent, type SubmitEvent } from "react";
 import {
   PRODUCT_CATEGORIES,
   type ProductFormErrors,
@@ -15,7 +15,7 @@ interface ProductFormModalProps {
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >,
   ) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (event: SubmitEvent<HTMLFormElement>) => void;
   onClose: () => void;
 }
 
