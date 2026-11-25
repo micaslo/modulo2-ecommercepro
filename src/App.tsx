@@ -52,6 +52,7 @@ function App() {
           element={
             <main>
               <h1>Contenido</h1>
+              <Hero/>
               <HowToGetThere />
               <PageToCreateAnAccount />
               <ResellersSection />
