@@ -33,7 +33,6 @@ function App() {
 
   return (
     <>
-      <Navbar cartCount={totalItems} cartTotal={subtotal} />
       {/* NAVBAR */}
 
       {!esLogin && (
@@ -43,9 +42,10 @@ function App() {
         />
       )}
 
-      {/* RUTAS */}
-
       <Routes>
+
+        {/* INICIO */}
+
         <Route
           path="/"
           element={
@@ -57,7 +57,21 @@ function App() {
             </main>
           }
         />
-        <Route path="/sobrenosotros" element={<SobreNosotros />} />
+
+        {/* INICIAR SESIÓN */}
+
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
+
+        {/* SOBRE NOSOTROS */}
+
+        <Route
+          path="/sobrenosotros"
+          element={<SobreNosotros />}
+        />
+
         <Route
           path="/sobre-nosotros"
           element={<Navigate to="/sobrenosotros" replace />}
@@ -66,13 +80,9 @@ function App() {
           path="/nosotros"
           element={<Navigate to="/sobrenosotros" replace />}
         />
-        <Route path="/productos" element={<CatalogPage />} />
-        <Route path="/mas-vendidos" element={<BestSellersPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/registro" element={<PageToCreateAnAccount />} />
-        <Route path="/crear-cuenta" element={<PageToCreateAnAccount />} />
-        <Route path="/como-llegar" element={<HowToGetThere />} />
+
+        {/* PRODUCTOS */}
+
         <Route
           path="/perfil"
           element={
@@ -82,31 +92,66 @@ function App() {
           }
         />
         <Route
-          path="/admin"
-          element={
-            <ProtectedRoute
-              allowedRoles={["admin"]}
-              sectionName="el panel de administración"
-            >
-              <AdminPage />
-            </ProtectedRoute>
-          }
+          path="/product/:id"
+          element={<ProductPage />}
         />
+
+        {/* CARRITO */}
+
+        <Route
+          path="/cart"
+          element={<CartPage />}
+        />
+
+        {/* REVENDEDORES */}
+
+        <Route
+          path="/resellers"
+          element={<ResellersSection />}
+        />
+
+        {/* VENDER PRODUCTOS */}
+
+        <Route
+          path="/sell-my-product"
+          element={<SellProductSection />}
+        />
+
+        {/* FAVORITOS */}
+
         <Route
           path="/favoritos"
-          element={
-            <ProtectedRoute sectionName="tu lista de deseos">
-              <WishList />
-            </ProtectedRoute>
-          }
+          element={<WishList />}
         />
-        <Route path="/resellers" element={<ResellersSection />} />
-        <Route path="/sell-my-product" element={<SellProductSection />} />
-        <Route path="/error-404" element={<Error404 />} />
-        <Route path="*" element={<Error404 />} />
+
+        {/* CREAR CUENTA */}
+
+        <Route
+          path="/crear-cuenta"
+          element={<PageToCreateAnAccount />}
+        />
+
+        {/* CÓMO LLEGAR */}
+
+        <Route
+          path="/como-llegar"
+          element={<HowToGetThere />}
+        />
+
+        {/* ERROR 404 */}
+
+        <Route
+          path="/error-404"
+          element={<Error404 />}
+        />
+
+        <Route
+          path="*"
+          element={<Error404 />}
+        />
+
       </Routes>
 
-      {/* COMPONENTES GENERALES */}
 
       {!esLogin && (
         <>
