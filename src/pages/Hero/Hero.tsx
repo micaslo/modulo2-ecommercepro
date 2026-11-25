@@ -16,46 +16,44 @@ const categories = [
 
 const products = [
   {
-    name: "Auriculares",
+    name: "Celular",
     image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=90",
-    category: "TECNOLOGÍA",
-    offer: "OFERTA BLACK FRIDAY",
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1800&q=90",
+    category: "TECNOLOGÍA · CELULARES",
+    offer: "ÚLTIMAS UNIDADES",
+    detail: "Renová tu celular con financiación especial.",
   },
   {
     name: "Zapatillas",
     image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=90",
-    category: "MODA",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1800&q=90",
+    category: "MODA · CALZADO",
     offer: "40% OFF",
+    detail: "Descuento destacado en zapatillas seleccionadas.",
   },
   {
-    name: "Reloj",
+    name: "Auriculares",
     image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=90",
-    category: "ACCESORIOS",
-    offer: "PRECIO ESPECIAL",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1800&q=90",
+    category: "TECNOLOGÍA · AUDIO",
+    offer: "OFERTA BLACK FRIDAY",
+    detail: "Sonido para acompañarte todos los días.",
   },
   {
     name: "Smartphone",
     image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=90",
-    category: "TECNOLOGÍA",
-    offer: "ÚLTIMAS UNIDADES",
-  },
-  {
-    name: "Celular",
-    image:
-      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=90",
-    category: "TECNOLOGÍA",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1800&q=90",
+    category: "TECNOLOGÍA · CELULARES",
     offer: "RENOVÁ TU CELULAR",
+    detail: "Encontrá tu próximo teléfono entre las ofertas.",
   },
   {
-    name: "Mochila",
+    name: "Reloj",
     image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=90",
-    category: "VIAJE",
-    offer: "OFERTA BLACK FRIDAY",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1800&q=90",
+    category: "ACCESORIOS · RELOJES",
+    offer: "PRECIO ESPECIAL",
+    detail: "Un nuevo favorito, por tiempo limitado.",
   },
 ];
 
@@ -102,7 +100,9 @@ export default function Hero() {
           >
             {paymentOptions.map((option, index) => (
               <button
-                className={`hero__payment${activePayment === index ? " is-active" : ""}`}
+                className={`hero__payment${
+                  activePayment === index ? " is-active" : ""
+                }`}
                 key={option.brand}
                 type="button"
                 aria-pressed={activePayment === index}
@@ -161,26 +161,42 @@ export default function Hero() {
             >
               <div className="hero__carousel-image" key={currentProduct.name}>
                 <img src={currentProduct.image} alt={currentProduct.name} />
-                <span className="hero__carousel-category">
-                  {currentProduct.category}
-                </span>
-                <span
-                  className={`hero__carousel-offer${
-                    activeProduct === 1 ? " hero__carousel-offer--red" : ""
-                  }`}
-                >
-                  {currentProduct.offer}
-                </span>
+                <div className="hero__carousel-shade" />
+
+                <div className="hero__carousel-product-copy">
+                  <span className="hero__carousel-category">
+                    {currentProduct.category}
+                  </span>
+                  <span
+                    className={`hero__carousel-offer${
+                      activeProduct === 1 ? " hero__carousel-offer--red" : ""
+                    }`}
+                  >
+                    {currentProduct.offer}
+                  </span>
+                  <h2>{currentProduct.name}</h2>
+                  <p>{currentProduct.detail}</p>
+                </div>
 
                 <div
                   className="hero__carousel-payment"
-                  aria-label="Promociones con tarjetas"
+                  aria-label="Promociones con tarjetas de crédito"
                 >
                   <span className="hero__carousel-payment-title">
-                    Pagá en cuotas sin interés
+                    Cuotas sin interés
                   </span>
-                  <span><b className="hero__carousel-visa">VISA</b> 12 cuotas</span>
-                  <span><b className="hero__carousel-amex">AMEX</b> 6 cuotas</span>
+                  <span>
+                    <b className="hero__carousel-visa">VISA</b>
+                    <strong>12 cuotas</strong>
+                  </span>
+                  <span>
+                    <b className="hero__carousel-amex">AMEX</b>
+                    <strong>Hasta 6 cuotas</strong>
+                  </span>
+                  <span>
+                    <b className="hero__carousel-mastercard">mastercard</b>
+                    <strong>1 cuota</strong>
+                  </span>
                 </div>
               </div>
 
@@ -190,7 +206,7 @@ export default function Hero() {
                 aria-label="Producto anterior"
                 onClick={() =>
                   setActiveProduct(
-                    (activeProduct + products.length - 1) % products.length,
+                    (activeProduct + products.length - 1) % products.length
                   )
                 }
               >
@@ -216,7 +232,9 @@ export default function Hero() {
                       index === activeProduct ? " is-active" : ""
                     }`}
                     aria-label={`Ver ${product.name}`}
-                    aria-current={index === activeProduct ? "true" : undefined}
+                    aria-current={
+                      index === activeProduct ? "true" : undefined
+                    }
                     onClick={() => setActiveProduct(index)}
                   />
                 ))}
@@ -224,7 +242,10 @@ export default function Hero() {
             </div>
           </article>
 
-          <aside className="hero__side-promos" aria-label="Promociones destacadas">
+          <aside
+            className="hero__side-promos"
+            aria-label="Promociones destacadas"
+          >
             <article className="hero__promo hero__promo--coins">
               <span className="hero__promo-kicker">Tecnología en oferta</span>
               <h2>Celulares<br />para elegir</h2>
