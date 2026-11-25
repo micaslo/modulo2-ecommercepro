@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
 import { useProducts } from "../../hooks/useProducts";
+import type { SessionUser } from "../../types/auth";
 import { getCoverImage, getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import {
@@ -55,12 +57,50 @@ const INITIAL_PAYMENT: PaymentFormData = {
   installments: 1,
 };
 
+function buildInitialCustomer(user: SessionUser | null): CustomerFormData {
+  if (!user) return INITIAL_CUSTOMER;
+  return {
+    firstName: user.firstName ?? "",
+    lastName: user.lastName ?? "",
+    email: user.email ?? "",
+    phone: user.phone ? stripDigits(user.phone).slice(0, 13) : "",
+    address: user.address ?? "",
+    locality: user.locality ?? "",
+    province: user.province ?? "",
+    postalCode: user.postalCode ?? "",
+    fiscalCondition: user.fiscalCondition ?? "consumidor_final",
+    dni: user.dni ? stripDigits(user.dni).slice(0, 8) : "",
+    cuit: user.cuit ?? "",
+    businessName: user.businessName ?? "",
+  };
+}
+
+function buildInitialPayment(user: SessionUser | null): PaymentFormData {
+  if (!user?.savedCard) return INITIAL_PAYMENT;
+  return {
+    number: user.savedCard.number,
+    name: user.savedCard.name,
+    expiry: user.savedCard.expiry,
+    cvc: user.savedCard.cvc,
+    installments: 1,
+  };
+}
+
 function generateOrderNumber(): string {
   const randomPart = Math.floor(100000 + Math.random() * 900000);
   return `DT-${new Date().getFullYear()}-${randomPart}`;
 }
 
 export default function CartPage() {
+  const { user } = useAuth();
+  const profileSignature = user
+    ? `${user.id}:${user.email}:${user.address ?? ""}:${user.dni ?? ""}:${user.savedCard?.number ?? ""}`
+    : "guest-anon";
+
+  return <CartPageContent key={profileSignature} user={user} />;
+}
+
+function CartPageContent({ user }: { user: SessionUser | null }) {
   const {
     items,
     subtotal,
@@ -73,10 +113,12 @@ export default function CartPage() {
   const { products } = useProducts();
 
   const [step, setStep] = useState<CheckoutStep>(1);
-  const [customerData, setCustomerData] =
-    useState<CustomerFormData>(INITIAL_CUSTOMER);
-  const [paymentData, setPaymentData] =
-    useState<PaymentFormData>(INITIAL_PAYMENT);
+  const [customerData, setCustomerData] = useState<CustomerFormData>(() =>
+    buildInitialCustomer(user),
+  );
+  const [paymentData, setPaymentData] = useState<PaymentFormData>(() =>
+    buildInitialPayment(user),
+  );
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [completedOrder, setCompletedOrder] = useState<CompletedOrder | null>(
     null,

@@ -1,4 +1,13 @@
+import type { FiscalCondition } from "./cart";
+
 export type UserRole = "guest" | "admin";
+
+export interface SavedCard {
+  number: string;
+  name: string;
+  expiry: string;
+  cvc: string;
+}
 
 export interface RegisteredUser {
   id: string;
@@ -7,6 +16,15 @@ export interface RegisteredUser {
   name: string;
   email: string;
   phone?: string;
+  address?: string;
+  locality?: string;
+  province?: string;
+  postalCode?: string;
+  fiscalCondition?: FiscalCondition;
+  dni?: string;
+  cuit?: string;
+  businessName?: string;
+  savedCard?: SavedCard | null;
   password: string;
   role: UserRole;
   createdAt: string;
@@ -26,7 +44,16 @@ export interface RegisterPayload {
 export interface ProfileUpdatePayload {
   firstName: string;
   lastName: string;
+  email: string;
   phone?: string;
+  address?: string;
+  locality?: string;
+  province?: string;
+  postalCode?: string;
+  fiscalCondition?: FiscalCondition;
+  dni?: string;
+  cuit?: string;
+  businessName?: string;
 }
 
 export type AuthActionResult =
@@ -48,6 +75,7 @@ export interface AuthContextValue {
   register: (payload: RegisterPayload) => AuthActionResult;
   logout: () => void;
   updateProfile: (payload: ProfileUpdatePayload) => AuthActionResult;
+  updateSavedCard: (card: SavedCard | null) => AuthActionResult;
   deleteUser: (userId: string) => DeleteUserResult;
   loginAsDemo: (role: UserRole) => AuthActionResult;
 }
