@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes ,useLocation} from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/footer";
 import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
@@ -13,21 +13,36 @@ import ProductPage from "./pages/productPage/ProductPage";
 import CartPage from "./pages/cartPage/CartPage";
 import Error404 from "./pages/Error-404/Error-404";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
-import WishList from "./pages/WishList/WishList";
-import CatalogPage from "./pages/catalogPage/CatalogPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
-import AdminPage from "./pages/adminPage/AdminPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import LoginPage from "./pages/LoginPage/LoginPage";
+
+
+
 import { useCart } from "./hooks/useCart";
 import "./App.css";
 
 function App() {
   const { totalItems, subtotal } = useCart();
+  const location = useLocation();
+
+  const esLogin = location.pathname === "/login";
 
   return (
     <>
-      <Navbar cartCount={totalItems} cartTotal={subtotal} />
+  
+
+      {!esLogin && (
+        <Navbar
+          cartCount={totalItems}
+          cartTotal={subtotal}
+        />
+      )}
+
       <Routes>
+
+     
+
         <Route
           path="/"
           element={
@@ -39,7 +54,18 @@ function App() {
             </main>
           }
         />
-        <Route path="/sobrenosotros" element={<SobreNosotros />} />
+
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
+
+
+        <Route
+          path="/sobrenosotros"
+          element={<SobreNosotros />}
+        />
+
         <Route
           path="/sobre-nosotros"
           element={<Navigate to="/sobrenosotros" replace />}
@@ -48,13 +74,8 @@ function App() {
           path="/nosotros"
           element={<Navigate to="/sobrenosotros" replace />}
         />
-        <Route path="/productos" element={<CatalogPage />} />
-        <Route path="/mas-vendidos" element={<BestSellersPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/registro" element={<PageToCreateAnAccount />} />
-        <Route path="/crear-cuenta" element={<PageToCreateAnAccount />} />
-        <Route path="/como-llegar" element={<HowToGetThere />} />
+
+
         <Route
           path="/perfil"
           element={
@@ -64,29 +85,63 @@ function App() {
           }
         />
         <Route
-          path="/admin"
-          element={
-            <ProtectedRoute
-              allowedRoles={["admin"]}
-              sectionName="el panel de administración"
-            >
-              <AdminPage />
-            </ProtectedRoute>
-          }
+          path="/product/:id"
+          element={<ProductPage />}
         />
+
         <Route
-          path="/favoritos"
-          element={
-            <ProtectedRoute sectionName="tu lista de deseos">
-              <WishList />
-            </ProtectedRoute>
-          }
+          path="/cart"
+          element={<CartPage />}
         />
-        <Route path="/resellers" element={<ResellersSection />} />
-        <Route path="/sell-my-product" element={<SellProductSection />} />
-        <Route path="/error-404" element={<Error404 />} />
-        <Route path="*" element={<Error404 />} />
+
+    
+
+        <Route
+          path="/resellers"
+          element={<ResellersSection />}
+        />
+
+        
+
+        <Route
+          path="/sell-my-product"
+          element={<SellProductSection />}
+        />
+
+
+        <Route
+          path="/crear-cuenta"
+          element={<PageToCreateAnAccount />}
+        />
+
+       
+
+        <Route
+          path="/como-llegar"
+          element={<HowToGetThere />}
+        />
+
+        <Route
+          path="/error-404"
+          element={<Error404 />}
+        />
+
+        <Route
+          path="*"
+          element={<Error404 />}
+        />
+
       </Routes>
+
+
+      {!esLogin && (
+        <>
+          <Footer />
+          <TilliBot />
+          <ButtonWsp />
+        </>
+      )}
+
       <Footer />
       <TilliBot />
       <ButtonWsp />
