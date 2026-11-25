@@ -7,7 +7,7 @@ export interface Installments {
 export type ShippingType = 'tomorrow' | 'free'
 
 export interface Product {
-  id: number
+  id: string | number
   title: string
   image: string
   price: number

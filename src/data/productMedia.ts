@@ -69,6 +69,104 @@ const MEDIA_CONFIG: Record<string, MediaConfigEntry> = {
       grey: { label: "Plata", hex: "#b8bec7" },
     },
   },
+  "iphone-18-pro-skyblue": {
+    imagesDir: "iphone-18-pro",
+    modelDir: "apple-iphone-18-pro-max-burgundy",
+    mode: "phone",
+    defaultColor: "skyblue",
+  },
+  "samsung-s26-ultra-pink": {
+    imagesDir: "samsung-s26-ultra",
+    modelDir: "samsung-s26-ultra",
+    mode: "phone",
+    defaultColor: "pink",
+  },
+  "samsung-s26-ultra-purple": {
+    imagesDir: "samsung-s26-ultra",
+    modelDir: "samsung-s26-ultra",
+    mode: "phone",
+    defaultColor: "purple",
+  },
+  "chevrolet-captiva-silver": {
+    imagesDir: "chevrolet-captiva",
+    modelDir: "chevrolet-captiva-premier",
+    mode: "car",
+    defaultColor: "silver",
+  },
+  "chevrolet-traverse-white": {
+    imagesDir: "chevrolet-traverse",
+    modelDir: "chevrolet-traverse",
+    mode: "car",
+    defaultColor: "white",
+  },
+  "canon-eos-r6-mark-ii": {
+    imagesDir: "canon",
+    modelDir: "canon_eos_5d_mark_iv",
+    mode: "gallery",
+  },
+  "nikon-z8": {
+    imagesDir: "nikon",
+    modelDir: "nikon_d6",
+    mode: "gallery",
+  },
+  "ps5-dualsense-blue": {
+    imagesDir: "PS5-controller",
+    modelDir: "playstation_5_dualsense",
+    mode: "controller",
+    defaultColor: "blue",
+  },
+  "ps5-dualsense-camouflage": {
+    imagesDir: "PS5-controller",
+    modelDir: "playstation_5_dualsense",
+    mode: "controller",
+    defaultColor: "camouflage",
+  },
+  "iphone-18-pro-black": {
+    imagesDir: "iphone-18-pro",
+    modelDir: "apple-iphone-18-pro-max-burgundy",
+    mode: "phone",
+    defaultColor: "black",
+  },
+  "samsung-s26-ultra-silver": {
+    imagesDir: "samsung-s26-ultra",
+    modelDir: "samsung-s26-ultra",
+    mode: "phone",
+    defaultColor: "silver",
+  },
+  "chevrolet-captiva-black": {
+    imagesDir: "chevrolet-captiva",
+    modelDir: "chevrolet-captiva-premier",
+    mode: "car",
+    defaultColor: "black",
+  },
+  "chevrolet-traverse-grey": {
+    imagesDir: "chevrolet-traverse",
+    modelDir: "chevrolet-traverse",
+    mode: "car",
+    defaultColor: "grey",
+  },
+  "canon-ef-50mm": {
+    imagesDir: "canon",
+    modelDir: "canon_eos_5d_mark_iv",
+    mode: "gallery",
+  },
+  "nikon-z9-kit": {
+    imagesDir: "nikon",
+    modelDir: "nikon_d6",
+    mode: "gallery",
+  },
+  "ps5-dualsense-black": {
+    imagesDir: "PS5-controller",
+    modelDir: "playstation_5_dualsense",
+    mode: "controller",
+    defaultColor: "black",
+  },
+  "ps5-dualsense-grey": {
+    imagesDir: "PS5-controller",
+    modelDir: "playstation_5_dualsense",
+    mode: "controller",
+    defaultColor: "grey",
+  },
 };
 
 const COLOR_META: Record<string, ColorMeta> = {
