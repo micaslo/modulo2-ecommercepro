@@ -1,11 +1,16 @@
 import "./Hero.css";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import tecnologiaImg from "../../assets/images/categories/tecnologia.webp";
+import hogarImg from "../../assets/images/categories/hogar.webp";
+import modaImg from "../../assets/images/categories/moda.webp";
+import bellezaImg from "../../assets/images/categories/belleza.webp";
 
 const categories = [
-  { icon: "✦", title: "Tecnología", subtitle: "Innovación para todos los días" },
-  { icon: "◈", title: "Hogar", subtitle: "Un espacio más tuyo" },
-  { icon: "♧", title: "Moda", subtitle: "Tu estilo, a tu manera" },
-  { icon: "☆", title: "Belleza", subtitle: "Pequeños grandes rituales" },
+  { image: tecnologiaImg, title: "Tecnología", subtitle: "Innovación para todos los días" },
+  { image: hogarImg, title: "Hogar", subtitle: "Un espacio más tuyo" },
+  { image: modaImg, title: "Moda", subtitle: "Tu estilo, a tu manera" },
+  { image: bellezaImg, title: "Belleza", subtitle: "Pequeños grandes rituales" },
 ];
 
 const slides = [
@@ -170,20 +175,22 @@ export default function Hero() {
 
         <nav className="hero__categories" id="categorias" aria-label="Explorar categorías">
           {categories.map((category) => (
-            <a
+            <Link
               className="hero__category"
-              href={`#${category.title.toLowerCase()}`}
+              to="/error-404"
               key={category.title}
             >
-              <span className="hero__category-icon" aria-hidden="true">
-                {category.icon}
-              </span>
+              <img
+                className="hero__category-image"
+                src={category.image}
+                alt={category.title}
+              />
               <span className="hero__category-copy">
                 <strong>{category.title}</strong>
                 <small>{category.subtitle}</small>
               </span>
               <span className="hero__category-arrow" aria-hidden="true">↗</span>
-            </a>
+            </Link>
           ))}
         </nav>
 

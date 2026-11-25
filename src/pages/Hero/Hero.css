@@ -373,16 +373,15 @@
   box-shadow: 0 10px 24px rgba(26, 37, 70, .07);
 }
 
-.hero__category-icon {
-  display: grid;
-  flex: 0 0 2.5rem;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+.hero__category-image {
+  box-sizing: border-box;
+  flex: 0 0 3rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 4px;
   border-radius: 13px;
-  color: var(--hero-primary);
-  background: color-mix(in srgb, var(--hero-primary) 10%, white);
-  font-size: 1.2rem;
+  object-fit: contain;
+  background: color-mix(in srgb, var(--hero-primary) 12%, white);
 }
 
 .hero__category-copy {
@@ -629,10 +628,10 @@
     border-radius: 14px;
   }
 
-  .hero__category-icon {
-    flex-basis: 2.15rem;
-    width: 2.15rem;
-    height: 2.15rem;
+  .hero__category-image {
+    flex-basis: 2.6rem;
+    width: 2.6rem;
+    height: 2.6rem;
     border-radius: 11px;
   }
 
