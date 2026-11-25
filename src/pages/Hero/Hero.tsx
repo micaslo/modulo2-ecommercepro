@@ -1,4 +1,5 @@
 import "./Hero.css";
+import { useEffect, useState } from "react";
 
 const paymentOptions = [
   { brand: "VISA", detail: "12 cuotas sin interés", tone: "visa" },
@@ -13,7 +14,41 @@ const categories = [
   { icon: "☆", title: "Belleza", subtitle: "Pequeños grandes rituales" },
 ];
 
+const products = [
+  {
+    name: "Auriculares",
+    image:
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=520&q=85",
+    className: "headphones",
+  },
+  {
+    name: "Zapatillas",
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=520&q=85",
+    className: "sneakers",
+  },
+  {
+    name: "Reloj",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=520&q=85",
+    className: "watch",
+  },
+];
+
 export default function Hero() {
+  const [activePayment, setActivePayment] = useState(0);
+  const [paymentPaused, setPaymentPaused] = useState(false);
+
+  useEffect(() => {
+    if (paymentPaused) return;
+
+    const timer = window.setInterval(() => {
+      setActivePayment((current) => (current + 1) % paymentOptions.length);
+    }, 2600);
+
+    return () => window.clearInterval(timer);
+  }, [paymentPaused]);
+
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero__inner">
@@ -23,14 +58,37 @@ export default function Hero() {
             <span>Elegí cómo pagar</span>
           </div>
 
-          <div className="hero__payment-list">
-            {paymentOptions.map((option) => (
-              <div className="hero__payment" key={option.brand}>
+          <div
+            className="hero__payment-list"
+            onMouseLeave={() => setPaymentPaused(false)}
+          >
+            {paymentOptions.map((option, index) => (
+              <button
+                className={`hero__payment${activePayment === index ? " is-active" : ""}`}
+                key={option.brand}
+                type="button"
+                aria-pressed={activePayment === index}
+                onMouseEnter={() => {
+                  setActivePayment(index);
+                  setPaymentPaused(true);
+                }}
+                onFocus={() => {
+                  setActivePayment(index);
+                  setPaymentPaused(true);
+                }}
+                onBlur={() => setPaymentPaused(false)}
+                onClick={() => {
+                  setActivePayment(index);
+                  setPaymentPaused(true);
+                }}
+              >
                 <span className={`hero__brand hero__brand--${option.tone}`}>
                   {option.brand}
                 </span>
-                <span className="hero__payment-detail">{option.detail}</span>
-              </div>
+                <span className="hero__payment-detail">
+                  <strong>{option.detail}</strong>
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -40,56 +98,74 @@ export default function Hero() {
             <div className="hero__feature-copy">
               <p className="hero__eyebrow">
                 <span className="hero__sparkle">✳</span>
-                Temporada de buenos hallazgos
+                Oportunidades por tiempo limitado
               </p>
               <h1 id="hero-title">
-                Un mundo de<br />
-                <em>posibilidades</em>
+                ÚLTIMOS DÍAS<br />
+                DE <em>BLACK FRIDAY</em>
               </h1>
               <p className="hero__lead">
-                Lo que buscás, lo que soñás y eso que todavía no sabías que necesitabas.
+                Últimas ofertas en stock. Encontrá tus favoritos antes de que se agoten.
               </p>
-              <a className="hero__button" href="#categorias">
-                Explorá la tienda <span aria-hidden="true">→</span>
+              <a className="hero__button" href="#ofertas">
+                Ver últimas ofertas <span aria-hidden="true">→</span>
               </a>
             </div>
 
-            <div className="hero__art" aria-hidden="true">
-              <div className="hero__sun" />
-              <div className="hero__orbit hero__orbit--one" />
-              <div className="hero__orbit hero__orbit--two" />
-              <div className="hero__shape hero__shape--pink">✳</div>
-              <div className="hero__shape hero__shape--orange">✦</div>
-              <div className="hero__shape hero__shape--blue">◈</div>
-              <div className="hero__art-label">
-                COSAS<br />BUENAS<br /><span>pasan acá</span>
-              </div>
+            <div className="hero__products" aria-label="Productos destacados">
+              {products.map((product, index) => (
+                <article
+                  className={`hero__product hero__product--${product.className}`}
+                  key={product.name}
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    loading={index === 0 ? "eager" : "lazy"}
+                  />
+                  <span className="hero__product-tag">Black Friday</span>
+                  <span className="hero__product-name">{product.name}</span>
+                </article>
+              ))}
             </div>
           </article>
 
           <aside className="hero__side-promos" aria-label="Promociones destacadas">
             <article className="hero__promo hero__promo--coins">
-              <span className="hero__promo-kicker">Tu próxima compra</span>
-              <h2>tiene premio</h2>
-              <p>Sumá beneficios en cada pedido.</p>
-              <a href="#beneficios" className="hero__promo-link">
-                Ver beneficios <span aria-hidden="true">↗</span>
+              <span className="hero__promo-kicker">Tecnología en oferta</span>
+              <h2>Equipate<br />por menos</h2>
+              <a href="#tecnologia" className="hero__promo-link">
+                Ver productos <span aria-hidden="true">↗</span>
               </a>
-              <span className="hero__coin" aria-hidden="true">✦</span>
+              <img
+                className="hero__promo-image"
+                src={products[0].image}
+                alt="Auriculares en oferta"
+                loading="lazy"
+              />
             </article>
 
             <article className="hero__promo hero__promo--coupon">
-              <span className="hero__promo-kicker">Una sorpresa para vos</span>
-              <h2>Estrená con<br />un descuento</h2>
+              <span className="hero__promo-kicker">Últimas unidades</span>
+              <h2>Encontrá tu<br />próximo favorito</h2>
               <a href="#ofertas" className="hero__promo-link">
-                Descubrir ofertas <span aria-hidden="true">↗</span>
+                Comprar ahora <span aria-hidden="true">↗</span>
               </a>
-              <span className="hero__ticket" aria-hidden="true">%</span>
+              <img
+                className="hero__promo-image"
+                src={products[1].image}
+                alt="Zapatilla en oferta"
+                loading="lazy"
+              />
             </article>
           </aside>
         </div>
 
-        <nav className="hero__categories" id="categorias" aria-label="Explorar categorías">
+        <nav
+          className="hero__categories"
+          id="categorias"
+          aria-label="Explorar categorías"
+        >
           {categories.map((category) => (
             <a
               className="hero__category"
