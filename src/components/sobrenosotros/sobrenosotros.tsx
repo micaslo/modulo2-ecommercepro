@@ -1,109 +1,124 @@
-import { Link } from "react-router-dom";
 import "./sobrenosotros.css";
+
+import luiss from "../../assets/images/nuestroequipo/luiss.webp";
+import mica from "../../assets/images/nuestroequipo/mica.webp";
+import rosario from "../../assets/images/nuestroequipo/rosario.webp";
+import tanque from "../../assets/images/nuestroequipo/tanque.webp";
+
+interface Integrante {
+  nombre: string;
+  rol: string;
+  descripcion: string;
+  foto: string;
+}
+
+const integrantes: Integrante[] = [
+  {
+    nombre: "Rosario",
+    rol: "Developer",
+    descripcion: "Parte del equipo de DeTodito Market.",
+    foto: rosario,
+  },
+  {
+    nombre: "Micaela",
+    rol: "Team Leader (TL)",
+    descripcion: "Parte del equipo de DeTodito Market.",
+    foto: mica,
+  },
+  {
+    nombre: "Luis",
+    rol: "Developer",
+    descripcion: "Parte del equipo de DeTodito Market.",
+    foto: luiss,
+  },
+  {
+    nombre: "Juan Pablo",
+    rol: "Srum Master",
+    descripcion: "Parte del equipo de DeTodito Market.",
+    foto: tanque,
+  },
+];
 
 function SobreNosotros() {
   return (
-    <main className="sobre-nosotros">
+    <main className="pagina-equipo">
 
-      {/* PRESENTACIÓN */}
-      <section className="sobre-hero">
+      
+      <section className="equipo-portada">
+        <div className="equipo-portada-contenido">
 
-        <div className="sobre-hero-texto">
-
-          <span className="sobre-etiqueta">
-            MÁS QUE UNA TIENDA
+          <span className="equipo-etiqueta">
+            DETRÁS DE DETODITO MARKET
           </span>
 
-          <h1>
-            Comprá fácil.
-            <br />
-            Viví mejor.
-          </h1>
+          <h1>Sobre Nosotros</h1>
 
           <p>
-            Conectamos personas con productos para
-            todos los días, en un solo lugar.
+            Conocé a las personas que están detrás de
+            DeTodito Market. Un equipo que trabaja con
+            compromiso, creatividad y dedicación.
           </p>
 
-          <Link to="/sobre-nosotros" className="sobre-boton">
-            Conocé nuestra historia →
-          </Link>
-
         </div>
-
-        <div className="sobre-hero-imagen">
-          <img
-            src="/images/sobre-nosotros.jpg"
-            alt="Productos de DeTodito Market"
-          />
-        </div>
-
       </section>
 
-      {/* NUESTRA IDENTIDAD */}
-      <section className="sobre-identidad">
+      
+      <section className="equipo-seccion">
 
-        <span className="sobre-subtitulo">
-          NUESTRA IDENTIDAD
-        </span>
+        <div className="equipo-titulo">
+          <span>PERSONAS QUE HACEN POSIBLE ESTA IDEA</span>
 
-        <h2>¿Qué nos hace diferentes?</h2>
+          <h2>Detrás de DeTodito Market</h2>
 
-        <p className="sobre-descripcion">
-          Creamos una experiencia de compra pensada para vos.
-        </p>
+          <p>
+            Cada integrante aporta sus ideas, habilidades
+            y esfuerzo para construir este proyecto.
+          </p>
+        </div>
 
-        <div className="sobre-grid">
+       
+        <div className="equipo-grid">
 
-          <article className="sobre-card">
-            <span>🎯</span>
-            <h3>Nuestra misión</h3>
-            <p>
-              Hacer que comprar sea fácil y accesible.
-            </p>
-          </article>
+          {integrantes.map((persona) => (
+            <article
+              className="integrante-card"
+              key={persona.nombre}
+            >
 
-          <article className="sobre-card">
-            <span>🚀</span>
-            <h3>Nuestra visión</h3>
-            <p>
-              Crecer y conectar cada vez a más personas.
-            </p>
-          </article>
+              <div className="integrante-foto">
+                <img
+                  src={persona.foto}
+                  alt={`Foto de ${persona.nombre}`}
+                  loading="lazy"
+                />
+              </div>
 
-          <article className="sobre-card">
-            <span>🤝</span>
-            <h3>Confianza</h3>
-            <p>
-              Construir relaciones transparentes.
-            </p>
-          </article>
+              <div className="integrante-info">
+                <h3>{persona.nombre}</h3>
 
-          <article className="sobre-card">
-            <span>⭐</span>
-            <h3>Compromiso</h3>
-            <p>
-              Mejorar cada experiencia de compra.
-            </p>
-          </article>
+                <span className="integrante-rol">
+                  {persona.rol}
+                </span>
+
+                <p>{persona.descripcion}</p>
+              </div>
+
+            </article>
+          ))}
 
         </div>
 
       </section>
 
-      {/* SECCIÓN FINAL */}
-      <section className="sobre-final">
+    
+      <section className="equipo-final">
 
-        <h2>Todo lo que necesitás, más cerca.</h2>
+        <h2>¡Gracias por conocernos!</h2>
 
         <p>
-          Descubrí nuestros productos y encontrá eso
-          que estás buscando.
+          Seguimos trabajando para ofrecerte una mejor
+          experiencia de compra.
         </p>
-
-        <Link to="/productos" className="sobre-boton">
-          Explorar productos →
-        </Link>
 
       </section>
 
