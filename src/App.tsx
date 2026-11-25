@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes ,useLocation} from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/footer";
 import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
@@ -18,15 +18,33 @@ import CatalogPage from "./pages/catalogPage/CatalogPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import AdminPage from "./pages/adminPage/AdminPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import LoginPage from "./pages/LoginPage/LoginPage";
+
+
+
 import { useCart } from "./hooks/useCart";
 import "./App.css";
 
 function App() {
   const { totalItems, subtotal } = useCart();
+  const location = useLocation();
+
+  const esLogin = location.pathname === "/login";
 
   return (
     <>
       <Navbar cartCount={totalItems} cartTotal={subtotal} />
+      {/* NAVBAR */}
+
+      {!esLogin && (
+        <Navbar
+          cartCount={totalItems}
+          cartTotal={subtotal}
+        />
+      )}
+
+      {/* RUTAS */}
+
       <Routes>
         <Route
           path="/"
@@ -87,6 +105,17 @@ function App() {
         <Route path="/error-404" element={<Error404 />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
+
+      {/* COMPONENTES GENERALES */}
+
+      {!esLogin && (
+        <>
+          <Footer />
+          <TilliBot />
+          <ButtonWsp />
+        </>
+      )}
+
       <Footer />
       <TilliBot />
       <ButtonWsp />
