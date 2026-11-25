@@ -72,14 +72,16 @@ const DEFAULT_USERS: RegisteredUser[] = [
     firstName: "Juan Pablo",
     lastName: "Reyes",
     name: "Juan Pablo Reyes",
-    email: "juan.reyes@detodito.com",
+    email: "juan.reyes@gmail.com",
     phone: "3815550891",
     address: "25 de Mayo 450",
     locality: "San Miguel de Tucumán",
     province: "Tucumán",
     postalCode: "4000",
-    fiscalCondition: "consumidor_final",
+    fiscalCondition: "responsable_inscripto",
     dni: "40112876",
+    cuit: "20-40112876-3",
+    businessName: "Rorro Pirroro SA",
     savedCard: {
       number: "5425 2334 3010 9903",
       name: "JUAN PABLO REYES",
@@ -149,7 +151,12 @@ function loadUsers(): RegisteredUser[] {
         }
       }
       if (u.id === "guest-demo-2") {
-        const isLegacyGuest2 = u.name === "Valentina Ruiz" || !u.address;
+        const isLegacyGuest2 =
+          u.name === "Valentina Ruiz" ||
+          !u.address ||
+          u.fiscalCondition !== "responsable_inscripto" ||
+          !u.cuit ||
+          !u.businessName;
         if (isLegacyGuest2) {
           migrated = true;
           return {
@@ -436,12 +443,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [sessionUserId],
   );
 
-  const loginAsDemo = useCallback((role: UserRole): AuthActionResult => {
-    const currentUsers = loadUsers();
-    const target =
-      role === "admin"
-        ? currentUsers.find((u) => u.role === "admin")
-        : currentUsers.find((u) => u.role === "guest") ?? DEFAULT_USERS[1];
+  const loginAsDemo = useCallback(
+    (role: UserRole, userId?: string): AuthActionResult => {
+      const currentUsers = loadUsers();
+      const target = userId
+        ? currentUsers.find((u) => u.id === userId) ??
+          DEFAULT_USERS.find((u) => u.id === userId)
+        : role === "admin"
+          ? currentUsers.find((u) => u.role === "admin")
+          : currentUsers.find((u) => u.role === "guest") ?? DEFAULT_USERS[1];
 
     if (!target) {
       return { ok: false, error: "No hay un perfil demo disponible para ese rol." };

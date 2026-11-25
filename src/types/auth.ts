@@ -77,5 +77,5 @@ export interface AuthContextValue {
   updateProfile: (payload: ProfileUpdatePayload) => AuthActionResult;
   updateSavedCard: (card: SavedCard | null) => AuthActionResult;
   deleteUser: (userId: string) => DeleteUserResult;
-  loginAsDemo: (role: UserRole) => AuthActionResult;
+  loginAsDemo: (role: UserRole, userId?: string) => AuthActionResult;
 }

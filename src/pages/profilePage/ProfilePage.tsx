@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cards, { type Focused } from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
@@ -7,6 +7,7 @@ import {
   ARGENTINA_PROVINCES,
   detectCardBrand,
   formatCardNumberDisplay,
+  formatCuitDisplay,
   formatExpiryDisplay,
   getCardBrandLabel,
   stripDigits,
@@ -162,6 +163,22 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
               <dt>DNI</dt>
               <dd>{user.dni || "Sin especificar"}</dd>
             </div>
+            {(user.cuit ||
+              (user.fiscalCondition &&
+                user.fiscalCondition !== "consumidor_final")) && (
+              <div className="profile-info-item">
+                <dt>CUIT</dt>
+                <dd>{user.cuit || "Sin especificar"}</dd>
+              </div>
+            )}
+            {(user.businessName ||
+              user.fiscalCondition === "responsable_inscripto" ||
+              user.fiscalCondition === "exento") && (
+              <div className="profile-info-item">
+                <dt>Razón social</dt>
+                <dd>{user.businessName || "Sin especificar"}</dd>
+              </div>
+            )}
             <div className="profile-info-item">
               <dt>Dirección</dt>
               <dd>{user.address || "Sin especificar"}</dd>
@@ -300,6 +317,55 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
             </div>
           </div>
 
+          {(form.fiscalCondition !== "consumidor_final" ||
+            Boolean(form.cuit) ||
+            Boolean(form.businessName)) && (
+            <div className="profile-form-grid">
+              <div className="profile-field">
+                <label htmlFor="profile-cuit">CUIT</label>
+                <input
+                  id="profile-cuit"
+                  type="text"
+                  inputMode="numeric"
+                  value={form.cuit}
+                  maxLength={13}
+                  placeholder="20-40112876-3"
+                  onChange={(e) =>
+                    updateField("cuit", formatCuitDisplay(e.target.value))
+                  }
+                  aria-invalid={Boolean(errors.cuit)}
+                />
+                {errors.cuit && (
+                  <span className="profile-field-error">{errors.cuit}</span>
+                )}
+              </div>
+
+              {(form.fiscalCondition === "responsable_inscripto" ||
+                form.fiscalCondition === "exento" ||
+                Boolean(form.businessName)) && (
+                <div className="profile-field">
+                  <label htmlFor="profile-businessName">Razón social</label>
+                  <input
+                    id="profile-businessName"
+                    type="text"
+                    value={form.businessName}
+                    maxLength={100}
+                    placeholder="Ej: Rorro Pirroro SA"
+                    onChange={(e) =>
+                      updateField("businessName", e.target.value)
+                    }
+                    aria-invalid={Boolean(errors.businessName)}
+                  />
+                  {errors.businessName && (
+                    <span className="profile-field-error">
+                      {errors.businessName}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="profile-field">
             <label htmlFor="profile-address">Dirección</label>
             <input
@@ -377,6 +443,29 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
   );
 }
 
+const CARD_REVEAL_SECONDS = 10;
+
+function getRccsIssuer(brand: ReturnType<typeof detectCardBrand>): string | undefined {
+  if (brand === "amex") return "american-express";
+  if (brand === "visa" || brand === "mastercard") return brand;
+  return undefined;
+}
+
+function getMaskedCardDigits(digitsOnly: string, brand: ReturnType<typeof detectCardBrand>): string {
+  if (!digitsOnly) return "";
+  const totalLen = brand === "amex" ? 15 : 16;
+  const last4 = digitsOnly.slice(-4);
+  const hiddenCount = Math.max(0, totalLen - last4.length);
+  return `${"•".repeat(hiddenCount)}${last4}`;
+}
+
+function formatMaskedCardText(digitsOnly: string, brand: ReturnType<typeof detectCardBrand>): string {
+  const last4 = digitsOnly.slice(-4);
+  if (!last4) return "••••";
+  if (brand === "amex") return `•••• •••••• •${last4}`;
+  return `•••• •••• •••• ${last4}`;
+}
+
 interface SavedCardPanelProps {
   user: SessionUser;
   onSaveCard: (card: SavedCard | null) => { ok: boolean; error?: string };
@@ -384,6 +473,7 @@ interface SavedCardPanelProps {
 
 function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [revealSecondsLeft, setRevealSecondsLeft] = useState(0);
   const [card, setCard] = useState<SavedCardValues>({
     number: user.savedCard?.number ?? "",
     name: user.savedCard?.name ?? user.name.toUpperCase(),
@@ -400,12 +490,28 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
     message: string;
   } | null>(null);
 
+  const isRevealed = revealSecondsLeft > 0;
+
+  useEffect(() => {
+    if (revealSecondsLeft <= 0) return;
+    const timer = window.setInterval(() => {
+      setRevealSecondsLeft((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [revealSecondsLeft]);
+
   const displayedCard = isEditing ? card : user.savedCard;
   const digitsOnly = stripDigits(displayedCard?.number ?? "");
   const brand = detectCardBrand(digitsOnly);
-  const last4 = digitsOnly.slice(-4);
+  const maskedDigits = getMaskedCardDigits(digitsOnly, brand);
+  const rccsIssuer = getRccsIssuer(brand);
+
+  const handleToggleReveal = () => {
+    setRevealSecondsLeft((prev) => (prev > 0 ? 0 : CARD_REVEAL_SECONDS));
+  };
 
   const startEditing = () => {
+    setRevealSecondsLeft(0);
     setCard({
       number: user.savedCard?.number ?? "",
       name: user.savedCard?.name ?? user.name.toUpperCase(),
@@ -420,6 +526,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
   };
 
   const cancelEditing = () => {
+    setRevealSecondsLeft(0);
     setErrors({});
     setStatus(null);
     setFocused("");
@@ -445,6 +552,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
   const handleRemoveCard = () => {
     const result = onSaveCard(null);
     if (result.ok) {
+      setRevealSecondsLeft(0);
       setCard({
         number: "",
         name: user.name.toUpperCase(),
@@ -480,6 +588,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
       return;
     }
 
+    setRevealSecondsLeft(0);
     setIsEditing(false);
     setStatus({
       type: "success",
@@ -487,41 +596,75 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
     });
   };
 
+  const showUnmaskedCard = isEditing || isRevealed;
+
   return (
     <section className="profile-panel" aria-labelledby="profile-card-title">
       <header className="profile-panel-header profile-panel-header--row">
         <div>
           <h2 id="profile-card-title">Tarjeta asociada</h2>
-          <p>Se autocompleta automáticamente en el paso de pago.</p>
+          <p>Datos protegidos · se autocompleta al momento de pagar.</p>
         </div>
 
-        <button
-          type="button"
-          className={`profile-icon-edit-btn ${isEditing ? "is-active" : ""}`}
-          onClick={isEditing ? cancelEditing : startEditing}
-          aria-label={
-            isEditing ? "Cancelar edición de tarjeta" : "Editar tarjeta asociada"
-          }
-          title={
-            isEditing ? "Cancelar edición de tarjeta" : "Editar tarjeta asociada"
-          }
-        >
-          {isEditing ? <FaTimes size={14} /> : <FaPen size={13} />}
-        </button>
+        <div className="profile-panel-header-actions">
+          {!isEditing && user.savedCard && (
+            <button
+              type="button"
+              className={`profile-reveal-btn ${isRevealed ? "is-revealed" : ""}`}
+              onClick={handleToggleReveal}
+              aria-pressed={isRevealed}
+              aria-label={
+                isRevealed
+                  ? "Ocultar datos de la tarjeta"
+                  : "Mostrar datos de la tarjeta temporalmente"
+              }
+              title={
+                isRevealed
+                  ? "Ocultar datos"
+                  : "Mostrar datos temporalmente"
+              }
+            >
+              {isRevealed ? <FaEyeSlash size={14} /> : <FaEye size={14} />}
+              <span>
+                {isRevealed ? `Ocultar (${revealSecondsLeft}s)` : "Ver datos"}
+              </span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            className={`profile-icon-edit-btn ${isEditing ? "is-active" : ""}`}
+            onClick={isEditing ? cancelEditing : startEditing}
+            aria-label={
+              isEditing ? "Cancelar edición de tarjeta" : "Editar tarjeta asociada"
+            }
+            title={
+              isEditing ? "Cancelar edición de tarjeta" : "Editar tarjeta asociada"
+            }
+          >
+            {isEditing ? <FaTimes size={14} /> : <FaPen size={13} />}
+          </button>
+        </div>
       </header>
 
       {(displayedCard || isEditing) && (
         <div className="profile-card-preview">
           <Cards
-            number={digitsOnly}
+            number={showUnmaskedCard ? digitsOnly : maskedDigits}
             name={displayedCard?.name ?? ""}
-            expiry={stripDigits(displayedCard?.expiry ?? "")}
+            expiry={
+              showUnmaskedCard
+                ? stripDigits(displayedCard?.expiry ?? "")
+                : "••••"
+            }
             cvc={
-              isEditing && showCvc
-                ? card.cvc
-                : "•".repeat((displayedCard?.cvc ?? "").length)
+              (isEditing && showCvc) || (!isEditing && isRevealed)
+                ? (displayedCard?.cvc ?? "")
+                : "•".repeat((displayedCard?.cvc ?? "").length || 3)
             }
             focused={isEditing ? (showCvc ? "cvc" : focused) : ""}
+            preview={!showUnmaskedCard}
+            issuer={!showUnmaskedCard ? rccsIssuer : undefined}
             acceptedCards={["visa", "mastercard", "american-express"]}
             placeholders={{ name: "TU NOMBRE" }}
             locale={{ valid: "VÁLIDA HASTA" }}
@@ -533,15 +676,27 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
         <>
           {user.savedCard ? (
             <dl className="profile-info-grid profile-info-grid--compact">
-              <div className="profile-info-item">
-                <dt>Tarjeta</dt>
-                <dd>
-                  {getCardBrandLabel(brand)} terminada en {last4}
+              <div className="profile-info-item profile-info-item--full">
+                <dt>Número de tarjeta ({getCardBrandLabel(brand)})</dt>
+                <dd className="profile-card-mono">
+                  {isRevealed
+                    ? user.savedCard.number
+                    : formatMaskedCardText(digitsOnly, brand)}
                 </dd>
               </div>
               <div className="profile-info-item">
                 <dt>Vencimiento</dt>
-                <dd>{user.savedCard.expiry}</dd>
+                <dd className="profile-card-mono">
+                  {isRevealed ? user.savedCard.expiry : "••/••"}
+                </dd>
+              </div>
+              <div className="profile-info-item">
+                <dt>Código de seguridad</dt>
+                <dd className="profile-card-mono">
+                  {isRevealed
+                    ? user.savedCard.cvc
+                    : "•".repeat(user.savedCard.cvc.length || 3)}
+                </dd>
               </div>
               <div className="profile-info-item profile-info-item--full">
                 <dt>Titular</dt>
@@ -813,17 +968,24 @@ export default function ProfilePage() {
               <div className="profile-demo-actions">
                 <button
                   type="button"
-                  className={`profile-demo-btn ${!isAdmin ? "is-current" : ""}`}
-                  onClick={() => loginAsDemo("guest")}
+                  className={`profile-demo-btn ${user.id === "guest-demo-1" ? "is-current" : ""}`}
+                  onClick={() => loginAsDemo("guest", "guest-demo-1")}
                 >
-                  Usar Invitado
+                  Micaela (Invitado)
                 </button>
                 <button
                   type="button"
-                  className={`profile-demo-btn ${isAdmin ? "is-current" : ""}`}
-                  onClick={() => loginAsDemo("admin")}
+                  className={`profile-demo-btn ${user.id === "guest-demo-2" ? "is-current" : ""}`}
+                  onClick={() => loginAsDemo("guest", "guest-demo-2")}
                 >
-                  Usar Administrador
+                  Juan Pablo (Invitado)
+                </button>
+                <button
+                  type="button"
+                  className={`profile-demo-btn profile-demo-btn--full ${isAdmin ? "is-current" : ""}`}
+                  onClick={() => loginAsDemo("admin", "admin-root-1")}
+                >
+                  Sofía (Administrador)
                 </button>
               </div>
             </section>
