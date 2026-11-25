@@ -1,6 +1,7 @@
 import { useState, type SubmitEvent } from "react";
 import { FaShieldAlt, FaTag, FaTimes } from "react-icons/fa";
 import { formatARS, PROMO_COUPONS } from "../../../data/checkoutConfig";
+import logoIsotype from "../../../assets/images/logo/tl-isotype.webp";
 import type { CartItem, CheckoutStep, InstallmentOption } from "../../../types/cart";
 
 export type ApplyCouponResult = "applied" | "already_applied" | "invalid";
@@ -62,7 +63,7 @@ export default function OrderSummarySidebar({
       setCouponFeedback(null);
       setCouponInput("");
     } else {
-      setCouponFeedback("Cupón inválido. Probá con DETODITO25.");
+      setCouponFeedback("Cupón inválido. Probá con LIEBRE25.");
     }
   };
 
@@ -70,8 +71,10 @@ export default function OrderSummarySidebar({
     <aside className="summaryCard" aria-label="Resumen de compra">
       <div className="summaryCardBanner">
         <div className="summaryBannerLeft">
-          <span className="summaryBannerDot" aria-hidden="true" />
-          <strong>DETODITO PAY</strong>
+          <span className="summaryBannerLogo" aria-hidden="true">
+            <img src={logoIsotype} alt="" />
+          </span>
+          <strong>TIENDA LIEBRE PAY</strong>
         </div>
         <span className="summaryBannerRight">
           <FaShieldAlt size={13} />
@@ -206,7 +209,7 @@ export default function OrderSummarySidebar({
             )}
             {!appliedCoupon && !couponFeedback && (
               <p className="summaryCouponHint">
-                Tip: usá <strong>DETODITO25</strong> para 25% OFF.
+                Tip: usá <strong>LIEBRE25</strong> para 25% OFF.
               </p>
             )}
           </form>

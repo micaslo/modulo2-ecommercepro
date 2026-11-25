@@ -159,7 +159,7 @@ export function CarAgentModal({
           <div className="cartModalBotNotice" role="status">
             <FaRobot />
             <span>
-              Bot de Detodito en preparación: muy pronto te conectaremos
+              Bot de Tienda Liebre en preparación: muy pronto te conectaremos
               automáticamente con un asesor desde esta ventana.
             </span>
           </div>

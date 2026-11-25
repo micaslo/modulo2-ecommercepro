@@ -1,237 +1,200 @@
 .pagina-equipo {
-  --equipo-bg: #05070d;
-  --equipo-azul: #122e58;
-  --equipo-naranja: #ff7900;
-  --equipo-texto: #ffffff;
-  --equipo-muted: #bdc8dc;
-
-  background: var(--equipo-bg);
-  color: var(--equipo-texto);
+  background: var(--bg-body);
+  color: var(--text-main);
   min-height: 100vh;
-  padding: 35px 25px 75px;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 3vw, 1.75rem) 4.5rem;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-
+/* Portada editorial minimalista con borde degradado violeta -> naranja */
 .equipo-portada {
-  max-width: 1100px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 75px 25px;
+  padding: clamp(3rem, 6vw, 4.75rem) clamp(1.5rem, 4vw, 2.5rem);
   text-align: center;
-  border: 1px solid rgba(70, 110, 255, 0.25);
-  border-radius: 22px;
-
+  border-radius: var(--radius-lg);
+  border: 1.5px solid transparent;
   background:
-    radial-gradient(
-      ellipse at 70% 0%,
-      rgba(32, 65, 190, 0.65),
-      transparent 65%
-    ),
-    linear-gradient(
-      135deg,
-      #080812,
-      #101b4c,
-      #080812
-    );
-
-  box-shadow: 0 15px 65px rgba(20, 45, 180, 0.18);
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    var(--gradient-border) border-box;
+  box-shadow: var(--shadow-md);
 }
 
 .equipo-portada-contenido {
-  max-width: 700px;
+  max-width: 680px;
   margin: auto;
 }
 
 .equipo-etiqueta {
-  display: inline-block;
-  color: var(--equipo-naranja);
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
 }
 
 .equipo-portada h1 {
-  font-size: clamp(38px, 5vw, 55px);
-  margin: 0 0 22px;
-  color: white;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin: 0 0 1rem;
+  color: var(--text-main);
 }
 
 .equipo-portada p {
-  max-width: 620px;
+  max-width: 560px;
   margin: auto;
-  color: var(--equipo-muted);
-  line-height: 1.8;
-  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 1.02rem;
 }
 
-
 .equipo-seccion {
-  max-width: 1150px;
-  margin: 95px auto 0;
+  max-width: 1160px;
+  margin: clamp(3.5rem, 6vw, 5.25rem) auto 0;
 }
 
 .equipo-titulo {
   text-align: center;
-  margin-bottom: 45px;
+  margin-bottom: 2.75rem;
 }
 
 .equipo-titulo span {
-  color: var(--equipo-naranja);
-  font-size: 12px;
+  display: inline-block;
+  color: var(--color-primary-active);
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 0.12em;
 }
 
 .equipo-titulo h2 {
-  font-size: clamp(28px, 4vw, 38px);
-  margin: 15px 0;
-  color: white;
+  font-size: clamp(1.75rem, 3.6vw, 2.4rem);
+  font-weight: 800;
+  margin: 0.65rem 0 0.75rem;
+  color: var(--text-main);
 }
 
 .equipo-titulo p {
-  color: var(--equipo-muted);
-  line-height: 1.7;
-  font-size: 15px;
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--text-muted);
+  line-height: 1.65;
+  font-size: 0.95rem;
 }
-
 
 .equipo-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 35px 22px;
+  gap: 1.5rem;
 }
 
 .integrante-card {
   text-align: center;
   min-width: 0;
-  transition: transform 0.3s ease;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
 .integrante-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-md);
 }
 
 .integrante-foto {
   width: 100%;
-  height: 270px;
+  height: 260px;
   overflow: hidden;
-  border-radius: 17px;
-  background: #122e58;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: var(--bg-surface-2);
 }
 
 .integrante-foto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 18%;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.35s ease;
 }
 
 .integrante-card:hover .integrante-foto img {
-  transform: scale(1.07);
+  transform: scale(1.04);
 }
 
 .integrante-info {
-  padding: 16px 5px;
+  padding: 1rem 0.35rem 0.5rem;
 }
 
 .integrante-info h3 {
-  color: white;
-  font-size: 17px;
-  margin: 0 0 8px;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
 }
 
 .integrante-rol {
   display: inline-block;
-  color: var(--equipo-naranja);
-  font-size: 13px;
-  font-weight: 600;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .integrante-info p {
-  color: #aebbd0;
-  font-size: 13px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
   line-height: 1.5;
-  margin-top: 10px;
+  margin: 0.65rem 0 0;
 }
 
-
 .equipo-final {
-  max-width: 900px;
-  margin: 85px auto 0;
-  padding: 35px 20px;
+  max-width: 820px;
+  margin: 4.5rem auto 0;
+  padding: 2.25rem 1.25rem 0;
   text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid var(--border-color);
 }
 
 .equipo-final h2 {
-  color: white;
-  font-size: 27px;
-  margin-bottom: 12px;
+  color: var(--text-main);
+  font-size: 1.6rem;
+  margin: 0 0 0.6rem;
 }
 
 .equipo-final p {
-  color: var(--equipo-muted);
+  color: var(--text-muted);
+  margin: 0;
   line-height: 1.6;
 }
-
 
 @media (max-width: 900px) {
   .equipo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 30px 20px;
-  }
-
-  .integrante-foto {
-    height: 280px;
   }
 }
 
 @media (max-width: 550px) {
-  .pagina-equipo {
-    padding: 20px 15px 50px;
-  }
-
-  .equipo-portada {
-    padding: 55px 18px;
-  }
-
-  .equipo-portada h1 {
-    font-size: 36px;
-  }
-
-  .equipo-seccion {
-    margin-top: 65px;
-  }
-
   .equipo-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px 12px;
+    grid-template-columns: 1fr;
   }
 
   .integrante-foto {
-    height: 200px;
-  }
-
-  .integrante-info h3 {
-    font-size: 14px;
-  }
-
-  .integrante-rol {
-    font-size: 12px;
-  }
-
-  .integrante-info p {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 360px) {
-  .integrante-foto {
-    height: 165px;
+    height: 240px;
   }
 }

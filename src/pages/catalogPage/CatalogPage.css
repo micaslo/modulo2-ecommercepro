@@ -75,7 +75,7 @@
 .catalog-search:focus-within,
 .catalog-select-box:focus-within {
   border-color: var(--focus-ring);
-  box-shadow: 0 0 0 3px rgb(255 138 0 / 0.16);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .catalog-search {

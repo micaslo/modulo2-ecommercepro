@@ -4,6 +4,7 @@ import {
   getFiscalConditionLabel,
   PROMO_COUPONS,
 } from "../../../data/checkoutConfig";
+import logoDarkText from "../../../assets/images/logo/tl-imagotype-black.webp";
 import type { CompletedOrder } from "../../../types/cart";
 import "./PrintableInvoice.css";
 
@@ -12,7 +13,7 @@ interface PrintableInvoiceProps {
 }
 
 const ISSUER = {
-  name: "DeTodito Market S.A.",
+  name: "Tienda Liebre S.A.",
   address: "Av. Mate de Luna 2150, San Miguel de Tucumán, Tucumán, Argentina.",
   ivaCondition: "IVA Responsable Inscripto",
   cuit: "30-71849250-9",
@@ -37,7 +38,7 @@ function formatDniDots(dni: string): string {
 
 function getShortSku(productId: string): string {
   const clean = productId.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-  return `DT-${clean.slice(0, 6)}`;
+  return `TL-${clean.slice(0, 6)}`;
 }
 
 function formatDateOnly(date: Date): string {
@@ -163,13 +164,11 @@ export default function PrintableInvoice({ order }: PrintableInvoiceProps) {
         <header className="invoiceHeader">
           <div className="invoiceIssuer">
             <div className="invoiceBrandRow">
-              <span className="invoiceBrandMark" aria-hidden="true">
-                D
-              </span>
-              <div className="invoiceBrandText">
-                <strong>DETODITO</strong>
-                <span>MARKET ONLINE</span>
-              </div>
+              <img
+                src={logoDarkText}
+                alt="Tienda Liebre"
+                className="invoiceBrandLogo"
+              />
             </div>
             <p className="invoiceIssuerName">{ISSUER.name}</p>
             <p className="invoiceIssuerMeta">{ISSUER.address}</p>
@@ -395,7 +394,7 @@ export default function PrintableInvoice({ order }: PrintableInvoiceProps) {
 
             <div className="invoiceFooterBrand">
               <span>COMPROBANTE EMITIDO POR</span>
-              <strong>DeTodito Market</strong>
+              <strong>Tienda Liebre</strong>
             </div>
           </div>
         </div>

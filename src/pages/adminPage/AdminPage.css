@@ -198,7 +198,7 @@
 .admin-select select:focus-visible {
   border-color: var(--focus-ring);
   outline: none;
-  box-shadow: 0 0 0 3px rgb(255 138 0 / 0.16);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .admin-select {
@@ -577,7 +577,7 @@
 .admin-field textarea:focus-visible {
   border-color: var(--focus-ring);
   outline: none;
-  box-shadow: 0 0 0 3px rgb(255 138 0 / 0.16);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .admin-field [aria-invalid="true"] {

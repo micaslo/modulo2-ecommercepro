@@ -227,17 +227,19 @@
   text-decoration: underline;
 }
 
-/* Buy box derecha */
+/* Buy box derecha con borde degradado violeta -> naranja */
 .productBuyBox {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
   padding: var(--space-4);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid transparent;
   border-radius: var(--radius-md);
-  background: var(--bg-body);
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    var(--gradient-border) border-box;
   position: sticky;
-  top: var(--space-4);
+  top: calc(var(--navbar-height) + var(--space-4));
 }
 
 .buyBoxShipping {

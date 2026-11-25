@@ -1,28 +1,9 @@
 .sellProduct {
-  --spBg: #1a3a6b;
-  --spAccent: #ff8c00;
-  --spText: #1b2b45;
-  --spMuted: #6b7a90;
-  --spBorder: #d5deeb;
-  --spError: #d93025;
-  --spSuccess: #00a650;
-
   position: relative;
   overflow: hidden;
-  padding: 48px 16px;
-  background: var(--spBg);
-}
-
-.sellProduct::before {
-  content: '';
-  position: absolute;
-  top: -140px;
-  right: -120px;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  pointer-events: none;
+  padding: clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.75rem);
+  background: var(--bg-body);
+  color: var(--text-main);
 }
 
 .sellProductInner {
@@ -32,47 +13,67 @@
 }
 
 .sellProductHeader {
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
   text-align: center;
+}
+
+.sellProductEyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.8rem;
+  margin-bottom: 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--color-secondary);
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 .sellProductTitle {
   margin: 0;
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: #fff;
+  font-size: clamp(1.85rem, 3.6vw, 2.65rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--text-main);
 }
 
 .sellProductTitle::after {
-  content: '';
+  content: "";
   display: block;
-  width: 80px;
+  width: 64px;
   height: 3px;
-  margin: 12px auto 0;
-  border-radius: 2px;
-  background: var(--spAccent);
+  margin: 0.85rem auto 0;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-border);
 }
 
 .sellProductText {
-  max-width: 620px;
-  margin: 16px auto 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #d6e2f5;
+  max-width: 580px;
+  margin: 1rem auto 0;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--text-muted);
 }
 
+/* Card formulario con borde degradado violeta (#61459B) -> naranja (#F57C00) */
 .sellProductForm {
-  padding: 32px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    var(--gradient-border) border-box;
+  box-shadow: var(--shadow-md);
 }
 
 .sellProductGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 1.15rem;
 }
 
 .sellProductField {
@@ -86,52 +87,53 @@
 }
 
 .sellProductLabel {
-  font-size: 14px;
+  font-size: 0.86rem;
   font-weight: 600;
-  color: var(--spText);
+  color: var(--text-main);
 }
 
 .sellProductRequired {
-  color: var(--spAccent);
+  color: var(--color-primary);
 }
 
 .sellProductInput {
   box-sizing: border-box;
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--spBorder);
-  border-radius: 10px;
-  background: #fff;
+  padding: 0.72rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-body);
   font: inherit;
-  font-size: 15px;
-  color: var(--spText);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
 .sellProductInput:focus {
   outline: none;
-  border-color: var(--spAccent);
-  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+  border-color: var(--color-primary);
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .sellProductInputInvalid {
-  border-color: var(--spError);
+  border-color: var(--color-danger);
 }
 
 .sellProductTextarea {
-  min-height: 110px;
+  min-height: 112px;
   resize: vertical;
 }
 
 .sellProductCounter {
   align-self: flex-end;
-  font-size: 12px;
-  color: var(--spMuted);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
 }
 
 .sellProductError {
-  font-size: 12px;
-  color: var(--spError);
+  font-size: 0.78rem;
+  color: var(--color-danger);
 }
 
 .sellProductDropzone {
@@ -140,38 +142,38 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 28px 16px;
-  border: 2px dashed var(--spBorder);
-  border-radius: 12px;
-  background: #f6f9fe;
+  padding: 1.75rem 1rem;
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
   text-align: center;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color var(--transition), background var(--transition);
 }
 
 .sellProductDropzone:hover {
-  border-color: var(--spAccent);
-  background: #fff7ec;
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
 }
 
 .sellProductDropzoneInvalid {
-  border-color: var(--spError);
+  border-color: var(--color-danger);
 }
 
 .sellProductDropzoneIcon {
-  font-size: 28px;
-  color: var(--spAccent);
+  font-size: 1.65rem;
+  color: var(--color-secondary);
 }
 
 .sellProductDropzoneTitle {
-  font-size: 14px;
+  font-size: 0.88rem;
   font-weight: 600;
-  color: var(--spText);
+  color: var(--text-main);
   word-break: break-all;
 }
 
 .sellProductDropzoneHelp {
-  font-size: 12px;
-  color: var(--spMuted);
+  font-size: 0.76rem;
+  color: var(--text-muted);
 }
 
 .sellProductFileInput {
@@ -189,34 +191,43 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 14px 28px;
+  padding: 0.88rem 1.75rem;
   border: none;
-  border-radius: 999px;
-  background: var(--spAccent);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-heading);
+  font-size: 0.96rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: filter 0.15s ease;
+  transition: background var(--transition), transform var(--transition);
 }
 
 .sellProductButton:hover {
-  filter: brightness(1.08);
+  background: var(--color-primary-hover);
+}
+
+.sellProductButton:active {
+  background: var(--color-primary-active);
+  transform: scale(0.99);
 }
 
 .sellProductButton:focus-visible {
-  outline: 2px solid var(--spBg);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
 .sellProductReceipt {
-  max-width: 520px;
+  max-width: 540px;
   margin: 0 auto;
-  padding: 40px 32px;
-  border-radius: 16px;
-  background: #fff;
+  padding: 2.25rem 2rem;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    var(--gradient-border) border-box;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .sellProductReceiptIcon {
@@ -226,80 +237,60 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--spSuccess);
-  color: #fff;
-  font-size: 28px;
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 1.6rem;
+  font-weight: 800;
 }
 
 .sellProductReceiptTitle {
-  margin: 16px 0 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--spText);
+  margin: 1rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main);
 }
 
 .sellProductReceiptText {
-  margin: 12px 0 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--spMuted);
+  margin: 0.65rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-muted);
 }
 
 .sellProductReceiptList {
   display: flex;
   flex-direction: column;
-  margin: 24px 0;
+  margin: 1.5rem 0;
   text-align: left;
 }
 
 .sellProductReceiptRow {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--spBorder);
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sellProductReceiptLabel {
-  font-size: 14px;
-  color: var(--spMuted);
+  font-size: 0.86rem;
+  color: var(--text-muted);
 }
 
 .sellProductReceiptValue {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 0.86rem;
+  font-weight: 700;
   text-align: right;
-  color: var(--spText);
+  color: var(--text-main);
 }
 
-@media (max-width: 700px) {
-  .sellProduct {
-    padding: 32px 12px;
-  }
-
-  .sellProductTitle {
-    font-size: 22px;
-  }
-
-  .sellProductForm {
-    padding: 20px;
-  }
-
-  .sellProductGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .sellProductReceipt {
-    padding: 28px 20px;
-  }
-}
 .sellProductPreview {
-  margin-top: 24px;
+  margin-top: 1.5rem;
   overflow: hidden;
-  border: 1px solid var(--spBorder);
-  border-radius: 12px;
-  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
   text-align: left;
 }
 
@@ -309,7 +300,7 @@
   justify-content: center;
   aspect-ratio: 4 / 3;
   padding: 16px;
-  background: #f5f5f5;
+  background: var(--bg-surface-2);
 }
 
 .sellProductPreviewImage {
@@ -327,39 +318,58 @@
 
 .sellProductPreviewTag {
   align-self: flex-start;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: #e6f7ec;
-  color: #00743a;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+  font-size: 0.74rem;
+  font-weight: 700;
 }
 
 .sellProductPreviewName {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--spText);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .sellProductPreviewPrice {
   margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--spAccent);
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-primary-active);
 }
 
 .sellProductPreviewCategory {
   margin: 0;
-  font-size: 13px;
-  color: var(--spMuted);
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 .sellProductPreviewDescription {
   margin: 4px 0 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--spText);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
   white-space: pre-line;
   overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .sellProduct {
+    padding: 2rem 0.9rem;
+  }
+
+  .sellProductForm {
+    padding: 1.25rem;
+  }
+
+  .sellProductGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sellProductReceipt {
+    padding: 1.75rem 1.25rem;
+  }
 }

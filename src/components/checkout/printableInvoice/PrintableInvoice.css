@@ -36,41 +36,18 @@
 .invoiceBrandRow {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  height: 40px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-.invoiceBrandMark {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: #102442;
-  color: #ff8a00;
-  font-family: "Google Sans", "Open Sans", Arial, sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-.invoiceBrandText {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.invoiceBrandText strong {
-  font-size: 16px;
-  letter-spacing: 0.04em;
-  color: #102442;
-}
-
-.invoiceBrandText span {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #6b7280;
+.invoiceBrandLogo {
+  display: block;
+  height: 98px;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  margin-inline: -20px;
 }
 
 .invoiceIssuerName {
@@ -219,28 +196,28 @@
 }
 
 .invoiceTable thead tr {
-  background: #e6f4fb;
-  border: 1px solid #c3e2f2;
+  background: #f6f3ec;
+  border: 1px solid #eae5dc;
 }
 
 .invoiceTable th {
   padding: 7px 8px;
   text-align: left;
   font-weight: 700;
-  color: #111827;
-  border-top: 1px solid #c3e2f2;
-  border-bottom: 1px solid #c3e2f2;
+  color: #1a1822;
+  border-top: 1px solid #eae5dc;
+  border-bottom: 1px solid #eae5dc;
   white-space: nowrap;
 }
 
 .invoiceTable th:first-child {
-  border-left: 1px solid #c3e2f2;
+  border-left: 1px solid #eae5dc;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
 .invoiceTable th:last-child {
-  border-right: 1px solid #c3e2f2;
+  border-right: 1px solid #eae5dc;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
@@ -300,11 +277,11 @@
   flex-wrap: wrap;
   gap: 12px;
   padding: 8px 12px;
-  background: #e6f4fb;
-  border: 1px solid #c3e2f2;
+  background: #f6f3ec;
+  border: 1px solid #eae5dc;
   border-radius: 6px;
   font-size: 11.5px;
-  color: #111827;
+  color: #1a1822;
 }
 
 .invoiceGrandTotal {
@@ -369,7 +346,7 @@
 
 .invoiceFooterBrand strong {
   font-size: 13px;
-  color: #102442;
+  color: #61459b;
 }
 
 .invoicePreviewOverlay {

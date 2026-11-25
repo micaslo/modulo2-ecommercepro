@@ -1,26 +1,26 @@
 
 .tilli-root {
-  --tilli-accent: var(--color-primary, #ff8a00);
-  --tilli-accent-hover: var(--color-primary-hover, #ed7900);
-  --tilli-accent-soft: var(--color-primary-soft, #fff0dc);
+  --tilli-accent: var(--color-primary, #f57c00);
+  --tilli-accent-hover: var(--color-primary-hover, #df6c00);
+  --tilli-accent-soft: var(--color-primary-soft, #fff2e4);
   --tilli-on-accent: var(--color-on-primary, #ffffff);
-  --tilli-gradient: var(--gradient-brand, linear-gradient(135deg, #ffad32 0%, #ff8000 100%));
+  --tilli-gradient: var(--gradient-border, linear-gradient(135deg, #61459b 0%, #f57c00 100%));
 
-  --tilli-secondary: var(--color-secondary, #15345f);
-  --tilli-secondary-soft: var(--color-secondary-soft, #e3edf8);
+  --tilli-secondary: var(--color-secondary, #61459b);
+  --tilli-secondary-soft: var(--color-secondary-soft, #f3effb);
   --tilli-on-secondary: var(--color-on-secondary, #ffffff);
 
   --tilli-surface: var(--bg-surface, #ffffff);
-  --tilli-surface-2: var(--bg-surface-2, #eaf0f7);
-  --tilli-text: var(--text-main, #102442);
-  --tilli-muted: var(--text-muted, #62748c);
-  --tilli-subtle: var(--text-subtle, #91a0b4);
-  --tilli-border: var(--border-color, #dce5ef);
+  --tilli-surface-2: var(--bg-surface-2, #f6f3ec);
+  --tilli-text: var(--text-main, #1a1822);
+  --tilli-muted: var(--text-muted, #5f5b6b);
+  --tilli-subtle: var(--text-subtle, #8f8a9c);
+  --tilli-border: var(--border-color, #eae5dc);
 
-  --tilli-success: var(--color-success, #269b69);
-  --tilli-success-soft: var(--color-success-soft, #e0f5eb);
-  --tilli-warning: var(--color-warning, #f2a516);
-  --tilli-shadow: var(--shadow-lg, 0 16px 40px rgb(16 36 66 / 0.16));
+  --tilli-success: var(--color-success, #1f8a5b);
+  --tilli-success-soft: var(--color-success-soft, #e7f6ee);
+  --tilli-warning: var(--color-warning, #d97706);
+  --tilli-shadow: var(--shadow-lg, 0 18px 44px rgb(26 24 34 / 0.14));
 
   font-family: var(--font-base, system-ui, sans-serif);
 }
@@ -159,12 +159,19 @@
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: rgb(255 255 255 / 0.22);
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
+  overflow: hidden;
   flex-shrink: 0;
+}
+
+.tilli-avatar img {
+  width: 155%;
+  height: 155%;
+  object-fit: contain;
 }
 
 .tilli-header-copy {

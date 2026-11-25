@@ -19,35 +19,35 @@ const slides = [
     image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=2200&q=90",
     category: "TECNOLOGÍA",
     discount: "HASTA 45% OFF",
-    detail: "Últimas ofertas en stock para renovar tus dispositivos.",
+    detail: "Últimas ofertas en stock para renovar tus dispositivos con envío express.",
   },
   {
-    title: "Zapatillas",
+    title: "Zapatillas urbanas",
     image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=2200&q=90",
     category: "MODA",
     discount: "HASTA 40% OFF",
-    detail: "Encontrá tu próximo par entre las ofertas Black Friday.",
+    detail: "Encontrá tu próximo par con financiación sin interés en Tienda Liebre.",
   },
   {
-    title: "Auriculares",
+    title: "Auriculares pro",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=2200&q=90",
     category: "TECNOLOGÍA · AUDIO",
     discount: "HASTA 50% OFF",
-    detail: "Sonido para acompañarte todos los días. Últimas unidades.",
+    detail: "Sonido envolvente para acompañarte todos los días. Últimas unidades.",
   },
   {
-    title: "Relojes",
+    title: "Relojes y accesorios",
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=2200&q=90",
     category: "ACCESORIOS",
     discount: "HASTA 60% OFF",
-    detail: "Elegí tu estilo y aprovechá las ofertas por tiempo limitado.",
+    detail: "Diseño minimalista y oportunidades por tiempo limitado.",
   },
   {
-    title: "Hogar y jardín",
+    title: "Hogar y diseño",
     image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=90",
     category: "HOGAR",
     discount: "HASTA 50% OFF",
-    detail: "Renová tus espacios con las últimas ofertas en stock.",
+    detail: "Renová tus espacios con las últimas ofertas seleccionadas.",
   },
 ];
 
@@ -71,12 +71,12 @@ export default function Hero() {
   };
 
   return (
-    <section className="hero" aria-label="Ofertas Black Friday">
+    <section className="hero" aria-label="Ofertas destacadas de Tienda Liebre">
       <div className="hero__inner">
         <div
           className="hero__carousel"
           aria-roledescription="carrusel"
-          aria-label="Ofertas Black Friday"
+          aria-label="Ofertas destacadas"
           onMouseEnter={() => setCarouselPaused(true)}
           onMouseLeave={() => setCarouselPaused(false)}
         >
@@ -89,8 +89,10 @@ export default function Hero() {
             <div className="hero__slide-shade" />
 
             <div className="hero__slide-copy">
-              <p className="hero__slide-kicker">ÚLTIMOS DÍAS DE BLACK FRIDAY</p>
-              <span className="hero__slide-category">{currentSlide.category}</span>
+              <div className="hero__slide-eyebrows">
+                <span className="hero__slide-kicker">TIENDA LIEBRE · DESTACADOS</span>
+                <span className="hero__slide-category">{currentSlide.category}</span>
+              </div>
               <h1>{currentSlide.title}</h1>
               <p className="hero__slide-detail">{currentSlide.detail}</p>
 
@@ -99,14 +101,14 @@ export default function Hero() {
                   {currentSlide.discount}
                 </span>
                 <span className="hero__pill hero__pill--installments">
-                  HASTA 18 CUOTAS
-                  <small>SIN INTERÉS</small>
+                  Hasta 18 cuotas
+                  <small>sin interés</small>
                 </span>
               </div>
 
-              <a className="hero__button" href="#ofertas">
-                Ver ofertas <span aria-hidden="true">→</span>
-              </a>
+              <Link className="hero__button" to="/productos">
+                Explorar ofertas <span aria-hidden="true">→</span>
+              </Link>
             </div>
 
             <button
@@ -144,12 +146,16 @@ export default function Hero() {
         </div>
 
         <aside className="hero__side-promos" aria-label="Más ofertas destacadas">
-          <article className="hero__promo hero__promo--coins">
+          <article className="hero__promo hero__promo--gradient">
             <span className="hero__promo-kicker">Tecnología en oferta</span>
-            <h2>Smartphones<br />para elegir</h2>
-            <a href="#tecnologia" className="hero__promo-link">
+            <h2>
+              Smartphones
+              <br />
+              para elegir
+            </h2>
+            <Link to="/productos?categoria=Tecnolog%C3%ADa" className="hero__promo-link">
               Ver productos <span aria-hidden="true">↗</span>
-            </a>
+            </Link>
             <img
               className="hero__promo-image"
               src={slides[0].image}
@@ -158,16 +164,20 @@ export default function Hero() {
             />
           </article>
 
-          <article className="hero__promo hero__promo--coupon">
+          <article className="hero__promo hero__promo--gradient">
             <span className="hero__promo-kicker">Últimas unidades</span>
-            <h2>Zapatillas<br />40% OFF</h2>
-            <a href="#ofertas" className="hero__promo-link">
+            <h2>
+              Oportunidades
+              <br />
+              hasta 40% OFF
+            </h2>
+            <Link to="/mas-vendidos" className="hero__promo-link">
               Comprar ahora <span aria-hidden="true">↗</span>
-            </a>
+            </Link>
             <img
               className="hero__promo-image"
               src={slides[1].image}
-              alt="Zapatillas con descuento"
+              alt="Ofertas destacadas"
               loading="lazy"
             />
           </article>
@@ -196,24 +206,30 @@ export default function Hero() {
 
         <div className="hero__deal-bar" id="ofertas">
           <div className="hero__deal-title">
-            <span className="hero__deal-mark" aria-hidden="true">✳</span>
-            <span>Más motivos<br />para elegir</span>
+            <span className="hero__deal-mark" aria-hidden="true">
+              ✦
+            </span>
+            <span>
+              Más motivos
+              <br />
+              para elegirnos
+            </span>
           </div>
           <div className="hero__deal">
             <strong>Envío gratis</strong>
             <span>en compras seleccionadas</span>
           </div>
           <div className="hero__deal">
-            <strong>Últimas ofertas</strong>
-            <span>hasta agotar stock</span>
+            <strong>Cupón LIEBRE25</strong>
+            <span>25% OFF en tu carrito</span>
           </div>
           <div className="hero__deal">
             <strong>Hasta 18 cuotas</strong>
             <span>sin interés</span>
           </div>
-          <a href="#ofertas" className="hero__deal-cta">
-            Ver todas las ofertas <span aria-hidden="true">→</span>
-          </a>
+          <Link to="/productos" className="hero__deal-cta">
+            Ver catálogo completo <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </div>
     </section>

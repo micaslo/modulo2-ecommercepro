@@ -1,4 +1,5 @@
 import './Error-404.css'
+import logoDarkText from '../../assets/images/logo/tl-imagotype-black.webp'
 
 type Error404Props = {
   homeHref?: string
@@ -7,14 +8,8 @@ type Error404Props = {
 export default function Error404({ homeHref = '/' }: Error404Props) {
   return (
     <main className="error404-page">
-      <a className="error404-brand" href={homeHref} aria-label="Ecommerce, ir al inicio">
-        <span className="error404-brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M4 8h16l-1.4 12H5.4L4 8Z" />
-            <path d="M8 9V6a4 4 0 0 1 8 0v3" />
-          </svg>
-        </span>
-        <span>Detodito market</span>
+      <a className="error404-brand" href={homeHref} aria-label="Tienda Liebre, ir al inicio">
+        <img src={logoDarkText} alt="Tienda Liebre" className="error404-brand__logo" />
       </a>
 
       <section className="error404-card" aria-labelledby="error404-title">
@@ -23,7 +18,7 @@ export default function Error404({ homeHref = '/' }: Error404Props) {
           <h1 id="error404-title">¡Ups! Página no encontrada</h1>
           <p className="error404-description">
             Parece que este producto se perdió en el camino. Volvamos al inicio y
-            encontremos algo genial.
+            encontremos algo genial en Tienda Liebre.
           </p>
           <a className="error404-home" href={homeHref}>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

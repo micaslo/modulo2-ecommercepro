@@ -3,6 +3,8 @@ import type { SubmitEvent } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useWishlist } from "../../hooks/useWishlist";
+import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
+import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import "./Navbar.css";
 
 interface NavbarProps {
@@ -32,6 +34,7 @@ const baseNavLinks = [
   { label: "Más vendidos", to: "/mas-vendidos" },
   { label: "Revendedores", to: "/resellers" },
   { label: "Vender", to: "/sell-my-product" },
+  { label: "Nosotros", to: "/sobrenosotros" },
 ];
 
 export default function Navbar({
@@ -73,38 +76,48 @@ export default function Navbar({
       <div className="navbar__top">
         <div className="navbar__top-inner">
           <div className="navbar__top-left">
-            <span className="navbar__top-item navbar__top-item--accent">
-              🚚 ENVÍO EXPRESS A TODO EL PAÍS
+            <span className="navbar__promo">LIEBRE25 · 25% OFF</span>
+            <span className="navbar__top-item">
+              Envío express a todo el país
             </span>
             <span className="navbar__top-item navbar__hide-md">
-              ENVÍO ESTÁNDAR GRATIS EN COMPRAS MAYORES A $150.000
+              · Envío gratis desde $150.000
             </span>
           </div>
           <div className="navbar__top-right">
-            <span className="navbar__promo">PROMO: DETODITO25 (-25%)</span>
             {!isAuthenticated && (
               <Link to="/registro" className="navbar__top-link navbar__hide-md">
-                CREAR CUENTA
+                Crear cuenta
               </Link>
             )}
             {isAdmin && (
               <Link to="/admin" className="navbar__top-link navbar__hide-md">
-                PANEL ADMIN
+                Panel Admin
               </Link>
             )}
-            <span className="navbar__top-link navbar__hide-md">ARS ($)</span>
+            <span className="navbar__top-currency navbar__hide-md">ARS ($)</span>
           </div>
         </div>
       </div>
 
       <div className="navbar__main">
         <div className="navbar__main-inner">
-          <Link to="/" className="navbar__brand" onClick={closeMenu}>
-            <span className="navbar__brand-icon">D</span>
-            <span className="navbar__brand-text">
-              <strong>Detodito</strong>
-              <small>MARKET</small>
-            </span>
+          <Link
+            to="/"
+            className="navbar__brand"
+            aria-label="Tienda Liebre, ir al inicio"
+            onClick={closeMenu}
+          >
+            <img
+              src={logoDarkText}
+              alt="Tienda Liebre"
+              className="navbar__logo navbar__logo--light"
+            />
+            <img
+              src={logoWhiteText}
+              alt="Tienda Liebre"
+              className="navbar__logo navbar__logo--dark"
+            />
           </Link>
 
           <form className="navbar__search" onSubmit={handleSearch} role="search">
@@ -129,7 +142,7 @@ export default function Navbar({
               aria-label="Buscar productos"
             />
             <button type="submit" className="navbar__search-btn">
-              Explorar
+              Buscar
             </button>
           </form>
 
@@ -143,7 +156,9 @@ export default function Navbar({
               >
                 ♡
                 {activeWishlistCount > 0 && (
-                  <span className="navbar__badge">{activeWishlistCount}</span>
+                  <span className="navbar__badge navbar__badge--violet">
+                    {activeWishlistCount}
+                  </span>
                 )}
               </Link>
             )}
@@ -154,8 +169,12 @@ export default function Navbar({
               aria-label={`Carrito, ${cartCount} productos`}
               onClick={closeMenu}
             >
-              <span className="navbar__cart-icon">
-                🛒
+              <span className="navbar__cart-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M3 5h2l2.2 10.2a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L20.5 8H6.2" />
+                  <circle cx="9.5" cy="19.5" r="1.3" />
+                  <circle cx="17" cy="19.5" r="1.3" />
+                </svg>
                 {cartCount > 0 && (
                   <span className="navbar__badge navbar__badge--primary">
                     {cartCount}
@@ -176,7 +195,14 @@ export default function Navbar({
               }
             >
               <span className="navbar__avatar">
-                {displayName ? displayName.charAt(0).toUpperCase() : "👤"}
+                {displayName ? (
+                  displayName.charAt(0).toUpperCase()
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="8.5" r="3.5" />
+                    <path d="M5.5 19.5a6.5 6.5 0 0 1 13 0" />
+                  </svg>
+                )}
               </span>
               <span className="navbar__user-text navbar__hide-md">
                 <small>
@@ -191,6 +217,7 @@ export default function Navbar({
             </Link>
 
             <button
+              type="button"
               className="navbar__toggle"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
@@ -218,7 +245,9 @@ export default function Navbar({
                       "navbar__link",
                       link.highlight ? "navbar__link--pill" : "",
                       isActive ? "navbar__link--active" : "",
-                    ].join(" ")
+                    ]
+                      .filter(Boolean)
+                      .join(" ")
                   }
                 >
                   {link.label}
@@ -235,7 +264,9 @@ export default function Navbar({
                     [
                       "navbar__link",
                       isActive ? "navbar__link--active" : "",
-                    ].join(" ")
+                    ]
+                      .filter(Boolean)
+                      .join(" ")
                   }
                 >
                   Favoritos
@@ -252,7 +283,9 @@ export default function Navbar({
                     [
                       "navbar__link",
                       isActive ? "navbar__link--active" : "",
-                    ].join(" ")
+                    ]
+                      .filter(Boolean)
+                      .join(" ")
                   }
                 >
                   Panel Admin
@@ -269,7 +302,9 @@ export default function Navbar({
                     [
                       "navbar__link",
                       isActive ? "navbar__link--active" : "",
-                    ].join(" ")
+                    ]
+                      .filter(Boolean)
+                      .join(" ")
                   }
                 >
                   Registrarse
@@ -279,7 +314,7 @@ export default function Navbar({
           </ul>
 
           <div className="navbar__perks">
-            <span>↩ Devoluciones por 30 días</span>
+            <span>↩ Devoluciones gratis por 30 días</span>
           </div>
         </div>
       </nav>

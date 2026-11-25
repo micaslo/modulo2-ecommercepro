@@ -4,15 +4,10 @@
   display: grid;
   place-items: center;
   padding: clamp(1rem, 4vw, 3rem);
-  color: var(--text-main, #102442);
-  background: var(--bg-body, #f1f5fa);
-  font-family: var(--font-base, "Open Sans", system-ui, sans-serif);
-  line-height: var(--lh-base, 1.55);
-}
-
-.create-account-page,
-.create-account-page * {
-  box-sizing: border-box;
+  color: var(--text-main);
+  background: var(--bg-body);
+  font-family: var(--font-base);
+  line-height: var(--lh-base);
 }
 
 .create-account-card {
@@ -21,10 +16,10 @@
   display: grid;
   grid-template-columns: minmax(17rem, 0.82fr) minmax(0, 1.18fr);
   overflow: hidden;
-  border: 1px solid var(--border-color, #dce5ef);
-  border-radius: var(--radius-lg, 22px);
-  background: var(--bg-surface, #fff);
-  box-shadow: var(--shadow-lg, 0 16px 40px rgb(16 36 66 / 0.13));
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
 }
 
 .create-account-aside {
@@ -33,47 +28,30 @@
   flex-direction: column;
   overflow: hidden;
   padding: clamp(1.75rem, 4vw, 3rem);
-  color: var(--color-on-secondary, #fff);
-  background: var(--color-secondary, #15345f);
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 12% 16%, rgb(97 69 155 / 0.42), transparent 52%),
+    var(--bg-dark);
 }
 
 .create-account-brand {
   position: relative;
   z-index: 1;
   width: fit-content;
+  height: 48px;
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  color: inherit;
+  overflow: hidden;
   text-decoration: none;
 }
 
-.create-account-brand__mark {
-  width: 2.75rem;
-  height: 2.75rem;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius-md, 14px);
-  color: var(--color-on-primary, #fff);
-  background: var(--color-primary, #ff8a00);
-  font-size: 1.35rem;
-  font-weight: 800;
-}
-
-.create-account-brand__name {
-  display: grid;
-  line-height: 1.1;
-}
-
-.create-account-brand__name strong {
-  font-size: 1.05rem;
-}
-
-.create-account-brand__name small {
-  margin-top: 0.2rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.create-account-brand__logo {
+  display: block;
+  height: 120px;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  margin-inline: -25px;
 }
 
 .create-account-aside__copy {
@@ -86,20 +64,25 @@
 
 .create-account-eyebrow {
   margin: 0 0 0.65rem;
-  color: var(--color-primary, #ff8a00);
-  font-size: var(--fs-sm, 0.875rem);
-  font-weight: var(--fw-bold, 700);
+  color: var(--color-primary-light);
+  font-family: var(--font-heading);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
+.create-account-content .create-account-eyebrow {
+  color: var(--color-secondary);
+}
+
 .create-account-aside__copy h1 {
   margin: 0;
-  color: inherit;
-  font-family: var(--font-heading, var(--font-base, system-ui, sans-serif));
-  font-size: clamp(2.15rem, 4vw, 3.5rem);
-  letter-spacing: -0.055em;
-  line-height: 1.05;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: clamp(2.1rem, 3.8vw, 3.2rem);
+  letter-spacing: -0.045em;
+  line-height: 1.06;
 }
 
 .create-account-aside__copy > p:last-child {
@@ -116,9 +99,9 @@
   height: 16rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgb(255 255 255 / 0.16);
+  border: 1px solid rgb(255 255 255 / 0.14);
   border-radius: 50%;
-  color: var(--color-primary, #ff8a00);
+  color: var(--color-primary);
   font-size: 2rem;
 }
 
@@ -126,12 +109,16 @@
 .create-account-decoration::after {
   content: "";
   position: absolute;
-  border: 1px solid rgb(255 255 255 / 0.13);
+  border: 1px solid rgb(255 255 255 / 0.1);
   border-radius: 50%;
 }
 
-.create-account-decoration::before { inset: 1.5rem; }
-.create-account-decoration::after { inset: 3rem; }
+.create-account-decoration::before {
+  inset: 1.5rem;
+}
+.create-account-decoration::after {
+  inset: 3rem;
+}
 
 .create-account-decoration span:nth-child(1) {
   position: absolute;
@@ -143,7 +130,7 @@
   position: absolute;
   top: 4.5rem;
   right: 4rem;
-  color: var(--color-primary-soft, #fff0dc);
+  color: var(--color-secondary-soft);
 }
 
 .create-account-decoration span:nth-child(3) {
@@ -163,16 +150,16 @@
 
 .create-account-heading h2 {
   margin: 0;
-  color: var(--text-main, #102442);
-  font-family: var(--font-heading, var(--font-base, system-ui, sans-serif));
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  letter-spacing: -0.04em;
+  color: var(--text-main);
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+  letter-spacing: -0.035em;
   line-height: 1.15;
 }
 
 .create-account-heading > p:last-child {
-  margin: 0.5rem 0 0;
-  color: var(--text-muted, #62748c);
+  margin: 0.45rem 0 0;
+  color: var(--text-muted);
 }
 
 .create-account-form {
@@ -196,66 +183,67 @@
 }
 
 .create-account-field label {
-  color: var(--text-main, #102442);
-  font-size: 0.9rem;
-  font-weight: var(--fw-bold, 700);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .create-account-field label span {
-  color: var(--text-muted, #62748c);
+  color: var(--text-muted);
   font-size: 0.8rem;
-  font-weight: var(--fw-regular, 400);
+  font-weight: var(--fw-regular);
 }
 
 .create-account-field input {
   width: 100%;
-  min-height: 3rem;
-  padding: 0.7rem 0.85rem;
-  border: 1px solid var(--border-strong, #bdcddd);
-  border-radius: var(--radius-sm, 8px);
+  min-height: 2.9rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
   outline: none;
-  color: var(--text-main, #102442);
-  background: var(--bg-surface, #fff);
+  color: var(--text-main);
+  background: var(--bg-body);
   font: inherit;
-  transition: border-color var(--transition, 200ms ease), box-shadow var(--transition, 200ms ease);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
 .create-account-field input::placeholder {
-  color: var(--text-subtle, #91a0b4);
+  color: var(--text-subtle);
 }
 
 .create-account-field input:focus-visible {
-  border-color: var(--focus-ring, #ff8a00);
-  box-shadow: 0 0 0 3px rgb(255 138 0 / 0.18);
+  border-color: var(--focus-ring);
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .create-account-field input:invalid:not(:placeholder-shown),
 .create-account-field input[aria-invalid="true"] {
-  border-color: var(--color-danger, #dc4052);
+  border-color: var(--color-danger);
 }
 
 .create-account-field-error {
-  color: var(--color-danger, #dc4052);
+  color: var(--color-danger);
   font-size: 0.8rem;
-  font-weight: var(--fw-medium, 500);
+  font-weight: var(--fw-medium);
 }
 
 .create-account-password-toggle {
   justify-self: start;
-  margin-top: -0.6rem;
+  margin-top: -0.5rem;
   padding: 0;
   border: 0;
-  color: var(--text-link, #174b85);
+  color: var(--text-link);
   background: transparent;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: var(--fw-bold, 700);
+  font-size: 0.84rem;
+  font-weight: var(--fw-bold);
   cursor: pointer;
 }
 
 .create-account-password-toggle:focus-visible,
 .create-account-login a:focus-visible {
-  outline: 2px solid var(--focus-ring, #ff8a00);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -263,7 +251,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.65rem;
-  color: var(--text-muted, #62748c);
+  color: var(--text-muted);
   font-size: 0.85rem;
   cursor: pointer;
 }
@@ -272,65 +260,67 @@
   flex: 0 0 auto;
   width: 1rem;
   height: 1rem;
-  margin: 0.15rem 0 0;
-  accent-color: var(--color-primary, #ff8a00);
+  margin: 0.2rem 0 0;
+  accent-color: var(--color-primary);
 }
 
 .create-account-message {
   margin: 0;
   padding: 0.7rem 0.85rem;
-  border-radius: var(--radius-sm, 8px);
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
 }
 
 .create-account-message--error {
-  color: var(--color-danger, #dc4052);
-  background: var(--color-danger-soft, #fde7e9);
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
 }
 
 .create-account-message--success {
-  color: var(--color-success, #269b69);
-  background: var(--color-success-soft, #e0f5eb);
+  color: var(--color-success);
+  background: var(--color-success-soft);
 }
 
 .create-account-submit {
-  min-height: 3.15rem;
+  min-height: 3.1rem;
   width: 100%;
   margin-top: 0.2rem;
   padding: 0.75rem 1rem;
   border: 0;
-  border-radius: var(--radius-pill, 999px);
-  color: var(--color-on-primary, #fff);
-  background: var(--color-primary, #ff8a00);
-  font: inherit;
-  font-weight: var(--fw-bold, 700);
+  border-radius: var(--radius-pill);
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: var(--fw-bold);
   cursor: pointer;
-  transition: transform var(--transition, 200ms ease), background var(--transition, 200ms ease);
+  transition: transform var(--transition), background var(--transition);
 }
 
 .create-account-submit:hover {
-  background: var(--color-primary-hover, #ed7900);
+  background: var(--color-primary-hover);
 }
 
 .create-account-submit:active {
+  background: var(--color-primary-active);
   transform: scale(0.98);
 }
 
 .create-account-submit:focus-visible {
-  outline: 3px solid var(--focus-ring, #ff8a00);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
 .create-account-login {
   margin: 1.25rem 0 0;
-  color: var(--text-muted, #62748c);
+  color: var(--text-muted);
   font-size: 0.9rem;
   text-align: center;
 }
 
 .create-account-login a {
-  color: var(--text-link, #174b85);
-  font-weight: var(--fw-bold, 700);
+  color: var(--text-link);
+  font-weight: var(--fw-bold);
   text-decoration: none;
 }
 
@@ -354,11 +344,6 @@
     padding-block: 2rem;
   }
 
-  .create-account-aside__copy h1 {
-    max-width: 15ch;
-    font-size: clamp(2rem, 6vw, 2.8rem);
-  }
-
   .create-account-decoration {
     right: -2rem;
     bottom: -9rem;
@@ -373,7 +358,7 @@
 
   .create-account-card {
     min-height: 0;
-    border-radius: var(--radius-md, 14px);
+    border-radius: var(--radius-md);
   }
 
   .create-account-aside {
@@ -383,21 +368,6 @@
 
   .create-account-aside__copy {
     padding-block: 1.5rem;
-  }
-
-  .create-account-aside__copy h1 {
-    max-width: 13ch;
-    font-size: 2rem;
-  }
-
-  .create-account-aside__copy > p:last-child {
-    max-width: 32ch;
-    font-size: 0.9rem;
-  }
-
-  .create-account-decoration {
-    right: -8rem;
-    bottom: -9rem;
   }
 
   .create-account-content {
