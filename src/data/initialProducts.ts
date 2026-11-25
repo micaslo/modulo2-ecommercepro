@@ -3,6 +3,7 @@ import type { Product } from "../types/productMedia";
 export const initialProducts: Product[] = [
   {
     id: "iphone-18-pro",
+    code: "DT-TEC-001",
     name: "Apple iPhone 18 Pro Max 256 GB",
     price: 1899000,
     category: "Tecnología",
@@ -13,6 +14,7 @@ export const initialProducts: Product[] = [
   },
   {
     id: "samsung-s26-ultra",
+    code: "DT-TEC-002",
     name: "Samsung Galaxy S26 Ultra 512 GB",
     price: 1749000,
     category: "Tecnología",
@@ -23,6 +25,7 @@ export const initialProducts: Product[] = [
   },
   {
     id: "chevrolet-captiva",
+    code: "DT-VEH-001",
     name: "Chevrolet Captiva Premier 0 km",
     price: 38900000,
     category: "Vehículos",
@@ -33,6 +36,7 @@ export const initialProducts: Product[] = [
   },
   {
     id: "chevrolet-traverse",
+    code: "DT-VEH-002",
     name: "Chevrolet Traverse High Country 0 km",
     price: 62500000,
     category: "Vehículos",
@@ -43,6 +47,7 @@ export const initialProducts: Product[] = [
   },
   {
     id: "canon-eos-5d-mark-iv",
+    code: "DT-CAM-001",
     name: "Cámara Canon EOS 5D Mark IV + Lente EF 24-105mm f/4L IS II USM",
     price: 4950000,
     category: "Cámaras y Accesorios",
@@ -53,6 +58,7 @@ export const initialProducts: Product[] = [
   },
   {
     id: "nikon-z9",
+    code: "DT-CAM-002",
     name: "Cámara Sin Espejo Nikon Z 9 45.7 MP 8K Video Profesional",
     price: 10490000,
     category: "Cámaras y Accesorios",
@@ -63,6 +69,7 @@ export const initialProducts: Product[] = [
   },
   {
     id: "ps5-dualsense",
+    code: "DT-GAM-001",
     name: "Joystick Inalámbrico Sony DualSense PS5",
     price: 159999,
     category: "Gaming",

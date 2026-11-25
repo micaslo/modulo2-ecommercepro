@@ -8,14 +8,10 @@ import {
 } from "react-router-dom";
 import { useProducts } from "../../hooks/useProducts";
 import { useCart } from "../../hooks/useCart";
+import { useWishlist } from "../../hooks/useWishlist";
 import { getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import type { Product } from "../../types/productMedia";
-import {
-  getWishlistIds,
-  toggleWishlistProduct,
-  WISHLIST_CHANGE_EVENT,
-} from "../../utils/wishlist";
 import ImageCarousel from "../../components/productPage/imageCarousel/ImageCarousel";
 import ColorSelector from "../../components/productPage/colorSelector/ColorSelector";
 import ProductSpecs from "../../components/productPage/productSpecs/ProductSpecs";
@@ -55,11 +51,12 @@ function ProductPageContent({
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { canUseWishlist, isFavorite: checkIsFavorite, toggle: toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [stockModalOpen, setStockModalOpen] = useState(false);
   const [carModalOpen, setCarModalOpen] = useState(false);
+  const isFavorite = checkIsFavorite(product.id);
 
   const media = getProductMedia(product);
   const details = getProductDetails(product);
@@ -75,18 +72,6 @@ function ProductPageContent({
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [product.id, queryColor]);
-
-  useEffect(() => {
-    const syncFavorite = () =>
-      setIsFavorite(getWishlistIds().includes(product.id));
-    syncFavorite();
-    window.addEventListener(WISHLIST_CHANGE_EVENT, syncFavorite);
-    window.addEventListener("storage", syncFavorite);
-    return () => {
-      window.removeEventListener(WISHLIST_CHANGE_EVENT, syncFavorite);
-      window.removeEventListener("storage", syncFavorite);
-    };
-  }, [product.id]);
 
   const activeColorVariant =
     media.colors.find((c) => c.id === selectedColorId) ?? media.colors[0];
@@ -160,15 +145,17 @@ function ProductPageContent({
   return (
     <main className="productPage">
       <nav className="productPageBreadcrumb" aria-label="Breadcrumb">
-        <Link to="/" className="breadcrumbBack">
-          Volver al listado
+        <Link to="/productos" className="breadcrumbBack">
+          Volver al catálogo
         </Link>
         <span className="breadcrumbDivider" aria-hidden="true">
           |
         </span>
         <Link to="/">Inicio</Link>
         <span aria-hidden="true">›</span>
-        <span>{product.category}</span>
+        <Link to={`/productos?categoria=${encodeURIComponent(product.category)}`}>
+          {product.category}
+        </Link>
         <span aria-hidden="true">›</span>
         <span className="breadcrumbCurrent">{product.name}</span>
       </nav>
@@ -190,18 +177,26 @@ function ProductPageContent({
             <span className="productCondition">
               {details.condition} <span aria-hidden="true">|</span>{" "}
               {details.soldText}
+              {product.code && (
+                <>
+                  {" "}
+                  <span aria-hidden="true">|</span> Cód. {product.code}
+                </>
+              )}
             </span>
-            <button
-              type="button"
-              className={`productFavBtn ${isFavorite ? "isActive" : ""}`}
-              onClick={() => toggleWishlistProduct(product.id)}
-              aria-label={
-                isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"
-              }
-              aria-pressed={isFavorite}
-            >
-              <HeartIcon filled={isFavorite} size={20} />
-            </button>
+            {canUseWishlist && (
+              <button
+                type="button"
+                className={`productFavBtn ${isFavorite ? "isActive" : ""}`}
+                onClick={() => toggleWishlist(product.id)}
+                aria-label={
+                  isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"
+                }
+                aria-pressed={isFavorite}
+              >
+                <HeartIcon filled={isFavorite} size={20} />
+              </button>
+            )}
           </div>
 
           <h1 className="productPageTitle">{product.name}</h1>

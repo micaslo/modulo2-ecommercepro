@@ -229,8 +229,15 @@
   box-shadow: 0 0 0 3px rgb(255 138 0 / 0.18);
 }
 
-.create-account-field input:invalid:not(:placeholder-shown) {
+.create-account-field input:invalid:not(:placeholder-shown),
+.create-account-field input[aria-invalid="true"] {
   border-color: var(--color-danger, #dc4052);
+}
+
+.create-account-field-error {
+  color: var(--color-danger, #dc4052);
+  font-size: 0.8rem;
+  font-weight: var(--fw-medium, 500);
 }
 
 .create-account-password-toggle {
