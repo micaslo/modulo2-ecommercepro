@@ -20,6 +20,7 @@ import SobreNosotros from "./components/sobrenosotros/sobrenosotros";
 import { useCart } from "./hooks/useCart";
 
 import "./App.css";
+import Hero from "./pages/Hero/Hero";
 
 function App() {
   const { totalItems, subtotal } = useCart();
@@ -42,6 +43,7 @@ function App() {
       <PageToCreateAnAccount />
       <ResellersSection />
       <WishList />
+      <Hero/> 
     </main>
   }
 />
@@ -50,6 +52,7 @@ function App() {
           element={
             <main>
               <h1>Contenido</h1>
+              <Hero/>
               <HowToGetThere />
               <PageToCreateAnAccount />
               <ResellersSection />
