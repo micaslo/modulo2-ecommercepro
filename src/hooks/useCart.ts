@@ -13,7 +13,7 @@ function makeCartItemKey(
   colorId?: string,
   isCar?: boolean,
 ): string {
-  // Para vehículos unificamos por productId para garantizar máximo 1 unidad total por modelo
+  
   if (isCar) return productId;
   return colorId ? `${productId}__${colorId}` : productId;
 }

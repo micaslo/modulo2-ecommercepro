@@ -30,7 +30,7 @@ export function getResellerFeaturedProducts(products: Product[]): Product[] {
       }
     }
   } catch {
-    // Si el almacenamiento no está disponible, se elige una selección en memoria.
+    
   }
 
   const availableProducts = shuffle(products.filter((product) => product.stock > 0));
