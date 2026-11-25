@@ -13,7 +13,11 @@ import CartPage from "./pages/cartPage/CartPage";
 import Error404 from "./pages/Error-404/Error-404";
 import ResellersSection from "./pages/ResellersSection/ResellersSection";
 import WishList from "./pages/WishList/WishList";
-
+import CatalogPage from "./pages/catalogPage/CatalogPage";
+import ProfilePage from "./pages/profilePage/ProfilePage";
+import AdminPage from "./pages/adminPage/AdminPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import { useCart } from "./hooks/useCart";
 import SellProductSection from "./components/sellProduct/SellProductSection";
 import SobreNosotros from "./components/sobrenosotros/sobrenosotros";
 
@@ -53,10 +57,13 @@ function App() {
             <main>
               <h1>Contenido</h1>
               <Hero/>
+        <Route
+          path="/"
+          element={
+            <main>
+              <BestSellersPage />
               <HowToGetThere />
-              <PageToCreateAnAccount />
               <ResellersSection />
-              <WishList />
             </main>
           }
         />
@@ -136,6 +143,42 @@ function App() {
           element={<Error404 />}
         />
 
+        <Route path="/productos" element={<CatalogPage />} />
+        <Route path="/mas-vendidos" element={<BestSellersPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/registro" element={<PageToCreateAnAccount />} />
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute sectionName="tu perfil">
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute
+              allowedRoles={["admin"]}
+              sectionName="el panel de administración"
+            >
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favoritos"
+          element={
+            <ProtectedRoute sectionName="tu lista de deseos">
+              <WishList />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/resellers" element={<ResellersSection />} />
+        <Route path="/sell-my-product" element={<SellProductSection />} />
+        <Route path="/error-404" element={<Error404 />} />
+        <Route path="*" element={<Error404 />} />
       </Routes>
 
       <Footer />

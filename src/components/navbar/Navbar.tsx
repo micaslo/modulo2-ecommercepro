@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { FormEvent } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { getWishlistIds, WISHLIST_CHANGE_EVENT } from "../../utils/wishlist";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { useWishlist } from "../../hooks/useWishlist";
 import "./Navbar.css";
 
 interface NavbarProps {
@@ -13,59 +14,44 @@ interface NavbarProps {
 
 const categories: string[] = [
   "Todas las categorías",
-  " Vehículos",
-  "Agro",
-  " Mascotas",
-  "Bebés",
-  "Belleza ",
-  "tecnologia",
-  "Construcción",
-  "Deportes ",
-  "Electrodomésticos.",
+  "Tecnología",
+  "Vehículos",
+  "Cámaras y Accesorios",
+  "Gaming",
+  "Electrodomésticos",
   "Hogar",
-  "Inmuebles",
-  "Joyas ",
-  "Juegos ",
-  "ropa",
+  "Deportes",
+  "Ropa",
   "Accesorios",
-
+  "Belleza",
+  "Mascotas",
 ];
 
-const navLinks = [
-  { label: "Novedades", to: "/novedades", highlight: true },
-  { label: "Catálogo", to: "/productos" },
-  { label: "Selección", to: "/seleccion" },
+const baseNavLinks = [
+  { label: "Catálogo", to: "/productos", highlight: true },
   { label: "Más vendidos", to: "/mas-vendidos" },
-  
+  { label: "Revendedores", to: "/resellers" },
+  { label: "Vender", to: "/sell-my-product" },
 ];
 
 export default function Navbar({
   cartCount = 0,
   cartTotal = 0,
-  wishlistCount = 0,
-  userName = null,
+  wishlistCount,
+  userName,
 }: NavbarProps) {
+  const { user, isAuthenticated, isAdmin } = useAuth();
+  const { count: personalWishlistCount } = useWishlist();
+
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [category, setCategory] = useState<string>(categories[0]);
   const [query, setQuery] = useState<string>("");
-  const [currentWishlistCount, setCurrentWishlistCount] = useState(() =>
-    Math.max(wishlistCount, getWishlistIds().length),
-  );
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const displayName = userName ?? user?.firstName ?? null;
+  const activeWishlistCount = wishlistCount ?? personalWishlistCount;
 
   const closeMenu = () => setMenuOpen(false);
-
-  useEffect(() => {
-    const syncWishlistCount = () => setCurrentWishlistCount(getWishlistIds().length);
-    syncWishlistCount();
-    window.addEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount);
-    window.addEventListener("storage", syncWishlistCount);
-    return () => {
-      window.removeEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount);
-      window.removeEventListener("storage", syncWishlistCount);
-    };
-  }, [location.pathname]);
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -96,12 +82,16 @@ export default function Navbar({
           </div>
           <div className="navbar__top-right">
             <span className="navbar__promo">PROMO: DETODITO25 (-25%)</span>
-            <Link to="/sucursales" className="navbar__top-link navbar__hide-md">
-              SUCURSALES
-            </Link>
-            <Link to="/seguimiento" className="navbar__top-link navbar__hide-md">
-              SEGUIR PEDIDO
-            </Link>
+            {!isAuthenticated && (
+              <Link to="/registro" className="navbar__top-link navbar__hide-md">
+                CREAR CUENTA
+              </Link>
+            )}
+            {isAdmin && (
+              <Link to="/admin" className="navbar__top-link navbar__hide-md">
+                PANEL ADMIN
+              </Link>
+            )}
             <span className="navbar__top-link navbar__hide-md">ARS ($)</span>
           </div>
         </div>
@@ -113,7 +103,7 @@ export default function Navbar({
             <span className="navbar__brand-icon">D</span>
             <span className="navbar__brand-text">
               <strong>Detodito</strong>
-              <small>MARKED</small>
+              <small>MARKET</small>
             </span>
           </Link>
 
@@ -144,17 +134,19 @@ export default function Navbar({
           </form>
 
           <div className="navbar__actions">
-            <Link
-              to="/favoritos"
-              className="navbar__icon-btn"
-              aria-label={`Favoritos, ${currentWishlistCount}`}
-              onClick={closeMenu}
-            >
-              ♡
-              {currentWishlistCount > 0 && (
-                <span className="navbar__badge">{currentWishlistCount}</span>
-              )}
-            </Link>
+            {isAuthenticated && (
+              <Link
+                to="/favoritos"
+                className="navbar__icon-btn"
+                aria-label={`Favoritos, ${activeWishlistCount}`}
+                onClick={closeMenu}
+              >
+                ♡
+                {activeWishlistCount > 0 && (
+                  <span className="navbar__badge">{activeWishlistCount}</span>
+                )}
+              </Link>
+            )}
 
             <Link
               to="/cart"
@@ -174,16 +166,27 @@ export default function Navbar({
             </Link>
 
             <Link
-              to={userName ? "/perfil" : "/login"}
+              to="/perfil"
               className="navbar__user"
               onClick={closeMenu}
+              aria-label={
+                displayName
+                  ? `Perfil de ${displayName} (${isAdmin ? "Administrador" : "Invitado"})`
+                  : "Mi cuenta"
+              }
             >
               <span className="navbar__avatar">
-                {userName ? userName.charAt(0).toUpperCase() : "👤"}
+                {displayName ? displayName.charAt(0).toUpperCase() : "👤"}
               </span>
               <span className="navbar__user-text navbar__hide-md">
-                <small>{userName ? "Bienvenido/a" : "Hola"}</small>
-                <strong>{userName ?? "Ingresar"}</strong>
+                <small>
+                  {isAuthenticated
+                    ? isAdmin
+                      ? "Administrador"
+                      : "Invitado"
+                    : "Mi cuenta"}
+                </small>
+                <strong>{displayName ?? "Acceder"}</strong>
               </span>
             </Link>
 
@@ -205,7 +208,7 @@ export default function Navbar({
       >
         <div className="navbar__nav-inner">
           <ul className="navbar__links">
-            {navLinks.map((link) => (
+            {baseNavLinks.map((link) => (
               <li key={link.to}>
                 <NavLink
                   to={link.to}
@@ -222,6 +225,57 @@ export default function Navbar({
                 </NavLink>
               </li>
             ))}
+
+            {isAuthenticated && (
+              <li>
+                <NavLink
+                  to="/favoritos"
+                  onClick={closeMenu}
+                  className={({ isActive }) =>
+                    [
+                      "navbar__link",
+                      isActive ? "navbar__link--active" : "",
+                    ].join(" ")
+                  }
+                >
+                  Favoritos
+                </NavLink>
+              </li>
+            )}
+
+            {isAdmin && (
+              <li>
+                <NavLink
+                  to="/admin"
+                  onClick={closeMenu}
+                  className={({ isActive }) =>
+                    [
+                      "navbar__link",
+                      isActive ? "navbar__link--active" : "",
+                    ].join(" ")
+                  }
+                >
+                  Panel Admin
+                </NavLink>
+              </li>
+            )}
+
+            {!isAuthenticated && (
+              <li>
+                <NavLink
+                  to="/registro"
+                  onClick={closeMenu}
+                  className={({ isActive }) =>
+                    [
+                      "navbar__link",
+                      isActive ? "navbar__link--active" : "",
+                    ].join(" ")
+                  }
+                >
+                  Registrarse
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           <div className="navbar__perks">
