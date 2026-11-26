@@ -16,7 +16,7 @@ export const STORE_WHATSAPP_NUMBER = "5493813190987";
 const STORE_INFO = {
   name: "Tienda Liebre",
   address: "Gral. José María Paz 576 (Entrepiso), San Miguel de Tucumán, Tucumán",
-  hours: "Lunes a viernes de 09:00 a 18:00 hs",
+  hours: "Lunes a sábados de 09:00 a 21:00 hs",
   mapsUrl:
     "https://www.bing.com/maps/default.aspx?where1=Gral.+Jos%C3%A9+Mar%C3%ADa+Paz+576%2C+T4000+San+Miguel+de+Tucum%C3%A1n%2C+Tucum%C3%A1n%2C+Argentina",
 };

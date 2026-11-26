@@ -79,29 +79,8 @@ export default function Navbar({
           <div className="navbar__top-left">
             <span className="navbar__promo">LIEBRE25 · 25% OFF</span>
             <span className="navbar__top-item">
-              Envío express a todo el país
+              ENVÍOS GRATIS A TODO EL PAÍS CON COMPRAS SUPERIORES A $300.000
             </span>
-            <span className="navbar__top-item navbar__hide-md">
-              · Envío gratis desde $150.000
-            </span>
-          </div>
-          <div className="navbar__top-right">
-            {!isAuthenticated && (
-              <>
-                <Link to="/login" className="navbar__top-link navbar__hide-md">
-                  Iniciar sesión
-                </Link>
-                <Link to="/crear-cuenta" className="navbar__top-link navbar__hide-md">
-                  Crear cuenta
-                </Link>
-              </>
-            )}
-            {isAdmin && (
-              <Link to="/admin" className="navbar__top-link navbar__hide-md">
-                Panel Admin
-              </Link>
-            )}
-            <span className="navbar__top-currency navbar__hide-md">ARS ($)</span>
           </div>
         </div>
       </div>
