@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { SubmitEvent } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useWishlist } from "../../hooks/useWishlist";
 import ThemeToggle from "../themeToggle/ThemeToggle";
@@ -30,6 +30,30 @@ const categories: string[] = [
   "Mascotas",
 ];
 
+const categorySlugByLabel: Record<string, string> = {
+  "Tecnología": "tecnologia",
+  "Cámaras y Accesorios": "camaras-y-accesorios",
+  "Vehículos": "vehiculos",
+  "Gaming": "gaming",
+};
+
+function getCategoryFromLocation(pathname: string, search: string): string {
+  const match = pathname.match(/^\/categoria\/([^/]+)$/);
+  if (match) {
+    const label = Object.keys(categorySlugByLabel).find(
+      (key) => categorySlugByLabel[key] === match[1],
+    );
+    if (label) return label;
+  }
+
+  if (pathname === "/productos") {
+    const selected = new URLSearchParams(search).get("categoria");
+    if (selected && categories.includes(selected)) return selected;
+  }
+
+  return categories[0];
+}
+
 const baseNavLinks = [
   { label: "Catálogo", to: "/productos", highlight: true },
   { label: "Más vendidos", to: "/mas-vendidos" },
@@ -48,14 +72,29 @@ export default function Navbar({
   const { count: personalWishlistCount } = useWishlist();
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [category, setCategory] = useState<string>(categories[0]);
   const [query, setQuery] = useState<string>("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const category = getCategoryFromLocation(location.pathname, location.search);
 
   const displayName = userName ?? user?.firstName ?? null;
   const activeWishlistCount = wishlistCount ?? personalWishlistCount;
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleCategoryChange = (value: string) => {
+    const slug = categorySlugByLabel[value];
+    if (slug) {
+      navigate(`/categoria/${slug}`);
+    } else if (value === categories[0]) {
+      navigate("/productos");
+    } else {
+      const params = new URLSearchParams();
+      params.set("categoria", value);
+      navigate(`/productos?${params.toString()}`);
+    }
+    closeMenu();
+  };
 
   const handleSearch = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -110,7 +149,7 @@ export default function Navbar({
               <select
                 className="navbarSelect"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => handleCategoryChange(e.target.value)}
                 aria-label="Categoría"
               >
                 {categories.map((c) => (
