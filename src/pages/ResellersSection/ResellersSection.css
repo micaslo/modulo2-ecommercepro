@@ -218,6 +218,17 @@
   box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
+.resellers-field input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.resellers-field-error {
+  color: var(--color-danger);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
 .resellers-submit {
   display: flex;
   min-height: 48px;

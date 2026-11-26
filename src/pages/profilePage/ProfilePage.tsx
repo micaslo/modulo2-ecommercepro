@@ -1,5 +1,7 @@
-import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Cards, { type Focused } from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { FaEye, FaEyeSlash, FaPen, FaTimes, FaTrashAlt } from "react-icons/fa";
@@ -16,7 +18,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
 import {
-  extractZodFieldErrors,
   profileUpdateSchema,
   savedCardSchema,
   type ProfileUpdateValues,
@@ -25,14 +26,8 @@ import {
 import type { SavedCard, SessionUser } from "../../types/auth";
 import "./ProfilePage.css";
 
-interface PersonalDataPanelProps {
-  user: SessionUser;
-  onSave: (values: ProfileUpdateValues) => { ok: boolean; error?: string };
-}
-
-function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState<ProfileUpdateValues>({
+function buildProfileDefaults(user: SessionUser): ProfileUpdateValues {
+  return {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
@@ -45,62 +40,61 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
     dni: user.dni ?? "",
     cuit: user.cuit ?? "",
     businessName: user.businessName ?? "",
-  });
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof ProfileUpdateValues, string>>
-  >({});
+  };
+}
+
+function buildCardDefaults(user: SessionUser): SavedCardValues {
+  return {
+    number: user.savedCard?.number ?? "",
+    name: user.savedCard?.name ?? user.name.toUpperCase(),
+    expiry: user.savedCard?.expiry ?? "",
+    cvc: user.savedCard?.cvc ?? "",
+  };
+}
+
+interface PersonalDataPanelProps {
+  user: SessionUser;
+  onSave: (values: ProfileUpdateValues) => { ok: boolean; error?: string };
+}
+
+function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
+  const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
 
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ProfileUpdateValues>({
+    resolver: zodResolver(profileUpdateSchema),
+    defaultValues: buildProfileDefaults(user),
+  });
+
+  const fiscalCondition = useWatch({ control, name: "fiscalCondition" });
+  const cuit = useWatch({ control, name: "cuit" });
+  const businessName = useWatch({ control, name: "businessName" });
+
   const startEditing = () => {
-    setForm({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone ? stripDigits(user.phone) : "",
-      address: user.address ?? "",
-      locality: user.locality ?? "",
-      province: user.province ?? "",
-      postalCode: user.postalCode ?? "",
-      fiscalCondition: user.fiscalCondition ?? "consumidor_final",
-      dni: user.dni ?? "",
-      cuit: user.cuit ?? "",
-      businessName: user.businessName ?? "",
-    });
-    setErrors({});
+    reset(buildProfileDefaults(user));
     setStatus(null);
     setIsEditing(true);
   };
 
   const cancelEditing = () => {
-    setErrors({});
+    reset(buildProfileDefaults(user));
     setStatus(null);
     setIsEditing(false);
   };
 
-  const updateField = <K extends keyof ProfileUpdateValues>(
-    field: K,
-    value: ProfileUpdateValues[K],
-  ) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
-    setStatus(null);
-  };
-
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = (validData: ProfileUpdateValues) => {
     setStatus(null);
 
-    const parsed = profileUpdateSchema.safeParse(form);
-    if (!parsed.success) {
-      setErrors(extractZodFieldErrors(parsed.error));
-      return;
-    }
-
-    setErrors({});
-    const result = onSave(parsed.data);
+    const result = onSave(validData);
     if (!result.ok) {
       setStatus({
         type: "error",
@@ -207,19 +201,24 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
           )}
         </>
       ) : (
-        <form className="profile-form" onSubmit={handleSubmit} noValidate>
+        <form
+          className="profile-form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           <div className="profile-form-grid">
             <div className="profile-field">
               <label htmlFor="profile-firstName">Nombre</label>
               <input
                 id="profile-firstName"
                 type="text"
-                value={form.firstName}
-                onChange={(e) => updateField("firstName", e.target.value)}
                 aria-invalid={Boolean(errors.firstName)}
+                {...register("firstName")}
               />
               {errors.firstName && (
-                <span className="profile-field-error">{errors.firstName}</span>
+                <span className="profile-field-error">
+                  {errors.firstName.message}
+                </span>
               )}
             </div>
 
@@ -228,12 +227,13 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
               <input
                 id="profile-lastName"
                 type="text"
-                value={form.lastName}
-                onChange={(e) => updateField("lastName", e.target.value)}
                 aria-invalid={Boolean(errors.lastName)}
+                {...register("lastName")}
               />
               {errors.lastName && (
-                <span className="profile-field-error">{errors.lastName}</span>
+                <span className="profile-field-error">
+                  {errors.lastName.message}
+                </span>
               )}
             </div>
           </div>
@@ -244,12 +244,13 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
               <input
                 id="profile-email"
                 type="email"
-                value={form.email}
-                onChange={(e) => updateField("email", e.target.value)}
                 aria-invalid={Boolean(errors.email)}
+                {...register("email")}
               />
               {errors.email && (
-                <span className="profile-field-error">{errors.email}</span>
+                <span className="profile-field-error">
+                  {errors.email.message}
+                </span>
               )}
             </div>
 
@@ -259,21 +260,31 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 <span className="profile-phone-prefix" aria-hidden="true">
                   +54
                 </span>
-                <input
-                  id="profile-phone"
-                  type="tel"
-                  inputMode="numeric"
-                  value={form.phone}
-                  maxLength={13}
-                  placeholder="3815550240"
-                  onChange={(e) =>
-                    updateField("phone", stripDigits(e.target.value).slice(0, 13))
-                  }
-                  aria-invalid={Boolean(errors.phone)}
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="profile-phone"
+                      type="tel"
+                      inputMode="numeric"
+                      value={field.value}
+                      maxLength={13}
+                      placeholder="3815550240"
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        field.onChange(stripDigits(e.target.value).slice(0, 13))
+                      }
+                      onBlur={field.onBlur}
+                      ref={field.ref}
+                      aria-invalid={Boolean(errors.phone)}
+                    />
+                  )}
                 />
               </div>
               {errors.phone && (
-                <span className="profile-field-error">{errors.phone}</span>
+                <span className="profile-field-error">
+                  {errors.phone.message}
+                </span>
               )}
             </div>
           </div>
@@ -281,84 +292,109 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
           <div className="profile-form-grid">
             <div className="profile-field">
               <label htmlFor="profile-dni">DNI (sin puntos)</label>
-              <input
-                id="profile-dni"
-                type="text"
-                inputMode="numeric"
-                value={form.dni}
-                maxLength={8}
-                placeholder="42589123"
-                onChange={(e) =>
-                  updateField("dni", stripDigits(e.target.value).slice(0, 8))
-                }
-                aria-invalid={Boolean(errors.dni)}
+              <Controller
+                name="dni"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    id="profile-dni"
+                    type="text"
+                    inputMode="numeric"
+                    value={field.value}
+                    maxLength={8}
+                    placeholder="42589123"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      field.onChange(stripDigits(e.target.value).slice(0, 8))
+                    }
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                    aria-invalid={Boolean(errors.dni)}
+                  />
+                )}
               />
               {errors.dni && (
-                <span className="profile-field-error">{errors.dni}</span>
+                <span className="profile-field-error">{errors.dni.message}</span>
               )}
             </div>
 
             <div className="profile-field">
               <label htmlFor="profile-postalCode">Código postal</label>
-              <input
-                id="profile-postalCode"
-                type="text"
-                value={form.postalCode}
-                maxLength={8}
-                placeholder="4000"
-                onChange={(e) =>
-                  updateField("postalCode", e.target.value.toUpperCase())
-                }
-                aria-invalid={Boolean(errors.postalCode)}
+              <Controller
+                name="postalCode"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    id="profile-postalCode"
+                    type="text"
+                    value={field.value}
+                    maxLength={8}
+                    placeholder="4000"
+                    onChange={(e) =>
+                      field.onChange(e.target.value.toUpperCase())
+                    }
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                    aria-invalid={Boolean(errors.postalCode)}
+                  />
+                )}
               />
               {errors.postalCode && (
-                <span className="profile-field-error">{errors.postalCode}</span>
+                <span className="profile-field-error">
+                  {errors.postalCode.message}
+                </span>
               )}
             </div>
           </div>
 
-          {(form.fiscalCondition !== "consumidor_final" ||
-            Boolean(form.cuit) ||
-            Boolean(form.businessName)) && (
+          {(fiscalCondition !== "consumidor_final" ||
+            Boolean(cuit) ||
+            Boolean(businessName)) && (
             <div className="profile-form-grid">
               <div className="profile-field">
                 <label htmlFor="profile-cuit">CUIT</label>
-                <input
-                  id="profile-cuit"
-                  type="text"
-                  inputMode="numeric"
-                  value={form.cuit}
-                  maxLength={13}
-                  placeholder="20-40112876-3"
-                  onChange={(e) =>
-                    updateField("cuit", formatCuitDisplay(e.target.value))
-                  }
-                  aria-invalid={Boolean(errors.cuit)}
+                <Controller
+                  name="cuit"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="profile-cuit"
+                      type="text"
+                      inputMode="numeric"
+                      value={field.value}
+                      maxLength={13}
+                      placeholder="20-40112876-3"
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        field.onChange(formatCuitDisplay(e.target.value))
+                      }
+                      onBlur={field.onBlur}
+                      ref={field.ref}
+                      aria-invalid={Boolean(errors.cuit)}
+                    />
+                  )}
                 />
                 {errors.cuit && (
-                  <span className="profile-field-error">{errors.cuit}</span>
+                  <span className="profile-field-error">
+                    {errors.cuit.message}
+                  </span>
                 )}
               </div>
 
-              {(form.fiscalCondition === "responsable_inscripto" ||
-                form.fiscalCondition === "exento" ||
-                Boolean(form.businessName)) && (
+              {(fiscalCondition === "responsable_inscripto" ||
+                fiscalCondition === "exento" ||
+                Boolean(businessName)) && (
                 <div className="profile-field">
                   <label htmlFor="profile-businessName">Razón social</label>
                   <input
                     id="profile-businessName"
                     type="text"
-                    value={form.businessName}
                     maxLength={100}
                     placeholder="Ej: Rorro Pirroro SA"
-                    onChange={(e) =>
-                      updateField("businessName", e.target.value)
-                    }
                     aria-invalid={Boolean(errors.businessName)}
+                    {...register("businessName")}
                   />
                   {errors.businessName && (
                     <span className="profile-field-error">
-                      {errors.businessName}
+                      {errors.businessName.message}
                     </span>
                   )}
                 </div>
@@ -371,14 +407,15 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
             <input
               id="profile-address"
               type="text"
-              value={form.address}
               maxLength={100}
               placeholder="Calle, altura, piso / depto"
-              onChange={(e) => updateField("address", e.target.value)}
               aria-invalid={Boolean(errors.address)}
+              {...register("address")}
             />
             {errors.address && (
-              <span className="profile-field-error">{errors.address}</span>
+              <span className="profile-field-error">
+                {errors.address.message}
+              </span>
             )}
           </div>
 
@@ -388,24 +425,21 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
               <input
                 id="profile-locality"
                 type="text"
-                value={form.locality}
                 maxLength={80}
                 placeholder="Ej: San Miguel de Tucumán"
-                onChange={(e) => updateField("locality", e.target.value)}
                 aria-invalid={Boolean(errors.locality)}
+                {...register("locality")}
               />
               {errors.locality && (
-                <span className="profile-field-error">{errors.locality}</span>
+                <span className="profile-field-error">
+                  {errors.locality.message}
+                </span>
               )}
             </div>
 
             <div className="profile-field">
               <label htmlFor="profile-province">Provincia</label>
-              <select
-                id="profile-province"
-                value={form.province}
-                onChange={(e) => updateField("province", e.target.value)}
-              >
+              <select id="profile-province" {...register("province")}>
                 <option value="">Seleccioná una provincia</option>
                 {ARGENTINA_PROVINCES.map((prov) => (
                   <option key={prov} value={prov}>
@@ -474,21 +508,26 @@ interface SavedCardPanelProps {
 function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [revealSecondsLeft, setRevealSecondsLeft] = useState(0);
-  const [card, setCard] = useState<SavedCardValues>({
-    number: user.savedCard?.number ?? "",
-    name: user.savedCard?.name ?? user.name.toUpperCase(),
-    expiry: user.savedCard?.expiry ?? "",
-    cvc: user.savedCard?.cvc ?? "",
-  });
   const [focused, setFocused] = useState<Focused>("");
   const [showCvc, setShowCvc] = useState(false);
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof SavedCardValues, string>>
-  >({});
   const [status, setStatus] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<SavedCardValues>({
+    resolver: zodResolver(savedCardSchema),
+    defaultValues: buildCardDefaults(user),
+  });
+
+  const watchedCard = useWatch({ control });
 
   const isRevealed = revealSecondsLeft > 0;
 
@@ -500,7 +539,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
     return () => window.clearInterval(timer);
   }, [revealSecondsLeft]);
 
-  const displayedCard = isEditing ? card : user.savedCard;
+  const displayedCard = isEditing ? watchedCard : user.savedCard;
   const digitsOnly = stripDigits(displayedCard?.number ?? "");
   const brand = detectCardBrand(digitsOnly);
   const maskedDigits = getMaskedCardDigits(digitsOnly, brand);
@@ -512,13 +551,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
 
   const startEditing = () => {
     setRevealSecondsLeft(0);
-    setCard({
-      number: user.savedCard?.number ?? "",
-      name: user.savedCard?.name ?? user.name.toUpperCase(),
-      expiry: user.savedCard?.expiry ?? "",
-      cvc: user.savedCard?.cvc ?? "",
-    });
-    setErrors({});
+    reset(buildCardDefaults(user));
     setStatus(null);
     setFocused("");
     setShowCvc(false);
@@ -527,39 +560,23 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
 
   const cancelEditing = () => {
     setRevealSecondsLeft(0);
-    setErrors({});
+    reset(buildCardDefaults(user));
     setStatus(null);
     setFocused("");
     setShowCvc(false);
     setIsEditing(false);
   };
 
-  const handleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const nextDigits = stripDigits(e.target.value);
-    const nextBrand = detectCardBrand(nextDigits);
-    const formatted = formatCardNumberDisplay(nextDigits, nextBrand);
-    const maxCvc = nextBrand === "amex" ? 4 : 3;
-
-    setCard((prev) => ({
-      ...prev,
-      number: formatted,
-      cvc: stripDigits(prev.cvc).slice(0, maxCvc),
-    }));
-    setErrors((prev) => ({ ...prev, number: undefined }));
-    setStatus(null);
-  };
-
   const handleRemoveCard = () => {
     const result = onSaveCard(null);
     if (result.ok) {
       setRevealSecondsLeft(0);
-      setCard({
+      reset({
         number: "",
         name: user.name.toUpperCase(),
         expiry: "",
         cvc: "",
       });
-      setErrors({});
       setIsEditing(false);
       setStatus({
         type: "success",
@@ -568,18 +585,10 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
     }
   };
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = (validData: SavedCardValues) => {
     setStatus(null);
 
-    const parsed = savedCardSchema.safeParse(card);
-    if (!parsed.success) {
-      setErrors(extractZodFieldErrors(parsed.error));
-      return;
-    }
-
-    setErrors({});
-    const result = onSaveCard(parsed.data);
+    const result = onSaveCard(validData);
     if (!result.ok) {
       setStatus({
         type: "error",
@@ -720,100 +729,154 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
           )}
         </>
       ) : (
-        <form className="profile-form" onSubmit={handleSubmit} noValidate>
+        <form
+          className="profile-form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           <div className="profile-field">
             <label htmlFor="profile-card-number">Número de tarjeta</label>
-            <input
-              id="profile-card-number"
-              type="text"
-              inputMode="numeric"
-              placeholder="4509 9535 6623 1904"
-              value={card.number}
-              maxLength={brand === "amex" ? 17 : 19}
-              onFocus={() => setFocused("number")}
-              onBlur={() => setFocused("")}
-              onChange={handleNumberChange}
-              aria-invalid={Boolean(errors.number)}
+            <Controller
+              name="number"
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="profile-card-number"
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="4509 9535 6623 1904"
+                  value={field.value}
+                  maxLength={brand === "amex" ? 17 : 19}
+                  onFocus={() => setFocused("number")}
+                  onBlur={() => {
+                    setFocused("");
+                    field.onBlur();
+                  }}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    const nextDigits = stripDigits(e.target.value);
+                    const nextBrand = detectCardBrand(nextDigits);
+                    const formatted = formatCardNumberDisplay(
+                      nextDigits,
+                      nextBrand,
+                    );
+                    const maxCvc = nextBrand === "amex" ? 4 : 3;
+                    const currentCvc = getValues("cvc");
+                    const trimmedCvc = stripDigits(currentCvc).slice(0, maxCvc);
+
+                    field.onChange(formatted);
+                    if (trimmedCvc !== currentCvc) {
+                      setValue("cvc", trimmedCvc);
+                    }
+                    setStatus(null);
+                  }}
+                  ref={field.ref}
+                  aria-invalid={Boolean(errors.number)}
+                />
+              )}
             />
             {errors.number && (
-              <span className="profile-field-error">{errors.number}</span>
+              <span className="profile-field-error">
+                {errors.number.message}
+              </span>
             )}
           </div>
 
           <div className="profile-field">
             <label htmlFor="profile-card-name">Titular</label>
-            <input
-              id="profile-card-name"
-              type="text"
-              placeholder="COMO FIGURA EN LA TARJETA"
-              value={card.name}
-              maxLength={50}
-              onFocus={() => setFocused("name")}
-              onBlur={() => setFocused("")}
-              onChange={(e) => {
-                setCard((prev) => ({
-                  ...prev,
-                  name: e.target.value.toUpperCase(),
-                }));
-                setErrors((prev) => ({ ...prev, name: undefined }));
-                setStatus(null);
-              }}
-              aria-invalid={Boolean(errors.name)}
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="profile-card-name"
+                  type="text"
+                  placeholder="COMO FIGURA EN LA TARJETA"
+                  value={field.value}
+                  maxLength={50}
+                  onFocus={() => setFocused("name")}
+                  onBlur={() => {
+                    setFocused("");
+                    field.onBlur();
+                  }}
+                  onChange={(e) => {
+                    field.onChange(e.target.value.toUpperCase());
+                    setStatus(null);
+                  }}
+                  ref={field.ref}
+                  aria-invalid={Boolean(errors.name)}
+                />
+              )}
             />
             {errors.name && (
-              <span className="profile-field-error">{errors.name}</span>
+              <span className="profile-field-error">{errors.name.message}</span>
             )}
           </div>
 
           <div className="profile-form-grid">
             <div className="profile-field">
               <label htmlFor="profile-card-expiry">Vencimiento</label>
-              <input
-                id="profile-card-expiry"
-                type="text"
-                inputMode="numeric"
-                placeholder="MM/AA"
-                value={card.expiry}
-                maxLength={5}
-                onFocus={() => setFocused("expiry")}
-                onBlur={() => setFocused("")}
-                onChange={(e) => {
-                  setCard((prev) => ({
-                    ...prev,
-                    expiry: formatExpiryDisplay(e.target.value),
-                  }));
-                  setErrors((prev) => ({ ...prev, expiry: undefined }));
-                  setStatus(null);
-                }}
-                aria-invalid={Boolean(errors.expiry)}
+              <Controller
+                name="expiry"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    id="profile-card-expiry"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="MM/AA"
+                    value={field.value}
+                    maxLength={5}
+                    onFocus={() => setFocused("expiry")}
+                    onBlur={() => {
+                      setFocused("");
+                      field.onBlur();
+                    }}
+                    onChange={(e) => {
+                      field.onChange(formatExpiryDisplay(e.target.value));
+                      setStatus(null);
+                    }}
+                    ref={field.ref}
+                    aria-invalid={Boolean(errors.expiry)}
+                  />
+                )}
               />
               {errors.expiry && (
-                <span className="profile-field-error">{errors.expiry}</span>
+                <span className="profile-field-error">
+                  {errors.expiry.message}
+                </span>
               )}
             </div>
 
             <div className="profile-field">
               <label htmlFor="profile-card-cvc">CVC</label>
               <div className="profile-cvc-wrap">
-                <input
-                  id="profile-card-cvc"
-                  type={showCvc ? "text" : "password"}
-                  inputMode="numeric"
-                  placeholder={brand === "amex" ? "••••" : "•••"}
-                  value={card.cvc}
-                  maxLength={brand === "amex" ? 4 : 3}
-                  onFocus={() => setFocused("cvc")}
-                  onBlur={() => setFocused("")}
-                  onChange={(e) => {
-                    const maxLen = brand === "amex" ? 4 : 3;
-                    setCard((prev) => ({
-                      ...prev,
-                      cvc: stripDigits(e.target.value).slice(0, maxLen),
-                    }));
-                    setErrors((prev) => ({ ...prev, cvc: undefined }));
-                    setStatus(null);
-                  }}
-                  aria-invalid={Boolean(errors.cvc)}
+                <Controller
+                  name="cvc"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="profile-card-cvc"
+                      type={showCvc ? "text" : "password"}
+                      inputMode="numeric"
+                      placeholder={brand === "amex" ? "••••" : "•••"}
+                      value={field.value}
+                      maxLength={brand === "amex" ? 4 : 3}
+                      onFocus={() => setFocused("cvc")}
+                      onBlur={() => {
+                        setFocused("");
+                        field.onBlur();
+                      }}
+                      onChange={(e) => {
+                        const maxLen = brand === "amex" ? 4 : 3;
+                        field.onChange(
+                          stripDigits(e.target.value).slice(0, maxLen),
+                        );
+                        setStatus(null);
+                      }}
+                      ref={field.ref}
+                      aria-invalid={Boolean(errors.cvc)}
+                    />
+                  )}
                 />
                 <button
                   type="button"
@@ -825,7 +888,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
                 </button>
               </div>
               {errors.cvc && (
-                <span className="profile-field-error">{errors.cvc}</span>
+                <span className="profile-field-error">{errors.cvc.message}</span>
               )}
             </div>
           </div>

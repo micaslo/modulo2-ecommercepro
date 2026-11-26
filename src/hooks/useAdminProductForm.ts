@@ -1,10 +1,11 @@
-import { useCallback, useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { NewProduct, Product } from "../types/productMedia";
 import {
+  createProductFormSchema,
   normalizeProductCode,
   PRODUCT_CATEGORIES,
-  validateProductForm,
-  type ProductFormErrors,
   type ProductFormValues,
 } from "../schemas/productSchema";
 
@@ -33,109 +34,94 @@ export function useAdminProductForm({
 }: UseAdminProductFormOptions) {
   const [isOpen, setIsOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [values, setValues] = useState<ProductFormValues>(EMPTY_FORM);
-  const [errors, setErrors] = useState<ProductFormErrors>({});
+
+  const schema = useMemo(
+    () => createProductFormSchema(products, editingProduct?.id ?? null),
+    [products, editingProduct],
+  );
+
+  const {
+    register,
+    control,
+    handleSubmit: rhfHandleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<ProductFormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: EMPTY_FORM,
+  });
 
   const openCreate = useCallback(() => {
     setEditingProduct(null);
-    setValues(EMPTY_FORM);
-    setErrors({});
+    reset(EMPTY_FORM);
     setIsOpen(true);
-  }, []);
+  }, [reset]);
 
-  const openEdit = useCallback((product: Product) => {
-    setEditingProduct(product);
-    setValues({
-      code: product.code ?? "",
-      name: product.name,
-      category: product.category,
-      price: String(product.price),
-      stock: String(product.stock),
-      image: product.image,
-      description: product.description,
-    });
-    setErrors({});
-    setIsOpen(true);
-  }, []);
+  const openEdit = useCallback(
+    (product: Product) => {
+      setEditingProduct(product);
+      reset({
+        code: product.code ?? "",
+        name: product.name,
+        category: product.category,
+        price: String(product.price),
+        stock: String(product.stock),
+        image: product.image,
+        description: product.description,
+      });
+      setIsOpen(true);
+    },
+    [reset],
+  );
 
   const close = useCallback(() => {
     setIsOpen(false);
     setEditingProduct(null);
-    setErrors({});
-  }, []);
+    reset(EMPTY_FORM);
+  }, [reset]);
 
-  const handleChange = useCallback(
-    (
-      event: ChangeEvent<
-        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-      >,
-    ) => {
-      const { name, value } = event.target;
-      const field = name as keyof ProductFormValues;
-      const nextValue = field === "code" ? value.toUpperCase() : value;
+  const handleSubmit = rhfHandleSubmit((values) => {
+    const payload: NewProduct = {
+      code: normalizeProductCode(values.code),
+      name: values.name.trim(),
+      category: values.category.trim(),
+      price: Number(values.price),
+      stock: Number(values.stock),
+      image: values.image.trim(),
+      description: values.description.trim(),
+    };
 
-      setValues((prev) => ({ ...prev, [field]: nextValue }));
-      setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
-    },
-    [],
-  );
-
-  const handleSubmit = useCallback(
-    (event: SubmitEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
-      const nextErrors = validateProductForm(
-        values,
-        products,
-        editingProduct?.id ?? null,
-      );
-      setErrors(nextErrors);
-
-      if (Object.keys(nextErrors).length > 0) return;
-
-      const payload: NewProduct = {
-        code: normalizeProductCode(values.code),
-        name: values.name.trim(),
-        category: values.category.trim(),
-        price: Number(values.price),
-        stock: Number(values.stock),
-        image: values.image.trim(),
-        description: values.description.trim(),
-      };
-
-      try {
-        if (editingProduct) {
-          onUpdate(editingProduct.id, payload);
-          onSuccess?.(`Producto "${payload.name}" actualizado correctamente.`);
-        } else {
-          onCreate(payload);
-          onSuccess?.(`Producto "${payload.name}" agregado al inventario.`);
-        }
-        setIsOpen(false);
-        setEditingProduct(null);
-        setValues(EMPTY_FORM);
-        setErrors({});
-      } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "No se pudo guardar el producto.";
-        setErrors((prev) => ({ ...prev, code: message }));
+    try {
+      if (editingProduct) {
+        onUpdate(editingProduct.id, payload);
+        onSuccess?.(`Producto "${payload.name}" actualizado correctamente.`);
+      } else {
+        onCreate(payload);
+        onSuccess?.(`Producto "${payload.name}" agregado al inventario.`);
       }
-    },
-    [values, products, editingProduct, onUpdate, onCreate, onSuccess],
-  );
+      setIsOpen(false);
+      setEditingProduct(null);
+      reset(EMPTY_FORM);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo guardar el producto.";
+      setError("code", { type: "manual", message });
+    }
+  });
 
   return {
     isOpen,
     isEditing: editingProduct !== null,
     editingProduct,
-    values,
+    register,
+    control,
     errors,
     openCreate,
     openEdit,
     close,
-    handleChange,
     handleSubmit,
   };
 }

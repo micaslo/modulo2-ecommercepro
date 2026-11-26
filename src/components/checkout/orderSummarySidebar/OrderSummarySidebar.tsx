@@ -1,8 +1,17 @@
-import { useState, type SubmitEvent } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FaShieldAlt, FaTag, FaTimes } from "react-icons/fa";
 import { formatARS, PROMO_COUPONS } from "../../../data/checkoutConfig";
+import {
+  couponFormSchema,
+  type CouponFormValues,
+} from "../../../schemas/checkoutSchema";
 import logoIsotype from "../../../assets/images/logo/tl-isotype.webp";
-import type { CartItem, CheckoutStep, InstallmentOption } from "../../../types/cart";
+import type {
+  CartItem,
+  CheckoutStep,
+  InstallmentOption,
+} from "../../../types/cart";
 
 export type ApplyCouponResult = "applied" | "already_applied" | "invalid";
 
@@ -27,8 +36,16 @@ export default function OrderSummarySidebar({
   onApplyCoupon,
   onRemoveCoupon,
 }: OrderSummarySidebarProps) {
-  const [couponInput, setCouponInput] = useState("");
-  const [couponFeedback, setCouponFeedback] = useState<string | null>(null);
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<CouponFormValues>({
+    resolver: zodResolver(couponFormSchema),
+    defaultValues: { code: "" },
+  });
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const netAfterCoupon = Math.max(0, subtotal - discountAmount);
@@ -48,24 +65,20 @@ export default function OrderSummarySidebar({
 
   const couponInfo = appliedCoupon ? PROMO_COUPONS[appliedCoupon] : null;
 
-  const handleCouponSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const cleaned = couponInput.trim().toUpperCase();
-    if (!cleaned) {
-      setCouponFeedback("Ingresá un código de cupón.");
-      return;
-    }
+  const onSubmitCoupon = (values: CouponFormValues) => {
+    const cleaned = values.code.trim().toUpperCase();
     const result = onApplyCoupon(cleaned);
-    if (result === "applied") {
-      setCouponFeedback(null);
-      setCouponInput("");
-    } else if (result === "already_applied") {
-      setCouponFeedback(null);
-      setCouponInput("");
+    if (result === "applied" || result === "already_applied") {
+      reset({ code: "" });
     } else {
-      setCouponFeedback("Cupón inválido. Probá con LIEBRE25.");
+      setError("code", {
+        type: "manual",
+        message: "Cupón inválido. Probá con LIEBRE25.",
+      });
     }
   };
+
+  const couponFeedback = errors.code?.message ?? null;
 
   return (
     <aside className="summaryCard" aria-label="Resumen de compra">
@@ -185,19 +198,31 @@ export default function OrderSummarySidebar({
         </div>
 
         {currentStep < 4 && items.length > 0 && (
-          <form className="summaryCouponForm" onSubmit={handleCouponSubmit}>
+          <form
+            className="summaryCouponForm"
+            onSubmit={handleSubmit(onSubmitCoupon)}
+            noValidate
+          >
             <div className="summaryCouponRow">
               <div className="summaryCouponInputWrap">
                 <FaTag className="summaryCouponIcon" size={12} />
-                <input
-                  type="text"
-                  placeholder="CÓDIGO DE CUPÓN"
-                  value={couponInput}
-                  onChange={(e) => {
-                    setCouponInput(e.target.value.toUpperCase());
-                    setCouponFeedback(null);
-                  }}
-                  aria-label="Código de cupón"
+                <Controller
+                  name="code"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="text"
+                      placeholder="CÓDIGO DE CUPÓN"
+                      value={field.value}
+                      onChange={(e) =>
+                        field.onChange(e.target.value.toUpperCase())
+                      }
+                      onBlur={field.onBlur}
+                      ref={field.ref}
+                      aria-label="Código de cupón"
+                      aria-invalid={Boolean(errors.code)}
+                    />
+                  )}
                 />
               </div>
               <button type="submit" className="summaryCouponApplyBtn">
@@ -205,7 +230,9 @@ export default function OrderSummarySidebar({
               </button>
             </div>
             {couponFeedback && (
-              <p className="summaryCouponError">{couponFeedback}</p>
+              <p className="summaryCouponError" role="alert">
+                {couponFeedback}
+              </p>
             )}
             {!appliedCoupon && !couponFeedback && (
               <p className="summaryCouponHint">

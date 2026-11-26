@@ -1,4 +1,10 @@
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  resellerSchema,
+  type ResellerFormValues,
+} from "../../schemas/resellerSchema";
 import "./ResellersSection.css";
 
 type Product = {
@@ -26,46 +32,30 @@ function getRandomProducts(): Product[] {
   return [...productPool].sort(() => Math.random() - 0.5).slice(0, 5);
 }
 
-function isValidCuil(cuil: string): boolean {
-  if (!/^\d{11}$/.test(cuil)) return false;
-
-  const allowedPrefixes = new Set(["20", "23", "24", "27", "30", "33", "34"]);
-  if (!allowedPrefixes.has(cuil.slice(0, 2))) return false;
-
-  const weights = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
-  const sum = weights.reduce(
-    (total, weight, index) => total + Number(cuil[index]) * weight,
-    0,
-  );
-  let checkDigit = 11 - (sum % 11);
-
-  if (checkDigit === 11) checkDigit = 0;
-  if (checkDigit === 10) checkDigit = 9;
-
-  return checkDigit === Number(cuil[10]);
-}
-
 function ResellersSection() {
   const [featuredProducts] = useState(getRandomProducts);
   const [submitted, setSubmitted] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ResellerFormValues>({
+    resolver: zodResolver(resellerSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      idNumber: "",
+      cuil: "",
+      email: "",
+      phone: "",
+    },
+  });
 
-    const form = event.currentTarget;
-    const dniInput = form.elements.namedItem("idNumber") as HTMLInputElement;
-    const cuilInput = form.elements.namedItem("cuil") as HTMLInputElement;
-    dniInput.setCustomValidity("");
-    cuilInput.setCustomValidity("");
-
-    if (!isValidCuil(cuilInput.value)) {
-      cuilInput.setCustomValidity("Ingresá un CUIL válido de 11 dígitos.");
-    } else if (cuilInput.value.slice(2, 10) !== dniInput.value) {
-      cuilInput.setCustomValidity("El DNI incluido en el CUIL debe coincidir con el DNI ingresado.");
-    }
-
-    if (!form.reportValidity()) return;
+  function onSubmit() {
     setSubmitted(true);
+    reset();
   }
 
   return (
@@ -123,58 +113,109 @@ function ResellersSection() {
             Completá tus datos y preparate para comprar al por mayor.
           </p>
 
-          <form className="resellers-form" onSubmit={handleSubmit}>
+          <form
+            className="resellers-form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+          >
             <label className="resellers-field">
               <span>Nombre</span>
-              <input name="firstName" type="text" autoComplete="given-name" placeholder="Tu nombre" required />
+              <input
+                type="text"
+                autoComplete="given-name"
+                placeholder="Tu nombre"
+                aria-invalid={Boolean(errors.firstName)}
+                {...register("firstName")}
+              />
+              {errors.firstName && (
+                <span className="resellers-field-error" role="alert">
+                  {errors.firstName.message}
+                </span>
+              )}
             </label>
+
             <label className="resellers-field">
               <span>Apellido</span>
-              <input name="lastName" type="text" autoComplete="family-name" placeholder="Tu apellido" required />
+              <input
+                type="text"
+                autoComplete="family-name"
+                placeholder="Tu apellido"
+                aria-invalid={Boolean(errors.lastName)}
+                {...register("lastName")}
+              />
+              {errors.lastName && (
+                <span className="resellers-field-error" role="alert">
+                  {errors.lastName.message}
+                </span>
+              )}
             </label>
+
             <label className="resellers-field">
               <span>Número de documento</span>
               <input
-                name="idNumber"
                 type="text"
                 inputMode="numeric"
                 autoComplete="off"
                 placeholder="8 dígitos, sin puntos"
-                pattern="[0-9]{8}"
-                minLength={8}
                 maxLength={8}
-                title="Ingresá exactamente 8 números, sin puntos ni espacios."
-                onInput={(event) => {
-                  event.currentTarget.setCustomValidity("");
-                  const cuil = event.currentTarget.form?.elements.namedItem("cuil") as HTMLInputElement | null;
-                  cuil?.setCustomValidity("");
-                }}
-                required
+                aria-invalid={Boolean(errors.idNumber)}
+                {...register("idNumber")}
               />
+              {errors.idNumber && (
+                <span className="resellers-field-error" role="alert">
+                  {errors.idNumber.message}
+                </span>
+              )}
             </label>
+
             <label className="resellers-field">
               <span>CUIL</span>
               <input
-                name="cuil"
                 type="text"
                 inputMode="numeric"
                 autoComplete="off"
                 placeholder="11 dígitos, sin guiones"
-                pattern="[0-9]{11}"
-                minLength={11}
                 maxLength={11}
-                title="Ingresá los 11 números del CUIL, sin guiones ni espacios."
-                onInput={(event) => event.currentTarget.setCustomValidity("")}
-                required
+                aria-invalid={Boolean(errors.cuil)}
+                {...register("cuil")}
               />
+              {errors.cuil && (
+                <span className="resellers-field-error" role="alert">
+                  {errors.cuil.message}
+                </span>
+              )}
             </label>
+
             <label className="resellers-field">
               <span>Correo electrónico</span>
-              <input name="email" type="email" autoComplete="email" placeholder="nombre@correo.com" required />
+              <input
+                type="email"
+                autoComplete="email"
+                placeholder="nombre@correo.com"
+                aria-invalid={Boolean(errors.email)}
+                {...register("email")}
+              />
+              {errors.email && (
+                <span className="resellers-field-error" role="alert">
+                  {errors.email.message}
+                </span>
+              )}
             </label>
+
             <label className="resellers-field">
               <span>Teléfono</span>
-              <input name="phone" type="tel" autoComplete="tel" placeholder="Tu número de teléfono" required />
+              <input
+                type="tel"
+                autoComplete="tel"
+                placeholder="Tu número de teléfono"
+                aria-invalid={Boolean(errors.phone)}
+                {...register("phone")}
+              />
+              {errors.phone && (
+                <span className="resellers-field-error" role="alert">
+                  {errors.phone.message}
+                </span>
+              )}
             </label>
 
             <button className="resellers-submit" type="submit">

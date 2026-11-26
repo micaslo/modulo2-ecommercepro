@@ -1,76 +1,69 @@
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
 import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
+import { loginSchema, type LoginFormValues } from "../../schemas/authSchema";
 import "./LoginPage.css";
 
 function LoginPage() {
-  const [correo, setCorreo] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [noSoyRobot, setNoSoyRobot] = useState(false);
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState<"error" | "info">("error");
 
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      notARobot: false,
+    },
+  });
+
   const mostrarMensaje = (
     texto: string,
-    tipo: "error" | "info" = "error"
+    tipo: "error" | "info" = "error",
   ) => {
     setMensaje(texto);
     setTipoMensaje(tipo);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setMensaje("");
-
-    if (!correo.trim() || !contrasena.trim()) {
-      mostrarMensaje("Completá todos los campos.");
-      return;
-    }
-
-    if (!noSoyRobot) {
-      mostrarMensaje("Confirmá que no sos un robot.");
-      return;
-    }
-
-    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailValido.test(correo)) {
-      mostrarMensaje("Ingresá un correo electrónico válido.");
-      return;
-    }
-
-    if (contrasena.length < 6) {
-      mostrarMensaje("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
-
+  const onSubmit = () => {
     mostrarMensaje(
       "Los datos son válidos. Falta conectar el servicio de inicio de sesión.",
-      "info"
+      "info",
     );
   };
 
+  const onInvalid = () => {
+    setMensaje("");
+  };
+
   const recuperarContrasena = () => {
-    if (!correo.trim()) {
+    if (!getValues("email").trim()) {
       mostrarMensaje("Primero ingresá tu correo electrónico.");
       return;
     }
 
     mostrarMensaje(
       "La recuperación de contraseña todavía no está conectada.",
-      "info"
+      "info",
     );
   };
 
   const accesoGoogle = () => {
     mostrarMensaje(
       "El acceso con Google necesita configurarse con su servicio de autenticación.",
-      "info"
+      "info",
     );
   };
 
@@ -122,11 +115,13 @@ function LoginPage() {
         </div>
 
         <section className="login-card">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
             <div className="login-field">
               <label htmlFor="login-email">Correo electrónico</label>
 
-              <div className="login-input-wrapper">
+              <div
+                className={`login-input-wrapper ${errors.email ? "is-invalid" : ""}`}
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <path d="m3 7 9 7 9-7" />
@@ -136,18 +131,24 @@ function LoginPage() {
                   id="login-email"
                   type="email"
                   placeholder="usuario@ejemplo.com"
-                  value={correo}
-                  onChange={(e) => setCorreo(e.target.value)}
                   autoComplete="email"
-                  required
+                  aria-invalid={Boolean(errors.email)}
+                  {...register("email")}
                 />
               </div>
+              {errors.email && (
+                <span className="login-field-error" role="alert">
+                  {errors.email.message}
+                </span>
+              )}
             </div>
 
             <div className="login-field">
               <label htmlFor="login-password">Contraseña</label>
 
-              <div className="login-input-wrapper">
+              <div
+                className={`login-input-wrapper ${errors.password ? "is-invalid" : ""}`}
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="5" y="10" width="14" height="11" rx="2" />
                   <path d="M8 10V7a4 4 0 0 1 8 0v3" />
@@ -158,10 +159,9 @@ function LoginPage() {
                   id="login-password"
                   type={mostrarContrasena ? "text" : "password"}
                   placeholder="Ingresá tu contraseña"
-                  value={contrasena}
-                  onChange={(e) => setContrasena(e.target.value)}
                   autoComplete="current-password"
-                  required
+                  aria-invalid={Boolean(errors.password)}
+                  {...register("password")}
                 />
 
                 <button
@@ -194,23 +194,37 @@ function LoginPage() {
                   )}
                 </button>
               </div>
+              {errors.password && (
+                <span className="login-field-error" role="alert">
+                  {errors.password.message}
+                </span>
+              )}
             </div>
 
-            <div className="login-captcha">
-              <label className="login-captcha-label">
-                <input
-                  type="checkbox"
-                  checked={noSoyRobot}
-                  onChange={(e) => setNoSoyRobot(e.target.checked)}
-                />
+            <div className="login-field">
+              <div
+                className={`login-captcha ${errors.notARobot ? "is-invalid" : ""}`}
+              >
+                <label className="login-captcha-label">
+                  <input
+                    type="checkbox"
+                    aria-invalid={Boolean(errors.notARobot)}
+                    {...register("notARobot")}
+                  />
 
-                <span className="login-captcha-text">No soy un robot</span>
-              </label>
+                  <span className="login-captcha-text">No soy un robot</span>
+                </label>
 
-              <div className="login-captcha-brand">
-                <span className="captcha-check">✓</span>
-                <small>Verificación</small>
+                <div className="login-captcha-brand">
+                  <span className="captcha-check">✓</span>
+                  <small>Verificación</small>
+                </div>
               </div>
+              {errors.notARobot && (
+                <span className="login-field-error" role="alert">
+                  {errors.notARobot.message}
+                </span>
+              )}
             </div>
 
             <div className="login-options">

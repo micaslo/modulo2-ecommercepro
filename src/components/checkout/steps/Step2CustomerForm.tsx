@@ -1,4 +1,6 @@
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useState, type ChangeEvent } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft, FaArrowRight, FaInfoCircle } from "react-icons/fa";
 import {
   ARGENTINA_PROVINCES,
@@ -6,10 +8,7 @@ import {
   formatCuitDisplay,
   stripDigits,
 } from "../../../data/checkoutConfig";
-import {
-  validateCustomerForm,
-  type CustomerFormErrors,
-} from "../../../schemas/checkoutSchema";
+import { customerFormSchema } from "../../../schemas/checkoutSchema";
 import type { CustomerFormData, FiscalCondition } from "../../../types/cart";
 
 interface Step2CustomerFormProps {
@@ -25,97 +24,47 @@ export default function Step2CustomerForm({
   onBack,
   onContinue,
 }: Step2CustomerFormProps) {
-  const [errors, setErrors] = useState<CustomerFormErrors>({});
-  const [touched, setTouched] = useState<
-    Partial<Record<keyof CustomerFormData, boolean>>
-  >({});
   const [dniTipOpen, setDniTipOpen] = useState(false);
   const [dniDotAttempted, setDniDotAttempted] = useState(false);
 
-  const showCuit = data.fiscalCondition !== "consumidor_final";
+  const {
+    register,
+    control,
+    handleSubmit,
+    setValue,
+    getValues,
+    clearErrors,
+    formState: { errors },
+  } = useForm<CustomerFormData>({
+    resolver: zodResolver(customerFormSchema),
+    defaultValues: data,
+    mode: "onTouched",
+  });
+
+  const fiscalCondition = useWatch({ control, name: "fiscalCondition" });
+  const showCuit = fiscalCondition !== "consumidor_final";
   const showBusinessName =
-    data.fiscalCondition === "responsable_inscripto" ||
-    data.fiscalCondition === "exento";
-
-  const updateField = <K extends keyof CustomerFormData>(
-    field: K,
-    value: CustomerFormData[K],
-  ) => {
-    const next = { ...data, [field]: value };
-    onChange(next);
-    if (touched[field]) {
-      const nextErrors = validateCustomerForm(next);
-      setErrors((prev) => ({ ...prev, [field]: nextErrors[field] }));
-    }
-  };
-
-  const handleBlur = (field: keyof CustomerFormData) => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
-    const nextErrors = validateCustomerForm(data);
-    setErrors((prev) => ({ ...prev, [field]: nextErrors[field] }));
-  };
-
-  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const digits = stripDigits(e.target.value).slice(0, 13);
-    updateField("phone", digits);
-  };
-
-  const handleDniChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
-    if (raw.includes(".")) {
-      setDniDotAttempted(true);
-    } else {
-      setDniDotAttempted(false);
-    }
-    setDniTipOpen(true);
-    const cleaned = stripDigits(raw).slice(0, 8);
-    updateField("dni", cleaned);
-  };
-
-  const handleCuitChange = (e: ChangeEvent<HTMLInputElement>) => {
-    updateField("cuit", formatCuitDisplay(e.target.value));
-  };
+    fiscalCondition === "responsable_inscripto" || fiscalCondition === "exento";
 
   const handleFiscalChange = (condition: FiscalCondition) => {
-    const next: CustomerFormData = {
-      ...data,
-      fiscalCondition: condition,
-      cuit: condition === "consumidor_final" ? "" : data.cuit,
-      businessName:
-        condition === "responsable_inscripto" || condition === "exento"
-          ? data.businessName
-          : "",
-    };
-    onChange(next);
-    setErrors((prev) => ({
-      ...prev,
-      cuit: undefined,
-      businessName: undefined,
-    }));
+    setValue("fiscalCondition", condition, { shouldDirty: true });
+    if (condition === "consumidor_final") {
+      setValue("cuit", "");
+    }
+    if (condition !== "responsable_inscripto" && condition !== "exento") {
+      setValue("businessName", "");
+    }
+    clearErrors(["cuit", "businessName"]);
   };
 
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const validationErrors = validateCustomerForm(data);
-    setErrors(validationErrors);
-    setTouched({
-      firstName: true,
-      lastName: true,
-      email: true,
-      phone: true,
-      address: true,
-      locality: true,
-      province: true,
-      postalCode: true,
-      fiscalCondition: true,
-      dni: true,
-      cuit: showCuit,
-      businessName: showBusinessName,
-    });
+  const handleBack = () => {
+    onChange(getValues());
+    onBack();
+  };
 
-    if (Object.keys(validationErrors).length === 0) {
-      onContinue();
-    }
+  const onSubmit = (validData: CustomerFormData) => {
+    onChange(validData);
+    onContinue();
   };
 
   return (
@@ -131,7 +80,11 @@ export default function Step2CustomerForm({
         </div>
       </div>
 
-      <form className="checkoutForm" onSubmit={handleSubmit} noValidate>
+      <form
+        className="checkoutForm"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div className="formRowTwo">
           <div className="formField">
             <label htmlFor="checkout-firstName">Nombre</label>
@@ -139,15 +92,14 @@ export default function Step2CustomerForm({
               id="checkout-firstName"
               type="text"
               placeholder="Nombre"
-              value={data.firstName}
               maxLength={50}
               className={errors.firstName ? "isInvalid" : ""}
-              onChange={(e) => updateField("firstName", e.target.value)}
-              onBlur={() => handleBlur("firstName")}
+              aria-invalid={Boolean(errors.firstName)}
+              {...register("firstName")}
             />
             {errors.firstName && (
               <span className="fieldError" role="alert">
-                {errors.firstName}
+                {errors.firstName.message}
               </span>
             )}
           </div>
@@ -158,15 +110,14 @@ export default function Step2CustomerForm({
               id="checkout-lastName"
               type="text"
               placeholder="Apellido"
-              value={data.lastName}
               maxLength={50}
               className={errors.lastName ? "isInvalid" : ""}
-              onChange={(e) => updateField("lastName", e.target.value)}
-              onBlur={() => handleBlur("lastName")}
+              aria-invalid={Boolean(errors.lastName)}
+              {...register("lastName")}
             />
             {errors.lastName && (
               <span className="fieldError" role="alert">
-                {errors.lastName}
+                {errors.lastName.message}
               </span>
             )}
           </div>
@@ -178,14 +129,13 @@ export default function Step2CustomerForm({
             id="checkout-email"
             type="email"
             placeholder="ejemplo@correo.com"
-            value={data.email}
             className={errors.email ? "isInvalid" : ""}
-            onChange={(e) => updateField("email", e.target.value)}
-            onBlur={() => handleBlur("email")}
+            aria-invalid={Boolean(errors.email)}
+            {...register("email")}
           />
           {errors.email && (
             <span className="fieldError" role="alert">
-              {errors.email}
+              {errors.email.message}
             </span>
           )}
         </div>
@@ -199,21 +149,31 @@ export default function Step2CustomerForm({
             >
               +54
             </span>
-            <input
-              id="checkout-phone"
-              type="tel"
-              inputMode="numeric"
-              placeholder="Ej: 1145678901"
-              value={data.phone}
-              maxLength={13}
-              className={errors.phone ? "isInvalid" : ""}
-              onChange={handlePhoneChange}
-              onBlur={() => handleBlur("phone")}
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="checkout-phone"
+                  type="tel"
+                  inputMode="numeric"
+                  placeholder="Ej: 1145678901"
+                  value={field.value}
+                  maxLength={13}
+                  className={errors.phone ? "isInvalid" : ""}
+                  aria-invalid={Boolean(errors.phone)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    field.onChange(stripDigits(e.target.value).slice(0, 13))
+                  }
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                />
+              )}
             />
           </div>
           {errors.phone && (
             <span className="fieldError" role="alert">
-              {errors.phone}
+              {errors.phone.message}
             </span>
           )}
         </div>
@@ -229,36 +189,41 @@ export default function Step2CustomerForm({
               id="checkout-address"
               type="text"
               placeholder="Calle, altura, piso / depto"
-              value={data.address}
               maxLength={100}
               className={errors.address ? "isInvalid" : ""}
-              onChange={(e) => updateField("address", e.target.value)}
-              onBlur={() => handleBlur("address")}
+              aria-invalid={Boolean(errors.address)}
+              {...register("address")}
             />
             {errors.address && (
               <span className="fieldError" role="alert">
-                {errors.address}
+                {errors.address.message}
               </span>
             )}
           </div>
 
           <div className="formField">
             <label htmlFor="checkout-postalCode">Código postal</label>
-            <input
-              id="checkout-postalCode"
-              type="text"
-              placeholder="Ej: 4000"
-              value={data.postalCode}
-              maxLength={8}
-              className={errors.postalCode ? "isInvalid" : ""}
-              onChange={(e) =>
-                updateField("postalCode", e.target.value.toUpperCase())
-              }
-              onBlur={() => handleBlur("postalCode")}
+            <Controller
+              name="postalCode"
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="checkout-postalCode"
+                  type="text"
+                  placeholder="Ej: 4000"
+                  value={field.value}
+                  maxLength={8}
+                  className={errors.postalCode ? "isInvalid" : ""}
+                  aria-invalid={Boolean(errors.postalCode)}
+                  onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                />
+              )}
             />
             {errors.postalCode && (
               <span className="fieldError" role="alert">
-                {errors.postalCode}
+                {errors.postalCode.message}
               </span>
             )}
           </div>
@@ -271,15 +236,14 @@ export default function Step2CustomerForm({
               id="checkout-locality"
               type="text"
               placeholder="Ej: San Miguel de Tucumán"
-              value={data.locality}
               maxLength={80}
               className={errors.locality ? "isInvalid" : ""}
-              onChange={(e) => updateField("locality", e.target.value)}
-              onBlur={() => handleBlur("locality")}
+              aria-invalid={Boolean(errors.locality)}
+              {...register("locality")}
             />
             {errors.locality && (
               <span className="fieldError" role="alert">
-                {errors.locality}
+                {errors.locality.message}
               </span>
             )}
           </div>
@@ -288,10 +252,9 @@ export default function Step2CustomerForm({
             <label htmlFor="checkout-province">Provincia</label>
             <select
               id="checkout-province"
-              value={data.province}
               className={errors.province ? "isInvalid" : ""}
-              onChange={(e) => updateField("province", e.target.value)}
-              onBlur={() => handleBlur("province")}
+              aria-invalid={Boolean(errors.province)}
+              {...register("province")}
             >
               <option value="">Seleccioná una provincia</option>
               {ARGENTINA_PROVINCES.map((prov) => (
@@ -302,7 +265,7 @@ export default function Step2CustomerForm({
             </select>
             {errors.province && (
               <span className="fieldError" role="alert">
-                {errors.province}
+                {errors.province.message}
               </span>
             )}
           </div>
@@ -318,7 +281,7 @@ export default function Step2CustomerForm({
           </label>
           <select
             id="checkout-fiscalCondition"
-            value={data.fiscalCondition}
+            value={fiscalCondition}
             onChange={(e) =>
               handleFiscalChange(e.target.value as FiscalCondition)
             }
@@ -350,25 +313,38 @@ export default function Step2CustomerForm({
                 </div>
               )}
 
-              <input
-                id="checkout-dni"
-                type="text"
-                inputMode="numeric"
-                placeholder="44555666"
-                value={data.dni}
-                maxLength={8}
-                className={errors.dni ? "isInvalid" : ""}
-                onFocus={() => setDniTipOpen(true)}
-                onChange={handleDniChange}
-                onBlur={() => {
-                  setDniTipOpen(false);
-                  setDniDotAttempted(false);
-                  handleBlur("dni");
-                }}
+              <Controller
+                name="dni"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    id="checkout-dni"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="44555666"
+                    value={field.value}
+                    maxLength={8}
+                    className={errors.dni ? "isInvalid" : ""}
+                    aria-invalid={Boolean(errors.dni)}
+                    onFocus={() => setDniTipOpen(true)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      const raw = e.target.value;
+                      setDniDotAttempted(raw.includes("."));
+                      setDniTipOpen(true);
+                      field.onChange(stripDigits(raw).slice(0, 8));
+                    }}
+                    onBlur={() => {
+                      setDniTipOpen(false);
+                      setDniDotAttempted(false);
+                      field.onBlur();
+                    }}
+                    ref={field.ref}
+                  />
+                )}
               />
               {errors.dni && (
                 <span className="fieldError" role="alert">
-                  {errors.dni}
+                  {errors.dni.message}
                 </span>
               )}
             </div>
@@ -376,20 +352,30 @@ export default function Step2CustomerForm({
             {showCuit && (
               <div className="formField">
                 <label htmlFor="checkout-cuit">CUIT</label>
-                <input
-                  id="checkout-cuit"
-                  type="text"
-                  inputMode="numeric"
-                  placeholder="20-44555666-7"
-                  value={data.cuit}
-                  maxLength={13}
-                  className={errors.cuit ? "isInvalid" : ""}
-                  onChange={handleCuitChange}
-                  onBlur={() => handleBlur("cuit")}
+                <Controller
+                  name="cuit"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="checkout-cuit"
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="20-44555666-7"
+                      value={field.value}
+                      maxLength={13}
+                      className={errors.cuit ? "isInvalid" : ""}
+                      aria-invalid={Boolean(errors.cuit)}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        field.onChange(formatCuitDisplay(e.target.value))
+                      }
+                      onBlur={field.onBlur}
+                      ref={field.ref}
+                    />
+                  )}
                 />
                 {errors.cuit && (
                   <span className="fieldError" role="alert">
-                    {errors.cuit}
+                    {errors.cuit.message}
                   </span>
                 )}
               </div>
@@ -403,15 +389,14 @@ export default function Step2CustomerForm({
                 id="checkout-businessName"
                 type="text"
                 placeholder="Ej: Tienda Liebre S.A."
-                value={data.businessName}
                 maxLength={100}
                 className={errors.businessName ? "isInvalid" : ""}
-                onChange={(e) => updateField("businessName", e.target.value)}
-                onBlur={() => handleBlur("businessName")}
+                aria-invalid={Boolean(errors.businessName)}
+                {...register("businessName")}
               />
               {errors.businessName && (
                 <span className="fieldError" role="alert">
-                  {errors.businessName}
+                  {errors.businessName.message}
                 </span>
               )}
             </div>
@@ -422,7 +407,7 @@ export default function Step2CustomerForm({
           <button
             type="button"
             className="checkoutBackBtn"
-            onClick={onBack}
+            onClick={handleBack}
           >
             <FaArrowLeft size={12} />
             <span>Volver al carrito</span>

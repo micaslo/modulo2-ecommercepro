@@ -1,10 +1,11 @@
 import "./CreateAnAccount.css";
-import { useState, type SubmitEvent } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../hooks/useAuth";
 import logoWhite from "../../assets/images/logo/tl-imagotype-white.webp";
 import {
-  extractZodFieldErrors,
   registerSchema,
   type RegisterFormValues,
 } from "../../schemas/authSchema";
@@ -24,55 +25,47 @@ type PageToCreateAnAccountProps = {
 export default function PageToCreateAnAccount({
   onCreateAccount,
 }: PageToCreateAnAccountProps) {
-  const { register } = useAuth();
+  const { register: registerAccount } = useAuth();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<
-    Partial<Record<keyof RegisterFormValues, string>>
-  >({});
   const [errorMessage, setErrorMessage] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      password: "",
+      passwordConfirmation: "",
+      terms: false,
+    },
+  });
+
+  function onSubmit(values: RegisterFormValues) {
     setErrorMessage("");
     setStatusMessage("");
 
-    const formData = new FormData(event.currentTarget);
-    const rawValues = {
-      firstName: String(formData.get("firstName") ?? ""),
-      lastName: String(formData.get("lastName") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      phone: String(formData.get("phone") ?? ""),
-      password: String(formData.get("password") ?? ""),
-      passwordConfirmation: String(formData.get("passwordConfirmation") ?? ""),
-      terms: formData.get("terms") === "on",
-    };
-
-    const parsed = registerSchema.safeParse(rawValues);
-    if (!parsed.success) {
-      const nextErrors = extractZodFieldErrors(parsed.error);
-      setFieldErrors(nextErrors);
-      setErrorMessage("Revisá los campos marcados antes de continuar.");
-      return;
-    }
-
-    setFieldErrors({});
-
     const accountData: CreateAccountData = {
-      firstName: parsed.data.firstName,
-      lastName: parsed.data.lastName,
-      email: parsed.data.email,
-      phone: parsed.data.phone ?? "",
-      password: parsed.data.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      phone: values.phone,
+      password: values.password,
     };
 
     if (onCreateAccount) {
       onCreateAccount(accountData);
     }
 
-    const result = register(accountData);
+    const result = registerAccount(accountData);
     if (!result.ok) {
       setErrorMessage(result.error);
       return;
@@ -82,6 +75,11 @@ export default function PageToCreateAnAccount({
       `¡Cuenta creada! Bienvenido/a, ${result.user.firstName}. Redirigiendo a tu perfil...`,
     );
     navigate("/perfil");
+  }
+
+  function onInvalid() {
+    setStatusMessage("");
+    setErrorMessage("Revisá los campos marcados antes de continuar.");
   }
 
   return (
@@ -128,7 +126,7 @@ export default function PageToCreateAnAccount({
 
           <form
             className="create-account-form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit, onInvalid)}
             noValidate
           >
             <div className="create-account-fields create-account-fields--two-columns">
@@ -136,16 +134,15 @@ export default function PageToCreateAnAccount({
                 <label htmlFor="firstName">Nombre</label>
                 <input
                   id="firstName"
-                  name="firstName"
                   type="text"
                   autoComplete="given-name"
                   placeholder="Tu nombre"
-                  aria-invalid={Boolean(fieldErrors.firstName)}
-                  required
+                  aria-invalid={Boolean(errors.firstName)}
+                  {...register("firstName")}
                 />
-                {fieldErrors.firstName && (
+                {errors.firstName && (
                   <span className="create-account-field-error">
-                    {fieldErrors.firstName}
+                    {errors.firstName.message}
                   </span>
                 )}
               </div>
@@ -154,16 +151,15 @@ export default function PageToCreateAnAccount({
                 <label htmlFor="lastName">Apellido</label>
                 <input
                   id="lastName"
-                  name="lastName"
                   type="text"
                   autoComplete="family-name"
                   placeholder="Tu apellido"
-                  aria-invalid={Boolean(fieldErrors.lastName)}
-                  required
+                  aria-invalid={Boolean(errors.lastName)}
+                  {...register("lastName")}
                 />
-                {fieldErrors.lastName && (
+                {errors.lastName && (
                   <span className="create-account-field-error">
-                    {fieldErrors.lastName}
+                    {errors.lastName.message}
                   </span>
                 )}
               </div>
@@ -173,16 +169,15 @@ export default function PageToCreateAnAccount({
               <label htmlFor="email">Correo electrónico</label>
               <input
                 id="email"
-                name="email"
                 type="email"
                 autoComplete="email"
                 placeholder="nombre@correo.com"
-                aria-invalid={Boolean(fieldErrors.email)}
-                required
+                aria-invalid={Boolean(errors.email)}
+                {...register("email")}
               />
-              {fieldErrors.email && (
+              {errors.email && (
                 <span className="create-account-field-error">
-                  {fieldErrors.email}
+                  {errors.email.message}
                 </span>
               )}
             </div>
@@ -193,15 +188,15 @@ export default function PageToCreateAnAccount({
               </label>
               <input
                 id="phone"
-                name="phone"
                 type="tel"
                 autoComplete="tel"
                 placeholder="+54 9 381 ..."
-                aria-invalid={Boolean(fieldErrors.phone)}
+                aria-invalid={Boolean(errors.phone)}
+                {...register("phone")}
               />
-              {fieldErrors.phone && (
+              {errors.phone && (
                 <span className="create-account-field-error">
-                  {fieldErrors.phone}
+                  {errors.phone.message}
                 </span>
               )}
             </div>
@@ -211,16 +206,15 @@ export default function PageToCreateAnAccount({
                 <label htmlFor="password">Contraseña</label>
                 <input
                   id="password"
-                  name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   placeholder="Mín. 8 caracteres, letra y número"
-                  aria-invalid={Boolean(fieldErrors.password)}
-                  required
+                  aria-invalid={Boolean(errors.password)}
+                  {...register("password")}
                 />
-                {fieldErrors.password && (
+                {errors.password && (
                   <span className="create-account-field-error">
-                    {fieldErrors.password}
+                    {errors.password.message}
                   </span>
                 )}
               </div>
@@ -231,16 +225,15 @@ export default function PageToCreateAnAccount({
                 </label>
                 <input
                   id="passwordConfirmation"
-                  name="passwordConfirmation"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   placeholder="Repetí tu contraseña"
-                  aria-invalid={Boolean(fieldErrors.passwordConfirmation)}
-                  required
+                  aria-invalid={Boolean(errors.passwordConfirmation)}
+                  {...register("passwordConfirmation")}
                 />
-                {fieldErrors.passwordConfirmation && (
+                {errors.passwordConfirmation && (
                   <span className="create-account-field-error">
-                    {fieldErrors.passwordConfirmation}
+                    {errors.passwordConfirmation.message}
                   </span>
                 )}
               </div>
@@ -257,14 +250,18 @@ export default function PageToCreateAnAccount({
 
             <div className="create-account-field">
               <label className="create-account-terms">
-                <input name="terms" type="checkbox" required />
+                <input
+                  type="checkbox"
+                  aria-invalid={Boolean(errors.terms)}
+                  {...register("terms")}
+                />
                 <span>
                   Acepto los términos y condiciones y la política de privacidad.
                 </span>
               </label>
-              {fieldErrors.terms && (
+              {errors.terms && (
                 <span className="create-account-field-error">
-                  {fieldErrors.terms}
+                  {errors.terms.message}
                 </span>
               )}
             </div>

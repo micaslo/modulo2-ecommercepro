@@ -1,8 +1,14 @@
-import { useState, type SubmitEvent } from "react";
+import { useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type {
   ProductFeatureRating,
   ProductReview,
 } from "../../../types/productMedia";
+import {
+  reviewSchema,
+  type ReviewFormValues,
+} from "../../../schemas/reviewSchema";
 import { StarIcon, ThumbsUpIcon } from "../productIcons/ProductIcons";
 import "./ProductReviews.css";
 
@@ -30,6 +36,24 @@ function loadSavedReviews(productId: string): ProductReview[] {
   }
 }
 
+function buildUserReview(values: ReviewFormValues): ProductReview {
+  const formattedDate = new Intl.DateTimeFormat("es-AR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date());
+
+  return {
+    id: `user-${Date.now()}`,
+    author: values.author.trim() || "Comprador",
+    rating: values.rating,
+    date: formattedDate,
+    comment: values.comment.trim(),
+    helpful: 0,
+    verified: true,
+  };
+}
+
 export default function ProductReviews({
   productId,
   initialReviews,
@@ -43,9 +67,23 @@ export default function ProductReviews({
   const [sortBy, setSortBy] = useState<"helpful" | "recent">("helpful");
   const [showForm, setShowForm] = useState(false);
 
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newRating, setNewRating] = useState(5);
-  const [newComment, setNewComment] = useState("");
+  const {
+    register,
+    control,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ReviewFormValues>({
+    resolver: zodResolver(reviewSchema),
+    defaultValues: {
+      author: "",
+      rating: 5,
+      comment: "",
+    },
+  });
+
+  const newRating = useWatch({ control, name: "rating" });
 
   const allReviews = [...userReviews, ...initialReviews];
   const totalCount = allReviews.length;
@@ -79,26 +117,8 @@ export default function ProductReviews({
     }));
   };
 
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const trimmedComment = newComment.trim();
-    if (!trimmedComment) return;
-
-    const formattedDate = new Intl.DateTimeFormat("es-AR", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }).format(new Date());
-
-    const created: ProductReview = {
-      id: `user-${Date.now()}`,
-      author: newAuthor.trim() || "Comprador",
-      rating: newRating,
-      date: formattedDate,
-      comment: trimmedComment,
-      helpful: 0,
-      verified: true,
-    };
+  const onValidSubmit = (values: ReviewFormValues) => {
+    const created = buildUserReview(values);
 
     const updated = [created, ...userReviews];
     setUserReviews(updated);
@@ -108,12 +128,10 @@ export default function ProductReviews({
         JSON.stringify(updated),
       );
     } catch {
-      // 
+      //
     }
 
-    setNewAuthor("");
-    setNewRating(5);
-    setNewComment("");
+    reset({ author: "", rating: 5, comment: "" });
     setShowForm(false);
     setStarFilter(null);
   };
@@ -132,17 +150,28 @@ export default function ProductReviews({
       </div>
 
       {showForm && (
-        <form className="reviewForm" onSubmit={handleSubmit}>
+        <form
+          className="reviewForm"
+          onSubmit={(e) => {
+            void handleSubmit(onValidSubmit)(e);
+          }}
+          noValidate
+        >
           <div className="reviewFormRow">
             <label className="reviewFormField">
               Tu nombre
               <input
                 type="text"
-                value={newAuthor}
-                onChange={(e) => setNewAuthor(e.target.value)}
                 placeholder="Ej: Valentina L."
                 maxLength={40}
+                aria-invalid={Boolean(errors.author)}
+                {...register("author")}
               />
+              {errors.author && (
+                <span className="reviewFieldError" role="alert">
+                  {errors.author.message}
+                </span>
+              )}
             </label>
 
             <div className="reviewFormField">
@@ -153,25 +182,36 @@ export default function ProductReviews({
                     key={n}
                     type="button"
                     className={`reviewStarBtn ${n <= newRating ? "isActive" : ""}`}
-                    onClick={() => setNewRating(n)}
+                    onClick={() =>
+                      setValue("rating", n, { shouldValidate: true })
+                    }
                     aria-label={`${n} estrellas`}
                   >
                     <StarIcon filled={n <= newRating} size={22} />
                   </button>
                 ))}
               </div>
+              {errors.rating && (
+                <span className="reviewFieldError" role="alert">
+                  {errors.rating.message}
+                </span>
+              )}
             </div>
           </div>
 
           <label className="reviewFormField">
             Contanos qué te pareció el producto
             <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
               placeholder="Escribí tu experiencia con el producto..."
               rows={3}
-              required
+              aria-invalid={Boolean(errors.comment)}
+              {...register("comment")}
             />
+            {errors.comment && (
+              <span className="reviewFieldError" role="alert">
+                {errors.comment.message}
+              </span>
+            )}
           </label>
 
           <button type="submit" className="productBtn productBtnPrimary reviewSubmitBtn">

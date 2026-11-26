@@ -231,6 +231,18 @@
   box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
+.login-input-wrapper.is-invalid,
+.login-captcha.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.login-field-error {
+  color: var(--color-danger);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
 .login-input-wrapper > svg {
   width: 18px;
   height: 18px;

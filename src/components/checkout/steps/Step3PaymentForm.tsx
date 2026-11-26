@@ -1,4 +1,6 @@
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useState, type ChangeEvent } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Cards, { type Focused } from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
@@ -17,10 +19,7 @@ import {
   getInstallmentOptions,
   stripDigits,
 } from "../../../data/checkoutConfig";
-import {
-  validatePaymentForm,
-  type PaymentFormErrors,
-} from "../../../schemas/checkoutSchema";
+import { paymentFormSchema } from "../../../schemas/checkoutSchema";
 import type { InstallmentOption, PaymentFormData } from "../../../types/cart";
 
 interface Step3PaymentFormProps {
@@ -40,84 +39,42 @@ export default function Step3PaymentForm({
 }: Step3PaymentFormProps) {
   const [focused, setFocused] = useState<Focused>("");
   const [showCvc, setShowCvc] = useState(false);
-  const [errors, setErrors] = useState<PaymentFormErrors>({});
-  const [touched, setTouched] = useState<
-    Partial<Record<keyof PaymentFormData, boolean>>
-  >({});
 
-  const digitsOnly = stripDigits(data.number);
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<PaymentFormData>({
+    resolver: zodResolver(paymentFormSchema),
+    defaultValues: data,
+    mode: "onTouched",
+  });
+
+  const number = useWatch({ control, name: "number" });
+  const name = useWatch({ control, name: "name" });
+  const expiry = useWatch({ control, name: "expiry" });
+  const cvc = useWatch({ control, name: "cvc" });
+  const installments = useWatch({ control, name: "installments" });
+
+  const digitsOnly = stripDigits(number);
   const brand = detectCardBrand(digitsOnly);
   const installmentOptions = getInstallmentOptions(brand, baseAmount);
 
   const activePlan =
-    installmentOptions.find((opt) => opt.count === data.installments) ??
+    installmentOptions.find((opt) => opt.count === installments) ??
     installmentOptions[0] ??
     null;
 
-  const updateField = <K extends keyof PaymentFormData>(
-    field: K,
-    value: PaymentFormData[K],
-  ) => {
-    const next = { ...data, [field]: value };
-    onChange(next);
-    if (touched[field]) {
-      const nextErrors = validatePaymentForm(next);
-      setErrors((prev) => ({ ...prev, [field]: nextErrors[field] }));
-    }
+  const handleBack = () => {
+    onChange(getValues());
+    onBack();
   };
 
-  const handleBlur = (field: keyof PaymentFormData) => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
-    const nextErrors = validatePaymentForm(data);
-    setErrors((prev) => ({ ...prev, [field]: nextErrors[field] }));
-  };
-
-  const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const nextDigits = stripDigits(e.target.value);
-    const nextBrand = detectCardBrand(nextDigits);
-    const formatted = formatCardNumberDisplay(nextDigits, nextBrand);
-
-    // Si cambia de marca y la cantidad de cuotas no existe en la nueva marca, reseteamos a 1
-    const nextOptions = getInstallmentOptions(nextBrand, baseAmount);
-    const stillValid = nextOptions.some((o) => o.count === data.installments);
-    const nextCvcMax = nextBrand === "amex" ? 4 : 3;
-
-    const nextData: PaymentFormData = {
-      ...data,
-      number: formatted,
-      cvc: stripDigits(data.cvc).slice(0, nextCvcMax),
-      installments: stillValid ? data.installments : 1,
-    };
-
-    onChange(nextData);
-    if (touched.number) {
-      const nextErrors = validatePaymentForm(nextData);
-      setErrors((prev) => ({ ...prev, number: nextErrors.number }));
-    }
-  };
-
-  const handleExpiryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    updateField("expiry", formatExpiryDisplay(e.target.value));
-  };
-
-  const handleCvcChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const maxLen = brand === "amex" ? 4 : 3;
-    updateField("cvc", stripDigits(e.target.value).slice(0, maxLen));
-  };
-
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const validationErrors = validatePaymentForm(data);
-    setErrors(validationErrors);
-    setTouched({
-      number: true,
-      name: true,
-      expiry: true,
-      cvc: true,
-      installments: true,
-    });
-
-    if (Object.keys(validationErrors).length === 0 && activePlan) {
+  const onSubmit = (validData: PaymentFormData) => {
+    onChange(validData);
+    if (activePlan) {
       onConfirmPayment(activePlan);
     }
   };
@@ -144,9 +101,9 @@ export default function Step3PaymentForm({
         <div className="creditCardPreviewWrap">
           <Cards
             number={digitsOnly}
-            name={data.name}
-            expiry={stripDigits(data.expiry)}
-            cvc={showCvc ? data.cvc : "•".repeat(data.cvc.length)}
+            name={name}
+            expiry={stripDigits(expiry)}
+            cvc={showCvc ? cvc : "•".repeat(cvc.length)}
             focused={showCvc ? "cvc" : focused}
             acceptedCards={["visa", "mastercard", "american-express"]}
             placeholders={{ name: "TU NOMBRE" }}
@@ -176,50 +133,107 @@ export default function Step3PaymentForm({
         </div>
       </div>
 
-      <form className="checkoutForm" onSubmit={handleSubmit} noValidate>
+      <form
+        className="checkoutForm"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div className="formField">
           <label htmlFor="card-number">Número de tarjeta</label>
-          <input
-            id="card-number"
+          <Controller
             name="number"
-            type="text"
-            inputMode="numeric"
-            autoComplete="cc-number"
-            placeholder="4509 1234 5678 9012"
-            value={data.number}
-            maxLength={brand === "amex" ? 17 : 19}
-            className={errors.number ? "isInvalid" : ""}
-            onFocus={() => setFocused("number")}
-            onChange={handleCardNumberChange}
-            onBlur={() => handleBlur("number")}
+            control={control}
+            render={({ field }) => (
+              <input
+                id="card-number"
+                name={field.name}
+                type="text"
+                inputMode="numeric"
+                autoComplete="cc-number"
+                placeholder="4509 1234 5678 9012"
+                value={field.value}
+                maxLength={brand === "amex" ? 17 : 19}
+                className={errors.number ? "isInvalid" : ""}
+                aria-invalid={Boolean(errors.number)}
+                onFocus={() => setFocused("number")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const nextDigits = stripDigits(e.target.value);
+                  const nextBrand = detectCardBrand(nextDigits);
+                  const formatted = formatCardNumberDisplay(
+                    nextDigits,
+                    nextBrand,
+                  );
+
+                  const nextOptions = getInstallmentOptions(
+                    nextBrand,
+                    baseAmount,
+                  );
+                  const current = getValues();
+                  const stillValid = nextOptions.some(
+                    (o) => o.count === current.installments,
+                  );
+                  const nextCvcMax = nextBrand === "amex" ? 4 : 3;
+                  const nextCvc = stripDigits(current.cvc).slice(0, nextCvcMax);
+                  const nextInstallments = stillValid
+                    ? current.installments
+                    : 1;
+
+                  field.onChange(formatted);
+                  if (nextCvc !== current.cvc) {
+                    setValue("cvc", nextCvc);
+                  }
+                  if (nextInstallments !== current.installments) {
+                    setValue("installments", nextInstallments);
+                  }
+                  onChange({
+                    ...current,
+                    number: formatted,
+                    cvc: nextCvc,
+                    installments: nextInstallments,
+                  });
+                }}
+                onBlur={field.onBlur}
+                ref={field.ref}
+              />
+            )}
           />
           {errors.number && (
             <span className="fieldError" role="alert">
-              {errors.number}
+              {errors.number.message}
             </span>
           )}
         </div>
 
         <div className="formField">
           <label htmlFor="card-name">Nombre y apellido del titular</label>
-          <input
-            id="card-name"
+          <Controller
             name="name"
-            type="text"
-            autoComplete="cc-name"
-            placeholder="Como figura en la tarjeta"
-            value={data.name}
-            maxLength={50}
-            className={errors.name ? "isInvalid" : ""}
-            onFocus={() => setFocused("name")}
-            onChange={(e) =>
-              updateField("name", e.target.value.toUpperCase())
-            }
-            onBlur={() => handleBlur("name")}
+            control={control}
+            render={({ field }) => (
+              <input
+                id="card-name"
+                name={field.name}
+                type="text"
+                autoComplete="cc-name"
+                placeholder="Como figura en la tarjeta"
+                value={field.value}
+                maxLength={50}
+                className={errors.name ? "isInvalid" : ""}
+                aria-invalid={Boolean(errors.name)}
+                onFocus={() => setFocused("name")}
+                onChange={(e) => {
+                  const upper = e.target.value.toUpperCase();
+                  field.onChange(upper);
+                  onChange({ ...getValues(), name: upper });
+                }}
+                onBlur={field.onBlur}
+                ref={field.ref}
+              />
+            )}
           />
           {errors.name && (
             <span className="fieldError" role="alert">
-              {errors.name}
+              {errors.name.message}
             </span>
           )}
         </div>
@@ -227,23 +241,35 @@ export default function Step3PaymentForm({
         <div className="formRowTwo">
           <div className="formField">
             <label htmlFor="card-expiry">Vencimiento (MM/AA)</label>
-            <input
-              id="card-expiry"
+            <Controller
               name="expiry"
-              type="text"
-              inputMode="numeric"
-              autoComplete="cc-exp"
-              placeholder="MM/AA"
-              value={data.expiry}
-              maxLength={5}
-              className={errors.expiry ? "isInvalid" : ""}
-              onFocus={() => setFocused("expiry")}
-              onChange={handleExpiryChange}
-              onBlur={() => handleBlur("expiry")}
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="card-expiry"
+                  name={field.name}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="cc-exp"
+                  placeholder="MM/AA"
+                  value={field.value}
+                  maxLength={5}
+                  className={errors.expiry ? "isInvalid" : ""}
+                  aria-invalid={Boolean(errors.expiry)}
+                  onFocus={() => setFocused("expiry")}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    const formatted = formatExpiryDisplay(e.target.value);
+                    field.onChange(formatted);
+                    onChange({ ...getValues(), expiry: formatted });
+                  }}
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                />
+              )}
             />
             {errors.expiry && (
               <span className="fieldError" role="alert">
-                {errors.expiry}
+                {errors.expiry.message}
               </span>
             )}
           </div>
@@ -255,23 +281,39 @@ export default function Step3PaymentForm({
                 : "Código de seguridad (CVC · 3 dígitos)"}
             </label>
             <div className="cvcInputWrap">
-              <input
-                id="card-cvc"
+              <Controller
                 name="cvc"
-                type={showCvc ? "text" : "password"}
-                inputMode="numeric"
-                autoComplete="cc-csc"
-                placeholder={brand === "amex" ? "••••" : "•••"}
-                value={data.cvc}
-                maxLength={brand === "amex" ? 4 : 3}
-                className={errors.cvc ? "isInvalid" : ""}
-                onFocus={() => setFocused("cvc")}
-                onChange={handleCvcChange}
-                onBlur={() => {
-                  setFocused("");
-                  setShowCvc(false);
-                  handleBlur("cvc");
-                }}
+                control={control}
+                render={({ field }) => (
+                  <input
+                    id="card-cvc"
+                    name={field.name}
+                    type={showCvc ? "text" : "password"}
+                    inputMode="numeric"
+                    autoComplete="cc-csc"
+                    placeholder={brand === "amex" ? "••••" : "•••"}
+                    value={field.value}
+                    maxLength={brand === "amex" ? 4 : 3}
+                    className={errors.cvc ? "isInvalid" : ""}
+                    aria-invalid={Boolean(errors.cvc)}
+                    onFocus={() => setFocused("cvc")}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      const maxLen = brand === "amex" ? 4 : 3;
+                      const digits = stripDigits(e.target.value).slice(
+                        0,
+                        maxLen,
+                      );
+                      field.onChange(digits);
+                      onChange({ ...getValues(), cvc: digits });
+                    }}
+                    onBlur={() => {
+                      setFocused("");
+                      setShowCvc(false);
+                      field.onBlur();
+                    }}
+                    ref={field.ref}
+                  />
+                )}
               />
               <button
                 type="button"
@@ -294,7 +336,7 @@ export default function Step3PaymentForm({
             </div>
             {errors.cvc && (
               <span className="fieldError" role="alert">
-                {errors.cvc}
+                {errors.cvc.message}
               </span>
             )}
           </div>
@@ -337,7 +379,12 @@ export default function Step3PaymentForm({
                     name="installments"
                     value={option.count}
                     checked={isSelected}
-                    onChange={() => updateField("installments", option.count)}
+                    onChange={() => {
+                      setValue("installments", option.count, {
+                        shouldDirty: true,
+                      });
+                      onChange({ ...getValues(), installments: option.count });
+                    }}
                   />
                   <div className="installmentMain">
                     <span className="installmentTitle">
@@ -373,7 +420,11 @@ export default function Step3PaymentForm({
         )}
 
         <div className="checkoutStepFooter">
-          <button type="button" className="checkoutBackBtn" onClick={onBack}>
+          <button
+            type="button"
+            className="checkoutBackBtn"
+            onClick={handleBack}
+          >
             <FaArrowLeft size={12} />
             <span>Volver a tus datos</span>
           </button>

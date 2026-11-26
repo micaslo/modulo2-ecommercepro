@@ -192,9 +192,9 @@ export default function AdminPage() {
       <ProductFormModal
         isOpen={productForm.isOpen}
         isEditing={productForm.isEditing}
-        values={productForm.values}
+        register={productForm.register}
+        control={productForm.control}
         errors={productForm.errors}
-        onChange={productForm.handleChange}
         onSubmit={productForm.handleSubmit}
         onClose={productForm.close}
       />
