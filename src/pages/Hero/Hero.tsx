@@ -203,34 +203,6 @@ export default function Hero() {
             </Link>
           ))}
         </nav>
-
-        <div className="hero__deal-bar" id="ofertas">
-          <div className="hero__deal-title">
-            <span className="hero__deal-mark" aria-hidden="true">
-              ✦
-            </span>
-            <span>
-              Más motivos
-              <br />
-              para elegirnos
-            </span>
-          </div>
-          <div className="hero__deal">
-            <strong>Envío gratis</strong>
-            <span>en compras seleccionadas</span>
-          </div>
-          <div className="hero__deal">
-            <strong>Cupón LIEBRE25</strong>
-            <span>25% OFF en tu carrito</span>
-          </div>
-          <div className="hero__deal">
-            <strong>Hasta 18 cuotas</strong>
-            <span>sin interés</span>
-          </div>
-          <Link to="/productos" className="hero__deal-cta">
-            Ver catálogo completo <span aria-hidden="true">→</span>
-          </Link>
-        </div>
       </div>
     </section>
   );

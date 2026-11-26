@@ -5,6 +5,7 @@ import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
 import TilliBot from "./components/TilliBot/TilliBot";
 import SellProductSection from "./components/sellProduct/SellProductSection";
 import SobreNosotros from "./components/sobrenosotros/sobrenosotros";
+import BlackFridayBanner from "./components/blackFridayBanner/BlackFridayBanner";
 import Hero from "./pages/Hero/Hero";
 import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
 import HowToGetThere from "./pages/How-to-get-there/How-to-get-there";
@@ -34,6 +35,7 @@ function App() {
           element={
             <main>
               <Hero />
+              <BlackFridayBanner />
               <BestSellersPage />
               <HowToGetThere />
               <ResellersSection />
