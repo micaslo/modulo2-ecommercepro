@@ -9,6 +9,7 @@ import BlackFridayBanner from "./components/blackFridayBanner/BlackFridayBanner"
 import Hero from "./pages/hero/Hero";
 import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
 import CatalogPage from "./pages/catalogPage/CatalogPage";
+import CategoryPage from "./pages/categoryPage/CategoryPage";
 import HowToGetThere from "./pages/howToGetThere/How-to-get-there";
 import PageToCreateAnAccount from "./pages/createAnAccount/CreateAnAccount";
 import ProductPage from "./pages/productPage/ProductPage";
@@ -49,6 +50,7 @@ function App() {
         <Route path="/sobre-nosotros" element={<Navigate to="/sobrenosotros" replace />} />
         <Route path="/nosotros" element={<Navigate to="/sobrenosotros" replace />} />
         <Route path="/productos" element={<CatalogPage />} />
+        <Route path="/categoria/:slug" element={<CategoryPage />} />
         <Route path="/mas-vendidos" element={<BestSellersPage />} />
         <Route
           path="/perfil"
