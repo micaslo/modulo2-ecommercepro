@@ -89,6 +89,29 @@ export const productFormSchema = z.object({
     .max(1000, "La descripción no puede superar los 1000 caracteres."),
 });
 
+export function createProductFormSchema(
+  existingProducts: Product[],
+  editingProductId?: string | null,
+) {
+  return productFormSchema.superRefine((values, ctx) => {
+    const normalizedCode = normalizeProductCode(values.code);
+    if (!normalizedCode) return;
+
+    const duplicate = existingProducts.find(
+      (product) =>
+        product.id !== editingProductId &&
+        normalizeProductCode(product.code ?? product.id) === normalizedCode,
+    );
+    if (duplicate) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["code"],
+        message: `El código "${normalizedCode}" ya está en uso por "${duplicate.name}".`,
+      });
+    }
+  });
+}
+
 export function validateProductForm(
   values: ProductFormValues,
   existingProducts: Product[],

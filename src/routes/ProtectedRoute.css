@@ -1,4 +1,4 @@
-.protected-route {
+.protectedRoute {
   min-height: calc(100vh - var(--navbar-height) - 180px);
   display: grid;
   place-items: center;
@@ -6,7 +6,7 @@
   background: var(--bg-body);
 }
 
-.protected-card {
+.protectedCard {
   width: min(100%, 620px);
   padding: clamp(1.75rem, 4vw, 2.75rem);
   border: 1px solid var(--border-color);
@@ -16,7 +16,7 @@
   text-align: center;
 }
 
-.protected-eyebrow {
+.protectedEyebrow {
   display: inline-block;
   padding: 0.3rem 0.8rem;
   border-radius: var(--radius-pill);
@@ -27,31 +27,31 @@
   letter-spacing: 0.1em;
 }
 
-.protected-eyebrow--danger {
+.protectedEyebrowDanger {
   background: var(--color-danger-soft);
   color: var(--color-danger);
 }
 
-.protected-card h1 {
+.protectedCard h1 {
   margin: var(--space-4) 0 var(--space-3);
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
-.protected-copy {
+.protectedCopy {
   margin: 0 auto var(--space-5);
   max-width: 48ch;
   color: var(--text-muted);
   font-size: var(--fs-sm);
 }
 
-.protected-actions {
+.protectedActions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-3);
 }
 
-.protected-link-btn {
+.protectedLinkBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -59,13 +59,13 @@
   font-size: var(--fs-sm);
 }
 
-.protected-demo {
+.protectedDemo {
   margin-top: var(--space-6);
   padding-top: var(--space-5);
   border-top: 1px dashed var(--border-strong);
 }
 
-.protected-demo-title {
+.protectedDemoTitle {
   margin: 0 0 var(--space-3);
   font-size: var(--fs-xs);
   color: var(--text-muted);
@@ -74,14 +74,14 @@
   letter-spacing: 0.06em;
 }
 
-.protected-demo-buttons {
+.protectedDemoButtons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-2);
 }
 
-.protected-demo-btn {
+.protectedDemoBtn {
   padding: 0.55rem 1rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-pill);
@@ -94,18 +94,18 @@
   transition: border-color var(--transition), background var(--transition);
 }
 
-.protected-demo-btn:hover {
+.protectedDemoBtn:hover {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
 }
 
-.protected-demo-btn--admin {
+.protectedDemoBtnAdmin {
   border-color: var(--color-secondary);
   background: var(--color-secondary-soft);
   color: var(--text-main);
 }
 
-.protected-demo-btn--admin:hover {
+.protectedDemoBtnAdmin:hover {
   background: var(--color-secondary);
   color: var(--color-on-secondary);
 }

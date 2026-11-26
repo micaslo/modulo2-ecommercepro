@@ -78,11 +78,11 @@ export default function AdminPage() {
   if (!user) return null;
 
   return (
-    <main className="admin-page">
-      <div className="admin-container">
-        <header className="admin-header">
+    <main className="adminPage">
+      <div className="adminContainer">
+        <header className="adminHeader">
           <div>
-            <span className="admin-eyebrow">PERFIL ADMINISTRADOR</span>
+            <span className="adminEyebrow">PERFIL ADMINISTRADOR</span>
             <h1>Panel de Administración</h1>
             <p>
               Gestioná el inventario completo de productos con código único y
@@ -90,13 +90,16 @@ export default function AdminPage() {
             </p>
           </div>
 
-          <div className="admin-header-actions">
-            <Link to="/productos" className="btn-secondary admin-link-btn">
+          <div className="adminHeaderActions">
+            <Link to="/perfil" className="btnSecondary adminLinkBtn">
+              Mi perfil
+            </Link>
+            <Link to="/productos" className="btnSecondary adminLinkBtn">
               Ver catálogo
             </Link>
             <button
               type="button"
-              className="btn-primary"
+              className="btnPrimary"
               onClick={() => {
                 setActiveTab("products");
                 productForm.openCreate();
@@ -107,44 +110,44 @@ export default function AdminPage() {
           </div>
         </header>
 
-        <section className="admin-kpis" aria-label="Indicadores generales">
-          <article className="admin-kpi-card">
-            <span className="admin-kpi-label">Total de productos</span>
-            <strong className="admin-kpi-value">{stats.totalProducts}</strong>
+        <section className="adminKpis" aria-label="Indicadores generales">
+          <article className="adminKpiCard">
+            <span className="adminKpiLabel">Total de productos</span>
+            <strong className="adminKpiValue">{stats.totalProducts}</strong>
             <small>En catálogo activo</small>
           </article>
-          <article className="admin-kpi-card">
-            <span className="admin-kpi-label">Stock acumulado</span>
-            <strong className="admin-kpi-value">{stats.totalStock}</strong>
+          <article className="adminKpiCard">
+            <span className="adminKpiLabel">Stock acumulado</span>
+            <strong className="adminKpiValue">{stats.totalStock}</strong>
             <small>Unidades disponibles</small>
           </article>
-          <article className="admin-kpi-card">
-            <span className="admin-kpi-label">Stock crítico (≤ 3)</span>
+          <article className="adminKpiCard">
+            <span className="adminKpiLabel">Stock crítico (≤ 3)</span>
             <strong
-              className={`admin-kpi-value ${
-                stats.lowStockCount > 0 ? "is-warning" : ""
+              className={`adminKpiValue ${
+                stats.lowStockCount > 0 ? "isWarning" : ""
               }`}
             >
               {stats.lowStockCount}
             </strong>
             <small>Artículos por reponer</small>
           </article>
-          <article className="admin-kpi-card">
-            <span className="admin-kpi-label">Usuarios registrados</span>
-            <strong className="admin-kpi-value">{stats.totalUsers}</strong>
+          <article className="adminKpiCard">
+            <span className="adminKpiLabel">Usuarios registrados</span>
+            <strong className="adminKpiValue">{stats.totalUsers}</strong>
             <small>{stats.guestCount} invitados activos</small>
           </article>
         </section>
 
         {banner && (
           <div
-            className={`admin-banner admin-banner--${banner.type}`}
+            className={`adminBanner ${banner.type === "success" ? "adminBannerSuccess" : "adminBannerError"}`}
             role="status"
           >
             <span>{banner.message}</span>
             <button
               type="button"
-              className="admin-banner-close"
+              className="adminBannerClose"
               onClick={() => setBanner(null)}
               aria-label="Cerrar notificación"
             >
@@ -153,12 +156,12 @@ export default function AdminPage() {
           </div>
         )}
 
-        <div className="admin-tabs" role="tablist" aria-label="Secciones del panel">
+        <div className="adminTabs" role="tablist" aria-label="Secciones del panel">
           <button
             type="button"
             role="tab"
             aria-selected={activeTab === "products"}
-            className={`admin-tab ${activeTab === "products" ? "is-active" : ""}`}
+            className={`adminTab ${activeTab === "products" ? "isActive" : ""}`}
             onClick={() => setActiveTab("products")}
           >
             Inventario y Productos ({products.length})
@@ -167,7 +170,7 @@ export default function AdminPage() {
             type="button"
             role="tab"
             aria-selected={activeTab === "users"}
-            className={`admin-tab ${activeTab === "users" ? "is-active" : ""}`}
+            className={`adminTab ${activeTab === "users" ? "isActive" : ""}`}
             onClick={() => setActiveTab("users")}
           >
             Gestión de Usuarios ({users.length})
@@ -192,23 +195,23 @@ export default function AdminPage() {
       <ProductFormModal
         isOpen={productForm.isOpen}
         isEditing={productForm.isEditing}
-        values={productForm.values}
+        register={productForm.register}
+        control={productForm.control}
         errors={productForm.errors}
-        onChange={productForm.handleChange}
         onSubmit={productForm.handleSubmit}
         onClose={productForm.close}
       />
 
       {deleteTarget && (
         <div
-          className="admin-modal-backdrop"
+          className="adminModalBackdrop"
           role="dialog"
           aria-modal="true"
           aria-labelledby="confirm-delete-title"
           onClick={() => setDeleteTarget(null)}
         >
           <div
-            className="admin-confirm-modal"
+            className="adminConfirmModal"
             onClick={(event) => event.stopPropagation()}
           >
             <h2 id="confirm-delete-title">
@@ -232,17 +235,17 @@ export default function AdminPage() {
                 </>
               )}
             </p>
-            <div className="admin-modal-actions">
+            <div className="adminModalActions">
               <button
                 type="button"
-                className="admin-btn-ghost"
+                className="adminBtnGhost"
                 onClick={() => setDeleteTarget(null)}
               >
                 Cancelar
               </button>
               <button
                 type="button"
-                className="admin-btn-danger"
+                className="adminBtnDanger"
                 onClick={handleConfirmDelete}
               >
                 Sí, eliminar

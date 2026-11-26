@@ -21,9 +21,7 @@ export const registerSchema = z
     phone: z
       .string()
       .trim()
-      .max(25, "El teléfono no puede superar los 25 caracteres.")
-      .optional()
-      .default(""),
+      .max(25, "El teléfono no puede superar los 25 caracteres."),
     password: z
       .string()
       .min(8, "La contraseña debe tener al menos 8 caracteres.")
@@ -49,7 +47,10 @@ export const loginSchema = z.object({
     .pipe(z.email("Ingresá un correo electrónico válido.")),
   password: z
     .string()
-    .min(1, "Ingresá tu contraseña."),
+    .min(6, "La contraseña debe tener al menos 6 caracteres."),
+  notARobot: z.boolean().refine((checked) => checked, {
+    message: "Confirmá que no sos un robot.",
+  }),
 });
 
 export const profileUpdateSchema = z

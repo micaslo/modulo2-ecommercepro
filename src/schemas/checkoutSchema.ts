@@ -1,6 +1,23 @@
 import { z } from "zod";
-import { detectCardBrand, stripDigits } from "../data/checkoutConfig";
+import {
+  detectCardBrand,
+  PROMO_COUPONS,
+  stripDigits,
+} from "../data/checkoutConfig";
 import type { CustomerFormData, PaymentFormData } from "../types/cart";
+
+export const couponFormSchema = z.object({
+  code: z
+    .string()
+    .trim()
+    .min(1, "Ingresá un código de cupón.")
+    .refine(
+      (value) => Boolean(PROMO_COUPONS[value.toUpperCase()]),
+      "Cupón inválido. Probá con LIEBRE25.",
+    ),
+});
+
+export type CouponFormValues = z.infer<typeof couponFormSchema>;
 
 export type CustomerFormErrors = Partial<Record<keyof CustomerFormData, string>>;
 export type PaymentFormErrors = Partial<Record<keyof PaymentFormData, string>>;

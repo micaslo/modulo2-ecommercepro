@@ -16,7 +16,7 @@ export const STORE_WHATSAPP_NUMBER = "5493813190987";
 const STORE_INFO = {
   name: "Tienda Liebre",
   address: "Gral. José María Paz 576 (Entrepiso), San Miguel de Tucumán, Tucumán",
-  hours: "Lunes a viernes de 09:00 a 18:00 hs",
+  hours: "Lunes a sábados de 09:00 a 21:00 hs",
   mapsUrl:
     "https://www.bing.com/maps/default.aspx?where1=Gral.+Jos%C3%A9+Mar%C3%ADa+Paz+576%2C+T4000+San+Miguel+de+Tucum%C3%A1n%2C+Tucum%C3%A1n%2C+Argentina",
 };
@@ -246,6 +246,8 @@ const STOP_WORDS = new Set([
   "tenes",
   "tienen",
   "hay",
+  "disponible",
+  "disponibles",
   "ver",
   "mostrar",
   "mostrame",
@@ -292,6 +294,182 @@ function getMeaningfulTokens(normalized: string): string[] {
   return normalized
     .split(" ")
     .filter((token) => token.length >= 2 && !STOP_WORDS.has(token) && !/^\$?\d[\d.]*$/.test(token));
+}
+
+const KIND_CATEGORY_META: Record<
+  Exclude<ProductDetails["productKind"], "general">,
+  {
+    categoryParam: string;
+    actionLabel: string;
+    introText: string;
+    primaryIds: [string, string];
+    quickReplies: string[];
+  }
+> = {
+  phone: {
+    categoryParam: "Tecnología",
+    actionLabel: "Explorar categoría Tecnología",
+    introText:
+      "Estos son los **2 modelos de celulares** que tenemos en la tienda (disponibles en distintos colores y capacidades):",
+    primaryIds: ["iphone-18-pro", "samsung-s26-ultra"],
+    quickReplies: [
+      "Comparar iPhone vs Samsung",
+      "Cupones y ofertas",
+      "Medios de pago y cuotas",
+    ],
+  },
+  car: {
+    categoryParam: "Vehículos",
+    actionLabel: "Explorar categoría Vehículos",
+    introText:
+      "Estos son los **2 modelos de vehículos 0 km** destacados que tenemos disponibles:",
+    primaryIds: ["chevrolet-captiva", "chevrolet-traverse"],
+    quickReplies: [
+      "Comparar Captiva vs Traverse",
+      "Envíos a todo el país",
+      "Hablar por WhatsApp",
+    ],
+  },
+  camera: {
+    categoryParam: "Cámaras y Accesorios",
+    actionLabel: "Explorar categoría Cámaras y Accesorios",
+    introText:
+      "Estas son las **2 cámaras profesionales** destacadas que tenemos disponibles:",
+    primaryIds: ["canon-eos-5d-mark-iv", "nikon-z9"],
+    quickReplies: [
+      "Comparar Canon vs Nikon",
+      "Medios de pago y cuotas",
+      "Cupones y ofertas",
+    ],
+  },
+  gaming: {
+    categoryParam: "Gaming",
+    actionLabel: "Explorar categoría Gaming",
+    introText:
+      "Estos son nuestros destacados de **Gaming** (disponibles en varios colores):",
+    primaryIds: ["ps5-dualsense", "ps5-dualsense-blue"],
+    quickReplies: [
+      "Cupones y ofertas",
+      "Medios de pago y cuotas",
+      "Ver catálogo",
+    ],
+  },
+};
+
+function buildCategoryAction(
+  kind: ProductDetails["productKind"] | null,
+): TilliActionLink[] | undefined {
+  if (!kind || kind === "general") return undefined;
+  const meta = KIND_CATEGORY_META[kind];
+  return [
+    {
+      label: meta.actionLabel,
+      kind: "route",
+      to: `/productos?categoria=${encodeURIComponent(meta.categoryParam)}`,
+    },
+  ];
+}
+
+function matchesProductKind(
+  product: Product,
+  kind: ProductDetails["productKind"],
+): boolean {
+  return getProductDetails(product).productKind === kind;
+}
+
+function pickPrimaryForKind(
+  products: Product[],
+  kind: Exclude<ProductDetails["productKind"], "general">,
+): Product[] {
+  const inKind = products.filter((p) => matchesProductKind(p, kind));
+  const [firstId, secondId] = KIND_CATEGORY_META[kind].primaryIds;
+  const first = inKind.find((p) => p.id === firstId);
+  const second = inKind.find((p) => p.id === secondId && p.id !== first?.id);
+
+  const picked: Product[] = [];
+  if (first) picked.push(first);
+  if (second) picked.push(second);
+
+  for (const item of inKind) {
+    if (picked.length >= 2) break;
+    if (!picked.some((p) => p.id === item.id)) {
+      picked.push(item);
+    }
+  }
+
+  return picked;
+}
+
+const GENERIC_KIND_WORDS: Record<
+  Exclude<ProductDetails["productKind"], "general">,
+  Set<string>
+> = {
+  phone: new Set([
+    "celular",
+    "celulares",
+    "celu",
+    "celus",
+    "telefono",
+    "telefonos",
+    "smartphone",
+    "smartphones",
+    "movil",
+    "moviles",
+    "modelos",
+    "modelo",
+  ]),
+  car: new Set([
+    "auto",
+    "autos",
+    "vehiculo",
+    "vehiculos",
+    "camioneta",
+    "camionetas",
+    "suv",
+    "coche",
+    "0km",
+    "km",
+    "modelos",
+    "modelo",
+  ]),
+  camera: new Set([
+    "camara",
+    "camaras",
+    "foto",
+    "fotos",
+    "fotografia",
+    "profesional",
+    "profesionales",
+    "reflex",
+    "mirrorless",
+    "modelos",
+    "modelo",
+  ]),
+  gaming: new Set([
+    "gaming",
+    "gamer",
+    "joystick",
+    "joysticks",
+    "control",
+    "controles",
+    "mando",
+    "mandos",
+    "ps5",
+    "playstation",
+    "play",
+    "jugar",
+    "juegos",
+  ]),
+};
+
+function isGenericKindQuery(
+  normalized: string,
+  kind: Exclude<ProductDetails["productKind"], "general">,
+): boolean {
+  const tokens = getMeaningfulTokens(normalized);
+  if (tokens.length === 0) return false;
+  const words = GENERIC_KIND_WORDS[kind];
+  return tokens.every((token) => words.has(token));
 }
 
 function detectKindFromQuery(normalized: string): ProductDetails["productKind"] | null {
@@ -596,12 +774,31 @@ export function generateTilliReply(
   }
 
   if (/\b(comparar|compara|comparame|comparacion|vs|versus|contra|diferencia|diferencias)\b/.test(normalized)) {
-    const matched = findMatchingProducts(products, normalized);
     let pair: [Product, Product] | null = null;
 
-    if (matched.length >= 2) {
+    const splitVs =
+      normalized.match(/^(.+?)\s+(?:vs|versus|contra)\s+(.+)$/) ??
+      normalized.match(/\bentre\s+(.+?)\s+y\s+(.+)$/);
+
+    if (splitVs) {
+      const leftMatches = findMatchingProducts(products, splitVs[1]);
+      const leftProduct = leftMatches[0];
+      if (leftProduct) {
+        const rightMatches = findMatchingProducts(
+          products.filter((p) => p.id !== leftProduct.id),
+          splitVs[2],
+        );
+        if (rightMatches[0]) {
+          pair = [leftProduct, rightMatches[0]];
+        }
+      }
+    }
+
+    const matched = pair ? [] : findMatchingProducts(products, normalized);
+
+    if (!pair && matched.length >= 2) {
       pair = [matched[0], matched[1]];
-    } else if (currentProduct) {
+    } else if (!pair && currentProduct) {
       const currentKind = getProductDetails(currentProduct).productKind;
       const explicitOther = matched.find((p) => p.id !== currentProduct.id);
       const sameKindOther = products.find(
@@ -614,7 +811,7 @@ export function generateTilliReply(
       if (targetOther) {
         pair = [currentProduct, targetOther];
       }
-    } else if (matched.length === 1) {
+    } else if (!pair && matched.length === 1) {
       const targetKind = getProductDetails(matched[0]).productKind;
       const peer = products.find(
         (p) =>
@@ -622,7 +819,7 @@ export function generateTilliReply(
           getProductDetails(p).productKind === targetKind,
       );
       if (peer) pair = [matched[0], peer];
-    } else if (products.length >= 2) {
+    } else if (!pair && products.length >= 2) {
       const phoneA = products.find((p) => p.id === "iphone-18-pro");
       const phoneB = products.find((p) => p.id === "samsung-s26-ultra");
       pair = phoneA && phoneB ? [phoneA, phoneB] : [products[0], products[1]];
@@ -693,7 +890,7 @@ export function generateTilliReply(
       text: `Nos encontrás en **${STORE_INFO.name}**:\n• Dirección: ${STORE_INFO.address}\n• Horario: ${STORE_INFO.hours}`,
       actions: [
         { label: "Abrir en Bing Maps", kind: "external", to: STORE_INFO.mapsUrl },
-        { label: "Ver sección Cómo llegar", kind: "route", to: "/" },
+        { label: "Ver sección Cómo llegar", kind: "route", to: "/como-llegar" },
       ],
       quickReplies: ["Envíos a todo el país", "Hablar por WhatsApp"],
     };
@@ -711,7 +908,7 @@ export function generateTilliReply(
 
   if (/\b(vender|publicar|subir producto|mi producto|publicacion)\b/.test(normalized)) {
     return {
-      text: "¿Querés vender en la tienda? Desde la sección **Vender mi producto** podés cargar nombre, precio, categoría, stock e imagen para sumarlo al catálogo al instante.",
+      text: "¿Querés vender en la tienda? Desde la sección **Vender mi producto** podés completar tus datos junto con el nombre, categoría, estado (nuevo o usado), precio, foto y descripción del artículo. Nuestro equipo revisa la publicación y te contacta en menos de 24 horas hábiles.",
       actions: [
         { label: "Ir a Vender mi producto", kind: "route", to: "/sell-my-product" },
       ],
@@ -719,7 +916,7 @@ export function generateTilliReply(
     };
   }
 
-  if (/\b(whatsapp|wsp|humano|asesor|persona|contacto|telefono|llamar|soporte|reclamo)\b/.test(normalized)) {
+  if (/\b(whatsapp|wsp|humano|asesor|persona|contacto|llamar|soporte|reclamo)\b/.test(normalized)) {
     const contextDetail = currentProduct
       ? `Hola! Estaba hablando con Tilli sobre ${currentProduct.name} y necesito ayuda de un asesor.`
       : context.lastUserQuery
@@ -772,7 +969,7 @@ export function generateTilliReply(
 
   if (/\b(envio|envios|entrega|despacho|correo|pais|cuanto tarda)\b/.test(normalized) && matchedProducts.length === 0) {
     return {
-      text: "Ofrecemos **envío gratis y asegurado a todo el país** (entrega estimada en 24 a 48 hs hábiles en tecnología, cámaras y gaming). Para **vehículos 0 km**, la entrega se coordina en concesionario oficial con test drive y patentamiento asistido.",
+      text: "Ofrecemos **envíos a todo el país con envío gratis en compras superiores a $300.000** (entrega estimada en 24 a 48 hs hábiles en tecnología, cámaras y gaming). Para **vehículos 0 km**, la entrega se coordina en concesionario oficial con test drive y patentamiento asistido.",
       quickReplies: ["¿Dónde están ubicados?", "Ver catálogo", "Medios de pago y cuotas"],
     };
   }
@@ -782,6 +979,9 @@ export function generateTilliReply(
     return {
       text: `Actualmente tenemos **${products.length} productos** en las categorías: **${categories.join(", ")}**. Acá tenés una selección destacada:`,
       products: products.slice(0, 4).map(toProductCard),
+      actions: [
+        { label: "Ir al catálogo completo", kind: "route", to: "/productos" },
+      ],
       quickReplies: [
         "Celulares disponibles",
         "Vehículos 0 km",
@@ -791,13 +991,35 @@ export function generateTilliReply(
     };
   }
 
+  if (
+    detectedKind &&
+    detectedKind !== "general" &&
+    !priceFilter &&
+    isGenericKindQuery(normalized, detectedKind)
+  ) {
+    const primaryItems = pickPrimaryForKind(products, detectedKind);
+    if (primaryItems.length > 0) {
+      const meta = KIND_CATEGORY_META[detectedKind];
+      return {
+        text: meta.introText,
+        products: primaryItems.map(toProductCard),
+        actions: buildCategoryAction(detectedKind),
+        quickReplies: meta.quickReplies,
+      };
+    }
+  }
+
   if (priceFilter || matchedProducts.length > 0 || detectedKind) {
     let candidates = matchedProducts.length > 0 ? matchedProducts : [...products];
 
-    if (detectedKind && matchedProducts.length === 0) {
-      candidates = products.filter(
-        (p) => getProductDetails(p).productKind === detectedKind,
+    if (detectedKind && detectedKind !== "general") {
+      const kindCandidates = candidates.filter((p) =>
+        matchesProductKind(p, detectedKind),
       );
+      candidates =
+        kindCandidates.length > 0
+          ? kindCandidates
+          : products.filter((p) => matchesProductKind(p, detectedKind));
     }
 
     if (priceFilter) {
@@ -815,7 +1037,8 @@ export function generateTilliReply(
     }
 
     if (candidates.length > 0) {
-      const topCards = candidates.slice(0, 3).map(toProductCard);
+      const maxCards = detectedKind && detectedKind !== "general" ? 2 : 3;
+      const topCards = candidates.slice(0, maxCards).map(toProductCard);
       let intro = `Encontré **${candidates.length} ${candidates.length === 1 ? "opción" : "opciones"}** que coinciden con tu búsqueda:`;
 
       if (priceFilter?.max !== undefined && priceFilter.min === undefined) {
@@ -834,9 +1057,12 @@ export function generateTilliReply(
       }
       nextReplies.push("Cupones y ofertas", "Ver mi carrito");
 
+      const categoryActions = buildCategoryAction(detectedKind);
+
       return {
         text: intro,
         products: topCards,
+        actions: categoryActions,
         quickReplies: nextReplies,
       };
     }

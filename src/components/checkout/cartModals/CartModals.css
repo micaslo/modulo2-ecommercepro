@@ -54,17 +54,17 @@
   font-size: 1.5rem;
 }
 
-.cartModalIcon--warning {
+.cartModalIconWarning {
   background: var(--color-warning-soft);
   color: var(--color-warning);
 }
 
-.cartModalIcon--agent {
+.cartModalIconAgent {
   background: var(--color-secondary-soft);
   color: var(--color-secondary);
 }
 
-.cartModalIcon--info {
+.cartModalIconInfo {
   background: var(--color-info-soft);
   color: var(--color-info);
 }

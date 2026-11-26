@@ -66,51 +66,51 @@ export default function BlackFridayBanner() {
 
   return (
     <section
-      className="bf-section"
+      className="bfSection"
       id="ofertas"
       aria-label="Conteo regresivo Black Friday extendido"
     >
-      <div className="bf-banner">
-        <div className="bf-banner__glow bf-banner__glow--violet" aria-hidden="true" />
-        <div className="bf-banner__glow bf-banner__glow--orange" aria-hidden="true" />
+      <div className="bfBanner">
+        <div className="bfBannerGlow bfBannerGlowViolet" aria-hidden="true" />
+        <div className="bfBannerGlow bfBannerGlowOrange" aria-hidden="true" />
 
-        <div className="bf-banner__inner">
-          <div className="bf-banner__copy">
-            <div className="bf-banner__badges">
-              <span className="bf-banner__badge bf-banner__badge--live">
-                <span className="bf-banner__dot" aria-hidden="true" />
+        <div className="bfBannerInner">
+          <div className="bfBannerCopy">
+            <div className="bfBannerBadges">
+              <span className="bfBannerBadge bfBannerBadgeLive">
+                <span className="bfBannerDot" aria-hidden="true" />
                 BLACK FRIDAY EXTENDIDO
               </span>
-              <span className="bf-banner__badge bf-banner__badge--deadline">
+              <span className="bfBannerBadge bfBannerBadgeDeadline">
                 HASTA EL LUNES 30 · 23:59 HS
               </span>
             </div>
 
-            <h2 className="bf-banner__title">
+            <h2 className="bfBannerTitle">
               APROVECHÁ TODOS NUESTROS DESCUENTOS
             </h2>
-            <p className="bf-banner__subtitle">
+            <p className="bfBannerSubtitle">
               ¡¡EXTENDEMOS EL BLACK FRIDAY HASTA EL LUNES!!
             </p>
           </div>
 
           <div
-            className="bf-banner__countdown"
+            className="bfBannerCountdown"
             role="timer"
             aria-live="off"
             aria-label={`Faltan ${timeLeft.days} días, ${timeLeft.hours} horas, ${timeLeft.minutes} minutos y ${timeLeft.seconds} segundos para que termine el Black Friday`}
           >
-            <span className="bf-banner__countdown-kicker">Termina en</span>
+            <span className="bfBannerCountdownKicker">Termina en</span>
 
-            <div className="bf-banner__grid">
+            <div className="bfBannerGrid">
               {units.map((unit, index) => (
-                <div className="bf-banner__unit-wrap" key={unit.label}>
-                  <div className="bf-banner__unit">
-                    <strong className="bf-banner__value">{unit.value}</strong>
-                    <span className="bf-banner__label">{unit.label}</span>
+                <div className="bfBannerUnitWrap" key={unit.label}>
+                  <div className="bfBannerUnit">
+                    <strong className="bfBannerValue">{unit.value}</strong>
+                    <span className="bfBannerLabel">{unit.label}</span>
                   </div>
                   {index < units.length - 1 && (
-                    <span className="bf-banner__sep" aria-hidden="true">
+                    <span className="bfBannerSep" aria-hidden="true">
                       :
                     </span>
                   )}

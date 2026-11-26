@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Link,
   Navigate,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -11,6 +12,7 @@ import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
 import { getProductMedia } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
+import { getProductCategorySlug, getProductPath } from "../../utils/productRoute";
 import type { Product } from "../../types/productMedia";
 import ImageCarousel from "../../components/productPage/imageCarousel/ImageCarousel";
 import ColorSelector from "../../components/productPage/colorSelector/ColorSelector";
@@ -438,11 +440,22 @@ function ProductPageContent({
 }
 
 export default function ProductPage() {
-  const { id } = useParams();
+  const { category, id } = useParams();
+  const location = useLocation();
   const { products, getProductById } = useProducts();
 
   const product = id ? getProductById(id) : undefined;
   if (!product) return <Navigate to="/error-404" replace />;
+
+  const expectedCategory = getProductCategorySlug(product);
+  if (category !== expectedCategory) {
+    return (
+      <Navigate
+        to={`${getProductPath(product)}${location.search}`}
+        replace
+      />
+    );
+  }
 
   return (
     <ProductPageContent

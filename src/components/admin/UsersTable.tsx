@@ -40,10 +40,10 @@ export default function UsersTable({
   }, [users, search, roleFilter]);
 
   return (
-    <section className="admin-section" aria-label="Tabla de usuarios registrados">
-      <div className="admin-toolbar">
-        <label className="admin-search">
-          <span className="admin-sr-only">Buscar usuario</span>
+    <section className="adminSection" aria-label="Tabla de usuarios registrados">
+      <div className="adminToolbar">
+        <label className="adminSearch">
+          <span className="adminSrOnly">Buscar usuario</span>
           <input
             type="search"
             value={search}
@@ -52,8 +52,8 @@ export default function UsersTable({
           />
         </label>
 
-        <label className="admin-select">
-          <span className="admin-sr-only">Filtrar por rol</span>
+        <label className="adminSelect">
+          <span className="adminSrOnly">Filtrar por rol</span>
           <select
             value={roleFilter}
             onChange={(event) =>
@@ -66,18 +66,18 @@ export default function UsersTable({
           </select>
         </label>
 
-        <span className="admin-toolbar-count">
+        <span className="adminToolbarCount">
           {visibleUsers.length} de {users.length} usuarios
         </span>
       </div>
 
       {visibleUsers.length === 0 ? (
-        <div className="admin-empty">
+        <div className="adminEmpty">
           No se encontraron usuarios con esos filtros.
         </div>
       ) : (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
+        <div className="adminTableWrap">
+          <table className="adminTable">
             <thead>
               <tr>
                 <th>Usuario</th>
@@ -99,10 +99,10 @@ export default function UsersTable({
                 return (
                   <tr key={entry.id}>
                     <td>
-                      <div className="admin-user-cell">
+                      <div className="adminUserCell">
                         <span
-                          className={`admin-user-avatar ${
-                            entry.role === "admin" ? "is-admin" : ""
+                          className={`adminUserAvatar ${
+                            entry.role === "admin" ? "isAdmin" : ""
                           }`}
                           aria-hidden="true"
                         >
@@ -112,7 +112,7 @@ export default function UsersTable({
                           <strong>
                             {entry.name}{" "}
                             {isSelf && (
-                              <span className="admin-self-tag">(Vos)</span>
+                              <span className="adminSelfTag">(Vos)</span>
                             )}
                           </strong>
                         </div>
@@ -122,8 +122,8 @@ export default function UsersTable({
                     <td>{entry.phone ?? "—"}</td>
                     <td>
                       <span
-                        className={`admin-role-pill ${
-                          entry.role === "admin" ? "is-admin" : "is-guest"
+                        className={`adminRolePill ${
+                          entry.role === "admin" ? "isAdmin" : "isGuest"
                         }`}
                       >
                         {entry.role === "admin" ? "Administrador" : "Invitado"}
@@ -133,7 +133,7 @@ export default function UsersTable({
                     <td>
                       <button
                         type="button"
-                        className="admin-action-btn admin-action-btn--delete"
+                        className="adminActionBtn adminActionBtnDelete"
                         disabled={cannotDelete}
                         title={
                           entry.isProtected

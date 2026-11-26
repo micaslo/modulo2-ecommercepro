@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
-import { validateSellProduct } from '../schemas/sellProductSchema'
+import { useForm, useWatch } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { sellProductSchema } from '../schemas/sellProductSchema'
 import type {
-  SellProductErrors,
   SellProductFormData,
   SellProductReceipt,
 } from '../types/sellProduct'
@@ -19,10 +20,37 @@ const initialFormData: SellProductFormData = {
   description: '',
 }
 
+function buildSellReceipt(data: SellProductFormData, imageFile: File): SellProductReceipt {
+  return {
+    reference: `SP-${Date.now().toString().slice(-6)}`,
+    date: new Date().toLocaleDateString('es-AR'),
+    productName: data.productName.trim(),
+    category: data.category,
+    condition: data.condition,
+    description: data.description.trim(),
+    price: Number(data.price),
+    email: data.email.trim(),
+    imageUrl: URL.createObjectURL(imageFile),
+  }
+}
+
 export function useSellProductForm() {
-  const [formData, setFormData] = useState<SellProductFormData>(initialFormData)
-  const [errors, setErrors] = useState<SellProductErrors>({})
   const [receipt, setReceipt] = useState<SellProductReceipt | null>(null)
+
+  const {
+    register,
+    control,
+    setValue,
+    handleSubmit: rhfHandleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<SellProductFormData>({
+    resolver: zodResolver(sellProductSchema),
+    defaultValues: initialFormData,
+  })
+
+  const image = useWatch({ control, name: 'image' })
+  const description = useWatch({ control, name: 'description' })
 
   useEffect(() => {
     return () => {
@@ -30,43 +58,30 @@ export function useSellProductForm() {
     }
   }, [receipt])
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ): void => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    setErrors((prev) => ({ ...prev, [name]: undefined }))
-  }
-
   const handleImage = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] ?? null
-    setFormData((prev) => ({ ...prev, image: file }))
-    setErrors((prev) => ({ ...prev, image: undefined }))
+    setValue('image', file, { shouldValidate: true, shouldDirty: true })
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
+    void rhfHandleSubmit((data) => {
+      if (!data.image) return
 
-    const newErrors = validateSellProduct(formData)
-    setErrors(newErrors)
-
-    if (Object.keys(newErrors).length > 0 || !formData.image) return
-
-    setReceipt({
-      reference: `SP-${Date.now().toString().slice(-6)}`,
-      date: new Date().toLocaleDateString('es-AR'),
-      productName: formData.productName.trim(),
-      category: formData.category,
-      condition: formData.condition,
-      description: formData.description.trim(),
-      price: Number(formData.price),
-      email: formData.email.trim(),
-      imageUrl: URL.createObjectURL(formData.image),
-    })
-    setFormData(initialFormData)
+      setReceipt(buildSellReceipt(data, data.image))
+      reset(initialFormData)
+    })(e)
   }
 
   const resetReceipt = (): void => setReceipt(null)
 
-  return { formData, errors, receipt, handleChange, handleImage, handleSubmit, resetReceipt }
+  return {
+    register,
+    errors,
+    image,
+    descriptionLength: description.length,
+    receipt,
+    handleImage,
+    handleSubmit,
+    resetReceipt,
+  }
 }

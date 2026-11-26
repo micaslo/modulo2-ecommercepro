@@ -13,7 +13,7 @@ import {
 import logoWhite from "../../assets/images/logo/tl-imagotype-white.webp";
 import "./footer.css";
 
-const WHATSAPP_URL = "https://wa.me/3810000000";
+const WHATSAPP_URL = "https://wa.me/5493813190987";
 const EMAIL = "contacto@tiendaliebre.com";
 
 const socials = [
@@ -28,24 +28,24 @@ export default function Footer() {
 
   return (
     <footer className="footer">
-      <div className="footer__accent-line" aria-hidden="true" />
+      <div className="footerAccentLine" aria-hidden="true" />
 
-      <div className="footer__inner">
-        <div className="footer__brand">
-          <Link to="/" className="footer__logo" aria-label="Tienda Liebre, inicio">
+      <div className="footerInner">
+        <div className="footerBrand">
+          <Link to="/" className="footerLogo" aria-label="Tienda Liebre, inicio">
             <img
               src={logoWhite}
               alt="Tienda Liebre"
-              className="footer__logo-img"
+              className="footerLogoImg"
             />
           </Link>
 
-          <p className="footer__tagline">
+          <p className="footerTagline">
             Todo lo que buscás, en un solo lugar. Encontrá tecnología, ofertas
             y las mejores oportunidades con envío ágil a todo el país.
           </p>
 
-          <div className="footer__socials">
+          <div className="footerSocials">
             {socials.map((social) => (
               <a
                 key={social.label}
@@ -54,7 +54,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 title={social.label}
-                className="footer__social"
+                className="footerSocial"
               >
                 {social.icon}
               </a>
@@ -62,8 +62,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <nav className="footer__col" aria-label="Información">
-          <h3 className="footer__title">INFORMACIÓN</h3>
+        <nav className="footerCol" aria-label="Información">
+          <h3 className="footerTitle">INFORMACIÓN</h3>
           <ul>
             <li>
               <Link to="/sobrenosotros">Sobre nosotros</Link>
@@ -80,8 +80,8 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <nav className="footer__col" aria-label="Ayuda y contacto">
-          <h3 className="footer__title">AYUDA Y CONTACTO</h3>
+        <nav className="footerCol" aria-label="Ayuda y contacto">
+          <h3 className="footerTitle">AYUDA Y CONTACTO</h3>
           <ul>
             <li>
               <Link to="/como-llegar">Cómo llegar</Link>
@@ -97,14 +97,14 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <div className="footer__col">
-          <h3 className="footer__title">PAGOS Y CONFIANZA</h3>
+        <div className="footerCol">
+          <h3 className="footerTitle">PAGOS Y CONFIANZA</h3>
 
-          <p className="footer__payment-text">
+          <p className="footerPaymentText">
             Tus pagos están protegidos y tus datos siempre seguros.
           </p>
 
-          <div className="footer__payments">
+          <div className="footerPayments">
             <span>
               <FaCcVisa />
             </span>
@@ -119,18 +119,18 @@ export default function Footer() {
             </span>
           </div>
 
-          <div className="footer__security">
+          <div className="footerSecurity">
             <FaLock />
             <span>Compra segura y protegida</span>
           </div>
         </div>
       </div>
 
-      <div className="footer__bottom">
-        <div className="footer__bottom-inner">
+      <div className="footerBottom">
+        <div className="footerBottomInner">
           <span>© {year} Tienda Liebre. Todos los derechos reservados.</span>
 
-          <div className="footer__bottom-links">
+          <div className="footerBottomLinks">
             <Link to="/privacidad">Privacidad</Link>
             <Link to="/terminos">Términos</Link>
             <Link to="/cookies">Cookies</Link>

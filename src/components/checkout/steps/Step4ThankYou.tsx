@@ -97,7 +97,7 @@ export default function Step4ThankYou({ order }: Step4ThankYouProps) {
             )}
           </div>
 
-          <div className="thankYouInfoBox thankYouInfoBox--full">
+          <div className="thankYouInfoBox thankYouInfoBoxFull">
             <h3>
               <FaCreditCard size={14} /> Medio de pago
             </h3>
@@ -164,7 +164,7 @@ export default function Step4ThankYou({ order }: Step4ThankYouProps) {
             </button>
           </div>
 
-          <Link to="/" className="btn-primary checkoutNextBtn">
+          <Link to="/" className="btnPrimary checkoutNextBtn">
             Volver a la tienda
           </Link>
         </div>
@@ -189,7 +189,7 @@ export default function Step4ThankYou({ order }: Step4ThankYouProps) {
               <div className="invoicePreviewToolbarActions">
                 <button
                   type="button"
-                  className="btn-primary checkoutNextBtn"
+                  className="btnPrimary checkoutNextBtn"
                   onClick={handlePrintInvoice}
                 >
                   <FaPrint size={13} />

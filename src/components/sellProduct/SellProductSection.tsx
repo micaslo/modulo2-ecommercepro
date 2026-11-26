@@ -31,10 +31,18 @@ function Field({ id, label, error, required = false, fullWidth = false, children
 }
 
 function SellProductSection() {
-  const { formData, errors, receipt, handleChange, handleImage, handleSubmit, resetReceipt } =
-    useSellProductForm()
+  const {
+    register,
+    errors,
+    image,
+    descriptionLength,
+    receipt,
+    handleImage,
+    handleSubmit,
+    resetReceipt,
+  } = useSellProductForm()
 
-   if (receipt) {
+  if (receipt) {
     return (
       <section className="sellProduct" id="sellProduct">
         <div className="sellProductInner">
@@ -97,39 +105,36 @@ function SellProductSection() {
 
         <form className="sellProductForm" onSubmit={handleSubmit} noValidate>
           <div className="sellProductGrid">
-            <Field id="firstName" label="Nombre" required error={errors.firstName}>
+            <Field id="firstName" label="Nombre" required error={errors.firstName?.message}>
               <input
                 id="firstName"
-                name="firstName"
                 type="text"
                 placeholder="Ej. Martín"
-                value={formData.firstName}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.firstName))}
+                aria-invalid={Boolean(errors.firstName)}
+                {...register('firstName')}
               />
             </Field>
 
-            <Field id="lastName" label="Apellido" required error={errors.lastName}>
+            <Field id="lastName" label="Apellido" required error={errors.lastName?.message}>
               <input
                 id="lastName"
-                name="lastName"
                 type="text"
                 placeholder="Ej. González"
-                value={formData.lastName}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.lastName))}
+                aria-invalid={Boolean(errors.lastName)}
+                {...register('lastName')}
               />
             </Field>
 
-            <Field id="email" label="Email" required fullWidth error={errors.email}>
+            <Field id="email" label="Email" required fullWidth error={errors.email?.message}>
               <input
                 id="email"
-                name="email"
                 type="email"
                 placeholder="martin@correo.com"
-                value={formData.email}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.email))}
+                aria-invalid={Boolean(errors.email)}
+                {...register('email')}
               />
             </Field>
 
@@ -138,26 +143,24 @@ function SellProductSection() {
               label="Nombre del producto"
               required
               fullWidth
-              error={errors.productName}
+              error={errors.productName?.message}
             >
               <input
                 id="productName"
-                name="productName"
                 type="text"
                 placeholder="Ej. Taladro percutor inalámbrico 20V"
-                value={formData.productName}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.productName))}
+                aria-invalid={Boolean(errors.productName)}
+                {...register('productName')}
               />
             </Field>
 
-            <Field id="category" label="Categoría" required error={errors.category}>
+            <Field id="category" label="Categoría" required error={errors.category?.message}>
               <select
                 id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.category))}
+                aria-invalid={Boolean(errors.category)}
+                {...register('category')}
               >
                 <option value="">Seleccioná una categoría</option>
                 {sellProductCategories.map((category) => (
@@ -168,13 +171,12 @@ function SellProductSection() {
               </select>
             </Field>
 
-            <Field id="condition" label="Estado" required error={errors.condition}>
+            <Field id="condition" label="Estado" required error={errors.condition?.message}>
               <select
                 id="condition"
-                name="condition"
-                value={formData.condition}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.condition))}
+                aria-invalid={Boolean(errors.condition)}
+                {...register('condition')}
               >
                 <option value="">Seleccioná el estado</option>
                 {sellProductConditions.map((condition) => (
@@ -185,20 +187,19 @@ function SellProductSection() {
               </select>
             </Field>
 
-            <Field id="price" label="Precio (ARS)" required fullWidth error={errors.price}>
+            <Field id="price" label="Precio (ARS)" required fullWidth error={errors.price?.message}>
               <input
                 id="price"
-                name="price"
                 type="text"
                 inputMode="numeric"
                 placeholder="Ej. 89900"
-                value={formData.price}
-                onChange={handleChange}
                 className={getInputClass(Boolean(errors.price))}
+                aria-invalid={Boolean(errors.price)}
+                {...register('price')}
               />
             </Field>
 
-            <Field id="image" label="Foto del producto" required fullWidth error={errors.image}>
+            <Field id="image" label="Foto del producto" required fullWidth error={errors.image?.message}>
               <div
                 className={
                   errors.image
@@ -208,8 +209,8 @@ function SellProductSection() {
               >
                 <span className="sellProductDropzoneIcon" aria-hidden="true">⬆</span>
                 <span className="sellProductDropzoneTitle">
-                  {formData.image
-                    ? formData.image.name
+                  {image
+                    ? image.name
                     : 'Hacé clic para adjuntar una foto o arrastrala acá'}
                 </span>
                 <span className="sellProductDropzoneHelp">
@@ -231,18 +232,17 @@ function SellProductSection() {
               label="Descripción"
               required
               fullWidth
-              error={errors.description}
+              error={errors.description?.message}
             >
               <textarea
                 id="description"
-                name="description"
                 rows={4}
                 placeholder="Contanos las características y el estado de tu producto"
-                value={formData.description}
-                onChange={handleChange}
                 className={`${getInputClass(Boolean(errors.description))} sellProductTextarea`}
+                aria-invalid={Boolean(errors.description)}
+                {...register('description')}
               />
-              <span className="sellProductCounter">{formData.description.length}/500</span>
+              <span className="sellProductCounter">{descriptionLength}/500</span>
             </Field>
 
             <div className="sellProductField sellProductFieldFull">

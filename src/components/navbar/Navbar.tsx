@@ -3,7 +3,7 @@ import type { SubmitEvent } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useWishlist } from "../../hooks/useWishlist";
-import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import ThemeToggle from "../themeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import "./Navbar.css";
@@ -74,92 +74,92 @@ export default function Navbar({
 
   return (
     <header className="navbar">
-      <div className="navbar__top">
-        <div className="navbar__top-inner">
-          <div className="navbar__top-left">
-            <span className="navbar__promo">LIEBRE25 · 25% OFF</span>
-            <span className="navbar__top-item">
-              Envío express a todo el país
+      <div className="navbarTop">
+        <div className="navbarTopInner">
+          <div className="navbarTopLeft">
+            <span className="navbarPromo">LIEBRE25 · 25% OFF</span>
+            <span className="navbarTopItem">
+              ENVÍOS GRATIS A TODO EL PAÍS CON COMPRAS SUPERIORES A $300.000
             </span>
-            <span className="navbar__top-item navbar__hide-md">
-              · Envío gratis desde $150.000
-            </span>
-          </div>
-          <div className="navbar__top-right">
-            {!isAuthenticated && (
-              <Link to="/registro" className="navbar__top-link navbar__hide-md">
-                Crear cuenta
-              </Link>
-            )}
-            {isAdmin && (
-              <Link to="/admin" className="navbar__top-link navbar__hide-md">
-                Panel Admin
-              </Link>
-            )}
-            <span className="navbar__top-currency navbar__hide-md">ARS ($)</span>
           </div>
         </div>
       </div>
 
       <div className="navbar__main">
-        <div className="navbar__main-inner">
+        <div className="navbarMainInner">
           <Link
             to="/"
-            className="navbar__brand"
+            className="navbarBrand"
             aria-label="Tienda Liebre, ir al inicio"
             onClick={closeMenu}
           >
             <img
               src={logoDarkText}
               alt="Tienda Liebre"
-              className="navbar__logo navbar__logo--light"
+              className="navbarLogo navbarLogoLight"
             />
             <img
               src={logoWhiteText}
               alt="Tienda Liebre"
-              className="navbar__logo navbar__logo--dark"
+              className="navbarLogo navbarLogoDark"
             />
           </Link>
 
-          <form className="navbar__search" onSubmit={handleSearch} role="search">
-            <select
-              className="navbar__select"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              aria-label="Categoría"
-            >
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+          <form className="navbarSearch" onSubmit={handleSearch} role="search">
+            <div className="navbarSelectWrap">
+              <select
+                className="navbarSelect"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                aria-label="Categoría"
+              >
+                {categories.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="navbarSelectChevron"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
             <input
               type="search"
-              className="navbar__input"
+              className="navbarInput"
               placeholder="Buscar productos, marcas y más..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Buscar productos"
             />
-            <button type="submit" className="navbar__search-btn">
+            <button type="submit" className="navbarSearchBtn">
               Buscar
             </button>
           </form>
 
-          <div className="navbar__actions">
-            <ThemeToggle className="navbar__theme-toggle" />
+          <div className="navbarActions">
+            <ThemeToggle className="navbarThemeToggle" />
 
             {isAuthenticated && (
               <Link
                 to="/favoritos"
-                className="navbar__icon-btn"
+                className="navbarIconBtn"
                 aria-label={`Favoritos, ${activeWishlistCount}`}
                 onClick={closeMenu}
               >
                 ♡
                 {activeWishlistCount > 0 && (
-                  <span className="navbar__badge navbar__badge--violet">
+                  <span className="navbarBadge navbarBadgeViolet">
                     {activeWishlistCount}
                   </span>
                 )}
@@ -168,36 +168,36 @@ export default function Navbar({
 
             <Link
               to="/cart"
-              className="navbar__cart"
+              className="navbarCart"
               aria-label={`Carrito, ${cartCount} productos`}
               onClick={closeMenu}
             >
-              <span className="navbar__cart-icon" aria-hidden="true">
+              <span className="navbarCartIcon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
                   <path d="M3 5h2l2.2 10.2a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L20.5 8H6.2" />
                   <circle cx="9.5" cy="19.5" r="1.3" />
                   <circle cx="17" cy="19.5" r="1.3" />
                 </svg>
                 {cartCount > 0 && (
-                  <span className="navbar__badge navbar__badge--primary">
+                  <span className="navbarBadge navbarBadgePrimary">
                     {cartCount}
                   </span>
                 )}
               </span>
-              <span className="navbar__cart-total">{formattedTotal}</span>
+              <span className="navbarCartTotal">{formattedTotal}</span>
             </Link>
 
             <Link
-              to="/perfil"
-              className="navbar__user"
+              to={isAuthenticated ? "/perfil" : "/login"}
+              className="navbarUser"
               onClick={closeMenu}
               aria-label={
                 displayName
                   ? `Perfil de ${displayName} (${isAdmin ? "Administrador" : "Invitado"})`
-                  : "Mi cuenta"
+                  : "Iniciar sesión"
               }
             >
-              <span className="navbar__avatar">
+              <span className="navbarAvatar">
                 {displayName ? (
                   displayName.charAt(0).toUpperCase()
                 ) : (
@@ -207,7 +207,7 @@ export default function Navbar({
                   </svg>
                 )}
               </span>
-              <span className="navbar__user-text navbar__hide-md">
+              <span className="navbarUserText navbarHideMd">
                 <small>
                   {isAuthenticated
                     ? isAdmin
@@ -221,7 +221,7 @@ export default function Navbar({
 
             <button
               type="button"
-              className="navbar__toggle"
+              className="navbarToggle"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={menuOpen}
@@ -233,11 +233,11 @@ export default function Navbar({
       </div>
 
       <nav
-        className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}
+        className={`navbarNav ${menuOpen ? "navbarNavOpen" : ""}`}
         aria-label="Navegación principal"
       >
-        <div className="navbar__nav-inner">
-          <ul className="navbar__links">
+        <div className="navbarNavInner">
+          <ul className="navbarLinks">
             {baseNavLinks.map((link) => (
               <li key={link.to}>
                 <NavLink
@@ -245,9 +245,9 @@ export default function Navbar({
                   onClick={closeMenu}
                   className={({ isActive }) =>
                     [
-                      "navbar__link",
-                      link.highlight ? "navbar__link--pill" : "",
-                      isActive ? "navbar__link--active" : "",
+                      "navbarLink",
+                      link.highlight ? "navbarLinkPill" : "",
+                      isActive ? "navbarLinkActive" : "",
                     ]
                       .filter(Boolean)
                       .join(" ")
@@ -265,8 +265,8 @@ export default function Navbar({
                   onClick={closeMenu}
                   className={({ isActive }) =>
                     [
-                      "navbar__link",
-                      isActive ? "navbar__link--active" : "",
+                      "navbarLink",
+                      isActive ? "navbarLinkActive" : "",
                     ]
                       .filter(Boolean)
                       .join(" ")
@@ -284,8 +284,8 @@ export default function Navbar({
                   onClick={closeMenu}
                   className={({ isActive }) =>
                     [
-                      "navbar__link",
-                      isActive ? "navbar__link--active" : "",
+                      "navbarLink",
+                      isActive ? "navbarLinkActive" : "",
                     ]
                       .filter(Boolean)
                       .join(" ")
@@ -299,12 +299,12 @@ export default function Navbar({
             {!isAuthenticated && (
               <li>
                 <NavLink
-                  to="/registro"
+                  to="/crear-cuenta"
                   onClick={closeMenu}
                   className={({ isActive }) =>
                     [
-                      "navbar__link",
-                      isActive ? "navbar__link--active" : "",
+                      "navbarLink",
+                      isActive ? "navbarLinkActive" : "",
                     ]
                       .filter(Boolean)
                       .join(" ")
@@ -316,7 +316,7 @@ export default function Navbar({
             )}
           </ul>
 
-          <div className="navbar__perks">
+          <div className="navbarPerks">
             <span>↩ Devoluciones gratis por 30 días</span>
           </div>
         </div>

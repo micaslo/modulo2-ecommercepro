@@ -1,0 +1,533 @@
+.hero {
+  color: var(--text-main);
+  background: var(--bg-body);
+  padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 2.5vw, 2rem);
+  font-family: inherit;
+  overflow-x: clip;
+}
+
+.heroInner {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+}
+
+.hero a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Carrusel editorial contenido con bordes suaves */
+.heroCarousel {
+  position: relative;
+  width: 100%;
+  height: clamp(390px, 42vw, 520px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: var(--bg-dark);
+}
+
+.heroSlide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #ffffff;
+  background: var(--bg-dark);
+  animation: hero-slide-in 0.45s ease both;
+}
+
+.heroSlideImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.heroSlideShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(22 20 31 / 0.92) 0%,
+      rgb(22 20 31 / 0.78) 42%,
+      rgb(22 20 31 / 0.30) 75%,
+      rgb(22 20 31 / 0.12) 100%
+    ),
+    radial-gradient(circle at 12% 85%, rgb(97 69 155 / 0.28), transparent 46%);
+}
+
+.heroSlideCopy {
+  position: absolute;
+  top: 50%;
+  left: clamp(1.5rem, 5vw, 4rem);
+  width: min(56%, 600px);
+  transform: translateY(-50%);
+}
+
+.heroSlideEyebrows {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.heroSlideKicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.78rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgb(255 255 255 / 0.24);
+  background: rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.heroSlideCategory {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.72rem;
+  border-radius: var(--radius-pill);
+  background: rgb(97 69 155 / 0.85);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.heroSlideCopy h1 {
+  max-width: 14ch;
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2.25rem, 4.8vw, 4.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.heroSlideDetail {
+  max-width: 45ch;
+  margin: 0.9rem 0 1.35rem;
+  color: rgb(255 255 255 / 0.82);
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  line-height: 1.55;
+}
+
+/* Píldoras promocionales */
+.heroPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+
+.heroPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.65rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: clamp(0.82rem, 1.25vw, 0.96rem);
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.heroPillDiscount {
+  color: #ffffff;
+  background: rgb(255 255 255 / 0.14);
+  border: 1px solid rgb(255 255 255 / 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.heroPillInstallments {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  color: #1a1822;
+  background: #ffffff;
+}
+
+.heroPillInstallments small {
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+:root[data-theme="dark"] .heroPillInstallments {
+  color: #ffffff;
+  background: rgb(26 23 38 / 0.88);
+  border: 1px solid rgb(255 255 255 / 0.22);
+}
+
+:root[data-theme="dark"] .heroPillInstallments small {
+  color: var(--color-primary-light);
+}
+
+.heroButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.82rem 1.55rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-on-primary) !important;
+  background: var(--color-primary);
+  transition: transform var(--transition), background var(--transition);
+}
+
+.heroButton:hover {
+  transform: translateY(-2px);
+  background: var(--color-primary-hover);
+}
+
+.heroButton:active {
+  background: var(--color-primary-active);
+  transform: scale(0.98);
+}
+
+/* Flechas e indicadores del carrusel */
+.heroCarouselArrow {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(255 255 255 / 0.28);
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgb(22 20 31 / 0.52);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-size: 1.45rem;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.heroCarouselArrow:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.heroCarouselArrowPrev {
+  left: 1rem;
+}
+
+.heroCarouselArrowNext {
+  right: 1rem;
+}
+
+.heroCarouselDots {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 1.15rem;
+  display: flex;
+  gap: 0.45rem;
+  transform: translateX(-50%);
+}
+
+.heroCarouselDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.45);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.heroCarouselDot.isActive {
+  width: 1.5rem;
+  background: var(--color-primary);
+}
+
+@keyframes hero-slide-in {
+  from {
+    opacity: 0.55;
+    transform: scale(1.015);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Cards promocionales con borde degradado violeta (#61459B) + naranja (#F57C00) */
+.heroSidePromos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.heroPromo {
+  position: relative;
+  min-height: 176px;
+  overflow: hidden;
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  isolation: isolate;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.heroPromoGradient {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    var(--gradient-border) border-box;
+  box-shadow: var(--shadow-sm);
+}
+
+.heroPromo:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.heroPromoKicker {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  padding: 0.22rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.heroPromo h2 {
+  position: relative;
+  z-index: 2;
+  max-width: 60%;
+  margin: 0.65rem 0 0.9rem;
+  color: var(--text-main);
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.heroPromoLink {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  font-weight: 700;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.heroPromoLink:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.heroPromoImage {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  width: 44%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
+}
+
+/* Categorías minimalistas */
+.heroCategories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.heroCategory {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.heroCategory:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.heroCategoryImage {
+  box-sizing: border-box;
+  flex: 0 0 3rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 4px;
+  border-radius: 13px;
+  object-fit: contain;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
+}
+
+.heroCategoryCopy {
+  display: grid;
+  gap: 0.14rem;
+  min-width: 0;
+}
+
+.heroCategoryCopy strong {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  color: var(--text-main);
+}
+
+.heroCategoryCopy small {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.heroCategoryArrow {
+  margin-left: auto;
+  color: var(--text-subtle);
+  font-size: 0.95rem;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.heroCategory:hover .heroCategoryArrow {
+  color: var(--color-primary);
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 960px) {
+  .heroCarousel {
+    height: clamp(390px, 52vw, 480px);
+  }
+
+  .heroSlideCopy {
+    width: min(68%, 560px);
+  }
+
+  .heroCategories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 0.85rem 0.85rem 1.15rem;
+  }
+
+  .heroCarousel {
+    height: 490px;
+    border-radius: var(--radius-md);
+  }
+
+  .heroSlideShade {
+    background: linear-gradient(
+      180deg,
+      rgb(22 20 31 / 0.86) 0%,
+      rgb(22 20 31 / 0.68) 55%,
+      rgb(22 20 31 / 0.25) 100%
+    );
+  }
+
+  .heroSlideCopy {
+    top: 1.75rem;
+    left: 1.25rem;
+    width: calc(100% - 2.5rem);
+    transform: none;
+  }
+
+  .heroCarouselArrow {
+    top: auto;
+    bottom: 1rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    font-size: 1.2rem;
+    transform: none;
+  }
+
+  .heroCarouselArrow:hover {
+    transform: scale(1.06);
+  }
+
+  .heroCarouselDots {
+    bottom: 1.6rem;
+  }
+
+  .heroSidePromos {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCategories {
+    gap: 0.65rem;
+  }
+
+  .heroCategory {
+    gap: .55rem;
+    padding: .7rem .65rem;
+    border-radius: 14px;
+  }
+
+  .heroCategoryImage {
+    flex-basis: 2.6rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 11px;
+  }
+
+  .heroCategoryCopy strong {
+    font-size: .74rem;
+  }
+
+  .heroCategoryCopy small {
+    font-size: .59rem;
+  }
+
+  .heroCategoryArrow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero *,
+  .hero *::before,
+  .hero *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

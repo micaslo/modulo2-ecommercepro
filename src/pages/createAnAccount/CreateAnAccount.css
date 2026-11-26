@@ -1,0 +1,391 @@
+.createAccountPage {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  color: var(--text-main);
+  background: var(--bg-body);
+  font-family: var(--font-base);
+  line-height: var(--lh-base);
+}
+
+.createAccountCard {
+  width: min(100%, 72rem);
+  min-height: 43rem;
+  display: grid;
+  grid-template-columns: minmax(17rem, 0.82fr) minmax(0, 1.18fr);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.createAccountAside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 12% 16%, rgb(97 69 155 / 0.42), transparent 52%),
+    var(--bg-dark);
+}
+
+:root[data-theme="dark"] .createAccountAside {
+  border-right: 1px solid var(--border-color);
+}
+
+.createAccountBrand {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.createAccountBrandLogo {
+  display: block;
+  height: 120px;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  margin-inline: -25px;
+}
+
+.createAccountAsideCopy {
+  position: relative;
+  z-index: 1;
+  max-width: 25rem;
+  margin-block: auto;
+  padding-block: 3rem;
+}
+
+.createAccountEyebrow {
+  margin: 0 0 0.65rem;
+  color: var(--color-primary-light);
+  font-family: var(--font-heading);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.createAccountContent .createAccountEyebrow {
+  color: var(--color-secondary);
+}
+
+.createAccountAsideCopy h1 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: clamp(2.1rem, 3.8vw, 3.2rem);
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+}
+
+.createAccountAsideCopy > p:last-child {
+  max-width: 30ch;
+  margin: 1rem 0 0;
+  color: rgb(255 255 255 / 0.78);
+}
+
+.createAccountDecoration {
+  position: absolute;
+  right: -2rem;
+  bottom: -3rem;
+  width: 16rem;
+  height: 16rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 50%;
+  color: var(--color-primary);
+  font-size: 2rem;
+}
+
+.createAccountDecoration::before,
+.createAccountDecoration::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 50%;
+}
+
+.createAccountDecoration::before {
+  inset: 1.5rem;
+}
+.createAccountDecoration::after {
+  inset: 3rem;
+}
+
+.createAccountDecoration span:nth-child(1) {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.createAccountDecoration span:nth-child(2) {
+  position: absolute;
+  top: 4.5rem;
+  right: 4rem;
+  color: var(--color-secondary-soft);
+}
+
+.createAccountDecoration span:nth-child(3) {
+  position: absolute;
+  bottom: 3rem;
+  left: 4rem;
+}
+
+.createAccountContent {
+  align-self: center;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.createAccountHeading {
+  margin-bottom: 1.5rem;
+}
+
+.createAccountHeading h2 {
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.createAccountHeading > p:last-child {
+  margin: 0.45rem 0 0;
+  color: var(--text-muted);
+}
+
+.createAccountForm {
+  display: grid;
+  gap: 1rem;
+}
+
+.createAccountFields {
+  display: grid;
+  gap: 1rem;
+}
+
+.createAccountFieldsTwoColumns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.createAccountField {
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.createAccountField label {
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.createAccountField label span {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: var(--fw-regular);
+}
+
+.createAccountField input {
+  width: 100%;
+  min-height: 2.9rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  outline: none;
+  color: var(--text-main);
+  background: var(--bg-body);
+  font: inherit;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.createAccountField input::placeholder {
+  color: var(--text-subtle);
+}
+
+.createAccountField input:focus-visible {
+  border-color: var(--focus-ring);
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+
+.createAccountField input:invalid:not(:placeholder-shown),
+.createAccountField input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.createAccountFieldError {
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  font-weight: var(--fw-medium);
+}
+
+.createAccountPasswordToggle {
+  justify-self: start;
+  margin-top: -0.5rem;
+  padding: 0;
+  border: 0;
+  color: var(--text-link);
+  background: transparent;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+}
+
+.createAccountPasswordToggle:focus-visible,
+.createAccountLogin a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.createAccountTerms {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.createAccountTerms input {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  margin: 0.2rem 0 0;
+  accent-color: var(--color-primary);
+}
+
+.createAccountMessage {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+}
+
+.createAccountMessageError {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.createAccountMessageSuccess {
+  color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
+.createAccountSubmit {
+  min-height: 3.1rem;
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.createAccountSubmit:hover {
+  background: var(--color-primary-hover);
+}
+
+.createAccountSubmit:active {
+  background: var(--color-primary-active);
+  transform: scale(0.98);
+}
+
+.createAccountSubmit:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.createAccountLogin {
+  margin: 1.25rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.createAccountLogin a {
+  color: var(--text-link);
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+}
+
+.createAccountLogin a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 820px) {
+  .createAccountCard {
+    max-width: 40rem;
+    grid-template-columns: 1fr;
+  }
+
+  .createAccountAside {
+    min-height: 17rem;
+  }
+
+  .createAccountAsideCopy {
+    max-width: 34rem;
+    margin: auto 0;
+    padding-block: 2rem;
+  }
+
+  .createAccountDecoration {
+    right: -2rem;
+    bottom: -9rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .createAccountPage {
+    align-items: start;
+    padding: 0.75rem;
+  }
+
+  .createAccountCard {
+    min-height: 0;
+    border-radius: var(--radius-md);
+  }
+
+  .createAccountAside {
+    min-height: 14rem;
+    padding: 1.25rem;
+  }
+
+  .createAccountAsideCopy {
+    padding-block: 1.5rem;
+  }
+
+  .createAccountContent {
+    padding: 1.35rem 1.1rem 1.5rem;
+  }
+
+  .createAccountFieldsTwoColumns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .createAccountField input,
+  .createAccountSubmit {
+    transition: none;
+  }
+}

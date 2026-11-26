@@ -3,6 +3,7 @@ import type { Product } from "../../../types/productMedia";
 import { getCoverImage, getProductMedia } from "../../../data/productMedia";
 import { getProductDetails } from "../../../data/productDetails";
 import { CURATED_RELATED_PRODUCTS } from "../../../data/relatedProductsData";
+import { getProductPath } from "../../../utils/productRoute";
 import "./RelatedProducts.css";
 
 interface RelatedProductsProps {
@@ -43,7 +44,7 @@ function productToCard(
   const details = getProductDetails(p);
   return {
     key: p.id,
-    to: `/product/${p.id}`,
+    to: getProductPath(p),
     title: p.name,
     price: p.price,
     originalPrice: details.originalPrice,
@@ -118,7 +119,7 @@ function buildRelatedCards(
 
         cards.push({
           key: cardKey,
-          to: `/product/${candidate.id}?color=${variant.id}`,
+          to: getProductPath(candidate, variant.id),
           title: `${candidate.name} — ${variant.label}`,
           price: candidate.price,
           originalPrice: details.originalPrice,
@@ -167,7 +168,7 @@ export default function RelatedProducts({
           return (
             <Link key={card.key} to={card.to} className="relatedCard">
               <div
-                className={`relatedCardMedia${isCover ? " relatedCardMedia--cover" : ""}`}
+                className={`relatedCardMedia${isCover ? " relatedCardMediaCover" : ""}`}
               >
                 {card.badge && (
                   <span className="relatedCardBadge">{card.badge}</span>

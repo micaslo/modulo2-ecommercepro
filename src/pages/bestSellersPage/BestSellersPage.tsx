@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import ProductsOnSale from "../../components/navbar/ProductsOnSale/ProductsOnSale";
-import BestSellers from "../../components/BestSellers/BestSellers";
+import ProductsOnSale from "../../components/productsOnSale/ProductsOnSale";
+import BestSellers from "../../components/bestSellers/BestSellers";
 import { getCoverImage } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
+import { getProductPath } from "../../utils/productRoute";
 import { useProducts } from "../../hooks/useProducts";
 import type { Product as CatalogProduct } from "../../types/productMedia";
 import type {
@@ -30,7 +31,7 @@ function toBestSeller(product: CatalogProduct): Product {
       provider: "Mercado Crédito",
     },
     shipping: product.stock > 0 ? "tomorrow" : undefined,
-    href: `/product/${product.id}`,
+    href: getProductPath(product),
   };
 }
 
@@ -62,7 +63,7 @@ function BestSellersPage() {
       {categories.map((category) => (
         <BestSellers
           key={category.id}
-          className={category.name === "Tecnología" ? "bestSellers--technology" : undefined}
+          className={category.name === "Tecnología" ? "bestSellersTechnology" : undefined}
           title={`Más vendidos de la semana en ${category.name}`}
           products={category.products}
         />
