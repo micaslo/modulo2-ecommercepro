@@ -27,7 +27,7 @@ function ProductCard({ product }: ProductCardProps) {
         <div className="bestSellersCardFront">
           <div className="bestSellersCardMedia">
             <img
-              className={`bestSellersCardImage ${String(product.id).startsWith('samsung') ? 'bestSellersCardImage--samsung' : ''}`.trim()}
+              className="bestSellersCardImage"
               src={image}
               alt={title}
               loading="lazy"

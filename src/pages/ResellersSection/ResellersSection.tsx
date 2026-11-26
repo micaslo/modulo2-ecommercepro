@@ -7,33 +7,7 @@ import {
 } from "../../schemas/resellerSchema";
 import "./ResellersSection.css";
 
-type Product = {
-  name: string;
-  category: string;
-  icon: string;
-};
-
-const productPool: Product[] = [
-  { name: "Auriculares inalámbricos", category: "Tecnología", icon: "🎧" },
-  { name: "Smartwatch", category: "Tecnología", icon: "⌚" },
-  { name: "Licuadora", category: "Electrodomésticos", icon: "🥤" },
-  { name: "Pava eléctrica", category: "Electrodomésticos", icon: "🫖" },
-  { name: "Taladro eléctrico", category: "Herramientas", icon: "🔧" },
-  { name: "Set de herramientas", category: "Herramientas", icon: "🧰" },
-  { name: "Pelota de fútbol", category: "Deportes", icon: "⚽" },
-  { name: "Mancuernas", category: "Deportes", icon: "🏋️" },
-  { name: "Parlante portátil", category: "Tecnología", icon: "🔊" },
-  { name: "Tostadora", category: "Electrodomésticos", icon: "🍞" },
-  { name: "Kit de destornilladores", category: "Herramientas", icon: "🪛" },
-  { name: "Botella deportiva", category: "Deportes", icon: "🥤" },
-];
-
-function getRandomProducts(): Product[] {
-  return [...productPool].sort(() => Math.random() - 0.5).slice(0, 5);
-}
-
 function ResellersSection() {
-  const [featuredProducts] = useState(getRandomProducts);
   const [submitted, setSubmitted] = useState(false);
 
   const {
@@ -82,27 +56,6 @@ function ResellersSection() {
               <span className="resellers-benefit-value">30 días</span>
               <p>de vigencia para renovar y mantener activa tu cuenta</p>
             </article>
-          </div>
-
-          <div className="resellers-selection">
-            <div className="resellers-selection-heading">
-              <div>
-                <span className="resellers-eyebrow">SELECCIÓN DESTACADA</span>
-                <h2>5 productos para descubrir</h2>
-              </div>
-              <span className="resellers-random-tag">Selección al azar</span>
-            </div>
-            <div className="resellers-products">
-              {featuredProducts.map((product) => (
-                <article className="resellers-product" key={product.name}>
-                  <span className="resellers-product-icon" aria-hidden="true">
-                    {product.icon}
-                  </span>
-                  <span className="resellers-product-category">{product.category}</span>
-                  <h3>{product.name}</h3>
-                </article>
-              ))}
-            </div>
           </div>
         </div>
 

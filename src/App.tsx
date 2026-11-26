@@ -41,7 +41,6 @@ function App() {
               <BlackFridayBanner />
               <BestSellersPage />
               <HowToGetThere />
-              <ResellersSection />
             </main>
           }
         />
