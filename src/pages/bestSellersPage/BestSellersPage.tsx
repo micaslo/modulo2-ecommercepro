@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import ProductsOnSale from "../../components/navbar/ProductsOnSale/ProductsOnSale";
-import BestSellers from "../../components/BestSellers/BestSellers";
+import ProductsOnSale from "../../components/productsOnSale/ProductsOnSale";
+import BestSellers from "../../components/bestSellers/BestSellers";
 import { getCoverImage } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
 import { getProductPath } from "../../utils/productRoute";

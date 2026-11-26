@@ -440,7 +440,7 @@ function ProductPageContent({
 }
 
 export default function ProductPage() {
-  const { categoria, id } = useParams();
+  const { category, id } = useParams();
   const location = useLocation();
   const { products, getProductById } = useProducts();
 
@@ -448,7 +448,7 @@ export default function ProductPage() {
   if (!product) return <Navigate to="/error-404" replace />;
 
   const expectedCategory = getProductCategorySlug(product);
-  if (categoria !== expectedCategory) {
+  if (category !== expectedCategory) {
     return (
       <Navigate
         to={`${getProductPath(product)}${location.search}`}

@@ -1,18 +1,18 @@
-import captivaScenicImg from "../assets/images/product-page/images/chevrolet-captiva/captiva-display-red.webp";
-import traverseScenicImg from "../assets/images/product-page/images/chevrolet-traverse/traverse-display-grey.webp";
-import jeepAvengerImg from "../assets/images/product-page/images/related-products/related-products-jeep-avenger.webp";
-import cheryArrizo8Img from "../assets/images/product-page/images/related-products/related-products-chery-arrizo-8.webp";
-import cheryTiggo8Img from "../assets/images/product-page/images/related-products/related-product-chery-tiggo-8.webp";
-import iphone17Img from "../assets/images/product-page/images/related-products/related-products -iphone17.webp";
-import huaweiPura80Img from "../assets/images/product-page/images/related-products/related-products-huawei.webp";
-import s25UltraImg from "../assets/images/product-page/images/related-products/related-products-s25-ultra.webp";
-import fujifilmXm5Img from "../assets/images/product-page/images/related-products/related-products-camara-fujifilm.webp";
-import sonyZve10Img from "../assets/images/product-page/images/related-products/related-products-camara-sony.webp";
-import seppiaS1Img from "../assets/images/product-page/images/related-products/related-products-seppia.webp";
-import dynacomImg from "../assets/images/product-page/images/related-products/related-products-joystick-dynacom.webp";
-import joystickAzulImg from "../assets/images/product-page/images/related-products/related-products-joystick-azul.webp";
-import dehukaImg from "../assets/images/product-page/images/related-products/related-products-joystick-dehuka.webp";
-import dualshock3Img from "../assets/images/product-page/images/related-products/related-products-sony-dualshock.webp";
+import captivaScenicImg from "../assets/images/productPage/images/chevroletCaptiva/captiva-display-red.webp";
+import traverseScenicImg from "../assets/images/productPage/images/chevroletTraverse/traverse-display-grey.webp";
+import jeepAvengerImg from "../assets/images/productPage/images/relatedProducts/related-products-jeep-avenger.webp";
+import cheryArrizo8Img from "../assets/images/productPage/images/relatedProducts/related-products-chery-arrizo-8.webp";
+import cheryTiggo8Img from "../assets/images/productPage/images/relatedProducts/related-product-chery-tiggo-8.webp";
+import iphone17Img from "../assets/images/productPage/images/relatedProducts/related-products -iphone17.webp";
+import huaweiPura80Img from "../assets/images/productPage/images/relatedProducts/related-products-huawei.webp";
+import s25UltraImg from "../assets/images/productPage/images/relatedProducts/related-products-s25-ultra.webp";
+import fujifilmXm5Img from "../assets/images/productPage/images/relatedProducts/related-products-camara-fujifilm.webp";
+import sonyZve10Img from "../assets/images/productPage/images/relatedProducts/related-products-camara-sony.webp";
+import seppiaS1Img from "../assets/images/productPage/images/relatedProducts/related-products-seppia.webp";
+import dynacomImg from "../assets/images/productPage/images/relatedProducts/related-products-joystick-dynacom.webp";
+import joystickAzulImg from "../assets/images/productPage/images/relatedProducts/related-products-joystick-azul.webp";
+import dehukaImg from "../assets/images/productPage/images/relatedProducts/related-products-joystick-dehuka.webp";
+import dualshock3Img from "../assets/images/productPage/images/relatedProducts/related-products-sony-dualshock.webp";
 
 export interface StaticRelatedProduct {
   key: string;

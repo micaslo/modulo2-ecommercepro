@@ -6,7 +6,7 @@ import { defineConfig, type Plugin } from 'vite'
 
 const MODELS_SOURCE_DIR = path.resolve(
   import.meta.dirname,
-  'src/assets/images/product-page/3D',
+  'src/assets/images/productPage/models3d',
 )
 
 const MIME_TYPES: Record<string, string> = {

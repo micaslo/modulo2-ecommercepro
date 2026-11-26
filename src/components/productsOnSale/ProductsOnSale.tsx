@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getCoverImage } from "../../../data/productMedia";
-import { useProducts } from "../../../hooks/useProducts";
-import { getProductPath } from "../../../utils/productRoute";
+import { getCoverImage } from "../../data/productMedia";
+import { useProducts } from "../../hooks/useProducts";
+import { getProductPath } from "../../utils/productRoute";
 import "./ProductsOnSale.css";
 
 const CARD_W = 240;

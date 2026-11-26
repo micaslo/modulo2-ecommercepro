@@ -1,24 +1,24 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/footer";
-import ButtonWsp from "./components/ButtonWsp/ButtonWsp";
-import TilliBot from "./components/TilliBot/TilliBot";
+import ButtonWsp from "./components/buttonWsp/ButtonWsp";
+import TilliBot from "./components/tilliBot/TilliBot";
 import SellProductSection from "./components/sellProduct/SellProductSection";
-import SobreNosotros from "./components/sobrenosotros/sobrenosotros";
+import AboutUs from "./components/aboutUs/AboutUs";
 import BlackFridayBanner from "./components/blackFridayBanner/BlackFridayBanner";
-import Hero from "./pages/Hero/Hero";
+import Hero from "./pages/hero/Hero";
 import BestSellersPage from "./pages/bestSellersPage/BestSellersPage";
 import CatalogPage from "./pages/catalogPage/CatalogPage";
-import HowToGetThere from "./pages/How-to-get-there/How-to-get-there";
-import PageToCreateAnAccount from "./pages/CreateAnAccount/CreateAnAccount";
+import HowToGetThere from "./pages/howToGetThere/How-to-get-there";
+import PageToCreateAnAccount from "./pages/createAnAccount/CreateAnAccount";
 import ProductPage from "./pages/productPage/ProductPage";
 import CartPage from "./pages/cartPage/CartPage";
-import Error404 from "./pages/Error-404/Error-404";
-import ResellersSection from "./pages/ResellersSection/ResellersSection";
-import WishList from "./pages/WishList/WishList";
+import Error404 from "./pages/error404/Error-404";
+import ResellersSection from "./pages/resellersSection/ResellersSection";
+import WishList from "./pages/wishList/WishList";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import AdminPage from "./pages/adminPage/AdminPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
+import LoginPage from "./pages/loginPage/LoginPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { useCart } from "./hooks/useCart";
 import "./App.css";
@@ -26,11 +26,11 @@ import "./App.css";
 function App() {
   const { totalItems, subtotal } = useCart();
   const location = useLocation();
-  const esLogin = location.pathname === "/login";
+  const isLoginPage = location.pathname === "/login";
 
   return (
     <>
-      {!esLogin && <Navbar cartCount={totalItems} cartTotal={subtotal} />}
+      {!isLoginPage && <Navbar cartCount={totalItems} cartTotal={subtotal} />}
 
       <Routes>
         <Route
@@ -45,7 +45,7 @@ function App() {
           }
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/sobrenosotros" element={<SobreNosotros />} />
+        <Route path="/sobrenosotros" element={<AboutUs />} />
         <Route path="/sobre-nosotros" element={<Navigate to="/sobrenosotros" replace />} />
         <Route path="/nosotros" element={<Navigate to="/sobrenosotros" replace />} />
         <Route path="/productos" element={<CatalogPage />} />
@@ -77,7 +77,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/productos/:categoria/:id" element={<ProductPage />} />
+        <Route path="/productos/:category/:id" element={<ProductPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />
@@ -89,7 +89,7 @@ function App() {
         <Route path="*" element={<Error404 />} />
       </Routes>
 
-      {!esLogin && (
+      {!isLoginPage && (
         <>
           <Footer />
           <TilliBot />

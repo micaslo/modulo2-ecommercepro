@@ -3,7 +3,7 @@ import type { SubmitEvent } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useWishlist } from "../../hooks/useWishlist";
-import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import ThemeToggle from "../themeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import "./Navbar.css";

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
+import ThemeToggle from "../../components/themeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
@@ -20,9 +20,9 @@ function LoginPage() {
   const location = useLocation();
   const fromPath = (location.state as LoginLocationState | null)?.from;
 
-  const [mostrarContrasena, setMostrarContrasena] = useState(false);
-  const [mensaje, setMensaje] = useState("");
-  const [tipoMensaje, setTipoMensaje] = useState<"error" | "info">("error");
+  const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"error" | "info">("error");
 
   const {
     register,
@@ -49,20 +49,20 @@ function LoginPage() {
     return <Navigate to={target} replace />;
   }
 
-  const mostrarMensaje = (
-    texto: string,
-    tipo: "error" | "info" = "error",
+  const showMessage = (
+    text: string,
+    type: "error" | "info" = "error",
   ) => {
-    setMensaje(texto);
-    setTipoMensaje(tipo);
+    setMessage(text);
+    setMessageType(type);
   };
 
   const onSubmit = (values: LoginFormValues) => {
-    setMensaje("");
+    setMessage("");
 
     const result = login(values.email, values.password);
     if (!result.ok) {
-      mostrarMensaje(result.error, "error");
+      showMessage(result.error, "error");
       return;
     }
 
@@ -76,24 +76,24 @@ function LoginPage() {
   };
 
   const onInvalid = () => {
-    setMensaje("");
+    setMessage("");
   };
 
-  const autocompletarDemo = (email: string, password: string) => {
+  const fillDemoCredentials = (email: string, password: string) => {
     setValue("email", email, { shouldDirty: true });
     setValue("password", password, { shouldDirty: true });
     setValue("notARobot", true, { shouldDirty: true });
     clearErrors();
-    setMensaje("");
+    setMessage("");
   };
 
-  const recuperarContrasena = () => {
+  const handleForgotPassword = () => {
     if (!getValues("email").trim()) {
-      mostrarMensaje("Primero ingresá tu correo electrónico.");
+      showMessage("Primero ingresá tu correo electrónico.");
       return;
     }
 
-    mostrarMensaje(
+    showMessage(
       "La recuperación de contraseña todavía no está conectada.",
       "info",
     );
@@ -189,7 +189,7 @@ function LoginPage() {
 
                 <input
                   id="login-password"
-                  type={mostrarContrasena ? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Ingresá tu contraseña"
                   autoComplete="current-password"
                   aria-invalid={Boolean(errors.password)}
@@ -199,19 +199,19 @@ function LoginPage() {
                 <button
                   type="button"
                   className="loginEye"
-                  onClick={() => setMostrarContrasena(!mostrarContrasena)}
+                  onClick={() => setShowPassword(!showPassword)}
                   aria-label={
-                    mostrarContrasena
+                    showPassword
                       ? "Ocultar contraseña"
                       : "Mostrar contraseña"
                   }
                   title={
-                    mostrarContrasena
+                    showPassword
                       ? "Ocultar contraseña"
                       : "Mostrar contraseña"
                   }
                 >
-                  {mostrarContrasena ? (
+                  {showPassword ? (
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M3 3l18 18" />
                       <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" />
@@ -263,15 +263,15 @@ function LoginPage() {
               <button
                 type="button"
                 className="loginForgot"
-                onClick={recuperarContrasena}
+                onClick={handleForgotPassword}
               >
                 ¿Olvidaste tu contraseña?
               </button>
             </div>
 
-            {mensaje && (
-              <div className={`loginMessage ${tipoMensaje}`} role="alert">
-                {mensaje}
+            {message && (
+              <div className={`loginMessage ${messageType}`} role="alert">
+                {message}
               </div>
             )}
 
@@ -287,7 +287,7 @@ function LoginPage() {
                   type="button"
                   className="loginDemoBtn"
                   onClick={() =>
-                    autocompletarDemo("mmicaslo@gmail.com", "Invitado123")
+                    fillDemoCredentials("mmicaslo@gmail.com", "Invitado123")
                   }
                 >
                   Cargar Invitado
@@ -296,7 +296,7 @@ function LoginPage() {
                   type="button"
                   className="loginDemoBtn loginDemoBtnAdmin"
                   onClick={() =>
-                    autocompletarDemo("admin@tiendaliebre.com", "Admin1234")
+                    fillDemoCredentials("admin@tiendaliebre.com", "Admin1234")
                   }
                 >
                   Cargar Administrador

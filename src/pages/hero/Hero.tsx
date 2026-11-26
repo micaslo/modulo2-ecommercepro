@@ -1,16 +1,16 @@
 import "./Hero.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import tecnologiaImg from "../../assets/images/categories/tecnologia.webp";
-import hogarImg from "../../assets/images/categories/hogar.webp";
-import modaImg from "../../assets/images/categories/moda.webp";
-import bellezaImg from "../../assets/images/categories/belleza.webp";
+import techImg from "../../assets/images/categories/tecnologia.webp";
+import homeImg from "../../assets/images/categories/hogar.webp";
+import fashionImg from "../../assets/images/categories/moda.webp";
+import beautyImg from "../../assets/images/categories/belleza.webp";
 
 const categories = [
-  { image: tecnologiaImg, title: "Tecnología", subtitle: "Innovación para todos los días" },
-  { image: hogarImg, title: "Hogar", subtitle: "Un espacio más tuyo" },
-  { image: modaImg, title: "Moda", subtitle: "Tu estilo, a tu manera" },
-  { image: bellezaImg, title: "Belleza", subtitle: "Pequeños grandes rituales" },
+  { image: techImg, title: "Tecnología", subtitle: "Innovación para todos los días" },
+  { image: homeImg, title: "Hogar", subtitle: "Un espacio más tuyo" },
+  { image: fashionImg, title: "Moda", subtitle: "Tu estilo, a tu manera" },
+  { image: beautyImg, title: "Belleza", subtitle: "Pequeños grandes rituales" },
 ];
 
 const slides = [

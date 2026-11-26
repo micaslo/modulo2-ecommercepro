@@ -78,7 +78,7 @@ export default function TilliBot() {
 
   const currentProduct = useMemo(() => {
     const match =
-      matchPath("/productos/:categoria/:id", location.pathname) ??
+      matchPath("/productos/:category/:id", location.pathname) ??
       matchPath("/product/:id", location.pathname);
     if (!match?.params.id) return null;
     return getProductById(match.params.id) ?? null;
