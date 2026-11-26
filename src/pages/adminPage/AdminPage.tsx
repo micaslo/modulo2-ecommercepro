@@ -91,6 +91,9 @@ export default function AdminPage() {
           </div>
 
           <div className="admin-header-actions">
+            <Link to="/perfil" className="btn-secondary admin-link-btn">
+              Mi perfil
+            </Link>
             <Link to="/productos" className="btn-secondary admin-link-btn">
               Ver catálogo
             </Link>

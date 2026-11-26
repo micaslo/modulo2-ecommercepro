@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import type { UserRole } from "../types/auth";
 import "./ProtectedRoute.css";
@@ -15,49 +15,37 @@ export default function ProtectedRoute({
   allowedRoles,
   sectionName = "esta sección",
 }: ProtectedRouteProps) {
-  const { user, isAuthenticated, loginAsDemo } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   if (!isAuthenticated || !user) {
     return (
       <main className="protected-route">
         <section className="protected-card" aria-labelledby="protected-title">
           <span className="protected-eyebrow">ACCESO PROTEGIDO</span>
-          <h1 id="protected-title">Necesitás iniciar sesión para ver {sectionName}</h1>
+          <h1 id="protected-title">
+            Necesitás iniciar sesión para ver {sectionName}
+          </h1>
           <p className="protected-copy">
-            Esta vista está reservada para usuarios con sesión activa. Podés crear una cuenta
-            de invitado ahora mismo o probar un perfil simulado mientras se integra la página de
-            inicio de sesión.
+            Esta vista está reservada para usuarios con sesión activa. Iniciá
+            sesión con tu cuenta o registrate como invitado para continuar.
           </p>
 
           <div className="protected-actions">
-            <Link to="/registro" className="btn-primary protected-link-btn">
-              Crear cuenta de invitado
+            <Link
+              to="/login"
+              state={{ from: location.pathname }}
+              className="btn-primary protected-link-btn"
+            >
+              Iniciar sesión
             </Link>
-            <Link to="/productos" className="btn-secondary protected-link-btn">
-              Explorar catálogo
+            <Link
+              to="/crear-cuenta"
+              className="btn-secondary protected-link-btn"
+            >
+              Crear cuenta
             </Link>
-          </div>
-
-          <div className="protected-demo">
-            <p className="protected-demo-title">
-              Simulación rápida de sesión (para pruebas de perfil)
-            </p>
-            <div className="protected-demo-buttons">
-              <button
-                type="button"
-                className="protected-demo-btn"
-                onClick={() => loginAsDemo("guest")}
-              >
-                Ingresar como Invitado (Demo)
-              </button>
-              <button
-                type="button"
-                className="protected-demo-btn protected-demo-btn--admin"
-                onClick={() => loginAsDemo("admin")}
-              >
-                Ingresar como Administrador (Demo)
-              </button>
-            </div>
           </div>
         </section>
       </main>
@@ -65,6 +53,11 @@ export default function ProtectedRoute({
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
+    const handleSwitchAccount = () => {
+      logout();
+      navigate("/login", { state: { from: location.pathname } });
+    };
+
     return (
       <main className="protected-route">
         <section className="protected-card" aria-labelledby="forbidden-title">
@@ -73,33 +66,22 @@ export default function ProtectedRoute({
           </span>
           <h1 id="forbidden-title">Acceso exclusivo para Administradores</h1>
           <p className="protected-copy">
-            Tu sesión actual corresponde al perfil <strong>Invitado</strong> ({user.email}).
-            Para acceder al Panel de Administración necesitás permisos de{" "}
-            <strong>Administrador</strong>.
+            Tu sesión actual corresponde al perfil <strong>Invitado</strong> (
+            {user.email}). Para acceder al Panel de Administración necesitás
+            iniciar sesión con una cuenta de <strong>Administrador</strong>.
           </p>
 
           <div className="protected-actions">
             <Link to="/perfil" className="btn-primary protected-link-btn">
               Volver a mi perfil
             </Link>
-            <Link to="/productos" className="btn-secondary protected-link-btn">
-              Ir al catálogo
-            </Link>
-          </div>
-
-          <div className="protected-demo">
-            <p className="protected-demo-title">
-              ¿Querés probar el panel de administración en modo demo?
-            </p>
-            <div className="protected-demo-buttons">
-              <button
-                type="button"
-                className="protected-demo-btn protected-demo-btn--admin"
-                onClick={() => loginAsDemo("admin")}
-              >
-                Cambiar a sesión Administrador (Demo)
-              </button>
-            </div>
+            <button
+              type="button"
+              className="btn-secondary protected-link-btn"
+              onClick={handleSwitchAccount}
+            >
+              Ingresar con otra cuenta
+            </button>
           </div>
         </section>
       </main>

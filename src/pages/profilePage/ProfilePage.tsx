@@ -1022,10 +1022,10 @@ export default function ProfilePage() {
 
             <section className="profile-panel profile-demo-panel">
               <header className="profile-panel-header">
-                <h2>Cambiar perfil (Demo)</h2>
+                <h2>Cambiar de cuenta</h2>
                 <p>
-                  Solo para pruebas mientras se integra la página de inicio de
-                  sesión.
+                  Alterná rápidamente entre cuentas de prueba o iniciá sesión
+                  con otro usuario.
                 </p>
               </header>
               <div className="profile-demo-actions">

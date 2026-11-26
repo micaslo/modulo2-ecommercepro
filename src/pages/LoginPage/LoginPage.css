@@ -475,6 +475,52 @@
   box-shadow: var(--shadow-sm);
 }
 
+.login-demo-box {
+  width: 100%;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.login-demo-title {
+  margin: 0;
+  color: var(--text-subtle);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.login-demo-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.login-demo-btn {
+  min-height: 36px;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-2);
+  color: var(--text-main);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.login-demo-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.login-demo-btn--admin:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
 .login-register {
   width: 100%;
   margin-top: 1.5rem;

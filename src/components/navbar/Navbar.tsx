@@ -87,9 +87,14 @@ export default function Navbar({
           </div>
           <div className="navbar__top-right">
             {!isAuthenticated && (
-              <Link to="/registro" className="navbar__top-link navbar__hide-md">
-                Crear cuenta
-              </Link>
+              <>
+                <Link to="/login" className="navbar__top-link navbar__hide-md">
+                  Iniciar sesión
+                </Link>
+                <Link to="/crear-cuenta" className="navbar__top-link navbar__hide-md">
+                  Crear cuenta
+                </Link>
+              </>
             )}
             {isAdmin && (
               <Link to="/admin" className="navbar__top-link navbar__hide-md">
@@ -188,13 +193,13 @@ export default function Navbar({
             </Link>
 
             <Link
-              to="/perfil"
+              to={isAuthenticated ? "/perfil" : "/login"}
               className="navbar__user"
               onClick={closeMenu}
               aria-label={
                 displayName
                   ? `Perfil de ${displayName} (${isAdmin ? "Administrador" : "Invitado"})`
-                  : "Mi cuenta"
+                  : "Iniciar sesión"
               }
             >
               <span className="navbar__avatar">
@@ -299,7 +304,7 @@ export default function Navbar({
             {!isAuthenticated && (
               <li>
                 <NavLink
-                  to="/registro"
+                  to="/crear-cuenta"
                   onClick={closeMenu}
                   className={({ isActive }) =>
                     [

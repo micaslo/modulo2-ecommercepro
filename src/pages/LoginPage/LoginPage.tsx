@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
@@ -7,10 +7,20 @@ import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
+import { useAuth } from "../../hooks/useAuth";
 import { loginSchema, type LoginFormValues } from "../../schemas/authSchema";
 import "./LoginPage.css";
 
+interface LoginLocationState {
+  from?: string;
+}
+
 function LoginPage() {
+  const { user, isAuthenticated, login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromPath = (location.state as LoginLocationState | null)?.from;
+
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState<"error" | "info">("error");
@@ -19,6 +29,8 @@ function LoginPage() {
     register,
     handleSubmit,
     getValues,
+    setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -29,6 +41,15 @@ function LoginPage() {
     },
   });
 
+  if (isAuthenticated && user) {
+    const defaultTarget = user.role === "admin" ? "/admin" : "/perfil";
+    const target =
+      fromPath && (fromPath !== "/admin" || user.role === "admin")
+        ? fromPath
+        : defaultTarget;
+    return <Navigate to={target} replace />;
+  }
+
   const mostrarMensaje = (
     texto: string,
     tipo: "error" | "info" = "error",
@@ -37,14 +58,33 @@ function LoginPage() {
     setTipoMensaje(tipo);
   };
 
-  const onSubmit = () => {
-    mostrarMensaje(
-      "Los datos son válidos. Falta conectar el servicio de inicio de sesión.",
-      "info",
-    );
+  const onSubmit = (values: LoginFormValues) => {
+    setMensaje("");
+
+    const result = login(values.email, values.password);
+    if (!result.ok) {
+      mostrarMensaje(result.error, "error");
+      return;
+    }
+
+    const defaultTarget = result.user.role === "admin" ? "/admin" : "/perfil";
+    const target =
+      fromPath && (fromPath !== "/admin" || result.user.role === "admin")
+        ? fromPath
+        : defaultTarget;
+
+    navigate(target, { replace: true });
   };
 
   const onInvalid = () => {
+    setMensaje("");
+  };
+
+  const autocompletarDemo = (email: string, password: string) => {
+    setValue("email", email, { shouldDirty: true });
+    setValue("password", password, { shouldDirty: true });
+    setValue("notARobot", true, { shouldDirty: true });
+    clearErrors();
     setMensaje("");
   };
 
@@ -262,6 +302,30 @@ function LoginPage() {
               >
                 <FcGoogle size={26} />
               </button>
+            </div>
+
+            <div className="login-demo-box">
+              <p className="login-demo-title">Cuentas de prueba</p>
+              <div className="login-demo-actions">
+                <button
+                  type="button"
+                  className="login-demo-btn"
+                  onClick={() =>
+                    autocompletarDemo("mmicaslo@gmail.com", "Invitado123")
+                  }
+                >
+                  Cargar Invitado
+                </button>
+                <button
+                  type="button"
+                  className="login-demo-btn login-demo-btn--admin"
+                  onClick={() =>
+                    autocompletarDemo("admin@tiendaliebre.com", "Admin1234")
+                  }
+                >
+                  Cargar Administrador
+                </button>
+              </div>
             </div>
           </form>
         </section>
