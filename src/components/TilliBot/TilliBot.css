@@ -1,5 +1,5 @@
 
-.tilli-root {
+.tilliRoot {
   --tilli-accent: var(--color-primary, #f57c00);
   --tilli-accent-hover: var(--color-primary-hover, #df6c00);
   --tilli-accent-soft: var(--color-primary-soft, #fff2e4);
@@ -25,7 +25,7 @@
   font-family: var(--font-base, system-ui, sans-serif);
 }
 
-.tilli-launcher {
+.tilliLauncher {
   position: fixed;
   right: 20px;
   bottom: 88px;
@@ -45,22 +45,22 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
-.tilli-launcher:hover {
+.tilliLauncher:hover {
   transform: scale(1.08);
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.34);
 }
 
-.tilli-launcher:active {
+.tilliLauncher:active {
   transform: scale(0.96);
 }
 
-.tilli-launcher--open {
+.tilliLauncherOpen {
   background: var(--tilli-secondary);
   color: var(--tilli-on-secondary);
   font-size: 22px;
 }
 
-.tilli-hint {
+.tilliHint {
   position: fixed;
   right: 86px;
   bottom: 96px;
@@ -77,7 +77,7 @@
   animation: tilli-fade-up 0.25s ease-out;
 }
 
-.tilli-hint-trigger {
+.tilliHintTrigger {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -91,7 +91,7 @@
   white-space: nowrap;
 }
 
-.tilli-hint-dot {
+.tilliHintDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -99,7 +99,7 @@
   flex-shrink: 0;
 }
 
-.tilli-hint-close {
+.tilliHintClose {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -114,12 +114,12 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.tilli-hint-close:hover {
+.tilliHintClose:hover {
   background: var(--tilli-surface-2);
   color: var(--tilli-text);
 }
 
-.tilli-panel {
+.tilliPanel {
   position: fixed;
   right: 20px;
   bottom: 154px;
@@ -137,7 +137,7 @@
   animation: tilli-fade-up 0.22s ease-out;
 }
 
-.tilli-header {
+.tilliHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,14 +148,14 @@
   flex-shrink: 0;
 }
 
-.tilli-header-identity {
+.tilliHeaderIdentity {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
 }
 
-.tilli-avatar {
+.tilliAvatar {
   width: 38px;
   height: 38px;
   border-radius: 12px;
@@ -168,28 +168,28 @@
   flex-shrink: 0;
 }
 
-:root[data-theme="dark"] .tilli-avatar {
+:root[data-theme="dark"] .tilliAvatar {
   background: var(--bg-surface);
   border: 1px solid rgb(255 255 255 / 0.16);
 }
 
-.tilli-avatar img {
+.tilliAvatar img {
   width: 155%;
   height: 155%;
   object-fit: contain;
 }
 
-.tilli-header-copy {
+.tilliHeaderCopy {
   min-width: 0;
 }
 
-.tilli-header-title-row {
+.tilliHeaderTitleRow {
   display: flex;
   align-items: center;
   gap: 7px;
 }
 
-.tilli-header-copy h2 {
+.tilliHeaderCopy h2 {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
@@ -197,7 +197,7 @@
   line-height: 1.2;
 }
 
-.tilli-status-badge {
+.tilliStatusBadge {
   font-size: 0.68rem;
   font-weight: 600;
   padding: 2px 7px;
@@ -206,7 +206,7 @@
   color: var(--tilli-on-accent);
 }
 
-.tilli-header-copy p {
+.tilliHeaderCopy p {
   margin: 2px 0 0;
   font-size: 0.74rem;
   opacity: 0.92;
@@ -215,14 +215,14 @@
   text-overflow: ellipsis;
 }
 
-.tilli-header-actions {
+.tilliHeaderActions {
   display: flex;
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
 }
 
-.tilli-icon-btn {
+.tilliIconBtn {
   width: 32px;
   height: 32px;
   border: 0;
@@ -237,11 +237,11 @@
   transition: background 0.15s ease;
 }
 
-.tilli-icon-btn:hover {
+.tilliIconBtn:hover {
   background: rgb(255 255 255 / 0.28);
 }
 
-.tilli-context-bar {
+.tilliContextBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -254,18 +254,18 @@
   flex-shrink: 0;
 }
 
-.tilli-context-label {
+.tilliContextLabel {
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.tilli-context-label strong {
+.tilliContextLabel strong {
   color: var(--tilli-text);
 }
 
-.tilli-context-btn {
+.tilliContextBtn {
   border: 1px solid var(--tilli-border);
   background: var(--tilli-surface);
   color: var(--tilli-text);
@@ -278,12 +278,12 @@
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.tilli-context-btn:hover {
+.tilliContextBtn:hover {
   border-color: var(--tilli-accent);
   color: var(--tilli-accent);
 }
 
-.tilli-messages {
+.tilliMessages {
   flex: 1;
   overflow-y: auto;
   padding: 14px 12px;
@@ -293,26 +293,26 @@
   background: var(--tilli-surface);
 }
 
-.tilli-message {
+.tilliMessage {
   display: flex;
   flex-direction: column;
   gap: 8px;
   max-width: 92%;
 }
 
-.tilli-message--user {
+.tilliMessageUser {
   align-self: flex-end;
   align-items: flex-end;
 }
 
-.tilli-message--bot {
+.tilliMessageBot {
   align-self: flex-start;
   align-items: flex-start;
   width: 100%;
   max-width: 95%;
 }
 
-.tilli-bubble {
+.tilliBubble {
   padding: 10px 12px;
   border-radius: 14px;
   font-size: 0.86rem;
@@ -320,23 +320,23 @@
   word-break: break-word;
 }
 
-.tilli-message--bot .tilli-bubble {
+.tilliMessageBot .tilliBubble {
   background: var(--tilli-surface-2);
   color: var(--tilli-text);
   border-bottom-left-radius: 4px;
 }
 
-.tilli-message--user .tilli-bubble {
+.tilliMessageUser .tilliBubble {
   background: var(--tilli-accent);
   color: var(--tilli-on-accent);
   border-bottom-right-radius: 4px;
 }
 
-.tilli-bubble-text {
+.tilliBubbleText {
   margin: 0;
 }
 
-.tilli-timestamp {
+.tilliTimestamp {
   display: block;
   margin-top: 4px;
   font-size: 0.67rem;
@@ -344,14 +344,14 @@
   text-align: right;
 }
 
-.tilli-bubble--typing {
+.tilliBubbleTyping {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 12px 14px;
 }
 
-.tilli-typing-dot {
+.tilliTypingDot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -359,22 +359,22 @@
   animation: tilli-bounce 1.2s infinite ease-in-out;
 }
 
-.tilli-typing-dot:nth-child(2) {
+.tilliTypingDot:nth-child(2) {
   animation-delay: 0.18s;
 }
 
-.tilli-typing-dot:nth-child(3) {
+.tilliTypingDot:nth-child(3) {
   animation-delay: 0.36s;
 }
 
-.tilli-product-list {
+.tilliProductList {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
 }
 
-.tilli-product-card {
+.tilliProductCard {
   display: flex;
   gap: 10px;
   padding: 9px;
@@ -384,7 +384,7 @@
   box-shadow: var(--shadow-sm, 0 2px 6px rgb(0 0 0 / 0.06));
 }
 
-.tilli-product-thumb {
+.tilliProductThumb {
   position: relative;
   width: 72px;
   height: 72px;
@@ -397,20 +397,20 @@
   justify-content: center;
 }
 
-.tilli-product-thumb img {
+.tilliProductThumb img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   padding: 4px;
 }
 
-.tilli-product-placeholder {
+.tilliProductPlaceholder {
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--tilli-muted);
 }
 
-.tilli-product-badge {
+.tilliProductBadge {
   position: absolute;
   top: 4px;
   left: 4px;
@@ -422,7 +422,7 @@
   font-weight: 700;
 }
 
-.tilli-product-body {
+.tilliProductBody {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -430,14 +430,14 @@
   gap: 3px;
 }
 
-.tilli-product-category {
+.tilliProductCategory {
   font-size: 0.68rem;
   color: var(--tilli-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
-.tilli-product-name {
+.tilliProductName {
   margin: 0;
   font-size: 0.82rem;
   font-weight: 700;
@@ -450,32 +450,32 @@
   overflow: hidden;
 }
 
-.tilli-product-prices {
+.tilliProductPrices {
   display: flex;
   align-items: baseline;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.tilli-product-price {
+.tilliProductPrice {
   font-size: 0.88rem;
   color: var(--tilli-text);
 }
 
-.tilli-product-old-price {
+.tilliProductOldPrice {
   font-size: 0.72rem;
   color: var(--tilli-subtle);
   text-decoration: line-through;
 }
 
-.tilli-product-actions {
+.tilliProductActions {
   display: flex;
   gap: 6px;
   margin-top: 4px;
 }
 
-.tilli-btn-outline,
-.tilli-btn-solid {
+.tilliBtnOutline,
+.tilliBtnSolid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -488,44 +488,44 @@
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
 }
 
-.tilli-btn-outline {
+.tilliBtnOutline {
   border: 1px solid var(--tilli-border);
   background: transparent;
   color: var(--tilli-text);
 }
 
-.tilli-btn-outline:hover {
+.tilliBtnOutline:hover {
   border-color: var(--tilli-accent);
   color: var(--tilli-accent);
 }
 
-.tilli-btn-solid {
+.tilliBtnSolid {
   flex: 1;
   border: 0;
   background: var(--tilli-accent);
   color: var(--tilli-on-accent);
 }
 
-.tilli-btn-solid:hover:not(:disabled) {
+.tilliBtnSolid:hover:not(:disabled) {
   background: var(--tilli-accent-hover);
 }
 
-.tilli-btn-solid:disabled {
+.tilliBtnSolid:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.tilli-btn-solid--ok {
+.tilliBtnSolidOk {
   background: var(--tilli-success);
   color: #fff;
 }
 
-.tilli-btn-solid--warn {
+.tilliBtnSolidWarn {
   background: var(--tilli-warning);
   color: #1b1b1b;
 }
 
-.tilli-comparison {
+.tilliComparison {
   width: 100%;
   border-radius: 12px;
   border: 1px solid var(--tilli-border);
@@ -534,7 +534,7 @@
   font-size: 0.76rem;
 }
 
-.tilli-comparison-head {
+.tilliComparisonHead {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -544,7 +544,7 @@
   border-bottom: 1px solid var(--tilli-border);
 }
 
-.tilli-comp-product {
+.tilliCompProduct {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -559,11 +559,11 @@
   padding: 2px;
 }
 
-.tilli-comp-product:hover span {
+.tilliCompProduct:hover span {
   color: var(--tilli-accent);
 }
 
-.tilli-comp-product img {
+.tilliCompProduct img {
   width: 46px;
   height: 46px;
   object-fit: contain;
@@ -572,7 +572,7 @@
   padding: 3px;
 }
 
-.tilli-comp-vs {
+.tilliCompVs {
   padding: 3px 6px;
   border-radius: 999px;
   background: var(--tilli-accent);
@@ -581,21 +581,21 @@
   font-weight: 800;
 }
 
-.tilli-comparison-rows {
+.tilliComparisonRows {
   display: flex;
   flex-direction: column;
 }
 
-.tilli-comp-row {
+.tilliCompRow {
   padding: 7px 10px;
   border-bottom: 1px solid var(--tilli-border);
 }
 
-.tilli-comp-row:last-child {
+.tilliCompRow:last-child {
   border-bottom: 0;
 }
 
-.tilli-comp-label {
+.tilliCompLabel {
   display: block;
   font-size: 0.67rem;
   font-weight: 700;
@@ -604,7 +604,7 @@
   margin-bottom: 3px;
 }
 
-.tilli-comp-values {
+.tilliCompValues {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
@@ -612,14 +612,14 @@
   line-height: 1.3;
 }
 
-.tilli-action-list {
+.tilliActionList {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   width: 100%;
 }
 
-.tilli-action-btn {
+.tilliActionBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -635,24 +635,24 @@
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
-.tilli-action-btn:hover {
+.tilliActionBtn:hover {
   border-color: var(--tilli-accent);
   color: var(--tilli-accent);
 }
 
-.tilli-action-btn--wsp {
+.tilliActionBtnWsp {
   background: #25d366;
   border-color: #25d366;
   color: #ffffff;
 }
 
-.tilli-action-btn--wsp:hover {
+.tilliActionBtnWsp:hover {
   background: #1fb858;
   border-color: #1fb858;
   color: #ffffff;
 }
 
-.tilli-quick-replies {
+.tilliQuickReplies {
   display: flex;
   gap: 6px;
   padding: 8px 12px;
@@ -663,7 +663,7 @@
   scrollbar-width: thin;
 }
 
-.tilli-chip {
+.tilliChip {
   flex-shrink: 0;
   padding: 6px 11px;
   border-radius: 999px;
@@ -677,18 +677,18 @@
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
-.tilli-chip:hover:not(:disabled) {
+.tilliChip:hover:not(:disabled) {
   border-color: var(--tilli-accent);
   background: var(--tilli-accent-soft);
   color: var(--tilli-accent);
 }
 
-.tilli-chip:disabled {
+.tilliChip:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.tilli-form {
+.tilliForm {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -698,7 +698,7 @@
   flex-shrink: 0;
 }
 
-.tilli-input {
+.tilliInput {
   flex: 1;
   min-width: 0;
   padding: 9px 13px;
@@ -712,16 +712,16 @@
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-.tilli-input::placeholder {
+.tilliInput::placeholder {
   color: var(--tilli-muted);
 }
 
-.tilli-input:focus {
+.tilliInput:focus {
   border-color: var(--tilli-accent);
   background: var(--tilli-surface);
 }
 
-.tilli-send-btn {
+.tilliSendBtn {
   width: 38px;
   height: 38px;
   border: 0;
@@ -737,12 +737,12 @@
   transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.tilli-send-btn:hover:not(:disabled) {
+.tilliSendBtn:hover:not(:disabled) {
   background: var(--tilli-accent-hover);
   transform: scale(1.05);
 }
 
-.tilli-send-btn:disabled {
+.tilliSendBtn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
@@ -772,7 +772,7 @@
 }
 
 @media (max-width: 540px) {
-  .tilli-panel {
+  .tilliPanel {
     right: 12px;
     left: 12px;
     bottom: 152px;
@@ -781,7 +781,7 @@
     height: min(70vh, calc(100vh - 170px));
   }
 
-  .tilli-hint {
+  .tilliHint {
     right: 84px;
     bottom: 97px;
   }

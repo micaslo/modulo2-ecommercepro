@@ -72,47 +72,47 @@ export default function Hero() {
 
   return (
     <section className="hero" aria-label="Ofertas destacadas de Tienda Liebre">
-      <div className="hero__inner">
+      <div className="heroInner">
         <div
-          className="hero__carousel"
+          className="heroCarousel"
           aria-roledescription="carrusel"
           aria-label="Ofertas destacadas"
           onMouseEnter={() => setCarouselPaused(true)}
           onMouseLeave={() => setCarouselPaused(false)}
         >
-          <article className="hero__slide" key={currentSlide.title}>
+          <article className="heroSlide" key={currentSlide.title}>
             <img
-              className="hero__slide-image"
+              className="heroSlideImage"
               src={currentSlide.image}
               alt={currentSlide.title}
             />
-            <div className="hero__slide-shade" />
+            <div className="heroSlideShade" />
 
-            <div className="hero__slide-copy">
-              <div className="hero__slide-eyebrows">
-                <span className="hero__slide-kicker">TIENDA LIEBRE · DESTACADOS</span>
-                <span className="hero__slide-category">{currentSlide.category}</span>
+            <div className="heroSlideCopy">
+              <div className="heroSlideEyebrows">
+                <span className="heroSlideKicker">TIENDA LIEBRE · DESTACADOS</span>
+                <span className="heroSlideCategory">{currentSlide.category}</span>
               </div>
               <h1>{currentSlide.title}</h1>
-              <p className="hero__slide-detail">{currentSlide.detail}</p>
+              <p className="heroSlideDetail">{currentSlide.detail}</p>
 
-              <div className="hero__pills" aria-label="Promoción y financiación">
-                <span className="hero__pill hero__pill--discount">
+              <div className="heroPills" aria-label="Promoción y financiación">
+                <span className="heroPill heroPillDiscount">
                   {currentSlide.discount}
                 </span>
-                <span className="hero__pill hero__pill--installments">
+                <span className="heroPill heroPillInstallments">
                   Hasta 18 cuotas
                   <small>sin interés</small>
                 </span>
               </div>
 
-              <Link className="hero__button" to="/productos">
+              <Link className="heroButton" to="/productos">
                 Explorar ofertas <span aria-hidden="true">→</span>
               </Link>
             </div>
 
             <button
-              className="hero__carousel-arrow hero__carousel-arrow--prev"
+              className="heroCarouselArrow heroCarouselArrowPrev"
               type="button"
               aria-label="Imagen anterior"
               onClick={() => showSlide(activeSlide - 1)}
@@ -120,7 +120,7 @@ export default function Hero() {
               ‹
             </button>
             <button
-              className="hero__carousel-arrow hero__carousel-arrow--next"
+              className="heroCarouselArrow heroCarouselArrowNext"
               type="button"
               aria-label="Imagen siguiente"
               onClick={() => showSlide(activeSlide + 1)}
@@ -128,12 +128,12 @@ export default function Hero() {
               ›
             </button>
 
-            <div className="hero__carousel-dots" aria-label="Elegir imagen">
+            <div className="heroCarouselDots" aria-label="Elegir imagen">
               {slides.map((slide, index) => (
                 <button
                   key={slide.title}
                   type="button"
-                  className={`hero__carousel-dot${
+                  className={`heroCarouselDot${
                     index === activeSlide ? " is-active" : ""
                   }`}
                   aria-label={`Ver oferta de ${slide.title}`}
@@ -145,37 +145,37 @@ export default function Hero() {
           </article>
         </div>
 
-        <aside className="hero__side-promos" aria-label="Más ofertas destacadas">
-          <article className="hero__promo hero__promo--gradient">
-            <span className="hero__promo-kicker">Tecnología en oferta</span>
+        <aside className="heroSidePromos" aria-label="Más ofertas destacadas">
+          <article className="heroPromo heroPromoGradient">
+            <span className="heroPromoKicker">Tecnología en oferta</span>
             <h2>
               Smartphones
               <br />
               para elegir
             </h2>
-            <Link to="/productos?categoria=Tecnolog%C3%ADa" className="hero__promo-link">
+            <Link to="/productos?categoria=Tecnolog%C3%ADa" className="heroPromoLink">
               Ver productos <span aria-hidden="true">↗</span>
             </Link>
             <img
-              className="hero__promo-image"
+              className="heroPromoImage"
               src={slides[0].image}
               alt="Smartphones en oferta"
               loading="lazy"
             />
           </article>
 
-          <article className="hero__promo hero__promo--gradient">
-            <span className="hero__promo-kicker">Últimas unidades</span>
+          <article className="heroPromo heroPromoGradient">
+            <span className="heroPromoKicker">Últimas unidades</span>
             <h2>
               Oportunidades
               <br />
               hasta 40% OFF
             </h2>
-            <Link to="/mas-vendidos" className="hero__promo-link">
+            <Link to="/mas-vendidos" className="heroPromoLink">
               Comprar ahora <span aria-hidden="true">↗</span>
             </Link>
             <img
-              className="hero__promo-image"
+              className="heroPromoImage"
               src={slides[1].image}
               alt="Ofertas destacadas"
               loading="lazy"
@@ -183,23 +183,23 @@ export default function Hero() {
           </article>
         </aside>
 
-        <nav className="hero__categories" id="categorias" aria-label="Explorar categorías">
+        <nav className="heroCategories" id="categorias" aria-label="Explorar categorías">
           {categories.map((category) => (
             <Link
-              className="hero__category"
+              className="heroCategory"
               to="/error-404"
               key={category.title}
             >
               <img
-                className="hero__category-image"
+                className="heroCategoryImage"
                 src={category.image}
                 alt={category.title}
               />
-              <span className="hero__category-copy">
+              <span className="heroCategoryCopy">
                 <strong>{category.title}</strong>
                 <small>{category.subtitle}</small>
               </span>
-              <span className="hero__category-arrow" aria-hidden="true">↗</span>
+              <span className="heroCategoryArrow" aria-hidden="true">↗</span>
             </Link>
           ))}
         </nav>

@@ -47,10 +47,10 @@ export default function ProductsTable({
   }, [products, search, categoryFilter]);
 
   return (
-    <section className="admin-section" aria-label="Tabla de productos">
-      <div className="admin-toolbar">
-        <label className="admin-search">
-          <span className="admin-sr-only">Buscar producto</span>
+    <section className="adminSection" aria-label="Tabla de productos">
+      <div className="adminToolbar">
+        <label className="adminSearch">
+          <span className="adminSrOnly">Buscar producto</span>
           <input
             type="search"
             value={search}
@@ -59,8 +59,8 @@ export default function ProductsTable({
           />
         </label>
 
-        <label className="admin-select">
-          <span className="admin-sr-only">Filtrar categoría</span>
+        <label className="adminSelect">
+          <span className="adminSrOnly">Filtrar categoría</span>
           <select
             value={categoryFilter}
             onChange={(event) => setCategoryFilter(event.target.value)}
@@ -73,18 +73,18 @@ export default function ProductsTable({
           </select>
         </label>
 
-        <span className="admin-toolbar-count">
+        <span className="adminToolbarCount">
           {visibleProducts.length} de {products.length} productos
         </span>
       </div>
 
       {visibleProducts.length === 0 ? (
-        <div className="admin-empty">
+        <div className="adminEmpty">
           No hay productos que coincidan con tu búsqueda.
         </div>
       ) : (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
+        <div className="adminTableWrap">
+          <table className="adminTable">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -108,58 +108,58 @@ export default function ProductsTable({
                 return (
                   <tr key={product.id}>
                     <td>
-                      <div className="admin-product-cell">
-                        <div className="admin-product-thumb">
+                      <div className="adminProductCell">
+                        <div className="adminProductThumb">
                           {thumb ? (
                             <img src={thumb} alt={product.name} loading="lazy" />
                           ) : (
                             <span aria-hidden="true">📦</span>
                           )}
                         </div>
-                        <div className="admin-product-info">
+                        <div className="adminProductInfo">
                           <strong>{product.name}</strong>
                           <small>{product.description}</small>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <code className="admin-code-pill">
+                      <code className="adminCodePill">
                         {product.code ?? "—"}
                       </code>
                     </td>
                     <td>
-                      <span className="admin-category-pill">
+                      <span className="adminCategoryPill">
                         {product.category}
                       </span>
                     </td>
-                    <td className="admin-price-cell">
+                    <td className="adminPriceCell">
                       {formatPrice(product.price)}
                     </td>
                     <td>
-                      <span className={`admin-stock-pill ${stockStatus}`}>
+                      <span className={`adminStockPill ${stockStatus}`}>
                         {product.stock <= 0
                           ? "Sin stock"
                           : `${product.stock} u.`}
                       </span>
                     </td>
                     <td>
-                      <div className="admin-row-actions">
+                      <div className="adminRowActions">
                         <Link
                           to={`/product/${product.id}`}
-                          className="admin-action-btn admin-action-btn--view"
+                          className="adminActionBtn adminActionBtnView"
                         >
                           Ver
                         </Link>
                         <button
                           type="button"
-                          className="admin-action-btn admin-action-btn--edit"
+                          className="adminActionBtn adminActionBtnEdit"
                           onClick={() => onEdit(product)}
                         >
                           Editar
                         </button>
                         <button
                           type="button"
-                          className="admin-action-btn admin-action-btn--delete"
+                          className="adminActionBtn adminActionBtnDelete"
                           onClick={() => onRequestDelete(product)}
                         >
                           Borrar

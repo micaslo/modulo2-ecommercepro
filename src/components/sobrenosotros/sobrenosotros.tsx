@@ -41,10 +41,10 @@ const integrantes: Integrante[] = [
 
 function SobreNosotros() {
   return (
-    <main className="pagina-equipo">
-      <section className="equipo-portada">
-        <div className="equipo-portada-contenido">
-          <span className="equipo-etiqueta">DETRÁS DE TIENDA LIEBRE</span>
+    <main className="paginaEquipo">
+      <section className="equipoPortada">
+        <div className="equipoPortadaContenido">
+          <span className="equipoEtiqueta">DETRÁS DE TIENDA LIEBRE</span>
 
           <h1>Sobre Nosotros</h1>
 
@@ -55,8 +55,8 @@ function SobreNosotros() {
         </div>
       </section>
 
-      <section className="equipo-seccion">
-        <div className="equipo-titulo">
+      <section className="equipoSeccion">
+        <div className="equipoTitulo">
           <span>PERSONAS QUE HACEN POSIBLE ESTA IDEA</span>
 
           <h2>Detrás de Tienda Liebre</h2>
@@ -67,10 +67,10 @@ function SobreNosotros() {
           </p>
         </div>
 
-        <div className="equipo-grid">
+        <div className="equipoGrid">
           {integrantes.map((persona) => (
-            <article className="integrante-card" key={persona.nombre}>
-              <div className="integrante-foto">
+            <article className="integranteCard" key={persona.nombre}>
+              <div className="integranteFoto">
                 <img
                   src={persona.foto}
                   alt={`Foto de ${persona.nombre}`}
@@ -78,10 +78,10 @@ function SobreNosotros() {
                 />
               </div>
 
-              <div className="integrante-info">
+              <div className="integranteInfo">
                 <h3>{persona.nombre}</h3>
 
-                <span className="integrante-rol">{persona.rol}</span>
+                <span className="integranteRol">{persona.rol}</span>
 
                 <p>{persona.descripcion}</p>
               </div>
@@ -90,7 +90,7 @@ function SobreNosotros() {
         </div>
       </section>
 
-      <section className="equipo-final">
+      <section className="equipoFinal">
         <h2>¡Gracias por conocernos!</h2>
 
         <p>

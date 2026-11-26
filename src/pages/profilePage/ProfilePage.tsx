@@ -111,8 +111,8 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
   };
 
   return (
-    <section className="profile-panel" aria-labelledby="profile-edit-title">
-      <header className="profile-panel-header profile-panel-header--row">
+    <section className="profilePanel" aria-labelledby="profile-edit-title">
+      <header className="profilePanelHeader profilePanelHeaderRow">
         <div>
           <h2 id="profile-edit-title">Datos personales</h2>
           <p>
@@ -123,7 +123,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
 
         <button
           type="button"
-          className={`profile-icon-edit-btn ${isEditing ? "is-active" : ""}`}
+          className={`profileIconEditBtn ${isEditing ? "is-active" : ""}`}
           onClick={isEditing ? cancelEditing : startEditing}
           aria-label={
             isEditing ? "Cancelar edición" : "Editar datos personales"
@@ -136,31 +136,31 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
 
       {!isEditing ? (
         <>
-          <dl className="profile-info-grid">
-            <div className="profile-info-item">
+          <dl className="profileInfoGrid">
+            <div className="profileInfoItem">
               <dt>Nombre</dt>
               <dd>{user.firstName}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Apellido</dt>
               <dd>{user.lastName}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Correo electrónico</dt>
               <dd>{user.email}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Teléfono</dt>
               <dd>{user.phone ? `+54 ${stripDigits(user.phone)}` : "Sin especificar"}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>DNI</dt>
               <dd>{user.dni || "Sin especificar"}</dd>
             </div>
             {(user.cuit ||
               (user.fiscalCondition &&
                 user.fiscalCondition !== "consumidor_final")) && (
-              <div className="profile-info-item">
+              <div className="profileInfoItem">
                 <dt>CUIT</dt>
                 <dd>{user.cuit || "Sin especificar"}</dd>
               </div>
@@ -168,24 +168,24 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
             {(user.businessName ||
               user.fiscalCondition === "responsable_inscripto" ||
               user.fiscalCondition === "exento") && (
-              <div className="profile-info-item">
+              <div className="profileInfoItem">
                 <dt>Razón social</dt>
                 <dd>{user.businessName || "Sin especificar"}</dd>
               </div>
             )}
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Dirección</dt>
               <dd>{user.address || "Sin especificar"}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Localidad</dt>
               <dd>{user.locality || "Sin especificar"}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Provincia</dt>
               <dd>{user.province || "Sin especificar"}</dd>
             </div>
-            <div className="profile-info-item">
+            <div className="profileInfoItem">
               <dt>Código postal</dt>
               <dd>{user.postalCode || "Sin especificar"}</dd>
             </div>
@@ -193,7 +193,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
 
           {status && (
             <p
-              className={`profile-status profile-status--${status.type}`}
+              className={`profileStatus ${status.type === "success" ? "profileStatusSuccess" : "profileStatusError"}`}
               role="status"
             >
               {status.message}
@@ -202,12 +202,12 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
         </>
       ) : (
         <form
-          className="profile-form"
+          className="profileForm"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
-          <div className="profile-form-grid">
-            <div className="profile-field">
+          <div className="profileFormGrid">
+            <div className="profileField">
               <label htmlFor="profile-firstName">Nombre</label>
               <input
                 id="profile-firstName"
@@ -216,13 +216,13 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 {...register("firstName")}
               />
               {errors.firstName && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.firstName.message}
                 </span>
               )}
             </div>
 
-            <div className="profile-field">
+            <div className="profileField">
               <label htmlFor="profile-lastName">Apellido</label>
               <input
                 id="profile-lastName"
@@ -231,15 +231,15 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 {...register("lastName")}
               />
               {errors.lastName && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.lastName.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="profile-form-grid">
-            <div className="profile-field">
+          <div className="profileFormGrid">
+            <div className="profileField">
               <label htmlFor="profile-email">Correo electrónico</label>
               <input
                 id="profile-email"
@@ -248,16 +248,16 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 {...register("email")}
               />
               {errors.email && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.email.message}
                 </span>
               )}
             </div>
 
-            <div className="profile-field">
+            <div className="profileField">
               <label htmlFor="profile-phone">Teléfono</label>
-              <div className="profile-phone-group">
-                <span className="profile-phone-prefix" aria-hidden="true">
+              <div className="profilePhoneGroup">
+                <span className="profilePhonePrefix" aria-hidden="true">
                   +54
                 </span>
                 <Controller
@@ -282,15 +282,15 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 />
               </div>
               {errors.phone && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.phone.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="profile-form-grid">
-            <div className="profile-field">
+          <div className="profileFormGrid">
+            <div className="profileField">
               <label htmlFor="profile-dni">DNI (sin puntos)</label>
               <Controller
                 name="dni"
@@ -313,11 +313,11 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 )}
               />
               {errors.dni && (
-                <span className="profile-field-error">{errors.dni.message}</span>
+                <span className="profileFieldError">{errors.dni.message}</span>
               )}
             </div>
 
-            <div className="profile-field">
+            <div className="profileField">
               <label htmlFor="profile-postalCode">Código postal</label>
               <Controller
                 name="postalCode"
@@ -339,7 +339,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 )}
               />
               {errors.postalCode && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.postalCode.message}
                 </span>
               )}
@@ -349,8 +349,8 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
           {(fiscalCondition !== "consumidor_final" ||
             Boolean(cuit) ||
             Boolean(businessName)) && (
-            <div className="profile-form-grid">
-              <div className="profile-field">
+            <div className="profileFormGrid">
+              <div className="profileField">
                 <label htmlFor="profile-cuit">CUIT</label>
                 <Controller
                   name="cuit"
@@ -373,7 +373,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                   )}
                 />
                 {errors.cuit && (
-                  <span className="profile-field-error">
+                  <span className="profileFieldError">
                     {errors.cuit.message}
                   </span>
                 )}
@@ -382,7 +382,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
               {(fiscalCondition === "responsable_inscripto" ||
                 fiscalCondition === "exento" ||
                 Boolean(businessName)) && (
-                <div className="profile-field">
+                <div className="profileField">
                   <label htmlFor="profile-businessName">Razón social</label>
                   <input
                     id="profile-businessName"
@@ -393,7 +393,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                     {...register("businessName")}
                   />
                   {errors.businessName && (
-                    <span className="profile-field-error">
+                    <span className="profileFieldError">
                       {errors.businessName.message}
                     </span>
                   )}
@@ -402,7 +402,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
             </div>
           )}
 
-          <div className="profile-field">
+          <div className="profileField">
             <label htmlFor="profile-address">Dirección</label>
             <input
               id="profile-address"
@@ -413,14 +413,14 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
               {...register("address")}
             />
             {errors.address && (
-              <span className="profile-field-error">
+              <span className="profileFieldError">
                 {errors.address.message}
               </span>
             )}
           </div>
 
-          <div className="profile-form-grid">
-            <div className="profile-field">
+          <div className="profileFormGrid">
+            <div className="profileField">
               <label htmlFor="profile-locality">Localidad o partido</label>
               <input
                 id="profile-locality"
@@ -431,13 +431,13 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
                 {...register("locality")}
               />
               {errors.locality && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.locality.message}
                 </span>
               )}
             </div>
 
-            <div className="profile-field">
+            <div className="profileField">
               <label htmlFor="profile-province">Provincia</label>
               <select id="profile-province" {...register("province")}>
                 <option value="">Seleccioná una provincia</option>
@@ -452,20 +452,20 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
 
           {status && (
             <p
-              className={`profile-status profile-status--${status.type}`}
+              className={`profileStatus ${status.type === "success" ? "profileStatusSuccess" : "profileStatusError"}`}
               role="status"
             >
               {status.message}
             </p>
           )}
 
-          <div className="profile-form-actions">
-            <button type="submit" className="btn-primary">
+          <div className="profileFormActions">
+            <button type="submit" className="btnPrimary">
               Guardar cambios
             </button>
             <button
               type="button"
-              className="profile-cancel-btn"
+              className="profileCancelBtn"
               onClick={cancelEditing}
             >
               Cancelar
@@ -608,18 +608,18 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
   const showUnmaskedCard = isEditing || isRevealed;
 
   return (
-    <section className="profile-panel" aria-labelledby="profile-card-title">
-      <header className="profile-panel-header profile-panel-header--row">
+    <section className="profilePanel" aria-labelledby="profile-card-title">
+      <header className="profilePanelHeader profilePanelHeaderRow">
         <div>
           <h2 id="profile-card-title">Tarjeta asociada</h2>
           <p>Datos protegidos · se autocompleta al momento de pagar.</p>
         </div>
 
-        <div className="profile-panel-header-actions">
+        <div className="profilePanelHeaderActions">
           {!isEditing && user.savedCard && (
             <button
               type="button"
-              className={`profile-reveal-btn ${isRevealed ? "is-revealed" : ""}`}
+              className={`profileRevealBtn ${isRevealed ? "is-revealed" : ""}`}
               onClick={handleToggleReveal}
               aria-pressed={isRevealed}
               aria-label={
@@ -642,7 +642,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
 
           <button
             type="button"
-            className={`profile-icon-edit-btn ${isEditing ? "is-active" : ""}`}
+            className={`profileIconEditBtn ${isEditing ? "is-active" : ""}`}
             onClick={isEditing ? cancelEditing : startEditing}
             aria-label={
               isEditing ? "Cancelar edición de tarjeta" : "Editar tarjeta asociada"
@@ -657,7 +657,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
       </header>
 
       {(displayedCard || isEditing) && (
-        <div className="profile-card-preview">
+        <div className="profileCardPreview">
           <Cards
             number={showUnmaskedCard ? digitsOnly : maskedDigits}
             name={displayedCard?.name ?? ""}
@@ -684,36 +684,36 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
       {!isEditing ? (
         <>
           {user.savedCard ? (
-            <dl className="profile-info-grid profile-info-grid--compact">
-              <div className="profile-info-item profile-info-item--full">
+            <dl className="profileInfoGrid profileInfoGridCompact">
+              <div className="profileInfoItem profileInfoItemFull">
                 <dt>Número de tarjeta ({getCardBrandLabel(brand)})</dt>
-                <dd className="profile-card-mono">
+                <dd className="profileCardMono">
                   {isRevealed
                     ? user.savedCard.number
                     : formatMaskedCardText(digitsOnly, brand)}
                 </dd>
               </div>
-              <div className="profile-info-item">
+              <div className="profileInfoItem">
                 <dt>Vencimiento</dt>
-                <dd className="profile-card-mono">
+                <dd className="profileCardMono">
                   {isRevealed ? user.savedCard.expiry : "••/••"}
                 </dd>
               </div>
-              <div className="profile-info-item">
+              <div className="profileInfoItem">
                 <dt>Código de seguridad</dt>
-                <dd className="profile-card-mono">
+                <dd className="profileCardMono">
                   {isRevealed
                     ? user.savedCard.cvc
                     : "•".repeat(user.savedCard.cvc.length || 3)}
                 </dd>
               </div>
-              <div className="profile-info-item profile-info-item--full">
+              <div className="profileInfoItem profileInfoItemFull">
                 <dt>Titular</dt>
                 <dd>{user.savedCard.name}</dd>
               </div>
             </dl>
           ) : (
-            <p className="profile-empty-card">
+            <p className="profileEmptyCard">
               Todavía no tenés una tarjeta asociada. Tocá el lápiz para agregar
               una.
             </p>
@@ -721,7 +721,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
 
           {status && (
             <p
-              className={`profile-status profile-status--${status.type}`}
+              className={`profileStatus ${status.type === "success" ? "profileStatusSuccess" : "profileStatusError"}`}
               role="status"
             >
               {status.message}
@@ -730,11 +730,11 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
         </>
       ) : (
         <form
-          className="profile-form"
+          className="profileForm"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
-          <div className="profile-field">
+          <div className="profileField">
             <label htmlFor="profile-card-number">Número de tarjeta</label>
             <Controller
               name="number"
@@ -775,13 +775,13 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
               )}
             />
             {errors.number && (
-              <span className="profile-field-error">
+              <span className="profileFieldError">
                 {errors.number.message}
               </span>
             )}
           </div>
 
-          <div className="profile-field">
+          <div className="profileField">
             <label htmlFor="profile-card-name">Titular</label>
             <Controller
               name="name"
@@ -808,12 +808,12 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
               )}
             />
             {errors.name && (
-              <span className="profile-field-error">{errors.name.message}</span>
+              <span className="profileFieldError">{errors.name.message}</span>
             )}
           </div>
 
-          <div className="profile-form-grid">
-            <div className="profile-field">
+          <div className="profileFormGrid">
+            <div className="profileField">
               <label htmlFor="profile-card-expiry">Vencimiento</label>
               <Controller
                 name="expiry"
@@ -841,15 +841,15 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
                 )}
               />
               {errors.expiry && (
-                <span className="profile-field-error">
+                <span className="profileFieldError">
                   {errors.expiry.message}
                 </span>
               )}
             </div>
 
-            <div className="profile-field">
+            <div className="profileField">
               <label htmlFor="profile-card-cvc">CVC</label>
-              <div className="profile-cvc-wrap">
+              <div className="profileCvcWrap">
                 <Controller
                   name="cvc"
                   control={control}
@@ -880,7 +880,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
                 />
                 <button
                   type="button"
-                  className="profile-cvc-toggle"
+                  className="profileCvcToggle"
                   onClick={() => setShowCvc((prev) => !prev)}
                   aria-label={showCvc ? "Ocultar CVC" : "Mostrar CVC"}
                 >
@@ -888,27 +888,27 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
                 </button>
               </div>
               {errors.cvc && (
-                <span className="profile-field-error">{errors.cvc.message}</span>
+                <span className="profileFieldError">{errors.cvc.message}</span>
               )}
             </div>
           </div>
 
           {status && (
             <p
-              className={`profile-status profile-status--${status.type}`}
+              className={`profileStatus ${status.type === "success" ? "profileStatusSuccess" : "profileStatusError"}`}
               role="status"
             >
               {status.message}
             </p>
           )}
 
-          <div className="profile-card-actions">
-            <button type="submit" className="btn-primary">
+          <div className="profileCardActions">
+            <button type="submit" className="btnPrimary">
               Guardar tarjeta
             </button>
             <button
               type="button"
-              className="profile-cancel-btn"
+              className="profileCancelBtn"
               onClick={cancelEditing}
             >
               Cancelar
@@ -916,7 +916,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
             {user.savedCard && (
               <button
                 type="button"
-                className="profile-remove-card-btn"
+                className="profileRemoveCardBtn"
                 onClick={handleRemoveCard}
               >
                 <FaTrashAlt size={12} />
@@ -954,31 +954,31 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="profile-page">
-      <div className="profile-container">
-        <section className="profile-hero">
-          <div className="profile-identity">
+    <main className="profilePage">
+      <div className="profileContainer">
+        <section className="profileHero">
+          <div className="profileIdentity">
             <div
-              className={`profile-avatar ${isAdmin ? "is-admin" : ""}`}
+              className={`profileAvatar ${isAdmin ? "is-admin" : ""}`}
               aria-hidden="true"
             >
               {initials}
             </div>
             <div>
               <h1>{user.name}</h1>
-              <p className="profile-email">{user.email}</p>
+              <p className="profileEmail">{user.email}</p>
             </div>
           </div>
 
-          <div className="profile-hero-actions">
+          <div className="profileHeroActions">
             {isAdmin && (
-              <Link to="/admin" className="btn-primary profile-link-btn">
+              <Link to="/admin" className="btnPrimary profileLinkBtn">
                 Ir al Panel Admin
               </Link>
             )}
             <button
               type="button"
-              className="profile-logout-btn"
+              className="profileLogoutBtn"
               onClick={handleLogout}
             >
               Cerrar sesión
@@ -986,21 +986,21 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        <section className="profile-stats" aria-label="Resumen de tu cuenta">
-          <Link to="/favoritos" className="profile-stat-card">
-            <span className="profile-stat-label">Lista de deseos</span>
-            <strong className="profile-stat-value">{wishlistCount}</strong>
-            <span className="profile-stat-hint">Ver productos guardados →</span>
+        <section className="profileStats" aria-label="Resumen de tu cuenta">
+          <Link to="/favoritos" className="profileStatCard">
+            <span className="profileStatLabel">Lista de deseos</span>
+            <strong className="profileStatValue">{wishlistCount}</strong>
+            <span className="profileStatHint">Ver productos guardados →</span>
           </Link>
 
-          <Link to="/cart" className="profile-stat-card">
-            <span className="profile-stat-label">En tu carrito</span>
-            <strong className="profile-stat-value">{cartCount}</strong>
-            <span className="profile-stat-hint">Ir al carrito de compras →</span>
+          <Link to="/cart" className="profileStatCard">
+            <span className="profileStatLabel">En tu carrito</span>
+            <strong className="profileStatValue">{cartCount}</strong>
+            <span className="profileStatHint">Ir al carrito de compras →</span>
           </Link>
         </section>
 
-        <div className="profile-layout">
+        <div className="profileLayout">
           <PersonalDataPanel
             key={user.id}
             user={user}
@@ -1010,7 +1010,7 @@ export default function ProfilePage() {
             }}
           />
 
-          <aside className="profile-sidebar">
+          <aside className="profileSidebar">
             <SavedCardPanel
               key={user.id}
               user={user}
@@ -1020,32 +1020,32 @@ export default function ProfilePage() {
               }}
             />
 
-            <section className="profile-panel profile-demo-panel">
-              <header className="profile-panel-header">
+            <section className="profilePanel profileDemoPanel">
+              <header className="profilePanelHeader">
                 <h2>Cambiar de cuenta</h2>
                 <p>
                   Alterná rápidamente entre cuentas de prueba o iniciá sesión
                   con otro usuario.
                 </p>
               </header>
-              <div className="profile-demo-actions">
+              <div className="profileDemoActions">
                 <button
                   type="button"
-                  className={`profile-demo-btn ${user.id === "guest-demo-1" ? "is-current" : ""}`}
+                  className={`profileDemoBtn ${user.id === "guest-demo-1" ? "is-current" : ""}`}
                   onClick={() => loginAsDemo("guest", "guest-demo-1")}
                 >
                   Micaela (Invitado)
                 </button>
                 <button
                   type="button"
-                  className={`profile-demo-btn ${user.id === "guest-demo-2" ? "is-current" : ""}`}
+                  className={`profileDemoBtn ${user.id === "guest-demo-2" ? "is-current" : ""}`}
                   onClick={() => loginAsDemo("guest", "guest-demo-2")}
                 >
                   Juan Pablo (Invitado)
                 </button>
                 <button
                   type="button"
-                  className={`profile-demo-btn profile-demo-btn--full ${isAdmin ? "is-current" : ""}`}
+                  className={`profileDemoBtn profileDemoBtnFull ${isAdmin ? "is-current" : ""}`}
                   onClick={() => loginAsDemo("admin", "admin-root-1")}
                 >
                   Sofía (Administrador)

@@ -295,20 +295,20 @@ export default function TilliBot() {
       : getContextualQuickReplies(currentProduct);
 
   return (
-    <div className="tilli-root">
+    <div className="tilliRoot">
       {!isOpen && showHint && (
-        <div className="tilli-hint" role="status">
+        <div className="tilliHint" role="status">
           <button
             type="button"
-            className="tilli-hint-trigger"
+            className="tilliHintTrigger"
             onClick={handleToggle}
           >
-            <span className="tilli-hint-dot" aria-hidden="true" />
+            <span className="tilliHintDot" aria-hidden="true" />
             <span>¿Te ayudo? Soy Tilli</span>
           </button>
           <button
             type="button"
-            className="tilli-hint-close"
+            className="tilliHintClose"
             onClick={dismissHint}
             aria-label="Cerrar aviso de Tilli"
           >
@@ -319,28 +319,28 @@ export default function TilliBot() {
 
       {isOpen && (
         <section
-          className="tilli-panel"
+          className="tilliPanel"
           role="dialog"
           aria-label="Chat con Tilli, asistente virtual"
         >
-          <header className="tilli-header">
-            <div className="tilli-header-identity">
-              <div className="tilli-avatar" aria-hidden="true">
+          <header className="tilliHeader">
+            <div className="tilliHeaderIdentity">
+              <div className="tilliAvatar" aria-hidden="true">
                 <img src={logoIsotype} alt="" />
               </div>
-              <div className="tilli-header-copy">
-                <div className="tilli-header-title-row">
+              <div className="tilliHeaderCopy">
+                <div className="tilliHeaderTitleRow">
                   <h2>Tilli</h2>
-                  <span className="tilli-status-badge">En línea</span>
+                  <span className="tilliStatusBadge">En línea</span>
                 </div>
                 <p>Asistente de compras · Tienda Liebre</p>
               </div>
             </div>
 
-            <div className="tilli-header-actions">
+            <div className="tilliHeaderActions">
               <button
                 type="button"
-                className="tilli-icon-btn"
+                className="tilliIconBtn"
                 onClick={handleReset}
                 title="Reiniciar conversación"
                 aria-label="Reiniciar conversación"
@@ -349,7 +349,7 @@ export default function TilliBot() {
               </button>
               <button
                 type="button"
-                className="tilli-icon-btn"
+                className="tilliIconBtn"
                 onClick={() => setIsOpen(false)}
                 title="Cerrar chat"
                 aria-label="Cerrar chat"
@@ -360,13 +360,13 @@ export default function TilliBot() {
           </header>
 
           {currentProduct && (
-            <div className="tilli-context-bar">
-              <span className="tilli-context-label">
+            <div className="tilliContextBar">
+              <span className="tilliContextLabel">
                 Viendo: <strong>{currentProduct.name}</strong>
               </span>
               <button
                 type="button"
-                className="tilli-context-btn"
+                className="tilliContextBtn"
                 onClick={() => sendMessage("¿Cuántas cuotas tiene?")}
               >
                 Cuotas
@@ -374,70 +374,70 @@ export default function TilliBot() {
             </div>
           )}
 
-          <div className="tilli-messages" aria-live="polite">
+          <div className="tilliMessages" aria-live="polite">
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`tilli-message tilli-message--${msg.sender}`}
+                className={`tilliMessage ${msg.sender === "bot" ? "tilliMessageBot" : "tilliMessageUser"}`}
               >
-                <div className="tilli-bubble">
-                  <p className="tilli-bubble-text">
+                <div className="tilliBubble">
+                  <p className="tilliBubbleText">
                     {renderFormattedText(msg.text)}
                   </p>
-                  <span className="tilli-timestamp">{msg.timestamp}</span>
+                  <span className="tilliTimestamp">{msg.timestamp}</span>
                 </div>
 
                 {msg.products && msg.products.length > 0 && (
-                  <div className="tilli-product-list">
+                  <div className="tilliProductList">
                     {msg.products.map((card) => {
                       const feedback = cartFeedback[card.id];
                       return (
-                        <article key={card.id} className="tilli-product-card">
-                          <div className="tilli-product-thumb">
+                        <article key={card.id} className="tilliProductCard">
+                          <div className="tilliProductThumb">
                             {card.image ? (
                               <img src={card.image} alt={card.name} loading="lazy" />
                             ) : (
-                              <div className="tilli-product-placeholder">
+                              <div className="tilliProductPlaceholder">
                                 {card.category.slice(0, 2).toUpperCase()}
                               </div>
                             )}
                             {card.badge && (
-                              <span className="tilli-product-badge">{card.badge}</span>
+                              <span className="tilliProductBadge">{card.badge}</span>
                             )}
                           </div>
 
-                          <div className="tilli-product-body">
-                            <span className="tilli-product-category">
+                          <div className="tilliProductBody">
+                            <span className="tilliProductCategory">
                               {card.category}
                             </span>
-                            <h3 className="tilli-product-name">{card.name}</h3>
-                            <div className="tilli-product-prices">
-                              <strong className="tilli-product-price">
+                            <h3 className="tilliProductName">{card.name}</h3>
+                            <div className="tilliProductPrices">
+                              <strong className="tilliProductPrice">
                                 {formatARS(card.price)}
                               </strong>
                               {card.originalPrice &&
                                 card.originalPrice > card.price && (
-                                  <span className="tilli-product-old-price">
+                                  <span className="tilliProductOldPrice">
                                     {formatARS(card.originalPrice)}
                                   </span>
                                 )}
                             </div>
 
-                            <div className="tilli-product-actions">
+                            <div className="tilliProductActions">
                               <button
                                 type="button"
-                                className="tilli-btn-outline"
+                                className="tilliBtnOutline"
                                 onClick={() => handleOpenProduct(card.id)}
                               >
                                 Ver
                               </button>
                               <button
                                 type="button"
-                                className={`tilli-btn-solid ${
+                                className={`tilliBtnSolid ${
                                   feedback
                                     ? feedback.ok
-                                      ? "tilli-btn-solid--ok"
-                                      : "tilli-btn-solid--warn"
+                                      ? "tilliBtnSolidOk"
+                                      : "tilliBtnSolidWarn"
                                     : ""
                                 }`}
                                 disabled={card.stock <= 0}
@@ -466,11 +466,11 @@ export default function TilliBot() {
                 )}
 
                 {msg.comparison && (
-                  <div className="tilli-comparison">
-                    <div className="tilli-comparison-head">
+                  <div className="tilliComparison">
+                    <div className="tilliComparisonHead">
                       <button
                         type="button"
-                        className="tilli-comp-product"
+                        className="tilliCompProduct"
                         onClick={() =>
                           handleOpenProduct(msg.comparison!.productA.id)
                         }
@@ -484,11 +484,11 @@ export default function TilliBot() {
                         <span>{msg.comparison.productA.name}</span>
                       </button>
 
-                      <span className="tilli-comp-vs">VS</span>
+                      <span className="tilliCompVs">VS</span>
 
                       <button
                         type="button"
-                        className="tilli-comp-product"
+                        className="tilliCompProduct"
                         onClick={() =>
                           handleOpenProduct(msg.comparison!.productB.id)
                         }
@@ -503,11 +503,11 @@ export default function TilliBot() {
                       </button>
                     </div>
 
-                    <div className="tilli-comparison-rows">
+                    <div className="tilliComparisonRows">
                       {msg.comparison.rows.map((row) => (
-                        <div key={row.label} className="tilli-comp-row">
-                          <span className="tilli-comp-label">{row.label}</span>
-                          <div className="tilli-comp-values">
+                        <div key={row.label} className="tilliCompRow">
+                          <span className="tilliCompLabel">{row.label}</span>
+                          <div className="tilliCompValues">
                             <span>{row.valueA}</span>
                             <span>{row.valueB}</span>
                           </div>
@@ -518,7 +518,7 @@ export default function TilliBot() {
                 )}
 
                 {msg.actions && msg.actions.length > 0 && (
-                  <div className="tilli-action-list">
+                  <div className="tilliActionList">
                     {msg.actions.map((action) =>
                       action.kind === "whatsapp" || action.kind === "external" ? (
                         <a
@@ -526,9 +526,9 @@ export default function TilliBot() {
                           href={action.to}
                           target="_blank"
                           rel="noreferrer"
-                          className={`tilli-action-btn ${
+                          className={`tilliActionBtn ${
                             action.kind === "whatsapp"
-                              ? "tilli-action-btn--wsp"
+                              ? "tilliActionBtnWsp"
                               : ""
                           }`}
                         >
@@ -543,7 +543,7 @@ export default function TilliBot() {
                         <button
                           key={action.label}
                           type="button"
-                          className="tilli-action-btn"
+                          className="tilliActionBtn"
                           onClick={() => handleActionClick(action)}
                         >
                           <span>{action.label}</span>
@@ -557,11 +557,11 @@ export default function TilliBot() {
             ))}
 
             {isTyping && (
-              <div className="tilli-message tilli-message--bot">
-                <div className="tilli-bubble tilli-bubble--typing">
-                  <span className="tilli-typing-dot" />
-                  <span className="tilli-typing-dot" />
-                  <span className="tilli-typing-dot" />
+              <div className="tilliMessage tilliMessageBot">
+                <div className="tilliBubble tilliBubbleTyping">
+                  <span className="tilliTypingDot" />
+                  <span className="tilliTypingDot" />
+                  <span className="tilliTypingDot" />
                 </div>
               </div>
             )}
@@ -569,12 +569,12 @@ export default function TilliBot() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="tilli-quick-replies" aria-label="Sugerencias rápidas">
+          <div className="tilliQuickReplies" aria-label="Sugerencias rápidas">
             {activeQuickReplies.map((suggestion) => (
               <button
                 key={suggestion}
                 type="button"
-                className="tilli-chip"
+                className="tilliChip"
                 onClick={() => sendMessage(suggestion)}
                 disabled={isTyping}
               >
@@ -583,11 +583,11 @@ export default function TilliBot() {
             ))}
           </div>
 
-          <form className="tilli-form" onSubmit={handleSubmit}>
+          <form className="tilliForm" onSubmit={handleSubmit}>
             <input
               ref={inputRef}
               type="text"
-              className="tilli-input"
+              className="tilliInput"
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
               placeholder="Preguntale a Tilli..."
@@ -596,7 +596,7 @@ export default function TilliBot() {
             />
             <button
               type="submit"
-              className="tilli-send-btn"
+              className="tilliSendBtn"
               disabled={!inputValue.trim() || isTyping}
               aria-label="Enviar mensaje"
             >
@@ -608,7 +608,7 @@ export default function TilliBot() {
 
       <button
         type="button"
-        className={`tilli-launcher ${isOpen ? "tilli-launcher--open" : ""}`}
+        className={`tilliLauncher ${isOpen ? "tilliLauncherOpen" : ""}`}
         onClick={handleToggle}
         aria-label={isOpen ? "Cerrar chat de Tilli" : "Abrir chat con Tilli"}
         aria-expanded={isOpen}

@@ -50,7 +50,7 @@ export function StockLimitModal({
           <FaTimes />
         </button>
 
-        <div className="cartModalIcon cartModalIcon--warning">
+        <div className="cartModalIcon cartModalIconWarning">
           <FaExclamationTriangle />
         </div>
 
@@ -67,7 +67,7 @@ export function StockLimitModal({
         <div className="cartModalActions">
           <button
             type="button"
-            className="btn-primary cartModalPrimaryBtn"
+            className="btnPrimary cartModalPrimaryBtn"
             onClick={onClose}
           >
             Entendido
@@ -140,7 +140,7 @@ export function CarAgentModal({
           <FaTimes />
         </button>
 
-        <div className="cartModalIcon cartModalIcon--agent">
+        <div className="cartModalIcon cartModalIconAgent">
           <FaCarSide />
         </div>
 
@@ -168,7 +168,7 @@ export function CarAgentModal({
         <div className="cartModalActions">
           <button
             type="button"
-            className="btn-primary cartModalBotBtn"
+            className="btnPrimary cartModalBotBtn"
             data-bot-trigger="true"
             onClick={handleGoToBot}
           >
@@ -228,7 +228,7 @@ export function CouponAlreadyAppliedModal({
           <FaTimes />
         </button>
 
-        <div className="cartModalIcon cartModalIcon--info">
+        <div className="cartModalIcon cartModalIconInfo">
           <FaTag />
         </div>
 
@@ -244,7 +244,7 @@ export function CouponAlreadyAppliedModal({
         <div className="cartModalActions">
           <button
             type="button"
-            className="btn-primary cartModalPrimaryBtn"
+            className="btnPrimary cartModalPrimaryBtn"
             onClick={onClose}
           >
             Entendido

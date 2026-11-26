@@ -27,25 +27,25 @@ function LocationPin() {
 
 export default function HowToGetThere() {
   return (
-    <section className="how-to-get-there">
+    <section className="howToGetThere">
       <div
-        className="how-to-get-there__panel"
+        className="howToGetTherePanel"
         aria-labelledby="directions-title"
       >
-        <div className="how-to-get-there__details">
-          <p className="how-to-get-there__eyebrow">Cómo llegar</p>
+        <div className="howToGetThereDetails">
+          <p className="howToGetThereEyebrow">Cómo llegar</p>
           <h2 id="directions-title">
             Te esperamos en <span>{branch.name}</span>
           </h2>
 
-          <ul className="how-to-get-there__hours" aria-label="Horario y ubicación">
+          <ul className="howToGetThereHours" aria-label="Horario y ubicación">
             <li>{branch.hours}</li>
             <li>{branch.time}</li>
             <li>{branch.floor}</li>
           </ul>
 
           <a
-            className="how-to-get-there__button"
+            className="howToGetThereButton"
             href={bingMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -53,7 +53,7 @@ export default function HowToGetThere() {
             <LocationPin />
             <span>Abrir en Bing Maps</span>
             <svg
-              className="how-to-get-there__external"
+              className="howToGetThereExternal"
               viewBox="0 0 24 24"
               fill="none"
               aria-hidden="true"
@@ -64,12 +64,12 @@ export default function HowToGetThere() {
         </div>
 
         <div
-          className="how-to-get-there__map-card"
+          className="howToGetThereMapCard"
           aria-label="Ubicación de Tienda Liebre"
         >
-          <div className="how-to-get-there__map-art">
+          <div className="howToGetThereMapArt">
             <iframe
-              className="how-to-get-there__map-iframe"
+              className="howToGetThereMapIframe"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1110035048696!2d-65.20970432488996!3d-26.836421490020065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225c0e8d3f160f%3A0xaf25f4de8ee29e12!2sGral.%20Jos%C3%A9%20Mar%C3%ADa%20Paz%20576%2C%20T4000%20San%20Miguel%20de%20Tucum%C3%A1n%2C%20Tucum%C3%A1n!5e0!3m2!1ses-419!2sar!4v1795120033082!5m2!1ses-419!2sar"
               title="Mapa de Tienda Liebre, Gral. Paz 576, San Miguel de Tucumán"
               width="600"
@@ -81,17 +81,17 @@ export default function HowToGetThere() {
             />
           </div>
 
-          <div className="how-to-get-there__map-label">
-            <div className="how-to-get-there__map-label-icon">
+          <div className="howToGetThereMapLabel">
+            <div className="howToGetThereMapLabelIcon">
               <img src={logoIsotype} alt="" aria-hidden="true" />
             </div>
 
-            <div className="how-to-get-there__map-label-copy">
+            <div className="howToGetThereMapLabelCopy">
               <strong>{branch.name}</strong>
               <span>{branch.mapAddress}</span>
             </div>
 
-            <span className="how-to-get-there__coordinates">
+            <span className="howToGetThereCoordinates">
               {branch.latitude.toFixed(4)}, {branch.longitude.toFixed(4)}
             </span>
           </div>

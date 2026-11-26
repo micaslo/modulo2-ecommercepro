@@ -840,19 +840,55 @@ export function getProductDetails(product: Product): ProductDetails {
     return PRODUCT_DETAILS[product.id];
   }
 
-  const isCar = product.category.toLowerCase().includes("veh");
+  const normalizedCat = product.category
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  const normalizedName = `${product.id} ${product.name}`.toLowerCase();
+
+  const isCar =
+    normalizedCat.includes("veh") || normalizedName.includes("chevrolet");
+  const isPhone =
+    normalizedName.includes("iphone") ||
+    normalizedName.includes("samsung") ||
+    normalizedName.includes("galaxy");
+  const isCamera =
+    normalizedCat.includes("camar") ||
+    normalizedName.includes("canon") ||
+    normalizedName.includes("nikon");
+  const isGaming =
+    normalizedCat.includes("gaming") ||
+    normalizedName.includes("dualsense") ||
+    normalizedName.includes("ps5") ||
+    normalizedName.includes("joystick");
+
+  const productKind: ProductDetails["productKind"] = isCar
+    ? "car"
+    : isPhone
+      ? "phone"
+      : isCamera
+        ? "camera"
+        : isGaming
+          ? "gaming"
+          : "general";
+
+  const hasFreeShipping = !isCar && product.price >= 300000;
 
   return {
-    productKind: isCar ? "car" : "general",
+    productKind,
     condition: isCar ? "0 km" : "Nuevo",
     soldText: "+25 vendidos",
     installmentsCount: 12,
     shippingTitle: isCar
       ? "Entrega coordinada en concesionario"
-      : "Envío gratis a todo el país",
+      : hasFreeShipping
+        ? "Envío gratis a todo el país"
+        : "Envío a todo el país",
     shippingSubtitle: isCar
       ? "Consultá disponibilidad y formas de entrega"
-      : "Envío rápido y asegurado",
+      : hasFreeShipping
+        ? "Envío rápido y asegurado"
+        : "Envío gratis en compras superiores a $300.000",
     warranty: "Garantía oficial de 12 meses",
     highlights: [
       `Producto original de categoría ${product.category}.`,

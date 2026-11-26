@@ -167,7 +167,7 @@ export default function RelatedProducts({
           return (
             <Link key={card.key} to={card.to} className="relatedCard">
               <div
-                className={`relatedCardMedia${isCover ? " relatedCardMedia--cover" : ""}`}
+                className={`relatedCardMedia${isCover ? " relatedCardMediaCover" : ""}`}
               >
                 {card.badge && (
                   <span className="relatedCardBadge">{card.badge}</span>

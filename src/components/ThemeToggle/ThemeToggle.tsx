@@ -11,13 +11,13 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
   return (
     <button
       type="button"
-      className={`theme-toggle ${isDark ? "theme-toggle--dark" : "theme-toggle--light"} ${className}`.trim()}
+      className={`themeToggle ${isDark ? "themeToggleDark" : "theme-toggle--light"} ${className}`.trim()}
       onClick={toggleTheme}
       aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       title={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       aria-pressed={isDark}
     >
-      <span className="theme-toggle__icon" aria-hidden="true">
+      <span className="themeToggleIcon" aria-hidden="true">
         {isDark ? (
           <svg viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="4.2" />

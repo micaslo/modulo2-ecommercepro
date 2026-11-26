@@ -21,28 +21,28 @@ export default function ProtectedRoute({
 
   if (!isAuthenticated || !user) {
     return (
-      <main className="protected-route">
-        <section className="protected-card" aria-labelledby="protected-title">
-          <span className="protected-eyebrow">ACCESO PROTEGIDO</span>
+      <main className="protectedRoute">
+        <section className="protectedCard" aria-labelledby="protected-title">
+          <span className="protectedEyebrow">ACCESO PROTEGIDO</span>
           <h1 id="protected-title">
             Necesitás iniciar sesión para ver {sectionName}
           </h1>
-          <p className="protected-copy">
+          <p className="protectedCopy">
             Esta vista está reservada para usuarios con sesión activa. Iniciá
             sesión con tu cuenta o registrate como invitado para continuar.
           </p>
 
-          <div className="protected-actions">
+          <div className="protectedActions">
             <Link
               to="/login"
               state={{ from: location.pathname }}
-              className="btn-primary protected-link-btn"
+              className="btnPrimary protectedLinkBtn"
             >
               Iniciar sesión
             </Link>
             <Link
               to="/crear-cuenta"
-              className="btn-secondary protected-link-btn"
+              className="btnSecondary protectedLinkBtn"
             >
               Crear cuenta
             </Link>
@@ -59,25 +59,25 @@ export default function ProtectedRoute({
     };
 
     return (
-      <main className="protected-route">
-        <section className="protected-card" aria-labelledby="forbidden-title">
-          <span className="protected-eyebrow protected-eyebrow--danger">
+      <main className="protectedRoute">
+        <section className="protectedCard" aria-labelledby="forbidden-title">
+          <span className="protectedEyebrow protectedEyebrowDanger">
             PERMISO DENEGADO
           </span>
           <h1 id="forbidden-title">Acceso exclusivo para Administradores</h1>
-          <p className="protected-copy">
+          <p className="protectedCopy">
             Tu sesión actual corresponde al perfil <strong>Invitado</strong> (
             {user.email}). Para acceder al Panel de Administración necesitás
             iniciar sesión con una cuenta de <strong>Administrador</strong>.
           </p>
 
-          <div className="protected-actions">
-            <Link to="/perfil" className="btn-primary protected-link-btn">
+          <div className="protectedActions">
+            <Link to="/perfil" className="btnPrimary protectedLinkBtn">
               Volver a mi perfil
             </Link>
             <button
               type="button"
-              className="btn-secondary protected-link-btn"
+              className="btnSecondary protectedLinkBtn"
               onClick={handleSwitchAccount}
             >
               Ingresar con otra cuenta

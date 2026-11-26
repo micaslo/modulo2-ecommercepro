@@ -78,11 +78,11 @@ export default function CatalogPage() {
   };
 
   return (
-    <main className="catalog-page">
-      <div className="catalog-container">
-        <header className="catalog-header">
+    <main className="catalogPage">
+      <div className="catalogContainer">
+        <header className="catalogHeader">
           <div>
-            <span className="catalog-eyebrow">CATÁLOGO DINÁMICO</span>
+            <span className="catalogEyebrow">CATÁLOGO DINÁMICO</span>
             <h1>Explorá todos nuestros productos</h1>
             <p>
               Filtrá en tiempo real por nombre, código o categoría y consultá el
@@ -90,17 +90,17 @@ export default function CatalogPage() {
             </p>
           </div>
           {isAdmin && (
-            <Link to="/admin" className="btn-secondary catalog-admin-btn">
+            <Link to="/admin" className="btnSecondary catalogAdminBtn">
               Gestionar inventario
             </Link>
           )}
         </header>
 
-        <section className="catalog-controls" aria-label="Filtros de catálogo">
-          <div className="catalog-search-row">
-            <label className="catalog-search">
-              <span className="catalog-sr-only">Buscar por nombre o código</span>
-              <span className="catalog-search-icon" aria-hidden="true">
+        <section className="catalogControls" aria-label="Filtros de catálogo">
+          <div className="catalogSearchRow">
+            <label className="catalogSearch">
+              <span className="catalogSrOnly">Buscar por nombre o código</span>
+              <span className="catalogSearchIcon" aria-hidden="true">
                 ⌕
               </span>
               <input
@@ -112,7 +112,7 @@ export default function CatalogPage() {
               {searchQuery && (
                 <button
                   type="button"
-                  className="catalog-input-clear"
+                  className="catalogInputClear"
                   onClick={() => setSearchQuery("")}
                   aria-label="Limpiar búsqueda"
                 >
@@ -121,8 +121,8 @@ export default function CatalogPage() {
               )}
             </label>
 
-            <label className="catalog-select-box">
-              <span className="catalog-sr-only">Filtrar por categoría</span>
+            <label className="catalogSelectBox">
+              <span className="catalogSrOnly">Filtrar por categoría</span>
               <select
                 value={selectedCategory}
                 onChange={(event) => setSelectedCategory(event.target.value)}
@@ -135,8 +135,8 @@ export default function CatalogPage() {
               </select>
             </label>
 
-            <label className="catalog-select-box">
-              <span className="catalog-sr-only">Filtrar por stock</span>
+            <label className="catalogSelectBox">
+              <span className="catalogSrOnly">Filtrar por stock</span>
               <select
                 value={stockFilter}
                 onChange={(event) =>
@@ -149,8 +149,8 @@ export default function CatalogPage() {
               </select>
             </label>
 
-            <label className="catalog-select-box">
-              <span className="catalog-sr-only">Ordenar resultados</span>
+            <label className="catalogSelectBox">
+              <span className="catalogSrOnly">Ordenar resultados</span>
               <select
                 value={sortBy}
                 onChange={(event) =>
@@ -167,7 +167,7 @@ export default function CatalogPage() {
           </div>
 
           <div
-            className="catalog-category-chips"
+            className="catalogCategoryChips"
             role="group"
             aria-label="Categorías rápidas"
           >
@@ -177,7 +177,7 @@ export default function CatalogPage() {
                 <button
                   key={cat}
                   type="button"
-                  className={`catalog-chip ${active ? "is-active" : ""}`}
+                  className={`catalogChip ${active ? "is-active" : ""}`}
                   aria-pressed={active}
                   onClick={() => setSelectedCategory(cat)}
                 >
@@ -187,8 +187,8 @@ export default function CatalogPage() {
             })}
           </div>
 
-          <div className="catalog-meta-bar">
-            <p className="catalog-count" aria-live="polite">
+          <div className="catalogMetaBar">
+            <p className="catalogCount" aria-live="polite">
               Mostrando <strong>{filteredProducts.length}</strong> de{" "}
               <strong>{products.length}</strong>{" "}
               {products.length === 1 ? "producto" : "productos"}
@@ -196,7 +196,7 @@ export default function CatalogPage() {
             {hasActiveFilters && (
               <button
                 type="button"
-                className="catalog-reset-btn"
+                className="catalogResetBtn"
                 onClick={clearFilters}
               >
                 Limpiar filtros
@@ -206,7 +206,7 @@ export default function CatalogPage() {
         </section>
 
         {filteredProducts.length === 0 ? (
-          <section className="catalog-empty">
+          <section className="catalogEmpty">
             <h2>No encontramos productos con esos filtros</h2>
             <p>
               Probá con otro término de búsqueda o restablecé las categorías para
@@ -214,14 +214,14 @@ export default function CatalogPage() {
             </p>
             <button
               type="button"
-              className="btn-primary"
+              className="btnPrimary"
               onClick={clearFilters}
             >
               Ver todos los productos
             </button>
           </section>
         ) : (
-          <section className="catalog-grid" aria-label="Listado de productos">
+          <section className="catalogGrid" aria-label="Listado de productos">
             {filteredProducts.map((product) => {
               const cover = getCoverImage(product);
               const saved = isFavorite(product.id);
@@ -230,11 +230,11 @@ export default function CatalogPage() {
                 feedback?.productId === product.id ? feedback : null;
 
               return (
-                <article key={product.id} className="catalog-card">
-                  <div className="catalog-card-media">
+                <article key={product.id} className="catalogCard">
+                  <div className="catalogCardMedia">
                     <Link
                       to={`/product/${product.id}`}
-                      className="catalog-card-img-link"
+                      className="catalogCardImgLink"
                       aria-label={`Ver detalle de ${product.name}`}
                     >
                       {cover ? (
@@ -242,10 +242,10 @@ export default function CatalogPage() {
                           src={cover}
                           alt={product.name}
                           loading="lazy"
-                          className="catalog-card-img"
+                          className="catalogCardImg"
                         />
                       ) : (
-                        <span className="catalog-card-placeholder" aria-hidden="true">
+                        <span className="catalogCardPlaceholder" aria-hidden="true">
                           Sin imagen
                         </span>
                       )}
@@ -254,7 +254,7 @@ export default function CatalogPage() {
                     {canUseWishlist && (
                       <button
                         type="button"
-                        className={`catalog-fav-btn ${saved ? "is-active" : ""}`}
+                        className={`catalogFavBtn ${saved ? "is-active" : ""}`}
                         onClick={() => toggle(product.id)}
                         aria-label={
                           saved
@@ -267,30 +267,30 @@ export default function CatalogPage() {
                       </button>
                     )}
 
-                    <span className="catalog-card-category">
+                    <span className="catalogCardCategory">
                       {product.category}
                     </span>
                   </div>
 
-                  <div className="catalog-card-body">
+                  <div className="catalogCardBody">
                     {product.code && (
-                      <span className="catalog-card-code">{product.code}</span>
+                      <span className="catalogCardCode">{product.code}</span>
                     )}
 
-                    <h2 className="catalog-card-title">
+                    <h2 className="catalogCardTitle">
                       <Link to={`/product/${product.id}`}>{product.name}</Link>
                     </h2>
 
-                    <p className="catalog-card-description">
+                    <p className="catalogCardDescription">
                       {product.description}
                     </p>
 
-                    <div className="catalog-card-pricing">
-                      <strong className="catalog-card-price">
+                    <div className="catalogCardPricing">
+                      <strong className="catalogCardPrice">
                         {formatPrice(product.price)}
                       </strong>
                       <span
-                        className={`catalog-stock-badge ${
+                        className={`catalogStockBadge ${
                           outOfStock ? "is-out" : "is-in"
                         }`}
                       >
@@ -302,7 +302,7 @@ export default function CatalogPage() {
 
                     {productFeedback && (
                       <p
-                        className={`catalog-card-feedback ${
+                        className={`catalogCardFeedback ${
                           productFeedback.isError ? "is-error" : "is-ok"
                         }`}
                         role="status"
@@ -314,16 +314,16 @@ export default function CatalogPage() {
                       </p>
                     )}
 
-                    <div className="catalog-card-actions">
+                    <div className="catalogCardActions">
                       <Link
                         to={`/product/${product.id}`}
-                        className="catalog-btn-detail"
+                        className="catalogBtnDetail"
                       >
                         Ver detalle
                       </Link>
                       <button
                         type="button"
-                        className="catalog-btn-cart"
+                        className="catalogBtnCart"
                         disabled={outOfStock}
                         onClick={() => handleQuickAdd(product)}
                       >

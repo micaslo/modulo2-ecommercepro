@@ -108,30 +108,30 @@ function LoginPage() {
   };
 
   return (
-    <main className="login-page">
-      <header className="login-header">
-        <Link to="/" className="login-back" aria-label="Volver al inicio">
+    <main className="loginPage">
+      <header className="loginHeader">
+        <Link to="/" className="loginBack" aria-label="Volver al inicio">
           ‹
         </Link>
 
-        <Link to="/" className="login-header-logo" aria-label="Tienda Liebre, inicio">
+        <Link to="/" className="loginHeaderLogo" aria-label="Tienda Liebre, inicio">
           <img
             src={logoDarkText}
             alt="Tienda Liebre"
-            className="login-header-logo__img login-header-logo__img--light"
+            className="loginHeaderLogoImg loginHeaderLogoImgLight"
           />
           <img
             src={logoWhiteText}
             alt="Tienda Liebre"
-            className="login-header-logo__img login-header-logo__img--dark"
+            className="loginHeaderLogoImg loginHeaderLogoImgDark"
           />
         </Link>
 
-        <span className="login-header-title">Iniciar sesión</span>
+        <span className="loginHeaderTitle">Iniciar sesión</span>
 
-        <div className="login-header-actions">
+        <div className="loginHeaderActions">
           <ThemeToggle />
-          <div className="login-user-icon" aria-hidden="true">
+          <div className="loginUserIcon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <circle cx="12" cy="8" r="3.5" />
               <path d="M5 20c0-4 2.8-6 7-6s7 2 7 6" />
@@ -140,9 +140,9 @@ function LoginPage() {
         </div>
       </header>
 
-      <section className="login-content">
-        <div className="login-intro">
-          <div className="login-brand-icon" aria-hidden="true">
+      <section className="loginContent">
+        <div className="loginIntro">
+          <div className="loginBrandIcon" aria-hidden="true">
             <img src={logoIsotype} alt="" />
           </div>
 
@@ -150,17 +150,17 @@ function LoginPage() {
 
           <p>
             Ingresá tus credenciales para acceder
-            <br className="desktop-break" /> a tu cuenta de Tienda Liebre.
+            <br className="desktopBreak" /> a tu cuenta de Tienda Liebre.
           </p>
         </div>
 
-        <section className="login-card">
+        <section className="loginCard">
           <form onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
-            <div className="login-field">
+            <div className="loginField">
               <label htmlFor="login-email">Correo electrónico</label>
 
               <div
-                className={`login-input-wrapper ${errors.email ? "is-invalid" : ""}`}
+                className={`loginInputWrapper ${errors.email ? "is-invalid" : ""}`}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -177,17 +177,17 @@ function LoginPage() {
                 />
               </div>
               {errors.email && (
-                <span className="login-field-error" role="alert">
+                <span className="loginFieldError" role="alert">
                   {errors.email.message}
                 </span>
               )}
             </div>
 
-            <div className="login-field">
+            <div className="loginField">
               <label htmlFor="login-password">Contraseña</label>
 
               <div
-                className={`login-input-wrapper ${errors.password ? "is-invalid" : ""}`}
+                className={`loginInputWrapper ${errors.password ? "is-invalid" : ""}`}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="5" y="10" width="14" height="11" rx="2" />
@@ -206,7 +206,7 @@ function LoginPage() {
 
                 <button
                   type="button"
-                  className="login-eye"
+                  className="loginEye"
                   onClick={() => setMostrarContrasena(!mostrarContrasena)}
                   aria-label={
                     mostrarContrasena
@@ -235,42 +235,42 @@ function LoginPage() {
                 </button>
               </div>
               {errors.password && (
-                <span className="login-field-error" role="alert">
+                <span className="loginFieldError" role="alert">
                   {errors.password.message}
                 </span>
               )}
             </div>
 
-            <div className="login-field">
+            <div className="loginField">
               <div
-                className={`login-captcha ${errors.notARobot ? "is-invalid" : ""}`}
+                className={`loginCaptcha ${errors.notARobot ? "is-invalid" : ""}`}
               >
-                <label className="login-captcha-label">
+                <label className="loginCaptchaLabel">
                   <input
                     type="checkbox"
                     aria-invalid={Boolean(errors.notARobot)}
                     {...register("notARobot")}
                   />
 
-                  <span className="login-captcha-text">No soy un robot</span>
+                  <span className="loginCaptchaText">No soy un robot</span>
                 </label>
 
-                <div className="login-captcha-brand">
-                  <span className="captcha-check">✓</span>
+                <div className="loginCaptchaBrand">
+                  <span className="captchaCheck">✓</span>
                   <small>Verificación</small>
                 </div>
               </div>
               {errors.notARobot && (
-                <span className="login-field-error" role="alert">
+                <span className="loginFieldError" role="alert">
                   {errors.notARobot.message}
                 </span>
               )}
             </div>
 
-            <div className="login-options">
+            <div className="loginOptions">
               <button
                 type="button"
-                className="login-forgot"
+                className="loginForgot"
                 onClick={recuperarContrasena}
               >
                 ¿Olvidaste tu contraseña?
@@ -278,23 +278,23 @@ function LoginPage() {
             </div>
 
             {mensaje && (
-              <div className={`login-message ${tipoMensaje}`} role="alert">
+              <div className={`loginMessage ${tipoMensaje}`} role="alert">
                 {mensaje}
               </div>
             )}
 
-            <button type="submit" className="login-submit">
+            <button type="submit" className="loginSubmit">
               Iniciar sesión
               <span aria-hidden="true">→</span>
             </button>
 
-            <div className="login-divider">
+            <div className="loginDivider">
               <span></span>
               <p>O continuá con</p>
               <span></span>
             </div>
 
-            <div className="login-social">
+            <div className="loginSocial">
               <button
                 type="button"
                 onClick={accesoGoogle}
@@ -304,12 +304,12 @@ function LoginPage() {
               </button>
             </div>
 
-            <div className="login-demo-box">
-              <p className="login-demo-title">Cuentas de prueba</p>
-              <div className="login-demo-actions">
+            <div className="loginDemoBox">
+              <p className="loginDemoTitle">Cuentas de prueba</p>
+              <div className="loginDemoActions">
                 <button
                   type="button"
-                  className="login-demo-btn"
+                  className="loginDemoBtn"
                   onClick={() =>
                     autocompletarDemo("mmicaslo@gmail.com", "Invitado123")
                   }
@@ -318,7 +318,7 @@ function LoginPage() {
                 </button>
                 <button
                   type="button"
-                  className="login-demo-btn login-demo-btn--admin"
+                  className="loginDemoBtn loginDemoBtnAdmin"
                   onClick={() =>
                     autocompletarDemo("admin@tiendaliebre.com", "Admin1234")
                   }
@@ -330,7 +330,7 @@ function LoginPage() {
           </form>
         </section>
 
-        <div className="login-register">
+        <div className="loginRegister">
           <span>¿No tenés una cuenta?</span>
 
           <Link to="/crear-cuenta">

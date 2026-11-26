@@ -45,11 +45,11 @@ export default function WishList() {
     });
 
   return (
-    <main className="wishlist-page">
-      <section className="wishlist-container" aria-labelledby="wishlist-title">
-        <header className="wishlist-header">
+    <main className="wishlistPage">
+      <section className="wishlistContainer" aria-labelledby="wishlist-title">
+        <header className="wishlistHeader">
           <div>
-            <span className="wishlist-eyebrow">
+            <span className="wishlistEyebrow">
               TUS FAVORITOS{user ? ` · ${user.firstName.toUpperCase()}` : ""}
             </span>
             <h1 id="wishlist-title">Mi lista de deseos</h1>
@@ -57,7 +57,7 @@ export default function WishList() {
           </div>
           {savedProducts.length > 0 && (
             <button
-              className="wishlist-clear"
+              className="wishlistClear"
               type="button"
               onClick={clear}
             >
@@ -67,19 +67,19 @@ export default function WishList() {
         </header>
 
         {savedProducts.length === 0 ? (
-          <div className="wishlist-empty">
-            <span className="wishlist-empty-icon" aria-hidden="true">♡</span>
+          <div className="wishlistEmpty">
+            <span className="wishlistEmptyIcon" aria-hidden="true">♡</span>
             <h2>Todavía no guardaste favoritos</h2>
             <p>Explorá el catálogo y tocá el corazón para guardarlos acá.</p>
-            <Link className="wishlist-browse" to="/productos">
+            <Link className="wishlistBrowse" to="/productos">
               Explorar catálogo
             </Link>
           </div>
         ) : (
           <>
-            <div className="wishlist-toolbar">
-              <label className="wishlist-search">
-                <span className="wishlist-visually-hidden">Buscar en tu lista</span>
+            <div className="wishlistToolbar">
+              <label className="wishlistSearch">
+                <span className="wishlistVisuallyHidden">Buscar en tu lista</span>
                 <span aria-hidden="true">⌕</span>
                 <input
                   type="search"
@@ -89,8 +89,8 @@ export default function WishList() {
                 />
               </label>
 
-              <label className="wishlist-select-wrap">
-                <span className="wishlist-visually-hidden">Filtrar por disponibilidad</span>
+              <label className="wishlistSelectWrap">
+                <span className="wishlistVisuallyHidden">Filtrar por disponibilidad</span>
                 <select
                   value={availability}
                   onChange={(event) => setAvailability(event.target.value)}
@@ -101,8 +101,8 @@ export default function WishList() {
                 </select>
               </label>
 
-              <label className="wishlist-select-wrap">
-                <span className="wishlist-visually-hidden">Ordenar productos</span>
+              <label className="wishlistSelectWrap">
+                <span className="wishlistVisuallyHidden">Ordenar productos</span>
                 <select
                   value={sortBy}
                   onChange={(event) => setSortBy(event.target.value)}
@@ -115,7 +115,7 @@ export default function WishList() {
               </label>
             </div>
 
-            <p className="wishlist-count" aria-live="polite">
+            <p className="wishlistCount" aria-live="polite">
               {visibleProducts.length} de {savedProducts.length}{" "}
               {savedProducts.length === 1
                 ? "producto guardado"
@@ -123,50 +123,50 @@ export default function WishList() {
             </p>
 
             {visibleProducts.length === 0 ? (
-              <div className="wishlist-no-results">
+              <div className="wishlistNoResults">
                 No encontramos productos que coincidan con esos filtros.
               </div>
             ) : (
-              <div className="wishlist-list">
+              <div className="wishlistList">
                 {visibleProducts.map((product) => {
                   const image = getCoverImage(product);
 
                   return (
-                    <article className="wishlist-item" key={product.id}>
+                    <article className="wishlistItem" key={product.id}>
                       <Link
-                        className="wishlist-image-link"
+                        className="wishlistImageLink"
                         to={`/product/${product.id}`}
                         aria-label={`Ver ${product.name}`}
                       >
                         {image ? (
                           <img
-                            className="wishlist-image"
+                            className="wishlistImage"
                             src={image}
                             alt={product.name}
                           />
                         ) : (
                           <span
-                            className="wishlist-image-placeholder"
+                            className="wishlistImagePlaceholder"
                             aria-hidden="true"
                           >
                             ♡
                           </span>
                         )}
                       </Link>
-                      <div className="wishlist-item-details">
-                        <span className="wishlist-category">
+                      <div className="wishlistItemDetails">
+                        <span className="wishlistCategory">
                           {product.category}
                         </span>
-                        <h2 className="wishlist-product-name">
+                        <h2 className="wishlistProductName">
                           <Link to={`/product/${product.id}`}>
                             {product.name}
                           </Link>
                         </h2>
-                        <p className="wishlist-price">
+                        <p className="wishlistPrice">
                           {formatPrice(product.price)}
                         </p>
                         <p
-                          className={`wishlist-stock ${
+                          className={`wishlistStock ${
                             product.stock > 0 ? "is-available" : "is-unavailable"
                           }`}
                         >
@@ -174,15 +174,15 @@ export default function WishList() {
                             ? `Disponible · ${product.stock} en stock`
                             : "Sin stock por el momento"}
                         </p>
-                        <div className="wishlist-item-actions">
+                        <div className="wishlistItemActions">
                           <Link
-                            className="wishlist-view"
+                            className="wishlistView"
                             to={`/product/${product.id}`}
                           >
                             Ver producto
                           </Link>
                           <button
-                            className="wishlist-remove"
+                            className="wishlistRemove"
                             type="button"
                             onClick={() => remove(product.id)}
                             aria-label={`Quitar ${product.name} de favoritos`}

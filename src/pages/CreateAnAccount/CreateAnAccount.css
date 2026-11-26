@@ -1,4 +1,4 @@
-.create-account-page {
+.createAccountPage {
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
@@ -10,7 +10,7 @@
   line-height: var(--lh-base);
 }
 
-.create-account-card {
+.createAccountCard {
   width: min(100%, 72rem);
   min-height: 43rem;
   display: grid;
@@ -22,7 +22,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-.create-account-aside {
+.createAccountAside {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -34,11 +34,11 @@
     var(--bg-dark);
 }
 
-:root[data-theme="dark"] .create-account-aside {
+:root[data-theme="dark"] .createAccountAside {
   border-right: 1px solid var(--border-color);
 }
 
-.create-account-brand {
+.createAccountBrand {
   position: relative;
   z-index: 1;
   width: fit-content;
@@ -49,7 +49,7 @@
   text-decoration: none;
 }
 
-.create-account-brand__logo {
+.createAccountBrandLogo {
   display: block;
   height: 120px;
   width: auto;
@@ -58,7 +58,7 @@
   margin-inline: -25px;
 }
 
-.create-account-aside__copy {
+.createAccountAsideCopy {
   position: relative;
   z-index: 1;
   max-width: 25rem;
@@ -66,7 +66,7 @@
   padding-block: 3rem;
 }
 
-.create-account-eyebrow {
+.createAccountEyebrow {
   margin: 0 0 0.65rem;
   color: var(--color-primary-light);
   font-family: var(--font-heading);
@@ -76,11 +76,11 @@
   text-transform: uppercase;
 }
 
-.create-account-content .create-account-eyebrow {
+.createAccountContent .createAccountEyebrow {
   color: var(--color-secondary);
 }
 
-.create-account-aside__copy h1 {
+.createAccountAsideCopy h1 {
   margin: 0;
   color: #ffffff;
   font-family: var(--font-heading);
@@ -89,13 +89,13 @@
   line-height: 1.06;
 }
 
-.create-account-aside__copy > p:last-child {
+.createAccountAsideCopy > p:last-child {
   max-width: 30ch;
   margin: 1rem 0 0;
   color: rgb(255 255 255 / 0.78);
 }
 
-.create-account-decoration {
+.createAccountDecoration {
   position: absolute;
   right: -2rem;
   bottom: -3rem;
@@ -109,50 +109,50 @@
   font-size: 2rem;
 }
 
-.create-account-decoration::before,
-.create-account-decoration::after {
+.createAccountDecoration::before,
+.createAccountDecoration::after {
   content: "";
   position: absolute;
   border: 1px solid rgb(255 255 255 / 0.1);
   border-radius: 50%;
 }
 
-.create-account-decoration::before {
+.createAccountDecoration::before {
   inset: 1.5rem;
 }
-.create-account-decoration::after {
+.createAccountDecoration::after {
   inset: 3rem;
 }
 
-.create-account-decoration span:nth-child(1) {
+.createAccountDecoration span:nth-child(1) {
   position: absolute;
   top: 2rem;
   left: 2rem;
 }
 
-.create-account-decoration span:nth-child(2) {
+.createAccountDecoration span:nth-child(2) {
   position: absolute;
   top: 4.5rem;
   right: 4rem;
   color: var(--color-secondary-soft);
 }
 
-.create-account-decoration span:nth-child(3) {
+.createAccountDecoration span:nth-child(3) {
   position: absolute;
   bottom: 3rem;
   left: 4rem;
 }
 
-.create-account-content {
+.createAccountContent {
   align-self: center;
   padding: clamp(1.5rem, 4vw, 3.5rem);
 }
 
-.create-account-heading {
+.createAccountHeading {
   margin-bottom: 1.5rem;
 }
 
-.create-account-heading h2 {
+.createAccountHeading h2 {
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-heading);
@@ -161,44 +161,44 @@
   line-height: 1.15;
 }
 
-.create-account-heading > p:last-child {
+.createAccountHeading > p:last-child {
   margin: 0.45rem 0 0;
   color: var(--text-muted);
 }
 
-.create-account-form {
+.createAccountForm {
   display: grid;
   gap: 1rem;
 }
 
-.create-account-fields {
+.createAccountFields {
   display: grid;
   gap: 1rem;
 }
 
-.create-account-fields--two-columns {
+.createAccountFieldsTwoColumns {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.create-account-field {
+.createAccountField {
   min-width: 0;
   display: grid;
   gap: 0.4rem;
 }
 
-.create-account-field label {
+.createAccountField label {
   color: var(--text-main);
   font-size: 0.88rem;
   font-weight: 600;
 }
 
-.create-account-field label span {
+.createAccountField label span {
   color: var(--text-muted);
   font-size: 0.8rem;
   font-weight: var(--fw-regular);
 }
 
-.create-account-field input {
+.createAccountField input {
   width: 100%;
   min-height: 2.9rem;
   padding: 0.65rem 0.85rem;
@@ -211,28 +211,28 @@
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
-.create-account-field input::placeholder {
+.createAccountField input::placeholder {
   color: var(--text-subtle);
 }
 
-.create-account-field input:focus-visible {
+.createAccountField input:focus-visible {
   border-color: var(--focus-ring);
   background: var(--bg-surface);
   box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
-.create-account-field input:invalid:not(:placeholder-shown),
-.create-account-field input[aria-invalid="true"] {
+.createAccountField input:invalid:not(:placeholder-shown),
+.createAccountField input[aria-invalid="true"] {
   border-color: var(--color-danger);
 }
 
-.create-account-field-error {
+.createAccountFieldError {
   color: var(--color-danger);
   font-size: 0.8rem;
   font-weight: var(--fw-medium);
 }
 
-.create-account-password-toggle {
+.createAccountPasswordToggle {
   justify-self: start;
   margin-top: -0.5rem;
   padding: 0;
@@ -245,13 +245,13 @@
   cursor: pointer;
 }
 
-.create-account-password-toggle:focus-visible,
-.create-account-login a:focus-visible {
+.createAccountPasswordToggle:focus-visible,
+.createAccountLogin a:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
-.create-account-terms {
+.createAccountTerms {
   display: flex;
   align-items: flex-start;
   gap: 0.65rem;
@@ -260,7 +260,7 @@
   cursor: pointer;
 }
 
-.create-account-terms input {
+.createAccountTerms input {
   flex: 0 0 auto;
   width: 1rem;
   height: 1rem;
@@ -268,24 +268,24 @@
   accent-color: var(--color-primary);
 }
 
-.create-account-message {
+.createAccountMessage {
   margin: 0;
   padding: 0.7rem 0.85rem;
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
 }
 
-.create-account-message--error {
+.createAccountMessageError {
   color: var(--color-danger);
   background: var(--color-danger-soft);
 }
 
-.create-account-message--success {
+.createAccountMessageSuccess {
   color: var(--color-success);
   background: var(--color-success-soft);
 }
 
-.create-account-submit {
+.createAccountSubmit {
   min-height: 3.1rem;
   width: 100%;
   margin-top: 0.2rem;
@@ -301,91 +301,91 @@
   transition: transform var(--transition), background var(--transition);
 }
 
-.create-account-submit:hover {
+.createAccountSubmit:hover {
   background: var(--color-primary-hover);
 }
 
-.create-account-submit:active {
+.createAccountSubmit:active {
   background: var(--color-primary-active);
   transform: scale(0.98);
 }
 
-.create-account-submit:focus-visible {
+.createAccountSubmit:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
-.create-account-login {
+.createAccountLogin {
   margin: 1.25rem 0 0;
   color: var(--text-muted);
   font-size: 0.9rem;
   text-align: center;
 }
 
-.create-account-login a {
+.createAccountLogin a {
   color: var(--text-link);
   font-weight: var(--fw-bold);
   text-decoration: none;
 }
 
-.create-account-login a:hover {
+.createAccountLogin a:hover {
   text-decoration: underline;
 }
 
 @media (max-width: 820px) {
-  .create-account-card {
+  .createAccountCard {
     max-width: 40rem;
     grid-template-columns: 1fr;
   }
 
-  .create-account-aside {
+  .createAccountAside {
     min-height: 17rem;
   }
 
-  .create-account-aside__copy {
+  .createAccountAsideCopy {
     max-width: 34rem;
     margin: auto 0;
     padding-block: 2rem;
   }
 
-  .create-account-decoration {
+  .createAccountDecoration {
     right: -2rem;
     bottom: -9rem;
   }
 }
 
 @media (max-width: 540px) {
-  .create-account-page {
+  .createAccountPage {
     align-items: start;
     padding: 0.75rem;
   }
 
-  .create-account-card {
+  .createAccountCard {
     min-height: 0;
     border-radius: var(--radius-md);
   }
 
-  .create-account-aside {
+  .createAccountAside {
     min-height: 14rem;
     padding: 1.25rem;
   }
 
-  .create-account-aside__copy {
+  .createAccountAsideCopy {
     padding-block: 1.5rem;
   }
 
-  .create-account-content {
+  .createAccountContent {
     padding: 1.35rem 1.1rem 1.5rem;
   }
 
-  .create-account-fields--two-columns {
+  .createAccountFieldsTwoColumns {
     grid-template-columns: 1fr;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .create-account-field input,
-  .create-account-submit {
+  .createAccountField input,
+  .createAccountSubmit {
     transition: none;
   }
 }

@@ -83,26 +83,26 @@ export default function PageToCreateAnAccount({
   }
 
   return (
-    <main className="create-account-page">
+    <main className="createAccountPage">
       <section
-        className="create-account-card"
+        className="createAccountCard"
         aria-labelledby="create-account-title"
       >
-        <aside className="create-account-aside">
+        <aside className="createAccountAside">
           <Link
-            className="create-account-brand"
+            className="createAccountBrand"
             to="/"
             aria-label="Tienda Liebre, inicio"
           >
             <img
               src={logoWhite}
               alt="Tienda Liebre"
-              className="create-account-brand__logo"
+              className="createAccountBrandLogo"
             />
           </Link>
 
-          <div className="create-account-aside__copy">
-            <p className="create-account-eyebrow">Bienvenido a tu tienda</p>
+          <div className="createAccountAsideCopy">
+            <p className="createAccountEyebrow">Bienvenido a tu tienda</p>
             <h1>Todo lo que buscas, en un solo lugar.</h1>
             <p>
               Creá tu cuenta de invitado para guardar favoritos y disfrutar una
@@ -110,27 +110,27 @@ export default function PageToCreateAnAccount({
             </p>
           </div>
 
-          <div className="create-account-decoration" aria-hidden="true">
+          <div className="createAccountDecoration" aria-hidden="true">
             <span>+</span>
             <span>✦</span>
             <span>+</span>
           </div>
         </aside>
 
-        <div className="create-account-content">
-          <header className="create-account-heading">
-            <p className="create-account-eyebrow">Empezá ahora</p>
+        <div className="createAccountContent">
+          <header className="createAccountHeading">
+            <p className="createAccountEyebrow">Empezá ahora</p>
             <h2 id="create-account-title">Crear cuenta</h2>
             <p>Completá tus datos para registrarte como usuario Invitado.</p>
           </header>
 
           <form
-            className="create-account-form"
+            className="createAccountForm"
             onSubmit={handleSubmit(onSubmit, onInvalid)}
             noValidate
           >
-            <div className="create-account-fields create-account-fields--two-columns">
-              <div className="create-account-field">
+            <div className="createAccountFields createAccountFieldsTwoColumns">
+              <div className="createAccountField">
                 <label htmlFor="firstName">Nombre</label>
                 <input
                   id="firstName"
@@ -141,13 +141,13 @@ export default function PageToCreateAnAccount({
                   {...register("firstName")}
                 />
                 {errors.firstName && (
-                  <span className="create-account-field-error">
+                  <span className="createAccountFieldError">
                     {errors.firstName.message}
                   </span>
                 )}
               </div>
 
-              <div className="create-account-field">
+              <div className="createAccountField">
                 <label htmlFor="lastName">Apellido</label>
                 <input
                   id="lastName"
@@ -158,14 +158,14 @@ export default function PageToCreateAnAccount({
                   {...register("lastName")}
                 />
                 {errors.lastName && (
-                  <span className="create-account-field-error">
+                  <span className="createAccountFieldError">
                     {errors.lastName.message}
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="create-account-field">
+            <div className="createAccountField">
               <label htmlFor="email">Correo electrónico</label>
               <input
                 id="email"
@@ -176,13 +176,13 @@ export default function PageToCreateAnAccount({
                 {...register("email")}
               />
               {errors.email && (
-                <span className="create-account-field-error">
+                <span className="createAccountFieldError">
                   {errors.email.message}
                 </span>
               )}
             </div>
 
-            <div className="create-account-field">
+            <div className="createAccountField">
               <label htmlFor="phone">
                 Teléfono <span>(opcional)</span>
               </label>
@@ -195,14 +195,14 @@ export default function PageToCreateAnAccount({
                 {...register("phone")}
               />
               {errors.phone && (
-                <span className="create-account-field-error">
+                <span className="createAccountFieldError">
                   {errors.phone.message}
                 </span>
               )}
             </div>
 
-            <div className="create-account-fields create-account-fields--two-columns">
-              <div className="create-account-field">
+            <div className="createAccountFields createAccountFieldsTwoColumns">
+              <div className="createAccountField">
                 <label htmlFor="password">Contraseña</label>
                 <input
                   id="password"
@@ -213,13 +213,13 @@ export default function PageToCreateAnAccount({
                   {...register("password")}
                 />
                 {errors.password && (
-                  <span className="create-account-field-error">
+                  <span className="createAccountFieldError">
                     {errors.password.message}
                   </span>
                 )}
               </div>
 
-              <div className="create-account-field">
+              <div className="createAccountField">
                 <label htmlFor="passwordConfirmation">
                   Confirmar contraseña
                 </label>
@@ -232,7 +232,7 @@ export default function PageToCreateAnAccount({
                   {...register("passwordConfirmation")}
                 />
                 {errors.passwordConfirmation && (
-                  <span className="create-account-field-error">
+                  <span className="createAccountFieldError">
                     {errors.passwordConfirmation.message}
                   </span>
                 )}
@@ -240,7 +240,7 @@ export default function PageToCreateAnAccount({
             </div>
 
             <button
-              className="create-account-password-toggle"
+              className="createAccountPasswordToggle"
               type="button"
               aria-pressed={showPassword}
               onClick={() => setShowPassword((visible) => !visible)}
@@ -248,8 +248,8 @@ export default function PageToCreateAnAccount({
               {showPassword ? "Ocultar contraseñas" : "Mostrar contraseñas"}
             </button>
 
-            <div className="create-account-field">
-              <label className="create-account-terms">
+            <div className="createAccountField">
+              <label className="createAccountTerms">
                 <input
                   type="checkbox"
                   aria-invalid={Boolean(errors.terms)}
@@ -260,7 +260,7 @@ export default function PageToCreateAnAccount({
                 </span>
               </label>
               {errors.terms && (
-                <span className="create-account-field-error">
+                <span className="createAccountFieldError">
                   {errors.terms.message}
                 </span>
               )}
@@ -268,7 +268,7 @@ export default function PageToCreateAnAccount({
 
             {errorMessage && (
               <p
-                className="create-account-message create-account-message--error"
+                className="createAccountMessage createAccountMessageError"
                 role="alert"
               >
                 {errorMessage}
@@ -276,19 +276,19 @@ export default function PageToCreateAnAccount({
             )}
             {statusMessage && (
               <p
-                className="create-account-message create-account-message--success"
+                className="createAccountMessage createAccountMessageSuccess"
                 role="status"
               >
                 {statusMessage}
               </p>
             )}
 
-            <button className="create-account-submit" type="submit">
+            <button className="createAccountSubmit" type="submit">
               Crear cuenta
             </button>
           </form>
 
-          <p className="create-account-login">
+          <p className="createAccountLogin">
             ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
           </p>
         </div>

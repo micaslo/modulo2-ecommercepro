@@ -265,7 +265,7 @@ function CartPageContent({ user }: { user: SessionUser | null }) {
       <div className="checkoutContainer">
         <div
           className={`checkoutLayout ${
-            effectiveStep === 4 ? "checkoutLayout--single" : ""
+            effectiveStep === 4 ? "checkoutLayoutSingle" : ""
           }`}
         >
           <div className="checkoutMainColumn">

@@ -33,45 +33,45 @@ function ResellersSection() {
   }
 
   return (
-    <main className="resellers-page">
-      <section className="resellers-shell" aria-labelledby="resellers-title">
-        <div className="resellers-intro">
-          <span className="resellers-eyebrow">TIENDA LIEBRE · VENTAS MAYORISTAS</span>
+    <main className="resellersPage">
+      <section className="resellersShell" aria-labelledby="resellers-title">
+        <div className="resellersIntro">
+          <span className="resellersEyebrow">TIENDA LIEBRE · VENTAS MAYORISTAS</span>
           <h1 id="resellers-title">Hacé crecer tu negocio</h1>
-          <p className="resellers-lead">
+          <p className="resellersLead">
             Unite a nuestro programa para revendedores y accedé a beneficios
             especiales en una selección de productos.
           </p>
 
-          <div className="resellers-benefits" aria-label="Beneficios para revendedores">
-            <article className="resellers-benefit">
-              <span className="resellers-benefit-value">10%</span>
+          <div className="resellersBenefits" aria-label="Beneficios para revendedores">
+            <article className="resellersBenefit">
+              <span className="resellersBenefitValue">10%</span>
               <p>de descuento comprando 3 productos o más</p>
             </article>
-            <article className="resellers-benefit">
-              <span className="resellers-benefit-value">+5%</span>
+            <article className="resellersBenefit">
+              <span className="resellersBenefitValue">+5%</span>
               <p>de descuento adicional pagando en efectivo</p>
             </article>
-            <article className="resellers-benefit resellers-benefit-renewal">
-              <span className="resellers-benefit-value">30 días</span>
+            <article className="resellersBenefit resellersBenefitRenewal">
+              <span className="resellersBenefitValue">30 días</span>
               <p>de vigencia para renovar y mantener activa tu cuenta</p>
             </article>
           </div>
         </div>
 
-        <aside className="resellers-form-panel" aria-labelledby="resellers-form-title">
-          <span className="resellers-form-step">PROGRAMA DE REVENDEDORES</span>
+        <aside className="resellersFormPanel" aria-labelledby="resellers-form-title">
+          <span className="resellersFormStep">PROGRAMA DE REVENDEDORES</span>
           <h2 id="resellers-form-title">Solicitá tu cuenta</h2>
-          <p className="resellers-form-description">
+          <p className="resellersFormDescription">
             Completá tus datos y preparate para comprar al por mayor.
           </p>
 
           <form
-            className="resellers-form"
+            className="resellersForm"
             onSubmit={handleSubmit(onSubmit)}
             noValidate
           >
-            <label className="resellers-field">
+            <label className="resellersField">
               <span>Nombre</span>
               <input
                 type="text"
@@ -81,13 +81,13 @@ function ResellersSection() {
                 {...register("firstName")}
               />
               {errors.firstName && (
-                <span className="resellers-field-error" role="alert">
+                <span className="resellersFieldError" role="alert">
                   {errors.firstName.message}
                 </span>
               )}
             </label>
 
-            <label className="resellers-field">
+            <label className="resellersField">
               <span>Apellido</span>
               <input
                 type="text"
@@ -97,13 +97,13 @@ function ResellersSection() {
                 {...register("lastName")}
               />
               {errors.lastName && (
-                <span className="resellers-field-error" role="alert">
+                <span className="resellersFieldError" role="alert">
                   {errors.lastName.message}
                 </span>
               )}
             </label>
 
-            <label className="resellers-field">
+            <label className="resellersField">
               <span>Número de documento</span>
               <input
                 type="text"
@@ -115,13 +115,13 @@ function ResellersSection() {
                 {...register("idNumber")}
               />
               {errors.idNumber && (
-                <span className="resellers-field-error" role="alert">
+                <span className="resellersFieldError" role="alert">
                   {errors.idNumber.message}
                 </span>
               )}
             </label>
 
-            <label className="resellers-field">
+            <label className="resellersField">
               <span>CUIL</span>
               <input
                 type="text"
@@ -133,13 +133,13 @@ function ResellersSection() {
                 {...register("cuil")}
               />
               {errors.cuil && (
-                <span className="resellers-field-error" role="alert">
+                <span className="resellersFieldError" role="alert">
                   {errors.cuil.message}
                 </span>
               )}
             </label>
 
-            <label className="resellers-field">
+            <label className="resellersField">
               <span>Correo electrónico</span>
               <input
                 type="email"
@@ -149,13 +149,13 @@ function ResellersSection() {
                 {...register("email")}
               />
               {errors.email && (
-                <span className="resellers-field-error" role="alert">
+                <span className="resellersFieldError" role="alert">
                   {errors.email.message}
                 </span>
               )}
             </label>
 
-            <label className="resellers-field">
+            <label className="resellersField">
               <span>Teléfono</span>
               <input
                 type="tel"
@@ -165,22 +165,22 @@ function ResellersSection() {
                 {...register("phone")}
               />
               {errors.phone && (
-                <span className="resellers-field-error" role="alert">
+                <span className="resellersFieldError" role="alert">
                   {errors.phone.message}
                 </span>
               )}
             </label>
 
-            <button className="resellers-submit" type="submit">
+            <button className="resellersSubmit" type="submit">
               Solicitar cuenta mayorista <span aria-hidden="true">→</span>
             </button>
             {submitted && (
-              <p className="resellers-form-feedback" role="status">
+              <p className="resellersFormFeedback" role="status">
                 Formulario completado. La solicitud todavía debe conectarse al servicio de registro.
               </p>
             )}
           </form>
-          <p className="resellers-privacy">
+          <p className="resellersPrivacy">
             Usaremos tus datos únicamente para gestionar tu solicitud de cuenta mayorista.
           </p>
         </aside>

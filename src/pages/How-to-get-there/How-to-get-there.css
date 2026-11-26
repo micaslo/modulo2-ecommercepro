@@ -1,4 +1,4 @@
-.how-to-get-there {
+.howToGetThere {
   position: relative;
   z-index: 1;
   isolation: isolate;
@@ -10,7 +10,7 @@
   line-height: var(--lh-base);
 }
 
-.how-to-get-there__panel {
+.howToGetTherePanel {
   display: grid;
   grid-template-columns: minmax(18rem, 0.92fr) minmax(0, 1.08fr);
   align-items: center;
@@ -25,11 +25,11 @@
   box-shadow: var(--shadow-lg);
 }
 
-.how-to-get-there__details {
+.howToGetThereDetails {
   max-width: 34rem;
 }
 
-.how-to-get-there__eyebrow {
+.howToGetThereEyebrow {
   display: inline-flex;
   align-items: center;
   margin: 0 0 1rem;
@@ -45,7 +45,7 @@
   text-transform: uppercase;
 }
 
-.how-to-get-there__details h2 {
+.howToGetThereDetails h2 {
   margin: 0;
   color: #ffffff;
   font-family: var(--font-heading);
@@ -55,12 +55,12 @@
   line-height: 1.08;
 }
 
-.how-to-get-there__details h2 span {
+.howToGetThereDetails h2 span {
   display: block;
   color: var(--color-logo);
 }
 
-.how-to-get-there__hours {
+.howToGetThereHours {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
@@ -69,7 +69,7 @@
   list-style: none;
 }
 
-.how-to-get-there__hours li {
+.howToGetThereHours li {
   padding: 0.42rem 0.85rem;
   border: 1px solid rgb(255 255 255 / 0.18);
   border-radius: var(--radius-pill);
@@ -80,18 +80,18 @@
   font-weight: 600;
 }
 
-.how-to-get-there__hours li:first-child {
+.howToGetThereHours li:first-child {
   border-color: rgb(245 124 0 / 0.65);
   color: var(--color-primary-light);
 }
 
-.how-to-get-there__hours li:nth-child(2) {
+.howToGetThereHours li:nth-child(2) {
   border-color: var(--color-secondary);
   color: #ffffff;
   background: var(--color-secondary);
 }
 
-.how-to-get-there__button {
+.howToGetThereButton {
   min-height: 3.1rem;
   display: inline-flex;
   align-items: center;
@@ -108,22 +108,22 @@
   transition: transform var(--transition), background var(--transition);
 }
 
-.how-to-get-there__button:hover {
+.howToGetThereButton:hover {
   transform: translateY(-2px);
   background: var(--color-primary-hover);
 }
 
-.how-to-get-there__button:active {
+.howToGetThereButton:active {
   background: var(--color-primary-active);
   transform: scale(0.98);
 }
 
-.how-to-get-there__button:focus-visible {
+.howToGetThereButton:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 4px;
 }
 
-.how-to-get-there__button > svg:first-child {
+.howToGetThereButton > svg:first-child {
   width: 1.15rem;
   height: 1.15rem;
   flex-shrink: 0;
@@ -133,7 +133,7 @@
   stroke-linejoin: round;
 }
 
-.how-to-get-there__external {
+.howToGetThereExternal {
   width: 0.95rem;
   height: 0.95rem;
   flex-shrink: 0;
@@ -143,7 +143,7 @@
   stroke-linejoin: round;
 }
 
-.how-to-get-there__map-card {
+.howToGetThereMapCard {
   position: relative;
   min-width: 0;
   overflow: hidden;
@@ -152,7 +152,7 @@
   background: var(--bg-dark-2);
 }
 
-.how-to-get-there__map-art {
+.howToGetThereMapArt {
   position: relative;
   aspect-ratio: 680 / 410;
   min-height: 17rem;
@@ -160,7 +160,7 @@
   background: var(--bg-dark-2);
 }
 
-.how-to-get-there__map-iframe {
+.howToGetThereMapIframe {
   position: absolute;
   inset: 0;
   display: block;
@@ -169,7 +169,7 @@
   border: 0;
 }
 
-.how-to-get-there__map-label {
+.howToGetThereMapLabel {
   position: absolute;
   z-index: 2;
   right: clamp(0.65rem, 2vw, 1.1rem);
@@ -186,7 +186,7 @@
   backdrop-filter: blur(12px);
 }
 
-.how-to-get-there__map-label-icon {
+.howToGetThereMapLabelIcon {
   flex: 0 0 auto;
   width: 2.5rem;
   height: 2.5rem;
@@ -198,45 +198,45 @@
   overflow: hidden;
 }
 
-:root[data-theme="dark"] .how-to-get-there__panel {
+:root[data-theme="dark"] .howToGetTherePanel {
   background:
     radial-gradient(circle at 12% 18%, rgb(142 112 212 / 0.24), transparent 48%),
     var(--bg-surface);
   border-color: var(--border-strong);
 }
 
-:root[data-theme="dark"] .how-to-get-there__map-iframe {
+:root[data-theme="dark"] .howToGetThereMapIframe {
   filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(92%);
 }
 
-:root[data-theme="dark"] .how-to-get-there__map-label-icon {
+:root[data-theme="dark"] .howToGetThereMapLabelIcon {
   background: var(--bg-surface-2);
   border: 1px solid var(--border-strong);
 }
 
-.how-to-get-there__map-label-icon img {
+.howToGetThereMapLabelIcon img {
   width: 150%;
   height: 150%;
   object-fit: contain;
 }
 
-.how-to-get-there__map-label-copy {
+.howToGetThereMapLabelCopy {
   min-width: 0;
   display: grid;
   gap: 0.1rem;
 }
 
-.how-to-get-there__map-label-copy strong {
+.howToGetThereMapLabelCopy strong {
   font-family: var(--font-heading);
   font-size: 0.88rem;
 }
 
-.how-to-get-there__map-label-copy span {
+.howToGetThereMapLabelCopy span {
   color: rgb(255 255 255 / 0.72);
   font-size: 0.74rem;
 }
 
-.how-to-get-there__coordinates {
+.howToGetThereCoordinates {
   flex: 0 0 auto;
   margin-left: auto;
   color: rgb(255 255 255 / 0.78);
@@ -246,52 +246,52 @@
 }
 
 @media (max-width: 860px) {
-  .how-to-get-there__panel {
+  .howToGetTherePanel {
     grid-template-columns: 1fr;
   }
 
-  .how-to-get-there__details {
+  .howToGetThereDetails {
     max-width: 44rem;
   }
 }
 
 @media (max-width: 540px) {
-  .how-to-get-there {
+  .howToGetThere {
     width: min(100% - 1.25rem, 1240px);
   }
 
-  .how-to-get-there__panel {
+  .howToGetTherePanel {
     gap: 1.75rem;
     padding: 1.35rem;
     border-radius: var(--radius-md);
   }
 
-  .how-to-get-there__map-art {
+  .howToGetThereMapArt {
     min-height: 15rem;
   }
 
-  .how-to-get-there__map-label {
+  .howToGetThereMapLabel {
     flex-wrap: wrap;
     gap: 0.55rem;
     padding: 0.7rem;
   }
 
-  .how-to-get-there__map-label-copy {
+  .howToGetThereMapLabelCopy {
     flex: 1 1 calc(100% - 3.2rem);
   }
 
-  .how-to-get-there__coordinates {
+  .howToGetThereCoordinates {
     width: 100%;
     margin: 0 0 0 3.2rem;
   }
 
-  .how-to-get-there__button {
+  .howToGetThereButton {
     width: 100%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .how-to-get-there__button {
+  .howToGetThereButton {
     transition: none;
   }
 }

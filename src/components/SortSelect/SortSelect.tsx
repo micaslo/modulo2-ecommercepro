@@ -8,13 +8,13 @@ interface Props {
 
 function SortSelect({ value, onChange }: Props) {
   return (
-    <div className="sort-select">
-      <label htmlFor="sort-select" className="sort-select__label">
+    <div className="sortSelect">
+      <label htmlFor="sort-select" className="sortSelectLabel">
         Ordenar
       </label>
       <select
         id="sort-select"
-        className="sort-select__control"
+        className="sortSelectControl"
         value={value}
         onChange={(e) => onChange(e.target.value as SortOption)}
       >

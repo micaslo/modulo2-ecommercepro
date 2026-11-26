@@ -14,12 +14,12 @@ interface PrintableInvoiceProps {
 
 const ISSUER = {
   name: "Tienda Liebre S.A.",
-  address: "Av. Mate de Luna 2150, San Miguel de Tucumán, Tucumán, Argentina.",
+  address: "Gral. José María Paz 576, T4000 San Miguel de Tucumán, Tucumán, Argentina.",
   ivaCondition: "IVA Responsable Inscripto",
   cuit: "30-71849250-9",
   cuitDigits: "30718492509",
   iibb: "30718492509",
-  startDate: "01/03/2020",
+  startDate: "13/11/2026",
   pointOfSale: "0001",
 };
 

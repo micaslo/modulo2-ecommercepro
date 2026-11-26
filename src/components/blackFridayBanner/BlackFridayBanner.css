@@ -1,10 +1,10 @@
-.bf-section {
+.bfSection {
   width: 100%;
   background: var(--bg-body);
   padding: 0 clamp(1rem, 3vw, 1.75rem) clamp(0.5rem, 1.5vw, 1rem);
 }
 
-.bf-banner {
+.bfBanner {
   position: relative;
   width: min(100%, 1280px);
   margin: 0 auto;
@@ -24,7 +24,7 @@
   box-shadow: var(--shadow-lg), 0 14px 36px rgb(97 69 155 / 0.18);
 }
 
-.bf-banner::before {
+.bfBanner::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -40,7 +40,7 @@
   pointer-events: none;
 }
 
-.bf-banner__glow {
+.bfBannerGlow {
   position: absolute;
   z-index: 0;
   border-radius: 50%;
@@ -48,7 +48,7 @@
   pointer-events: none;
 }
 
-.bf-banner__glow--violet {
+.bfBannerGlowViolet {
   top: -55%;
   left: -6%;
   width: 340px;
@@ -56,7 +56,7 @@
   background: rgb(131 102 196 / 0.45);
 }
 
-.bf-banner__glow--orange {
+.bfBannerGlowOrange {
   right: -4%;
   bottom: -60%;
   width: 360px;
@@ -64,7 +64,7 @@
   background: rgb(255 170 64 / 0.42);
 }
 
-.bf-banner__inner {
+.bfBannerInner {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -75,13 +75,13 @@
   gap: clamp(1.25rem, 3vw, 2.5rem);
 }
 
-.bf-banner__copy {
+.bfBannerCopy {
   display: grid;
   gap: 0.45rem;
   min-width: 0;
 }
 
-.bf-banner__badges {
+.bfBannerBadges {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -89,7 +89,7 @@
   margin-bottom: 0.2rem;
 }
 
-.bf-banner__badge {
+.bfBannerBadge {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -102,20 +102,20 @@
   line-height: 1.1;
 }
 
-.bf-banner__badge--live {
+.bfBannerBadgeLive {
   background: rgb(22 20 31 / 0.42);
   border: 1px solid rgb(255 255 255 / 0.24);
   backdrop-filter: blur(8px);
   color: #ffffff;
 }
 
-.bf-banner__badge--deadline {
+.bfBannerBadgeDeadline {
   background: rgb(255 255 255 / 0.16);
   border: 1px solid rgb(255 255 255 / 0.22);
   color: #fff6ea;
 }
 
-.bf-banner__dot {
+.bfBannerDot {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -136,7 +136,7 @@
   }
 }
 
-.bf-banner__title {
+.bfBannerTitle {
   margin: 0;
   color: #ffffff;
   font-family: var(--font-heading);
@@ -147,7 +147,7 @@
   text-shadow: 0 2px 14px rgb(22 20 31 / 0.25);
 }
 
-.bf-banner__subtitle {
+.bfBannerSubtitle {
   margin: 0;
   color: #fff3e4;
   font-family: var(--font-heading);
@@ -158,7 +158,7 @@
 }
 
 /* Conteo regresivo */
-.bf-banner__countdown {
+.bfBannerCountdown {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -166,7 +166,7 @@
   flex-shrink: 0;
 }
 
-.bf-banner__countdown-kicker {
+.bfBannerCountdownKicker {
   font-family: var(--font-heading);
   font-size: 0.72rem;
   font-weight: 700;
@@ -175,19 +175,19 @@
   color: rgb(255 255 255 / 0.85);
 }
 
-.bf-banner__grid {
+.bfBannerGrid {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-.bf-banner__unit-wrap {
+.bfBannerUnitWrap {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-.bf-banner__unit {
+.bfBannerUnit {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,7 +201,7 @@
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 8px 20px rgb(22 20 31 / 0.2);
 }
 
-.bf-banner__value {
+.bfBannerValue {
   font-family: var(--font-heading);
   font-size: clamp(1.55rem, 2.8vw, 2.3rem);
   font-weight: 800;
@@ -211,7 +211,7 @@
   color: #ffffff;
 }
 
-.bf-banner__label {
+.bfBannerLabel {
   margin-top: 0.28rem;
   font-family: var(--font-heading);
   font-size: 0.64rem;
@@ -221,7 +221,7 @@
   color: rgb(255 245 234 / 0.84);
 }
 
-.bf-banner__sep {
+.bfBannerSep {
   font-family: var(--font-heading);
   font-size: clamp(1.3rem, 2.2vw, 1.85rem);
   font-weight: 800;
@@ -231,37 +231,37 @@
 }
 
 @media (max-width: 960px) {
-  .bf-banner__inner {
+  .bfBannerInner {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .bf-banner__badges {
+  .bfBannerBadges {
     justify-content: center;
   }
 
-  .bf-banner__countdown {
+  .bfBannerCountdown {
     align-items: center;
     width: 100%;
   }
 }
 
 @media (max-width: 640px) {
-  .bf-section {
+  .bfSection {
     padding: 0 0.85rem 0.5rem;
   }
 
-  .bf-banner {
+  .bfBanner {
     border-radius: var(--radius-md);
   }
 
-  .bf-banner__inner {
+  .bfBannerInner {
     padding: 1.35rem 1rem;
     gap: 1.1rem;
   }
 
-  .bf-banner__grid {
+  .bfBannerGrid {
     width: 100%;
     max-width: 390px;
     display: grid;
@@ -269,29 +269,29 @@
     gap: 0.5rem;
   }
 
-  .bf-banner__unit-wrap {
+  .bfBannerUnitWrap {
     display: block;
   }
 
-  .bf-banner__unit {
+  .bfBannerUnit {
     min-width: 0;
     width: 100%;
     padding: 0.6rem 0.35rem;
     border-radius: 12px;
   }
 
-  .bf-banner__sep {
+  .bfBannerSep {
     display: none;
   }
 
-  .bf-banner__label {
+  .bfBannerLabel {
     font-size: 0.58rem;
     letter-spacing: 0.06em;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bf-banner__dot {
+  .bfBannerDot {
     animation: none;
   }
 }

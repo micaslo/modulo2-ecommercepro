@@ -31,10 +31,10 @@ export default function ProductsOnSale() {
 
   return (
     <section className="featured">
-      <h1 className="featured-title">Productos destacados</h1>
+      <h1 className="featuredTitle">Productos destacados</h1>
 
-      <div className="carousel-window">
-        <div className="carousel-track">
+      <div className="carouselWindow">
+        <div className="carouselTrack">
           {looped.map((product, i) => {
             const offset = mod(i - activeIndex + HALF, N) - HALF;
             const hidden = Math.abs(offset) > VISIBLE_SIDE;
@@ -47,7 +47,7 @@ export default function ProductsOnSale() {
             return (
               <article
                 key={`${product.id}-${i}`}
-                className={`product-card ${offset === 0 ? "active" : ""}`}
+                className={`productCard ${offset === 0 ? "active" : ""}`}
                 style={{
                   position: "absolute",
                   top: 40,
@@ -62,21 +62,21 @@ export default function ProductsOnSale() {
                 }}
                 onClick={() => setCurrent(i)}
               >
-                <div className="product-img-wrap">
+                <div className="productImgWrap">
                   <img
                     src={getCoverImage(product) || product.image}
                     alt={product.name}
                   />
                   <Link
-                    className="product-btn"
+                    className="saleProductBtn"
                     to={`/product/${product.id}`}
                     onClick={(event) => event.stopPropagation()}
                   >
                     Ver producto
                   </Link>
                 </div>
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-price">{formatPrice(product.price)}</p>
+                <h3 className="productName">{product.name}</h3>
+                <p className="productPrice">{formatPrice(product.price)}</p>
               </article>
             );
           })}

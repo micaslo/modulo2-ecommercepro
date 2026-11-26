@@ -22,6 +22,20 @@ import {
 import { paymentFormSchema } from "../../../schemas/checkoutSchema";
 import type { InstallmentOption, PaymentFormData } from "../../../types/cart";
 
+function getRccsIssuer(
+  brand: ReturnType<typeof detectCardBrand>,
+): string | undefined {
+  if (brand === "amex") return "american-express";
+  if (brand === "visa" || brand === "mastercard") return brand;
+  return undefined;
+}
+
+function getMaskedCardPreviewNumber(digitsOnly: string): string {
+  if (!digitsOnly) return "";
+  if (digitsOnly.length <= 4) return "•".repeat(digitsOnly.length);
+  return `${"•".repeat(digitsOnly.length - 4)}${digitsOnly.slice(-4)}`;
+}
+
 interface Step3PaymentFormProps {
   data: PaymentFormData;
   baseAmount: number;
@@ -60,6 +74,8 @@ export default function Step3PaymentForm({
 
   const digitsOnly = stripDigits(number);
   const brand = detectCardBrand(digitsOnly);
+  const rccsIssuer = getRccsIssuer(brand);
+  const maskedPreviewNumber = getMaskedCardPreviewNumber(digitsOnly);
   const installmentOptions = getInstallmentOptions(brand, baseAmount);
 
   const activePlan =
@@ -100,36 +116,17 @@ export default function Step3PaymentForm({
       <div className="creditCardShowcase">
         <div className="creditCardPreviewWrap">
           <Cards
-            number={digitsOnly}
+            number={maskedPreviewNumber}
             name={name}
             expiry={stripDigits(expiry)}
             cvc={showCvc ? cvc : "•".repeat(cvc.length)}
             focused={showCvc ? "cvc" : focused}
+            preview={Boolean(rccsIssuer)}
+            issuer={rccsIssuer}
             acceptedCards={["visa", "mastercard", "american-express"]}
             placeholders={{ name: "TU NOMBRE" }}
             locale={{ valid: "VÁLIDA HASTA" }}
           />
-        </div>
-
-        <div className="creditCardBrandHints">
-          <span
-            className={`cardBrandChip ${brand === "visa" ? "isDetected" : ""}`}
-          >
-            <strong>Visa</strong> · empieza con 4 · Hasta 12 sin interés
-          </span>
-          <span
-            className={`cardBrandChip ${brand === "amex" ? "isDetected" : ""}`}
-          >
-            <strong>Amex</strong> · empieza con 34 o 37 · Hasta 6 sin interés
-          </span>
-          <span
-            className={`cardBrandChip ${
-              brand === "mastercard" ? "isDetected" : ""
-            }`}
-          >
-            <strong>Mastercard</strong> · empieza con 51-55 · 1 sin interés /
-            cuotas con interés
-          </span>
         </div>
       </div>
 
@@ -401,8 +398,8 @@ export default function Step3PaymentForm({
                     <span
                       className={`installmentBadge ${
                         option.interestFree
-                          ? "installmentBadge--free"
-                          : "installmentBadge--interest"
+                          ? "installmentBadgeFree"
+                          : "installmentBadgeInterest"
                       }`}
                     >
                       {option.interestFree
@@ -429,7 +426,7 @@ export default function Step3PaymentForm({
             <span>Volver a tus datos</span>
           </button>
 
-          <button type="submit" className="btn-primary checkoutNextBtn">
+          <button type="submit" className="btnPrimary checkoutNextBtn">
             <FaLock size={12} />
             <span>
               Confirmar y pagar{" "}

@@ -5,7 +5,7 @@
   background: var(--bg-body);
 }
 
-.featured-title {
+.featuredTitle {
   position: relative;
   z-index: 1;
   text-align: center;
@@ -16,7 +16,7 @@
   margin: 0 0 1.75rem;
 }
 
-.featured-title::after {
+.featuredTitle::after {
   content: "";
   display: block;
   width: 64px;
@@ -26,32 +26,32 @@
   border-radius: var(--radius-pill);
 }
 
-.carousel-window {
+.carouselWindow {
   position: relative;
   z-index: 1;
   width: 100%;
   overflow: hidden;
 }
 
-.carousel-track {
+.carouselTrack {
   position: relative;
   width: 100%;
   height: 495px;
 }
 
-.product-card {
+.productCard {
   text-align: center;
   cursor: pointer;
   opacity: 0.72;
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-.product-card.active {
+.productCard.active {
   opacity: 1;
   z-index: 2;
 }
 
-.product-img-wrap {
+.productImgWrap {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -65,7 +65,7 @@
 }
 
 /* Card activa destacada con borde degradado violeta (#61459B) -> naranja (#F57C00) */
-.product-card.active .product-img-wrap {
+.productCard.active .productImgWrap {
   border: 2px solid transparent;
   background:
     linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
@@ -73,7 +73,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-.product-img-wrap img {
+.productImgWrap img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -82,21 +82,21 @@
   transition: transform 0.4s ease;
 }
 
-:root[data-theme="dark"] .product-img-wrap img {
+:root[data-theme="dark"] .productImgWrap img {
   mix-blend-mode: normal;
 }
 
-.product-card:hover .product-img-wrap {
+.productCard:hover .productImgWrap {
   transform: translateY(-6px);
   border-color: var(--color-primary);
   box-shadow: var(--shadow-md);
 }
 
-.product-card:hover .product-img-wrap img {
+.productCard:hover .productImgWrap img {
   transform: scale(1.05);
 }
 
-.product-btn {
+.saleProductBtn {
   position: absolute;
   left: 50%;
   bottom: 14px;
@@ -116,17 +116,17 @@
   transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
 }
 
-.product-card:hover .product-btn,
-.product-card.active .product-btn {
+.productCard:hover .saleProductBtn,
+.productCard.active .saleProductBtn {
   opacity: 1;
   transform: translate(-50%, 0);
 }
 
-.product-btn:hover {
+.saleProductBtn:hover {
   background: var(--color-primary-hover);
 }
 
-.product-name {
+.productName {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
@@ -141,7 +141,7 @@
   line-height: 1.3;
 }
 
-.product-price {
+.productPrice {
   color: var(--color-secondary);
   font-family: var(--font-heading);
   font-weight: 800;

@@ -53,26 +53,26 @@ export default function ProductFormModal({
 
   return (
     <div
-      className="admin-modal-backdrop"
+      className="adminModalBackdrop"
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-modal-title"
       onClick={onClose}
     >
       <div
-        className="admin-modal"
+        className="adminModal"
         onClick={(event) => event.stopPropagation()}
       >
-        <header className="admin-modal-header">
+        <header className="adminModalHeader">
           <div>
-            <span className="admin-eyebrow">GESTIÓN DE INVENTARIO</span>
+            <span className="adminEyebrow">GESTIÓN DE INVENTARIO</span>
             <h2 id="product-modal-title">
               {isEditing ? "Editar producto" : "Agregar nuevo producto"}
             </h2>
           </div>
           <button
             type="button"
-            className="admin-modal-close"
+            className="adminModalClose"
             onClick={onClose}
             aria-label="Cerrar formulario"
           >
@@ -80,11 +80,11 @@ export default function ProductFormModal({
           </button>
         </header>
 
-        <form className="admin-form" onSubmit={onSubmit} noValidate>
-          <div className="admin-form-grid">
-            <div className="admin-field">
+        <form className="adminForm" onSubmit={onSubmit} noValidate>
+          <div className="adminFormGrid">
+            <div className="adminField">
               <label htmlFor="prod-code">
-                Código único (SKU) <span className="admin-required">*</span>
+                Código único (SKU) <span className="adminRequired">*</span>
               </label>
               <Controller
                 name="code"
@@ -106,17 +106,17 @@ export default function ProductFormModal({
                 )}
               />
               {errors.code ? (
-                <span className="admin-field-error">{errors.code.message}</span>
+                <span className="adminFieldError">{errors.code.message}</span>
               ) : (
-                <span className="admin-field-hint">
+                <span className="adminFieldHint">
                   Debe ser único en todo el inventario (letras, números, - o _).
                 </span>
               )}
             </div>
 
-            <div className="admin-field">
+            <div className="adminField">
               <label htmlFor="prod-category">
-                Categoría <span className="admin-required">*</span>
+                Categoría <span className="adminRequired">*</span>
               </label>
               <select
                 id="prod-category"
@@ -130,16 +130,16 @@ export default function ProductFormModal({
                 ))}
               </select>
               {errors.category && (
-                <span className="admin-field-error">
+                <span className="adminFieldError">
                   {errors.category.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="admin-field">
+          <div className="adminField">
             <label htmlFor="prod-name">
-              Nombre del producto <span className="admin-required">*</span>
+              Nombre del producto <span className="adminRequired">*</span>
             </label>
             <input
               id="prod-name"
@@ -149,14 +149,14 @@ export default function ProductFormModal({
               {...register("name")}
             />
             {errors.name && (
-              <span className="admin-field-error">{errors.name.message}</span>
+              <span className="adminFieldError">{errors.name.message}</span>
             )}
           </div>
 
-          <div className="admin-form-grid">
-            <div className="admin-field">
+          <div className="adminFormGrid">
+            <div className="adminField">
               <label htmlFor="prod-price">
-                Precio (ARS) <span className="admin-required">*</span>
+                Precio (ARS) <span className="adminRequired">*</span>
               </label>
               <input
                 id="prod-price"
@@ -168,15 +168,15 @@ export default function ProductFormModal({
                 {...register("price")}
               />
               {errors.price && (
-                <span className="admin-field-error">
+                <span className="adminFieldError">
                   {errors.price.message}
                 </span>
               )}
             </div>
 
-            <div className="admin-field">
+            <div className="adminField">
               <label htmlFor="prod-stock">
-                Stock disponible <span className="admin-required">*</span>
+                Stock disponible <span className="adminRequired">*</span>
               </label>
               <input
                 id="prod-stock"
@@ -188,14 +188,14 @@ export default function ProductFormModal({
                 {...register("stock")}
               />
               {errors.stock && (
-                <span className="admin-field-error">
+                <span className="adminFieldError">
                   {errors.stock.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="admin-field">
+          <div className="adminField">
             <label htmlFor="prod-image">URL de imagen (opcional)</label>
             <input
               id="prod-image"
@@ -205,19 +205,19 @@ export default function ProductFormModal({
               {...register("image")}
             />
             {errors.image && (
-              <span className="admin-field-error">{errors.image.message}</span>
+              <span className="adminFieldError">{errors.image.message}</span>
             )}
             {imageValue.trim() && !errors.image && (
-              <div className="admin-image-preview">
+              <div className="adminImagePreview">
                 <img src={imageValue.trim()} alt="Vista previa del producto" />
                 <span>Vista previa</span>
               </div>
             )}
           </div>
 
-          <div className="admin-field">
+          <div className="adminField">
             <label htmlFor="prod-description">
-              Descripción <span className="admin-required">*</span>
+              Descripción <span className="adminRequired">*</span>
             </label>
             <textarea
               id="prod-description"
@@ -226,29 +226,29 @@ export default function ProductFormModal({
               aria-invalid={Boolean(errors.description)}
               {...register("description")}
             />
-            <div className="admin-field-footer">
+            <div className="adminFieldFooter">
               {errors.description ? (
-                <span className="admin-field-error">
+                <span className="adminFieldError">
                   {errors.description.message}
                 </span>
               ) : (
-                <span className="admin-field-hint">Mínimo 10 caracteres.</span>
+                <span className="adminFieldHint">Mínimo 10 caracteres.</span>
               )}
-              <span className="admin-char-count">
+              <span className="adminCharCount">
                 {descriptionValue.length}/1000
               </span>
             </div>
           </div>
 
-          <div className="admin-modal-actions">
+          <div className="adminModalActions">
             <button
               type="button"
-              className="admin-btn-ghost"
+              className="adminBtnGhost"
               onClick={onClose}
             >
               Cancelar
             </button>
-            <button type="submit" className="btn-primary">
+            <button type="submit" className="btnPrimary">
               {isEditing ? "Guardar cambios" : "Crear producto"}
             </button>
           </div>

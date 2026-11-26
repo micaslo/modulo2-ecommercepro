@@ -6,7 +6,7 @@
   overflow-x: clip;
 }
 
-.hero__inner {
+.heroInner {
   width: min(100%, 1280px);
   margin: 0 auto;
 }
@@ -17,7 +17,7 @@
 }
 
 /* Carrusel editorial contenido con bordes suaves */
-.hero__carousel {
+.heroCarousel {
   position: relative;
   width: 100%;
   height: clamp(390px, 42vw, 520px);
@@ -27,7 +27,7 @@
   background: var(--bg-dark);
 }
 
-.hero__slide {
+.heroSlide {
   position: relative;
   width: 100%;
   height: 100%;
@@ -37,7 +37,7 @@
   animation: hero-slide-in 0.45s ease both;
 }
 
-.hero__slide-image {
+.heroSlideImage {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -46,7 +46,7 @@
   object-position: center 45%;
 }
 
-.hero__slide-shade {
+.heroSlideShade {
   position: absolute;
   inset: 0;
   background:
@@ -60,7 +60,7 @@
     radial-gradient(circle at 12% 85%, rgb(97 69 155 / 0.28), transparent 46%);
 }
 
-.hero__slide-copy {
+.heroSlideCopy {
   position: absolute;
   top: 50%;
   left: clamp(1.5rem, 5vw, 4rem);
@@ -68,7 +68,7 @@
   transform: translateY(-50%);
 }
 
-.hero__slide-eyebrows {
+.heroSlideEyebrows {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -76,7 +76,7 @@
   margin-bottom: 1rem;
 }
 
-.hero__slide-kicker {
+.heroSlideKicker {
   display: inline-flex;
   align-items: center;
   padding: 0.28rem 0.78rem;
@@ -91,7 +91,7 @@
   letter-spacing: 0.09em;
 }
 
-.hero__slide-category {
+.heroSlideCategory {
   display: inline-flex;
   align-items: center;
   padding: 0.28rem 0.72rem;
@@ -104,7 +104,7 @@
   letter-spacing: 0.09em;
 }
 
-.hero__slide-copy h1 {
+.heroSlideCopy h1 {
   max-width: 14ch;
   margin: 0;
   color: #ffffff;
@@ -114,7 +114,7 @@
   font-weight: 800;
 }
 
-.hero__slide-detail {
+.heroSlideDetail {
   max-width: 45ch;
   margin: 0.9rem 0 1.35rem;
   color: rgb(255 255 255 / 0.82);
@@ -123,14 +123,14 @@
 }
 
 /* Píldoras promocionales */
-.hero__pills {
+.heroPills {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-bottom: 1.4rem;
 }
 
-.hero__pill {
+.heroPill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -143,14 +143,14 @@
   font-weight: 700;
 }
 
-.hero__pill--discount {
+.heroPillDiscount {
   color: #ffffff;
   background: rgb(255 255 255 / 0.14);
   border: 1px solid rgb(255 255 255 / 0.25);
   backdrop-filter: blur(8px);
 }
 
-.hero__pill--installments {
+.heroPillInstallments {
   display: inline-flex;
   align-items: center;
   gap: 0.38rem;
@@ -158,23 +158,23 @@
   background: #ffffff;
 }
 
-.hero__pill--installments small {
+.heroPillInstallments small {
   font-size: 0.78em;
   font-weight: 600;
   color: var(--color-secondary);
 }
 
-:root[data-theme="dark"] .hero__pill--installments {
+:root[data-theme="dark"] .heroPillInstallments {
   color: #ffffff;
   background: rgb(26 23 38 / 0.88);
   border: 1px solid rgb(255 255 255 / 0.22);
 }
 
-:root[data-theme="dark"] .hero__pill--installments small {
+:root[data-theme="dark"] .heroPillInstallments small {
   color: var(--color-primary-light);
 }
 
-.hero__button {
+.heroButton {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -188,18 +188,18 @@
   transition: transform var(--transition), background var(--transition);
 }
 
-.hero__button:hover {
+.heroButton:hover {
   transform: translateY(-2px);
   background: var(--color-primary-hover);
 }
 
-.hero__button:active {
+.heroButton:active {
   background: var(--color-primary-active);
   transform: scale(0.98);
 }
 
 /* Flechas e indicadores del carrusel */
-.hero__carousel-arrow {
+.heroCarouselArrow {
   position: absolute;
   z-index: 4;
   top: 50%;
@@ -219,21 +219,21 @@
   transition: background var(--transition), border-color var(--transition), transform var(--transition);
 }
 
-.hero__carousel-arrow:hover {
+.heroCarouselArrow:hover {
   background: var(--color-primary);
   border-color: var(--color-primary);
   transform: translateY(-50%) scale(1.06);
 }
 
-.hero__carousel-arrow--prev {
+.heroCarouselArrowPrev {
   left: 1rem;
 }
 
-.hero__carousel-arrow--next {
+.heroCarouselArrowNext {
   right: 1rem;
 }
 
-.hero__carousel-dots {
+.heroCarouselDots {
   position: absolute;
   z-index: 4;
   left: 50%;
@@ -243,7 +243,7 @@
   transform: translateX(-50%);
 }
 
-.hero__carousel-dot {
+.heroCarouselDot {
   width: 0.45rem;
   height: 0.45rem;
   padding: 0;
@@ -254,7 +254,7 @@
   transition: width 0.25s ease, background 0.25s ease;
 }
 
-.hero__carousel-dot.is-active {
+.heroCarouselDot.is-active {
   width: 1.5rem;
   background: var(--color-primary);
 }
@@ -271,14 +271,14 @@
 }
 
 /* Cards promocionales con borde degradado violeta (#61459B) + naranja (#F57C00) */
-.hero__side-promos {
+.heroSidePromos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.hero__promo {
+.heroPromo {
   position: relative;
   min-height: 176px;
   overflow: hidden;
@@ -289,7 +289,7 @@
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
-.hero__promo--gradient {
+.heroPromoGradient {
   border: 1.5px solid transparent;
   background:
     linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
@@ -297,12 +297,12 @@
   box-shadow: var(--shadow-sm);
 }
 
-.hero__promo:hover {
+.heroPromo:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.hero__promo-kicker {
+.heroPromoKicker {
   position: relative;
   z-index: 2;
   display: inline-block;
@@ -317,7 +317,7 @@
   font-weight: 700;
 }
 
-.hero__promo h2 {
+.heroPromo h2 {
   position: relative;
   z-index: 2;
   max-width: 60%;
@@ -328,7 +328,7 @@
   letter-spacing: -0.03em;
 }
 
-.hero__promo-link {
+.heroPromoLink {
   position: relative;
   z-index: 3;
   display: inline-flex;
@@ -345,13 +345,13 @@
   transition: background var(--transition), border-color var(--transition), color var(--transition);
 }
 
-.hero__promo-link:hover {
+.heroPromoLink:hover {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #ffffff;
 }
 
-.hero__promo-image {
+.heroPromoImage {
   position: absolute;
   z-index: 1;
   right: 0;
@@ -364,14 +364,14 @@
 }
 
 /* Categorías minimalistas */
-.hero__categories {
+.heroCategories {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.85rem;
   margin-top: 1rem;
 }
 
-.hero__category {
+.heroCategory {
   display: flex;
   align-items: center;
   gap: 0.85rem;
@@ -383,13 +383,13 @@
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
-.hero__category:hover {
+.heroCategory:hover {
   transform: translateY(-2px);
   border-color: var(--color-secondary);
   box-shadow: var(--shadow-sm);
 }
 
-.hero__category-image {
+.heroCategoryImage {
   box-sizing: border-box;
   flex: 0 0 3rem;
   width: 3rem;
@@ -401,19 +401,19 @@
   border: 1px solid var(--border-color);
 }
 
-.hero__category-copy {
+.heroCategoryCopy {
   display: grid;
   gap: 0.14rem;
   min-width: 0;
 }
 
-.hero__category-copy strong {
+.heroCategoryCopy strong {
   font-family: var(--font-heading);
   font-size: 0.88rem;
   color: var(--text-main);
 }
 
-.hero__category-copy small {
+.heroCategoryCopy small {
   overflow: hidden;
   color: var(--text-muted);
   font-size: 0.72rem;
@@ -421,28 +421,28 @@
   white-space: nowrap;
 }
 
-.hero__category-arrow {
+.heroCategoryArrow {
   margin-left: auto;
   color: var(--text-subtle);
   font-size: 0.95rem;
   transition: color var(--transition), transform var(--transition);
 }
 
-.hero__category:hover .hero__category-arrow {
+.heroCategory:hover .heroCategoryArrow {
   color: var(--color-primary);
   transform: translate(2px, -2px);
 }
 
 @media (max-width: 960px) {
-  .hero__carousel {
+  .heroCarousel {
     height: clamp(390px, 52vw, 480px);
   }
 
-  .hero__slide-copy {
+  .heroSlideCopy {
     width: min(68%, 560px);
   }
 
-  .hero__categories {
+  .heroCategories {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -452,12 +452,12 @@
     padding: 0.85rem 0.85rem 1.15rem;
   }
 
-  .hero__carousel {
+  .heroCarousel {
     height: 490px;
     border-radius: var(--radius-md);
   }
 
-  .hero__slide-shade {
+  .heroSlideShade {
     background: linear-gradient(
       180deg,
       rgb(22 20 31 / 0.86) 0%,
@@ -466,14 +466,14 @@
     );
   }
 
-  .hero__slide-copy {
+  .heroSlideCopy {
     top: 1.75rem;
     left: 1.25rem;
     width: calc(100% - 2.5rem);
     transform: none;
   }
 
-  .hero__carousel-arrow {
+  .heroCarouselArrow {
     top: auto;
     bottom: 1rem;
     width: 2.1rem;
@@ -482,44 +482,44 @@
     transform: none;
   }
 
-  .hero__carousel-arrow:hover {
+  .heroCarouselArrow:hover {
     transform: scale(1.06);
   }
 
-  .hero__carousel-dots {
+  .heroCarouselDots {
     bottom: 1.6rem;
   }
 
-  .hero__side-promos {
+  .heroSidePromos {
     grid-template-columns: 1fr;
   }
 
-  .hero__categories {
+  .heroCategories {
     gap: 0.65rem;
   }
 
-  .hero__category {
+  .heroCategory {
     gap: .55rem;
     padding: .7rem .65rem;
     border-radius: 14px;
   }
 
-  .hero__category-image {
+  .heroCategoryImage {
     flex-basis: 2.6rem;
     width: 2.6rem;
     height: 2.6rem;
     border-radius: 11px;
   }
 
-  .hero__category-copy strong {
+  .heroCategoryCopy strong {
     font-size: .74rem;
   }
 
-  .hero__category-copy small {
+  .heroCategoryCopy small {
     font-size: .59rem;
   }
 
-  .hero__category-arrow {
+  .heroCategoryArrow {
     display: none;
   }
 }

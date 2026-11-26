@@ -296,7 +296,7 @@ export default function Step2CustomerForm({
 
         <div className="fiscalFieldsPanel">
           <div className={showCuit ? "formRowTwo" : "formFieldSingle"}>
-            <div className="formField formField--withPopover">
+            <div className="formField formFieldWithPopover">
               <label htmlFor="checkout-dni">
                 Documento (DNI sin puntos)
               </label>
@@ -413,7 +413,7 @@ export default function Step2CustomerForm({
             <span>Volver al carrito</span>
           </button>
 
-          <button type="submit" className="btn-primary checkoutNextBtn">
+          <button type="submit" className="btnPrimary checkoutNextBtn">
             <span>Continuar al pago</span>
             <FaArrowRight size={13} />
           </button>

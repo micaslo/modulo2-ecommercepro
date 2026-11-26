@@ -115,7 +115,7 @@ export default function Step1CartList({
                     <div className="quickCatalogActions">
                       <button
                         type="button"
-                        className="btn-primary quickCatalogAddBtn"
+                        className="btnPrimary quickCatalogAddBtn"
                         onClick={() => onQuickAddProduct(product)}
                       >
                         {details.productKind === "car"
@@ -188,14 +188,14 @@ export default function Step1CartList({
                         </span>
                       )}
                       {item.isCar ? (
-                        <span className="cartItemPill cartItemPill--car">
+                        <span className="cartItemPill cartItemPillCar">
                           <FaCarSide size={12} />
                           <span>Máx. 1 unidad online</span>
                         </span>
                       ) : (
                         <span
                           className={`cartItemPill ${
-                            atStockLimit ? "cartItemPill--limit" : ""
+                            atStockLimit ? "cartItemPillLimit" : ""
                           }`}
                         >
                           Stock: {item.stock}{" "}
@@ -264,7 +264,7 @@ export default function Step1CartList({
 
             <button
               type="button"
-              className="btn-primary checkoutNextBtn"
+              className="btnPrimary checkoutNextBtn"
               onClick={onContinue}
             >
               <span>Continuar con tus datos</span>

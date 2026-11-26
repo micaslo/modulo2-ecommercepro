@@ -62,7 +62,7 @@ function BestSellersPage() {
       {categories.map((category) => (
         <BestSellers
           key={category.id}
-          className={category.name === "Tecnología" ? "bestSellers--technology" : undefined}
+          className={category.name === "Tecnología" ? "bestSellersTechnology" : undefined}
           title={`Más vendidos de la semana en ${category.name}`}
           products={category.products}
         />

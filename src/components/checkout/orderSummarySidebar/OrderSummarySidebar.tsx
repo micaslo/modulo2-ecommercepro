@@ -87,7 +87,7 @@ export default function OrderSummarySidebar({
           <span className="summaryBannerLogo" aria-hidden="true">
             <img src={logoIsotype} alt="" />
           </span>
-          <strong>TIENDA LIEBRE PAY</strong>
+          <strong>RESUMEN DE COMPRA</strong>
         </div>
         <span className="summaryBannerRight">
           <FaShieldAlt size={13} />
@@ -143,7 +143,7 @@ export default function OrderSummarySidebar({
           </div>
 
           {appliedCoupon && couponInfo && discountAmount > 0 && (
-            <div className="summaryRow summaryRow--discount">
+            <div className="summaryRow summaryRowDiscount">
               <span className="summaryCouponTag">
                 <span>CUPÓN</span>
                 <span className="summaryDiscountPill">
@@ -166,7 +166,7 @@ export default function OrderSummarySidebar({
           )}
 
           {currentStep >= 3 && selectedInstallment && interestAmount > 0 && (
-            <div className="summaryRow summaryRow--interest">
+            <div className="summaryRow summaryRowInterest">
               <span>
                 Financiación ({selectedInstallment.count} cuotas)
               </span>
