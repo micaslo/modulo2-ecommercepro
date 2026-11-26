@@ -1,7 +1,7 @@
 .hero {
   color: var(--text-main);
   background: var(--bg-body);
-  padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 3vw, 1.75rem) clamp(2rem, 4vw, 3.25rem);
+  padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 2.5vw, 2rem);
   font-family: inherit;
   overflow-x: clip;
 }
@@ -438,7 +438,7 @@
 
 @media (max-width: 640px) {
   .hero {
-    padding: 0.85rem 0.85rem 1.75rem;
+    padding: 0.85rem 0.85rem 1.15rem;
   }
 
   .hero__carousel {

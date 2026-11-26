@@ -1,8 +1,7 @@
 .bf-section {
   width: 100%;
   background: var(--bg-body);
-  padding: 0 clamp(1rem, 3vw, 1.75rem);
-  margin-top: calc(clamp(1rem, 2.2vw, 1.75rem) * -1);
+  padding: 0 clamp(1rem, 3vw, 1.75rem) clamp(0.5rem, 1.5vw, 1rem);
 }
 
 .bf-banner {
@@ -250,8 +249,7 @@
 
 @media (max-width: 640px) {
   .bf-section {
-    padding: 0 0.85rem;
-    margin-top: -0.75rem;
+    padding: 0 0.85rem 0.5rem;
   }
 
   .bf-banner {
