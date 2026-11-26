@@ -109,41 +109,77 @@
   --transition: 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Modo oscuro manual opcional (<html data-theme="dark">) */
+/* Modo oscuro (<html data-theme="dark">) */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
+  /* Marca y naranjas */
+  --color-logo: #f27b1d;
   --color-primary: #f57c00;
   --color-primary-hover: #ff9429;
-  --color-primary-active: #dc6c00;
+  --color-primary-active: #ff9f43;
+  --color-primary-light: #ffb057;
   --color-primary-soft: rgb(245 124 0 / 0.16);
+  --color-primary-ring: rgb(245 124 0 / 0.30);
   --color-on-primary: #ffffff;
 
-  --color-secondary: #8366c4;
-  --color-secondary-hover: #977cd4;
-  --color-secondary-soft: rgb(97 69 155 / 0.24);
+  /* Contraste (violeta adaptado a fondos oscuros) */
+  --color-secondary: #8e70d4;
+  --color-secondary-hover: #a186e0;
+  --color-secondary-active: #7456bd;
+  --color-secondary-soft: rgb(131 102 196 / 0.22);
   --color-on-secondary: #ffffff;
 
-  --bg-body: #12101a;
-  --bg-surface: #1b1826;
-  --bg-surface-2: #242033;
-  --bg-overlay: rgb(8 7 12 / 0.74);
+  /* Fondos oscuros profundos con matiz violeta */
+  --bg-body: #110f19;
+  --bg-surface: #1a1726;
+  --bg-surface-2: #241f35;
+  --bg-dark: #16141f;
+  --bg-dark-2: #211e2d;
+  --bg-overlay: rgb(8 7 12 / 0.78);
 
+  /* Textos */
   --text-main: #f7f5f0;
   --text-muted: #bdb8ca;
-  --text-subtle: #8b859a;
-  --text-link: #b49be8;
+  --text-subtle: #8e88a0;
+  --text-link: #b9a1ee;
 
-  --border-color: #2d283d;
-  --border-strong: #3e3852;
+  /* Bordes */
+  --border-color: #2e2842;
+  --border-strong: #413a59;
   --focus-ring: #ff9429;
 
-  --color-price: #f7f5f0;
-  --color-old-price: #8b859a;
+  /* Estados adaptados a modo oscuro */
+  --color-success: #2cb87c;
+  --color-success-soft: rgb(31 138 91 / 0.22);
+  --color-warning: #f59e0b;
+  --color-warning-soft: rgb(217 119 6 / 0.22);
+  --color-danger: #f05a68;
+  --color-danger-soft: rgb(214 59 75 / 0.22);
+  --color-info: #a58be6;
+  --color-info-soft: rgb(131 102 196 / 0.22);
 
-  --shadow-sm: 0 2px 6px rgb(0 0 0 / 0.24);
-  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.34);
-  --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.44);
+  /* Ecommerce */
+  --color-price: #f7f5f0;
+  --color-discount: #34d399;
+  --color-old-price: #8e88a0;
+  --color-rating: #ff9a36;
+  --color-shipping: #34d399;
+
+  /* Degradados */
+  --gradient-brand: linear-gradient(135deg, #f57c00 0%, #ff9a36 100%);
+  --gradient-border: linear-gradient(135deg, #8e70d4 0%, #f57c00 100%);
+  --gradient-violet-orange: linear-gradient(135deg, #8e70d4 0%, #f57c00 100%);
+
+  /* Sombras */
+  --shadow-sm: 0 2px 6px rgb(0 0 0 / 0.28);
+  --shadow-md: 0 10px 26px rgb(0 0 0 / 0.38);
+  --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.48);
+}
+
+:root[data-theme="dark"] select option {
+  background: var(--bg-surface);
+  color: var(--text-main);
 }
 
 /* ===== ESTILOS BASE ===== */

@@ -951,6 +951,16 @@
   flex-shrink: 0;
 }
 
+:root[data-theme="dark"] .summaryCardBanner {
+  background: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+:root[data-theme="dark"] .summaryBannerLogo {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+}
+
 .summaryBannerLogo img {
   width: 155%;
   height: 155%;

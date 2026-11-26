@@ -34,6 +34,10 @@
     var(--bg-dark);
 }
 
+:root[data-theme="dark"] .create-account-aside {
+  border-right: 1px solid var(--border-color);
+}
+
 .create-account-brand {
   position: relative;
   z-index: 1;

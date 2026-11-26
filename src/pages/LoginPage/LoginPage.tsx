@@ -1,7 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
+import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
 import "./LoginPage.css";
 
@@ -83,17 +85,25 @@ function LoginPage() {
           <img
             src={logoDarkText}
             alt="Tienda Liebre"
-            className="login-header-logo__img"
+            className="login-header-logo__img login-header-logo__img--light"
+          />
+          <img
+            src={logoWhiteText}
+            alt="Tienda Liebre"
+            className="login-header-logo__img login-header-logo__img--dark"
           />
         </Link>
 
         <span className="login-header-title">Iniciar sesión</span>
 
-        <div className="login-user-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="3.5" />
-            <path d="M5 20c0-4 2.8-6 7-6s7 2 7 6" />
-          </svg>
+        <div className="login-header-actions">
+          <ThemeToggle />
+          <div className="login-user-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M5 20c0-4 2.8-6 7-6s7 2 7 6" />
+            </svg>
+          </div>
         </div>
       </header>
 

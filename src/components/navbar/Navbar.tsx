@@ -3,6 +3,7 @@ import type { SubmitEvent } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useWishlist } from "../../hooks/useWishlist";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import "./Navbar.css";
@@ -147,6 +148,8 @@ export default function Navbar({
           </form>
 
           <div className="navbar__actions">
+            <ThemeToggle className="navbar__theme-toggle" />
+
             {isAuthenticated && (
               <Link
                 to="/favoritos"

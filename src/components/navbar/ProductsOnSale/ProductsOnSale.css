@@ -82,6 +82,10 @@
   transition: transform 0.4s ease;
 }
 
+:root[data-theme="dark"] .product-img-wrap img {
+  mix-blend-mode: normal;
+}
+
 .product-card:hover .product-img-wrap {
   transform: translateY(-6px);
   border-color: var(--color-primary);

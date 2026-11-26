@@ -154,7 +154,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.38rem;
-  color: var(--text-main);
+  color: #1a1822;
   background: #ffffff;
 }
 
@@ -162,6 +162,16 @@
   font-size: 0.78em;
   font-weight: 600;
   color: var(--color-secondary);
+}
+
+:root[data-theme="dark"] .hero__pill--installments {
+  color: #ffffff;
+  background: rgb(26 23 38 / 0.88);
+  border: 1px solid rgb(255 255 255 / 0.22);
+}
+
+:root[data-theme="dark"] .hero__pill--installments small {
+  color: var(--color-primary-light);
 }
 
 .hero__button {
@@ -387,7 +397,8 @@
   padding: 4px;
   border-radius: 13px;
   object-fit: contain;
-  background: color-mix(in srgb, var(--hero-primary) 12%, white);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
 }
 
 .hero__category-copy {

@@ -78,6 +78,10 @@
   flex-shrink: 0;
 }
 
+:root[data-theme="dark"] .colorOptionDot {
+  border-color: rgb(255 255 255 / 0.28);
+}
+
 .colorOptionName {
   font-size: 0.7rem;
   font-weight: var(--fw-medium);

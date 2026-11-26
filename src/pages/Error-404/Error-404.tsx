@@ -1,5 +1,6 @@
 import './Error-404.css'
 import logoDarkText from '../../assets/images/logo/tl-imagotype-black.webp'
+import logoWhiteText from '../../assets/images/logo/tl-imagotype-white.webp'
 
 type Error404Props = {
   homeHref?: string
@@ -9,7 +10,16 @@ export default function Error404({ homeHref = '/' }: Error404Props) {
   return (
     <main className="error404-page">
       <a className="error404-brand" href={homeHref} aria-label="Tienda Liebre, ir al inicio">
-        <img src={logoDarkText} alt="Tienda Liebre" className="error404-brand__logo" />
+        <img
+          src={logoDarkText}
+          alt="Tienda Liebre"
+          className="error404-brand__logo error404-brand__logo--light"
+        />
+        <img
+          src={logoWhiteText}
+          alt="Tienda Liebre"
+          className="error404-brand__logo error404-brand__logo--dark"
+        />
       </a>
 
       <section className="error404-card" aria-labelledby="error404-title">
