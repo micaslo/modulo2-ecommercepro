@@ -15,23 +15,30 @@ function shuffle<T>(items: T[]): T[] {
   return shuffled;
 }
 
-export function getResellerFeaturedProducts(products: Product[]): Product[] {
+function readSavedFeaturedProducts(products: Product[]): Product[] | null {
   try {
     const savedIds = localStorage.getItem(FEATURED_IDS_KEY);
-    if (savedIds) {
-      const ids: unknown = JSON.parse(savedIds);
-      if (Array.isArray(ids)) {
-        const savedProducts = ids
-          .filter((id): id is string => typeof id === "string")
-          .map((id) => products.find((product) => product.id === id))
-          .filter((product) => product !== undefined);
+    if (!savedIds) return null;
 
-        if (savedProducts.length === FEATURED_COUNT) return savedProducts;
-      }
-    }
+    const ids: unknown = JSON.parse(savedIds);
+    if (!Array.isArray(ids)) return null;
+
+    const savedProducts = ids
+      .filter((id): id is string => typeof id === "string")
+      .map((id) => products.find((product) => product.id === id))
+      .filter((product) => product !== undefined);
+
+    if (savedProducts.length === FEATURED_COUNT) return savedProducts;
   } catch {
-    
+    return null;
   }
+
+  return null;
+}
+
+export function getResellerFeaturedProducts(products: Product[]): Product[] {
+  const savedProducts = readSavedFeaturedProducts(products);
+  if (savedProducts) return savedProducts;
 
   const availableProducts = shuffle(products.filter((product) => product.stock > 0));
   const selected: Product[] = [];
