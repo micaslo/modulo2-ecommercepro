@@ -402,7 +402,7 @@ export default function Step2CustomerForm({
               <input
                 id="checkout-businessName"
                 type="text"
-                placeholder="Ej: Detodito S.A."
+                placeholder="Ej: Tienda Liebre S.A."
                 value={data.businessName}
                 maxLength={100}
                 className={errors.businessName ? "isInvalid" : ""}

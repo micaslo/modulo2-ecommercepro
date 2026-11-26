@@ -1,7 +1,8 @@
 import './How-to-get-there.css'
+import logoIsotype from '../../assets/images/logo/tl-isotype.webp'
 
 const branch = {
-  name: 'Detodito Market',
+  name: 'Tienda Liebre',
   address: 'Gral. José María Paz 576, T4000 San Miguel de Tucumán, Tucumán, Argentina',
   mapAddress: 'Gral. Paz 576 · San Miguel de Tucumán',
   hours: 'Lun. a vie.',
@@ -26,16 +27,16 @@ function LocationPin() {
 
 export default function HowToGetThere() {
   return (
-    <main className="how-to-get-there">
-      <section
+    <section className="how-to-get-there">
+      <div
         className="how-to-get-there__panel"
         aria-labelledby="directions-title"
       >
         <div className="how-to-get-there__details">
           <p className="how-to-get-there__eyebrow">Cómo llegar</p>
-          <h1 id="directions-title">
+          <h2 id="directions-title">
             Te esperamos en <span>{branch.name}</span>
-          </h1>
+          </h2>
 
           <ul className="how-to-get-there__hours" aria-label="Horario y ubicación">
             <li>{branch.hours}</li>
@@ -64,13 +65,13 @@ export default function HowToGetThere() {
 
         <div
           className="how-to-get-there__map-card"
-          aria-label="Ubicación de Detodito Market"
+          aria-label="Ubicación de Tienda Liebre"
         >
           <div className="how-to-get-there__map-art">
             <iframe
               className="how-to-get-there__map-iframe"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1110035048696!2d-65.20970432488996!3d-26.836421490020065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225c0e8d3f160f%3A0xaf25f4de8ee29e12!2sGral.%20Jos%C3%A9%20Mar%C3%ADa%20Paz%20576%2C%20T4000%20San%20Miguel%20de%20Tucum%C3%A1n%2C%20Tucum%C3%A1n!5e0!3m2!1ses-419!2sar!4v1795120033082!5m2!1ses-419!2sar"
-              title="Mapa de Detodito Market, Gral. Paz 576, San Miguel de Tucumán"
+              title="Mapa de Tienda Liebre, Gral. Paz 576, San Miguel de Tucumán"
               width="600"
               height="450"
               style={{ border: 0 }}
@@ -82,7 +83,7 @@ export default function HowToGetThere() {
 
           <div className="how-to-get-there__map-label">
             <div className="how-to-get-there__map-label-icon">
-              <LocationPin />
+              <img src={logoIsotype} alt="" aria-hidden="true" />
             </div>
 
             <div className="how-to-get-there__map-label-copy">
@@ -95,7 +96,7 @@ export default function HowToGetThere() {
             </span>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
   )
 }

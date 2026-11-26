@@ -87,9 +87,10 @@ function SellProductSection() {
     <section className="sellProduct" id="sellProduct">
       <div className="sellProductInner">
         <header className="sellProductHeader">
+          <span className="sellProductEyebrow">TIENDA LIEBRE · PUBLICÁ GRATIS</span>
           <h2 className="sellProductTitle">Quiero vender mi producto</h2>
           <p className="sellProductText">
-            Publicá tu producto en Detodito y llegá a miles de compradores. Completá el formulario
+            Publicá tu producto en Tienda Liebre y llegá a miles de compradores. Completá el formulario
             y nuestro equipo se va a contactar con vos en menos de 24 horas hábiles.
           </p>
         </header>

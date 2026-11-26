@@ -23,7 +23,7 @@ const DEFAULT_USERS: RegisteredUser[] = [
     firstName: "Sofía",
     lastName: "Admin",
     name: "Sofía Admin",
-    email: "admin@detodito.com",
+    email: "admin@tiendaliebre.com",
     phone: "3815550100",
     address: "Av. Aconquija 1200",
     locality: "Yerba Buena",
@@ -32,7 +32,7 @@ const DEFAULT_USERS: RegisteredUser[] = [
     fiscalCondition: "responsable_inscripto",
     dni: "36445120",
     cuit: "27-36445120-4",
-    businessName: "Detodito Market S.A.",
+    businessName: "Tienda Liebre S.A.",
     savedCard: {
       number: "4509 8412 3309 7741",
       name: "SOFIA ADMIN",
@@ -165,7 +165,12 @@ function loadUsers(): RegisteredUser[] {
           };
         }
       }
-      if (u.id === "admin-root-1" && !u.address) {
+      if (
+        u.id === "admin-root-1" &&
+        (!u.address ||
+          u.email === "admin@detodito.com" ||
+          u.businessName === "Detodito Market S.A.")
+      ) {
         migrated = true;
         return {
           ...DEFAULT_USERS[0],

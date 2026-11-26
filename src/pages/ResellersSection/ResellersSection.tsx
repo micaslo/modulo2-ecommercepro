@@ -72,7 +72,7 @@ function ResellersSection() {
     <main className="resellers-page">
       <section className="resellers-shell" aria-labelledby="resellers-title">
         <div className="resellers-intro">
-          <span className="resellers-eyebrow">DETODITO MARKET · VENTAS MAYORISTAS</span>
+          <span className="resellers-eyebrow">TIENDA LIEBRE · VENTAS MAYORISTAS</span>
           <h1 id="resellers-title">Hacé crecer tu negocio</h1>
           <p className="resellers-lead">
             Unite a nuestro programa para revendedores y accedé a beneficios

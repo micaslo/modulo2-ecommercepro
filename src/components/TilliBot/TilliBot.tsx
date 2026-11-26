@@ -33,6 +33,7 @@ import type {
   TilliMessage,
   TilliProductCard,
 } from "../../types/tilli";
+import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
 import "./TilliBot.css";
 
 const SESSION_STORAGE_KEY = "tilli_chat_history_v1";
@@ -325,14 +326,14 @@ export default function TilliBot() {
           <header className="tilli-header">
             <div className="tilli-header-identity">
               <div className="tilli-avatar" aria-hidden="true">
-                <FaRobot />
+                <img src={logoIsotype} alt="" />
               </div>
               <div className="tilli-header-copy">
                 <div className="tilli-header-title-row">
                   <h2>Tilli</h2>
                   <span className="tilli-status-badge">En línea</span>
                 </div>
-                <p>Asistente de compras · Detodito Market</p>
+                <p>Asistente de compras · Tienda Liebre</p>
               </div>
             </div>
 

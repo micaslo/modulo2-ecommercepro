@@ -1,9 +1,9 @@
 import "./sobrenosotros.css";
 
-import luiss from "../../assets/images/nuestroequipo/luiss.webp";
-import mica from "../../assets/images/nuestroequipo/mica.webp";
-import rosario from "../../assets/images/nuestroequipo/rosario.webp";
-import tanque from "../../assets/images/nuestroequipo/tanque.webp";
+import luis from "../../assets/images/about-us/luis.webp";
+import mica from "../../assets/images/about-us/mica.webp";
+import rosario from "../../assets/images/about-us/rosario.webp";
+import tanque from "../../assets/images/about-us/tanque.webp";
 
 interface Integrante {
   nombre: string;
@@ -16,25 +16,25 @@ const integrantes: Integrante[] = [
   {
     nombre: "Rosario",
     rol: "Developer",
-    descripcion: "Parte del equipo de DeTodito Market.",
+    descripcion: "Parte del equipo de Tienda Liebre.",
     foto: rosario,
   },
   {
     nombre: "Micaela",
     rol: "Team Leader (TL)",
-    descripcion: "Parte del equipo de DeTodito Market.",
+    descripcion: "Parte del equipo de Tienda Liebre.",
     foto: mica,
   },
   {
     nombre: "Luis",
     rol: "Developer",
-    descripcion: "Parte del equipo de DeTodito Market.",
-    foto: luiss,
+    descripcion: "Parte del equipo de Tienda Liebre.",
+    foto: luis,
   },
   {
     nombre: "Juan Pablo",
-    rol: "Srum Master",
-    descripcion: "Parte del equipo de DeTodito Market.",
+    rol: "Scrum Master",
+    descripcion: "Parte del equipo de Tienda Liebre.",
     foto: tanque,
   },
 ];
@@ -42,49 +42,34 @@ const integrantes: Integrante[] = [
 function SobreNosotros() {
   return (
     <main className="pagina-equipo">
-
-      
       <section className="equipo-portada">
         <div className="equipo-portada-contenido">
-
-          <span className="equipo-etiqueta">
-            DETRÁS DE DETODITO MARKET
-          </span>
+          <span className="equipo-etiqueta">DETRÁS DE TIENDA LIEBRE</span>
 
           <h1>Sobre Nosotros</h1>
 
           <p>
-            Conocé a las personas que están detrás de
-            DeTodito Market. Un equipo que trabaja con
-            compromiso, creatividad y dedicación.
+            Conocé a las personas que están detrás de Tienda Liebre. Un equipo
+            que trabaja con compromiso, creatividad y dedicación.
           </p>
-
         </div>
       </section>
 
-      
       <section className="equipo-seccion">
-
         <div className="equipo-titulo">
           <span>PERSONAS QUE HACEN POSIBLE ESTA IDEA</span>
 
-          <h2>Detrás de DeTodito Market</h2>
+          <h2>Detrás de Tienda Liebre</h2>
 
           <p>
-            Cada integrante aporta sus ideas, habilidades
-            y esfuerzo para construir este proyecto.
+            Cada integrante aporta sus ideas, habilidades y esfuerzo para
+            construir una experiencia de compra ágil y transparente.
           </p>
         </div>
 
-       
         <div className="equipo-grid">
-
           {integrantes.map((persona) => (
-            <article
-              className="integrante-card"
-              key={persona.nombre}
-            >
-
+            <article className="integrante-card" key={persona.nombre}>
               <div className="integrante-foto">
                 <img
                   src={persona.foto}
@@ -96,32 +81,23 @@ function SobreNosotros() {
               <div className="integrante-info">
                 <h3>{persona.nombre}</h3>
 
-                <span className="integrante-rol">
-                  {persona.rol}
-                </span>
+                <span className="integrante-rol">{persona.rol}</span>
 
                 <p>{persona.descripcion}</p>
               </div>
-
             </article>
           ))}
-
         </div>
-
       </section>
 
-    
       <section className="equipo-final">
-
         <h2>¡Gracias por conocernos!</h2>
 
         <p>
-          Seguimos trabajando para ofrecerte una mejor
-          experiencia de compra.
+          Seguimos trabajando para ofrecerte la mejor experiencia en Tienda
+          Liebre.
         </p>
-
       </section>
-
     </main>
   );
 }

@@ -2,6 +2,7 @@ import "./CreateAnAccount.css";
 import { useState, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import logoWhite from "../../assets/images/logo/tl-imagotype-white.webp";
 import {
   extractZodFieldErrors,
   registerSchema,
@@ -93,15 +94,13 @@ export default function PageToCreateAnAccount({
           <Link
             className="create-account-brand"
             to="/"
-            aria-label="Detodito Market, inicio"
+            aria-label="Tienda Liebre, inicio"
           >
-            <span className="create-account-brand__mark" aria-hidden="true">
-              D
-            </span>
-            <span className="create-account-brand__name">
-              <strong>Detodito</strong>
-              <small>Market</small>
-            </span>
+            <img
+              src={logoWhite}
+              alt="Tienda Liebre"
+              className="create-account-brand__logo"
+            />
           </Link>
 
           <div className="create-account-aside__copy">

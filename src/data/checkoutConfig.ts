@@ -42,9 +42,9 @@ export const FISCAL_CONDITIONS: Array<{
 ];
 
 export const PROMO_COUPONS: Record<string, { discountPercent: number; label: string }> = {
-  DETODITO25: {
+  LIEBRE25: {
     discountPercent: 25,
-    label: "PROMO DETODITO25 (-25%)",
+    label: "PROMO LIEBRE25 (-25%)",
   },
 };
 
