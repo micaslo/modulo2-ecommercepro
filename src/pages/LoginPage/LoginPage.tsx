@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FcGoogle } from "react-icons/fc";
 import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
@@ -100,13 +99,6 @@ function LoginPage() {
     );
   };
 
-  const accesoGoogle = () => {
-    mostrarMensaje(
-      "El acceso con Google necesita configurarse con su servicio de autenticación.",
-      "info",
-    );
-  };
-
   return (
     <main className="loginPage">
       <header className="loginHeader">
@@ -160,7 +152,7 @@ function LoginPage() {
               <label htmlFor="login-email">Correo electrónico</label>
 
               <div
-                className={`loginInputWrapper ${errors.email ? "is-invalid" : ""}`}
+                className={`loginInputWrapper ${errors.email ? "isInvalid" : ""}`}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -187,7 +179,7 @@ function LoginPage() {
               <label htmlFor="login-password">Contraseña</label>
 
               <div
-                className={`loginInputWrapper ${errors.password ? "is-invalid" : ""}`}
+                className={`loginInputWrapper ${errors.password ? "isInvalid" : ""}`}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="5" y="10" width="14" height="11" rx="2" />
@@ -243,7 +235,7 @@ function LoginPage() {
 
             <div className="loginField">
               <div
-                className={`loginCaptcha ${errors.notARobot ? "is-invalid" : ""}`}
+                className={`loginCaptcha ${errors.notARobot ? "isInvalid" : ""}`}
               >
                 <label className="loginCaptchaLabel">
                   <input
@@ -287,22 +279,6 @@ function LoginPage() {
               Iniciar sesión
               <span aria-hidden="true">→</span>
             </button>
-
-            <div className="loginDivider">
-              <span></span>
-              <p>O continuá con</p>
-              <span></span>
-            </div>
-
-            <div className="loginSocial">
-              <button
-                type="button"
-                onClick={accesoGoogle}
-                aria-label="Ingresar con Google"
-              >
-                <FcGoogle size={26} />
-              </button>
-            </div>
 
             <div className="loginDemoBox">
               <p className="loginDemoTitle">Cuentas de prueba</p>

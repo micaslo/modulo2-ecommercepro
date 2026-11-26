@@ -3,6 +3,7 @@ import ProductsOnSale from "../../components/navbar/ProductsOnSale/ProductsOnSal
 import BestSellers from "../../components/BestSellers/BestSellers";
 import { getCoverImage } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
+import { getProductPath } from "../../utils/productRoute";
 import { useProducts } from "../../hooks/useProducts";
 import type { Product as CatalogProduct } from "../../types/productMedia";
 import type {
@@ -30,7 +31,7 @@ function toBestSeller(product: CatalogProduct): Product {
       provider: "Mercado Crédito",
     },
     shipping: product.stock > 0 ? "tomorrow" : undefined,
-    href: `/product/${product.id}`,
+    href: getProductPath(product),
   };
 }
 

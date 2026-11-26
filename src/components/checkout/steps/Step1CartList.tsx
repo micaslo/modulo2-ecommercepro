@@ -10,6 +10,7 @@ import {
 import { formatARS } from "../../../data/checkoutConfig";
 import { getCoverImage } from "../../../data/productMedia";
 import { getProductDetails } from "../../../data/productDetails";
+import { getProductPath } from "../../../utils/productRoute";
 import type { CartActionResult, CartItem } from "../../../types/cart";
 import type { Product } from "../../../types/productMedia";
 
@@ -94,7 +95,7 @@ export default function Step1CartList({
               return (
                 <article key={product.id} className="quickCatalogCard">
                   <Link
-                    to={`/product/${product.id}`}
+                    to={getProductPath(product)}
                     className="quickCatalogMedia"
                   >
                     <img src={cover} alt={product.name} loading="lazy" />
@@ -104,7 +105,7 @@ export default function Step1CartList({
                       {product.category}
                     </span>
                     <Link
-                      to={`/product/${product.id}`}
+                      to={getProductPath(product)}
                       className="quickCatalogTitle"
                     >
                       {product.name}
@@ -123,7 +124,7 @@ export default function Step1CartList({
                           : "Agregar"}
                       </button>
                       <Link
-                        to={`/product/${product.id}`}
+                        to={getProductPath(product)}
                         className="quickCatalogLink"
                       >
                         Ver detalle
@@ -141,16 +142,18 @@ export default function Step1CartList({
             {items.map((item) => {
               const atStockLimit = !item.isCar && item.quantity >= item.stock;
 
+              const itemPath = getProductPath(
+                {
+                  id: item.productId,
+                  category: item.category,
+                  name: item.name,
+                },
+                item.colorId,
+              );
+
               return (
                 <li key={item.key} className="cartItemRow">
-                  <Link
-                    to={
-                      item.colorId
-                        ? `/product/${item.productId}?color=${item.colorId}`
-                        : `/product/${item.productId}`
-                    }
-                    className="cartItemThumb"
-                  >
+                  <Link to={itemPath} className="cartItemThumb">
                     <img src={item.image} alt={item.name} />
                   </Link>
 
@@ -158,14 +161,7 @@ export default function Step1CartList({
                     <div className="cartItemTopRow">
                       <div>
                         <span className="cartItemCategory">{item.category}</span>
-                        <Link
-                          to={
-                            item.colorId
-                              ? `/product/${item.productId}?color=${item.colorId}`
-                              : `/product/${item.productId}`
-                          }
-                          className="cartItemTitle"
-                        >
+                        <Link to={itemPath} className="cartItemTitle">
                           {item.name}
                         </Link>
                       </div>
@@ -255,10 +251,7 @@ export default function Step1CartList({
           </ul>
 
           <div className="checkoutStepFooter">
-            <Link
-              to={`/product/${catalogProducts[0]?.id ?? "iphone-18-pro"}`}
-              className="checkoutBackLink"
-            >
+            <Link to="/productos" className="checkoutBackLink">
               ← Seguir viendo productos
             </Link>
 

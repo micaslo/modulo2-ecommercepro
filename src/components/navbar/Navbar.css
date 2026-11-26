@@ -16,7 +16,7 @@
   border: 1px solid var(--border-strong);
 }
 
-:root[data-theme="dark"] .navbarLinkPill.navbar__link--active {
+:root[data-theme="dark"] .navbarLinkPill.navbarLinkActive {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #ffffff;
@@ -152,20 +152,45 @@
   box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
+.navbarSelectWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .navbarSelect {
+  appearance: none;
+  -webkit-appearance: none;
   background: var(--bg-surface-2);
   color: var(--text-main);
   border: none;
   border-radius: var(--radius-pill);
   height: 36px;
-  padding: 0 0.85rem;
+  padding: 0 2.15rem 0 1rem;
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
-  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
-  max-width: 185px;
+  field-sizing: content;
+  max-width: 195px;
+}
+
+.navbarSelectChevron {
+  position: absolute;
+  right: 0.72rem;
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition);
+}
+
+.navbarSelectWrap:hover .navbarSelectChevron {
+  color: var(--text-main);
 }
 
 .navbarInput {
@@ -427,7 +452,7 @@
   color: #ffffff;
 }
 
-.navbarLinkPill.navbar__link--active {
+.navbarLinkPill.navbarLinkActive {
   background: var(--bg-dark);
   border-color: var(--bg-dark);
   color: #ffffff;
@@ -464,8 +489,8 @@
   }
 
   .navbarSelect {
-    max-width: 145px;
-    padding: 0 0.7rem;
+    max-width: 150px;
+    padding: 0 1.95rem 0 0.8rem;
   }
 }
 
@@ -505,7 +530,7 @@
     flex-basis: 100%;
   }
 
-  .navbarSelect {
+  .navbarSelectWrap {
     display: none;
   }
 

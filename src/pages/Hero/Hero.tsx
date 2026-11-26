@@ -134,7 +134,7 @@ export default function Hero() {
                   key={slide.title}
                   type="button"
                   className={`heroCarouselDot${
-                    index === activeSlide ? " is-active" : ""
+                    index === activeSlide ? " isActive" : ""
                   }`}
                   aria-label={`Ver oferta de ${slide.title}`}
                   aria-current={index === activeSlide ? "true" : undefined}

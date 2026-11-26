@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImage } from "../../data/productMedia";
+import { getProductPath } from "../../utils/productRoute";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
 import { useWishlist } from "../../hooks/useWishlist";
@@ -135,7 +136,7 @@ export default function WishList() {
                     <article className="wishlistItem" key={product.id}>
                       <Link
                         className="wishlistImageLink"
-                        to={`/product/${product.id}`}
+                        to={getProductPath(product)}
                         aria-label={`Ver ${product.name}`}
                       >
                         {image ? (
@@ -158,7 +159,7 @@ export default function WishList() {
                           {product.category}
                         </span>
                         <h2 className="wishlistProductName">
-                          <Link to={`/product/${product.id}`}>
+                          <Link to={getProductPath(product)}>
                             {product.name}
                           </Link>
                         </h2>
@@ -167,7 +168,7 @@ export default function WishList() {
                         </p>
                         <p
                           className={`wishlistStock ${
-                            product.stock > 0 ? "is-available" : "is-unavailable"
+                            product.stock > 0 ? "isAvailable" : "isUnavailable"
                           }`}
                         >
                           {product.stock > 0
@@ -177,7 +178,7 @@ export default function WishList() {
                         <div className="wishlistItemActions">
                           <Link
                             className="wishlistView"
-                            to={`/product/${product.id}`}
+                            to={getProductPath(product)}
                           >
                             Ver producto
                           </Link>

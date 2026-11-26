@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImage } from "../../data/productMedia";
+import { getProductPath } from "../../utils/productRoute";
 import type { Product } from "../../types/productMedia";
 
 interface ProductsTableProps {
@@ -100,10 +101,10 @@ export default function ProductsTable({
                 const thumb = getCoverImage(product);
                 const stockStatus =
                   product.stock <= 0
-                    ? "is-out"
+                    ? "isOut"
                     : product.stock <= 3
-                      ? "is-low"
-                      : "is-ok";
+                      ? "isLow"
+                      : "isOk";
 
                 return (
                   <tr key={product.id}>
@@ -145,7 +146,7 @@ export default function ProductsTable({
                     <td>
                       <div className="adminRowActions">
                         <Link
-                          to={`/product/${product.id}`}
+                          to={getProductPath(product)}
                           className="adminActionBtn adminActionBtnView"
                         >
                           Ver

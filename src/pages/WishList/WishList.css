@@ -202,11 +202,11 @@
   font-size: var(--fs-xs);
 }
 
-.wishlistStock.is-available {
+.wishlistStock.isAvailable {
   color: var(--color-success);
 }
 
-.wishlistStock.is-unavailable {
+.wishlistStock.isUnavailable {
   color: var(--color-danger);
 }
 

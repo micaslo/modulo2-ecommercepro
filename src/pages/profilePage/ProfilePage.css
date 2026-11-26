@@ -47,7 +47,7 @@
   flex-shrink: 0;
 }
 
-.profileAvatar.is-admin {
+.profileAvatar.isAdmin {
   background: var(--gradient-brand);
   border-color: var(--color-secondary);
 }
@@ -202,7 +202,7 @@
   color: var(--color-primary);
 }
 
-.profileRevealBtn.is-revealed {
+.profileRevealBtn.isRevealed {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
   color: var(--color-primary-active);
@@ -244,7 +244,7 @@
   color: var(--color-primary);
 }
 
-.profileIconEditBtn.is-active {
+.profileIconEditBtn.isActive {
   border-color: var(--color-danger);
   background: var(--color-danger-soft);
   color: var(--color-danger);
@@ -495,7 +495,7 @@
   border-color: var(--color-primary);
 }
 
-.profileDemoBtn.is-current {
+.profileDemoBtn.isCurrent {
   border-color: var(--color-primary);
   background: var(--color-primary);
   color: var(--color-on-primary);

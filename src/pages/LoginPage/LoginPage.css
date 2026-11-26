@@ -231,8 +231,8 @@
   box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
-.loginInputWrapper.is-invalid,
-.loginCaptcha.is-invalid {
+.loginInputWrapper.isInvalid,
+.loginCaptcha.isInvalid {
   border-color: var(--color-danger);
 }
 

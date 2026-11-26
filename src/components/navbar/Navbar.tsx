@@ -106,18 +106,34 @@ export default function Navbar({
           </Link>
 
           <form className="navbarSearch" onSubmit={handleSearch} role="search">
-            <select
-              className="navbarSelect"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              aria-label="Categoría"
-            >
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+            <div className="navbarSelectWrap">
+              <select
+                className="navbarSelect"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                aria-label="Categoría"
+              >
+                {categories.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="navbarSelectChevron"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
             <input
               type="search"
               className="navbarInput"

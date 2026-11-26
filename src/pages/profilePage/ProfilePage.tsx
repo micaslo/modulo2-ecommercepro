@@ -123,7 +123,7 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
 
         <button
           type="button"
-          className={`profileIconEditBtn ${isEditing ? "is-active" : ""}`}
+          className={`profileIconEditBtn ${isEditing ? "isActive" : ""}`}
           onClick={isEditing ? cancelEditing : startEditing}
           aria-label={
             isEditing ? "Cancelar edición" : "Editar datos personales"
@@ -619,7 +619,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
           {!isEditing && user.savedCard && (
             <button
               type="button"
-              className={`profileRevealBtn ${isRevealed ? "is-revealed" : ""}`}
+              className={`profileRevealBtn ${isRevealed ? "isRevealed" : ""}`}
               onClick={handleToggleReveal}
               aria-pressed={isRevealed}
               aria-label={
@@ -642,7 +642,7 @@ function SavedCardPanel({ user, onSaveCard }: SavedCardPanelProps) {
 
           <button
             type="button"
-            className={`profileIconEditBtn ${isEditing ? "is-active" : ""}`}
+            className={`profileIconEditBtn ${isEditing ? "isActive" : ""}`}
             onClick={isEditing ? cancelEditing : startEditing}
             aria-label={
               isEditing ? "Cancelar edición de tarjeta" : "Editar tarjeta asociada"
@@ -959,7 +959,7 @@ export default function ProfilePage() {
         <section className="profileHero">
           <div className="profileIdentity">
             <div
-              className={`profileAvatar ${isAdmin ? "is-admin" : ""}`}
+              className={`profileAvatar ${isAdmin ? "isAdmin" : ""}`}
               aria-hidden="true"
             >
               {initials}
@@ -1031,21 +1031,21 @@ export default function ProfilePage() {
               <div className="profileDemoActions">
                 <button
                   type="button"
-                  className={`profileDemoBtn ${user.id === "guest-demo-1" ? "is-current" : ""}`}
+                  className={`profileDemoBtn ${user.id === "guest-demo-1" ? "isCurrent" : ""}`}
                   onClick={() => loginAsDemo("guest", "guest-demo-1")}
                 >
                   Micaela (Invitado)
                 </button>
                 <button
                   type="button"
-                  className={`profileDemoBtn ${user.id === "guest-demo-2" ? "is-current" : ""}`}
+                  className={`profileDemoBtn ${user.id === "guest-demo-2" ? "isCurrent" : ""}`}
                   onClick={() => loginAsDemo("guest", "guest-demo-2")}
                 >
                   Juan Pablo (Invitado)
                 </button>
                 <button
                   type="button"
-                  className={`profileDemoBtn profileDemoBtnFull ${isAdmin ? "is-current" : ""}`}
+                  className={`profileDemoBtn profileDemoBtnFull ${isAdmin ? "isCurrent" : ""}`}
                   onClick={() => loginAsDemo("admin", "admin-root-1")}
                 >
                   Sofía (Administrador)

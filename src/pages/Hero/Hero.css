@@ -254,7 +254,7 @@
   transition: width 0.25s ease, background 0.25s ease;
 }
 
-.heroCarouselDot.is-active {
+.heroCarouselDot.isActive {
   width: 1.5rem;
   background: var(--color-primary);
 }

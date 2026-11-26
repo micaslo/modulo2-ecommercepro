@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImage } from "../../data/productMedia";
 import { getProductDetails } from "../../data/productDetails";
+import { getProductPath } from "../../utils/productRoute";
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
 import {
@@ -177,7 +178,7 @@ export default function CatalogPage() {
                 <button
                   key={cat}
                   type="button"
-                  className={`catalogChip ${active ? "is-active" : ""}`}
+                  className={`catalogChip ${active ? "isActive" : ""}`}
                   aria-pressed={active}
                   onClick={() => setSelectedCategory(cat)}
                 >
@@ -233,7 +234,7 @@ export default function CatalogPage() {
                 <article key={product.id} className="catalogCard">
                   <div className="catalogCardMedia">
                     <Link
-                      to={`/product/${product.id}`}
+                      to={getProductPath(product)}
                       className="catalogCardImgLink"
                       aria-label={`Ver detalle de ${product.name}`}
                     >
@@ -254,7 +255,7 @@ export default function CatalogPage() {
                     {canUseWishlist && (
                       <button
                         type="button"
-                        className={`catalogFavBtn ${saved ? "is-active" : ""}`}
+                        className={`catalogFavBtn ${saved ? "isActive" : ""}`}
                         onClick={() => toggle(product.id)}
                         aria-label={
                           saved
@@ -278,7 +279,7 @@ export default function CatalogPage() {
                     )}
 
                     <h2 className="catalogCardTitle">
-                      <Link to={`/product/${product.id}`}>{product.name}</Link>
+                      <Link to={getProductPath(product)}>{product.name}</Link>
                     </h2>
 
                     <p className="catalogCardDescription">
@@ -291,7 +292,7 @@ export default function CatalogPage() {
                       </strong>
                       <span
                         className={`catalogStockBadge ${
-                          outOfStock ? "is-out" : "is-in"
+                          outOfStock ? "isOut" : "isIn"
                         }`}
                       >
                         {outOfStock
@@ -303,7 +304,7 @@ export default function CatalogPage() {
                     {productFeedback && (
                       <p
                         className={`catalogCardFeedback ${
-                          productFeedback.isError ? "is-error" : "is-ok"
+                          productFeedback.isError ? "isError" : "isOk"
                         }`}
                         role="status"
                       >
@@ -316,7 +317,7 @@ export default function CatalogPage() {
 
                     <div className="catalogCardActions">
                       <Link
-                        to={`/product/${product.id}`}
+                        to={getProductPath(product)}
                         className="catalogBtnDetail"
                       >
                         Ver detalle

@@ -102,7 +102,7 @@ export default function UsersTable({
                       <div className="adminUserCell">
                         <span
                           className={`adminUserAvatar ${
-                            entry.role === "admin" ? "is-admin" : ""
+                            entry.role === "admin" ? "isAdmin" : ""
                           }`}
                           aria-hidden="true"
                         >
@@ -123,7 +123,7 @@ export default function UsersTable({
                     <td>
                       <span
                         className={`adminRolePill ${
-                          entry.role === "admin" ? "is-admin" : "is-guest"
+                          entry.role === "admin" ? "isAdmin" : "isGuest"
                         }`}
                       >
                         {entry.role === "admin" ? "Administrador" : "Invitado"}

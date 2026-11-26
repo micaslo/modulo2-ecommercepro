@@ -125,7 +125,7 @@ export default function AdminPage() {
             <span className="adminKpiLabel">Stock crítico (≤ 3)</span>
             <strong
               className={`adminKpiValue ${
-                stats.lowStockCount > 0 ? "is-warning" : ""
+                stats.lowStockCount > 0 ? "isWarning" : ""
               }`}
             >
               {stats.lowStockCount}
@@ -161,7 +161,7 @@ export default function AdminPage() {
             type="button"
             role="tab"
             aria-selected={activeTab === "products"}
-            className={`adminTab ${activeTab === "products" ? "is-active" : ""}`}
+            className={`adminTab ${activeTab === "products" ? "isActive" : ""}`}
             onClick={() => setActiveTab("products")}
           >
             Inventario y Productos ({products.length})
@@ -170,7 +170,7 @@ export default function AdminPage() {
             type="button"
             role="tab"
             aria-selected={activeTab === "users"}
-            className={`adminTab ${activeTab === "users" ? "is-active" : ""}`}
+            className={`adminTab ${activeTab === "users" ? "isActive" : ""}`}
             onClick={() => setActiveTab("users")}
           >
             Gestión de Usuarios ({users.length})

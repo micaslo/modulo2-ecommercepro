@@ -77,6 +77,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/productos/:categoria/:id" element={<ProductPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/resellers" element={<ResellersSection />} />

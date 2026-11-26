@@ -21,6 +21,7 @@ import {
 import { formatARS } from "../../data/checkoutConfig";
 import { useCart } from "../../hooks/useCart";
 import { useProducts } from "../../hooks/useProducts";
+import { getProductPath } from "../../utils/productRoute";
 import {
   createMessageId,
   createWelcomeMessage,
@@ -76,7 +77,9 @@ export default function TilliBot() {
   const { items: cartItems, totalItems, subtotal, addToCart } = useCart();
 
   const currentProduct = useMemo(() => {
-    const match = matchPath("/product/:id", location.pathname);
+    const match =
+      matchPath("/productos/:categoria/:id", location.pathname) ??
+      matchPath("/product/:id", location.pathname);
     if (!match?.params.id) return null;
     return getProductById(match.params.id) ?? null;
   }, [location.pathname, getProductById]);
@@ -282,7 +285,8 @@ export default function TilliBot() {
   };
 
   const handleOpenProduct = (productId: string) => {
-    navigate(`/product/${productId}`);
+    const prod = getProductById(productId);
+    navigate(prod ? getProductPath(prod) : "/productos");
     if (window.innerWidth <= 540) {
       setIsOpen(false);
     }
