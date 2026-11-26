@@ -30,6 +30,18 @@
   margin-inline: -26px;
 }
 
+.error404-brand__logo--dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .error404-brand__logo--light {
+  display: none;
+}
+
+:root[data-theme="dark"] .error404-brand__logo--dark {
+  display: block;
+}
+
 .error404-card {
   width: min(100%, var(--container-max));
   min-height: 35rem;

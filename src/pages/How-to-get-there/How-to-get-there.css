@@ -198,6 +198,22 @@
   overflow: hidden;
 }
 
+:root[data-theme="dark"] .how-to-get-there__panel {
+  background:
+    radial-gradient(circle at 12% 18%, rgb(142 112 212 / 0.24), transparent 48%),
+    var(--bg-surface);
+  border-color: var(--border-strong);
+}
+
+:root[data-theme="dark"] .how-to-get-there__map-iframe {
+  filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(92%);
+}
+
+:root[data-theme="dark"] .how-to-get-there__map-label-icon {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-strong);
+}
+
 .how-to-get-there__map-label-icon img {
   width: 150%;
   height: 150%;
