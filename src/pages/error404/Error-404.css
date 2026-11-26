@@ -1,4 +1,7 @@
 .error404Page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
@@ -11,7 +14,34 @@
   line-height: var(--lh-base);
 }
 
+.error404Glow {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.error404GlowOne {
+  top: -14rem;
+  left: -10rem;
+  width: min(46vw, 34rem);
+  aspect-ratio: 1;
+  background: var(--color-primary-light);
+}
+
+.error404GlowTwo {
+  right: -12rem;
+  bottom: -16rem;
+  width: min(42vw, 30rem);
+  aspect-ratio: 1;
+  background: var(--color-secondary);
+}
+
 .error404Brand {
+  position: relative;
+  z-index: 1;
   width: min(100%, var(--container-max));
   margin: 0 auto;
   display: inline-flex;
@@ -43,8 +73,10 @@
 }
 
 .error404Card {
+  position: relative;
+  z-index: 1;
   width: min(100%, var(--container-max));
-  min-height: 35rem;
+  min-height: 36rem;
   justify-self: center;
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
@@ -55,75 +87,125 @@
   background:
     linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
     var(--gradient-border) border-box;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
 .error404Copy {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: clamp(2rem, 6vw, 4.75rem);
 }
 
-.error404Code {
-  margin: 0 0 0.85rem;
-  color: var(--color-primary);
+.error404Badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.42rem 0.85rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-2);
+  color: var(--text-muted);
   font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 7.5vw, 5.5rem);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+}
+
+.error404BadgeDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-soft);
+}
+
+.error404Code {
+  width: fit-content;
+  margin: 0;
+  background: var(--gradient-violet-orange);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: var(--font-heading);
+  font-size: clamp(5rem, 12vw, 8.5rem);
   font-weight: 800;
-  letter-spacing: -0.055em;
-  line-height: 0.95;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
 }
 
 .error404Copy h1 {
-  max-width: 14ch;
-  margin: 0;
+  max-width: 16ch;
+  margin: 0.75rem 0 0;
   color: var(--text-main);
   font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 3.2vw, 2.4rem);
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  font-size: clamp(1.9rem, 3.4vw, 2.65rem);
+  letter-spacing: -0.04em;
+  line-height: 1.08;
 }
 
 .error404Description {
-  max-width: 39ch;
-  margin: 1.15rem 0 1.75rem;
+  max-width: 42ch;
+  margin: 1.15rem 0 1.9rem;
   color: var(--text-muted);
   font-size: 1rem;
 }
 
-.error404Home {
-  min-height: 3.2rem;
-  width: fit-content;
+.error404Actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.error404Home,
+.error404Explore {
+  min-height: 3.3rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
-  padding: 0.8rem 1.55rem;
-  border-radius: var(--radius-pill);
-  color: var(--color-on-primary);
-  background: var(--color-primary);
+  padding: 0.85rem 1.6rem;
   font-family: var(--font-heading);
-  font-weight: var(--fw-bold);
   text-decoration: none;
-  transition: transform var(--transition), background var(--transition);
+  transition:
+    transform var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.error404Home {
+  box-shadow: 0 10px 22px var(--color-primary-ring);
 }
 
 .error404Home:hover {
-  transform: translateY(-2px);
-  background: var(--color-primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px var(--color-primary-ring);
 }
 
-.error404Home:active {
-  background: var(--color-primary-active);
+.error404Explore:hover {
+  transform: translateY(-3px);
+}
+
+.error404Home:active,
+.error404Explore:active {
   transform: scale(0.98);
 }
 
-.error404Home svg {
-  width: 1.15rem;
+.error404Home svg,
+.error404Explore svg {
+  width: 1.2rem;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.error404Hint {
+  margin: 1.25rem 0 0;
+  color: var(--text-subtle);
+  font-size: var(--fs-sm);
 }
 
 .error404Page a:focus-visible {
@@ -137,31 +219,44 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: radial-gradient(ellipse at center, var(--color-secondary-soft), transparent 68%);
+  background:
+    radial-gradient(circle at 50% 46%, var(--color-secondary-soft), transparent 62%),
+    linear-gradient(160deg, transparent 45%, var(--color-primary-soft));
 }
 
-.error404Art::before,
-.error404Art::after {
-  content: "";
+.error404Orbit {
   position: absolute;
-  aspect-ratio: 1;
   border: 1px solid var(--border-color);
   border-radius: 50%;
+  pointer-events: none;
 }
 
-.error404Art::before {
-  width: min(34vw, 24rem);
+.error404OrbitOne {
+  width: min(34vw, 25rem);
+  aspect-ratio: 1;
+  animation: error404Spin 28s linear infinite;
 }
-.error404Art::after {
-  width: min(27vw, 19rem);
+
+.error404OrbitTwo {
+  width: min(26vw, 19rem);
+  aspect-ratio: 1;
+  border-style: dashed;
+  animation: error404Spin 22s linear infinite reverse;
+}
+
+.error404BagWrap {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: min(82%, 23rem);
+  animation: error404Float 5s ease-in-out infinite;
 }
 
 .error404Bag {
-  position: relative;
-  z-index: 1;
-  width: min(82%, 22rem);
+  width: 100%;
   overflow: visible;
-  filter: drop-shadow(0 1rem 1.25rem rgb(26 24 34 / 0.1));
+  filter: drop-shadow(0 1.5rem 1.5rem rgb(26 24 34 / 0.14));
 }
 
 .error404BagBody {
@@ -191,26 +286,181 @@
   stroke-linecap: round;
 }
 
+.error404Tag {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.error404TagOne {
+  top: 12%;
+  left: -6%;
+  padding: 0.5rem 1rem;
+  color: var(--color-secondary);
+  font-size: 0.95rem;
+  transform: rotate(-8deg);
+}
+
+.error404TagTwo {
+  right: -6%;
+  bottom: 17%;
+  padding: 0.4rem 0.85rem;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  transform: rotate(7deg);
+}
+
 .error404Spark {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   color: var(--color-primary);
   font-size: 1.8rem;
+  animation: error404Twinkle 3.2s ease-in-out infinite;
 }
 
 .error404SparkOne {
-  top: 18%;
-  left: 17%;
+  top: 17%;
+  left: 16%;
   color: var(--color-secondary);
 }
 .error404SparkTwo {
-  top: 32%;
-  right: 15%;
+  top: 30%;
+  right: 14%;
+  animation-delay: 0.7s;
 }
 .error404SparkThree {
-  bottom: 16%;
-  right: 19%;
+  bottom: 15%;
+  right: 18%;
   color: var(--color-secondary);
+  animation-delay: 1.4s;
+}
+
+@keyframes error404Float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.85rem);
+  }
+}
+
+@keyframes error404Spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes error404Twinkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+:root[data-theme="dark"] .error404Card {
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    linear-gradient(135deg, var(--color-secondary), var(--border-strong)) border-box;
+}
+
+:root[data-theme="dark"] .error404GlowOne {
+  background: var(--color-secondary);
+  opacity: 0.38;
+}
+
+:root[data-theme="dark"] .error404GlowTwo {
+  background: var(--color-info);
+  opacity: 0.28;
+}
+
+:root[data-theme="dark"] .error404BadgeDot {
+  background: var(--color-secondary);
+  box-shadow: 0 0 0 4px var(--color-secondary-soft);
+}
+
+:root[data-theme="dark"] .error404Code {
+  background: linear-gradient(135deg, var(--color-secondary), var(--text-main));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+:root[data-theme="dark"] .error404Home {
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
+  box-shadow: 0 10px 22px rgb(131 102 196 / 0.32);
+}
+
+:root[data-theme="dark"] .error404Home:hover {
+  background: var(--color-secondary-hover);
+  box-shadow: 0 14px 28px rgb(131 102 196 / 0.38);
+}
+
+:root[data-theme="dark"] .error404Home:active {
+  background: var(--color-secondary-active);
+}
+
+:root[data-theme="dark"] .error404Explore {
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface-2);
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .error404Explore:hover {
+  background: var(--bg-dark-2);
+}
+
+:root[data-theme="dark"] .error404Art {
+  background:
+    radial-gradient(circle at 50% 46%, var(--color-secondary-soft), transparent 64%),
+    linear-gradient(160deg, transparent 45%, var(--bg-surface-2));
+}
+
+:root[data-theme="dark"] .error404BagBody {
+  fill: var(--color-secondary);
+  stroke: var(--text-main);
+}
+
+:root[data-theme="dark"] .error404BagHandle,
+:root[data-theme="dark"] .error404BagFace,
+:root[data-theme="dark"] .error404BagSmile {
+  stroke: var(--text-main);
+}
+
+:root[data-theme="dark"] .error404BagFace {
+  fill: var(--text-main);
+}
+
+:root[data-theme="dark"] .error404BagDetail {
+  stroke: var(--bg-surface);
+}
+
+:root[data-theme="dark"] .error404Spark,
+:root[data-theme="dark"] .error404TagOne,
+:root[data-theme="dark"] .error404TagTwo {
+  color: var(--color-secondary);
+}
+
+:root[data-theme="dark"] .error404SparkOne,
+:root[data-theme="dark"] .error404SparkThree {
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .error404Page a:focus-visible {
+  outline-color: var(--color-secondary);
 }
 
 @media (max-width: 760px) {
@@ -225,37 +475,58 @@
 
   .error404Art {
     grid-row: 1;
-    min-height: clamp(15rem, 55vw, 21rem);
+    min-height: clamp(16rem, 58vw, 22rem);
   }
 
-  .error404Bag {
-    width: min(65%, 17rem);
+  .error404BagWrap {
+    width: min(66%, 18rem);
   }
-  .error404Art::before {
-    width: 14rem;
+
+  .error404OrbitOne {
+    width: 16rem;
   }
-  .error404Art::after {
-    width: 11rem;
+  .error404OrbitTwo {
+    width: 12rem;
   }
+
   .error404Copy {
     padding: clamp(1.6rem, 7vw, 2.75rem);
   }
+
+  .error404Badge {
+    margin-bottom: 1.1rem;
+  }
+
   .error404Code {
-    font-size: clamp(3.5rem, 15vw, 5rem);
+    font-size: clamp(4.5rem, 18vw, 6rem);
   }
 }
 
-@media (max-width: 380px) {
-  .error404Home {
+@media (max-width: 520px) {
+  .error404Actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .error404Home,
+  .error404Explore {
     width: 100%;
   }
+
   .error404Copy h1 {
-    font-size: 1.65rem;
+    font-size: 1.8rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .error404Home {
+  .error404Home,
+  .error404Explore {
     transition: none;
+  }
+
+  .error404BagWrap,
+  .error404Orbit,
+  .error404Spark {
+    animation: none;
   }
 }
