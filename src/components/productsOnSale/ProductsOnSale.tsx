@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { getProductPricing } from "../../data/productDetails";
 import { getCoverImage } from "../../data/productMedia";
 import { useProducts } from "../../hooks/useProducts";
 import { getProductPath } from "../../utils/productRoute";
@@ -44,6 +45,7 @@ export default function ProductsOnSale() {
             const rotate = Math.max(-40, Math.min(40, -offset * 16));
             const scale =
               offset === 0 ? 1.1 : 1 - Math.min(Math.abs(offset) * 0.04, 0.15);
+            const pricing = getProductPricing(product);
 
             return (
               <article
@@ -77,7 +79,17 @@ export default function ProductsOnSale() {
                   </Link>
                 </div>
                 <h3 className="productName">{product.name}</h3>
-                <p className="productPrice">{formatPrice(product.price)}</p>
+                {pricing.originalPrice && pricing.discountPercent > 0 && (
+                  <div className="productDiscountMeta">
+                    <span className="productOldPrice">
+                      {formatPrice(pricing.originalPrice)}
+                    </span>
+                    <span className="productOffBadge">
+                      {pricing.discountPercent}% OFF
+                    </span>
+                  </div>
+                )}
+                <p className="productPrice">{formatPrice(pricing.finalPrice)}</p>
               </article>
             );
           })}

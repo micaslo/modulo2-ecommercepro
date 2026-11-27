@@ -108,7 +108,7 @@ export default function PageToCreateAnAccount({
             <p className="createAccountEyebrow">Bienvenido a tu tienda</p>
             <h1>Todo lo que buscas, en un solo lugar.</h1>
             <p>
-              Creá tu cuenta de invitado para guardar favoritos y disfrutar una
+              Creá tu cuenta de usuario para guardar favoritos y disfrutar una
               experiencia de compra más simple.
             </p>
           </div>
@@ -124,7 +124,7 @@ export default function PageToCreateAnAccount({
           <header className="createAccountHeading">
             <p className="createAccountEyebrow">Empezá ahora</p>
             <h2 id="create-account-title">Crear cuenta</h2>
-            <p>Completá tus datos para registrarte como usuario Invitado.</p>
+            <p>Completá tus datos para crear tu cuenta de usuario.</p>
           </header>
 
           <form

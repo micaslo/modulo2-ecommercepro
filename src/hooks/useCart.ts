@@ -63,14 +63,6 @@ export function useCart() {
     [cartOwnerId],
   );
 
-  const getProductQuantityInCart = useCallback(
-    (productId: string) =>
-      items
-        .filter((item) => item.productId === productId)
-        .reduce((sum, item) => sum + item.quantity, 0),
-    [items],
-  );
-
   const addToCart = useCallback(
     (payload: AddToCartPayload): CartActionResult => {
       if (!userId) {
@@ -237,12 +229,10 @@ export function useCart() {
     items,
     totalItems,
     subtotal,
-    canUseCart,
     addToCart,
     incrementItem,
     decrementItem,
     removeItem,
     clearCart,
-    getProductQuantityInCart,
   };
 }

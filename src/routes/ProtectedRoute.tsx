@@ -33,7 +33,7 @@ export default function ProtectedRoute({
           </h1>
           <p className="protectedCopy">
             Esta vista está reservada para usuarios con sesión activa. Iniciá
-            sesión con tu cuenta o registrate como invitado para continuar.
+            sesión con tu cuenta o creá una cuenta de usuario para continuar.
           </p>
 
           <div className="protectedActions">

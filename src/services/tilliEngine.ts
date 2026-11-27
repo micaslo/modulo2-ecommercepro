@@ -11,7 +11,7 @@ import type {
   TilliProductCard,
 } from "../types/tilli";
 
-export const STORE_WHATSAPP_NUMBER = "5493813190987";
+const STORE_WHATSAPP_NUMBER = "5493813190987";
 
 const STORE_INFO = {
   name: "Tienda Liebre",
@@ -36,7 +36,7 @@ export interface TilliBotReply {
   quickReplies?: string[];
 }
 
-export function buildWhatsappUrl(message: string): string {
+function buildWhatsappUrl(message: string): string {
   return `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 

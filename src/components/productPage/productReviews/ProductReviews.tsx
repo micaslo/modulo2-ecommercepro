@@ -54,6 +54,51 @@ function buildUserReview(values: ReviewFormValues): ProductReview {
   };
 }
 
+const SPANISH_MONTHS: Record<string, number> = {
+  ene: 0,
+  feb: 1,
+  mar: 2,
+  abr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  ago: 7,
+  sep: 8,
+  sept: 8,
+  oct: 9,
+  nov: 10,
+  dic: 11,
+};
+
+function parseReviewTimestamp(review: ProductReview, fallbackIndex: number): number {
+  const userIdMatch = review.id.match(/^user-(\d+)$/);
+  if (userIdMatch) {
+    return Number(userIdMatch[1]);
+  }
+
+  const normalized = review.date.trim().toLowerCase();
+  if (normalized === "reciente") {
+    return Date.now() - fallbackIndex;
+  }
+
+  const esMatch = normalized.match(/^(\d{1,2})\s+([a-záéíóú]+)\.?\s+(\d{4})$/i);
+  if (esMatch) {
+    const day = Number(esMatch[1]);
+    const monthKey = esMatch[2].replace(/\.$/, "").slice(0, 4);
+    const month =
+      SPANISH_MONTHS[monthKey] ?? SPANISH_MONTHS[monthKey.slice(0, 3)];
+    const year = Number(esMatch[3]);
+    if (month !== undefined && !Number.isNaN(day) && !Number.isNaN(year)) {
+      return new Date(year, month, day).getTime() - fallbackIndex;
+    }
+  }
+
+  const parsed = Date.parse(review.date);
+  return Number.isNaN(parsed) ? 0 - fallbackIndex : parsed;
+}
+
+type ReviewSortOption = "helpful" | "recent" | "oldest";
+
 export default function ProductReviews({
   productId,
   initialReviews,
@@ -64,7 +109,7 @@ export default function ProductReviews({
   );
   const [helpfulVotes, setHelpfulVotes] = useState<Record<string, boolean>>({});
   const [starFilter, setStarFilter] = useState<number | null>(null);
-  const [sortBy, setSortBy] = useState<"helpful" | "recent">("helpful");
+  const [sortBy, setSortBy] = useState<ReviewSortOption>("helpful");
   const [showForm, setShowForm] = useState(false);
 
   const {
@@ -99,6 +144,13 @@ export default function ProductReviews({
     return { stars, count, percent };
   });
 
+  const reviewTimestamps = new Map(
+    allReviews.map((review, index) => [
+      review.id,
+      parseReviewTimestamp(review, index),
+    ]),
+  );
+
   const filteredReviews = allReviews
     .filter((r) => (starFilter ? r.rating === starFilter : true))
     .sort((a, b) => {
@@ -107,7 +159,9 @@ export default function ProductReviews({
         const bVotes = b.helpful + (helpfulVotes[b.id] ? 1 : 0);
         return bVotes - aVotes;
       }
-      return 0;
+      const timeA = reviewTimestamps.get(a.id) ?? 0;
+      const timeB = reviewTimestamps.get(b.id) ?? 0;
+      return sortBy === "recent" ? timeB - timeA : timeA - timeB;
     });
 
   const toggleHelpful = (reviewId: string) => {
@@ -304,11 +358,12 @@ export default function ProductReviews({
               <select
                 value={sortBy}
                 onChange={(e) =>
-                  setSortBy(e.target.value as "helpful" | "recent")
+                  setSortBy(e.target.value as ReviewSortOption)
                 }
               >
                 <option value="helpful">Más útiles</option>
                 <option value="recent">Más recientes</option>
+                <option value="oldest">Más antiguos</option>
               </select>
             </label>
           </div>

@@ -8,6 +8,7 @@ import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
 import logoIsotype from "../../assets/images/logo/tl-isotype.webp";
 import { useAuth } from "../../hooks/useAuth";
 import { loginSchema, type LoginFormValues } from "../../schemas/authSchema";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 import "./LoginPage.css";
 
 interface LoginLocationState {
@@ -21,13 +22,17 @@ function LoginPage() {
   const fromPath = (location.state as LoginLocationState | null)?.from;
 
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotModalOpen, setForgotModalOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"error" | "info">("error");
+  const [messageType, setMessageType] = useState<"error" | "info" | "success">(
+    "error",
+  );
 
   const {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -49,7 +54,7 @@ function LoginPage() {
 
   const showMessage = (
     text: string,
-    type: "error" | "info" = "error",
+    type: "error" | "info" | "success" = "error",
   ) => {
     setMessage(text);
     setMessageType(type);
@@ -78,14 +83,16 @@ function LoginPage() {
   };
 
   const handleForgotPassword = () => {
-    if (!getValues("email").trim()) {
-      showMessage("Primero ingresá tu correo electrónico.");
-      return;
-    }
+    setMessage("");
+    setForgotModalOpen(true);
+  };
 
+  const handlePasswordResetSuccess = (email: string) => {
+    setValue("email", email, { shouldValidate: true });
+    setValue("password", "");
     showMessage(
-      "La recuperación de contraseña todavía no está conectada.",
-      "info",
+      "Tu contraseña se actualizó correctamente. Ingresá con tu nueva clave.",
+      "success",
     );
   };
 
@@ -283,6 +290,13 @@ function LoginPage() {
           </Link>
         </div>
       </section>
+
+      <ForgotPasswordModal
+        isOpen={forgotModalOpen}
+        initialEmail={getValues("email")}
+        onClose={() => setForgotModalOpen(false)}
+        onPasswordResetSuccess={handlePasswordResetSuccess}
+      />
     </main>
   );
 }

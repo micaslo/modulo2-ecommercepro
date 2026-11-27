@@ -3,7 +3,7 @@ const DB_VERSION = 1;
 const STORE_NAME = "models";
 const IDB_PREFIX = "idb://";
 
-export const MAX_MODEL_3D_TOTAL_BYTES = 50 * 1024 * 1024; // 50 MB
+const MAX_MODEL_3D_TOTAL_BYTES = 50 * 1024 * 1024;
 
 interface StoredModelRecord {
   id: string;

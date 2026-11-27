@@ -159,19 +159,6 @@ export function useProducts() {
     [products],
   );
 
-  const isCodeTaken = useCallback(
-    (code: string, excludeId?: string) => {
-      const normalized = normalizeProductCode(code);
-      if (!normalized) return false;
-      return products.some(
-        (p) =>
-          p.id !== excludeId &&
-          normalizeProductCode(p.code ?? p.id) === normalized,
-      );
-    },
-    [products],
-  );
-
   const addProduct = useCallback((data: NewProduct) => {
     const current = loadProducts();
     const id = generateProductId();
@@ -247,6 +234,5 @@ export function useProducts() {
     updateProduct,
     addProduct,
     getProductById,
-    isCodeTaken,
   };
 }

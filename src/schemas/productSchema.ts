@@ -39,7 +39,7 @@ export function isValidProductImageValue(value: string): boolean {
   );
 }
 
-export const productFormSchema = z.object({
+const productFormSchema = z.object({
   code: z
     .string()
     .trim()

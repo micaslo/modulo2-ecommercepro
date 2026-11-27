@@ -1,7 +1,11 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getProductDetails } from "../data/productDetails";
+import {
+  getCategoryDefaultDiscount,
+  getProductDetails,
+  getProductPricing,
+} from "../data/productDetails";
 import {
   getBundledProductImages,
   getEditableProductImages,
@@ -162,6 +166,10 @@ export function useAdminProductForm({
   const [includedItemDraftIncluded, setIncludedItemDraftIncluded] =
     useState(true);
 
+  const [discountEnabled, setDiscountEnabled] = useState(false);
+  const [discountPercentInput, setDiscountPercentInput] = useState("");
+  const [discountError, setDiscountError] = useState<string | null>(null);
+
   const isSkuAutoManagedRef = useRef(true);
 
   const editingBundledModel3D = useMemo(
@@ -223,6 +231,9 @@ export function useAdminProductForm({
     setIncludedItems([]);
     setIncludedItemDraft("");
     setIncludedItemDraftIncluded(true);
+    setDiscountEnabled(false);
+    setDiscountPercentInput("");
+    setDiscountError(null);
   }, []);
 
   const openCreate = useCallback(() => {
@@ -254,11 +265,19 @@ export function useAdminProductForm({
       setIsProcessingImage(false);
 
       const resolvedDetails = getProductDetails(product);
+      const pricing = getProductPricing(product, resolvedDetails.productKind);
       setHighlights(resolvedDetails.highlights);
       setHighlightDraft("");
       setIncludedItems(resolvedDetails.includedItems);
       setIncludedItemDraft("");
       setIncludedItemDraftIncluded(true);
+
+      const hasDiscount =
+        pricing.discountPercent > 0 &&
+        Boolean(pricing.originalPrice && pricing.originalPrice > product.price);
+      setDiscountEnabled(hasDiscount);
+      setDiscountPercentInput(hasDiscount ? String(pricing.discountPercent) : "");
+      setDiscountError(null);
 
       const resolvedMedia = getProductMedia(product);
       const currentModel = resolvedMedia.model3D;
@@ -285,7 +304,11 @@ export function useAdminProductForm({
         code: product.code ?? "",
         name: product.name,
         category: product.category,
-        price: String(product.price),
+        price: String(
+          hasDiscount && pricing.originalPrice
+            ? pricing.originalPrice
+            : product.price,
+        ),
         stock: String(product.stock),
         image: "",
         description: product.description,
@@ -561,6 +584,28 @@ export function useAdminProductForm({
     setIncludedItems((prev) => prev.filter((_, idx) => idx !== index));
   }, []);
 
+  const toggleDiscount = useCallback(() => {
+    setDiscountError(null);
+    setDiscountEnabled((prev) => {
+      const next = !prev;
+      if (next && !discountPercentInput) {
+        const defaultPct = getCategoryDefaultDiscount(
+          getValues("category") || PRODUCT_CATEGORIES[0],
+        );
+        if (defaultPct > 0) {
+          setDiscountPercentInput(String(defaultPct));
+        }
+      }
+      return next;
+    });
+  }, [discountPercentInput, getValues]);
+
+  const handleDiscountPercentChange = useCallback((rawValue: string) => {
+    const digitsOnly = rawValue.replace(/\D/g, "").slice(0, 2);
+    setDiscountPercentInput(digitsOnly);
+    setDiscountError(null);
+  }, []);
+
   const handleSubmit = rhfHandleSubmit(async (values) => {
     const pendingUrl = values.image.trim();
     const customImages = galleryImages
@@ -641,11 +686,37 @@ export function useAdminProductForm({
       }))
       .filter((item) => Boolean(item.label));
 
+    const basePrice = Number(values.price);
+    let finalPrice = basePrice;
+    let finalOriginalPrice: number | undefined;
+    let finalDiscountPercent = 0;
+
+    if (discountEnabled) {
+      const parsedDiscount = Number(discountPercentInput);
+      if (
+        !discountPercentInput ||
+        !Number.isInteger(parsedDiscount) ||
+        parsedDiscount < 1 ||
+        parsedDiscount > 99
+      ) {
+        setDiscountError("Ingresá un descuento entre 1% y 99%.");
+        return;
+      }
+      finalDiscountPercent = parsedDiscount;
+      finalOriginalPrice = basePrice;
+      finalPrice = Math.max(
+        1,
+        Math.round(basePrice * (1 - parsedDiscount / 100)),
+      );
+    }
+
     const payload: NewProduct = {
       code: normalizeProductCode(values.code),
       name: values.name.trim(),
       category: values.category.trim(),
-      price: Number(values.price),
+      price: finalPrice,
+      originalPrice: finalOriginalPrice,
+      discountPercent: finalDiscountPercent,
       stock: Number(values.stock),
       image: customImages[0] ?? "",
       images: customImages.length > 0 ? customImages : undefined,
@@ -713,6 +784,9 @@ export function useAdminProductForm({
     includedItems,
     includedItemDraft,
     includedItemDraftIncluded,
+    discountEnabled,
+    discountPercentInput,
+    discountError,
     register,
     control,
     errors,
@@ -721,6 +795,8 @@ export function useAdminProductForm({
     setHighlightDraft,
     setIncludedItemDraft,
     setIncludedItemDraftIncluded,
+    toggleDiscount,
+    handleDiscountPercentChange,
     handleCategoryChange,
     handleCodeManualChange,
     regenerateSku,

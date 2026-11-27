@@ -43,12 +43,17 @@ interface ProductFormModalProps {
   includedItems: ProductIncludedItem[];
   includedItemDraft: string;
   includedItemDraftIncluded: boolean;
+  discountEnabled: boolean;
+  discountPercentInput: string;
+  discountError: string | null;
   register: UseFormRegister<ProductFormValues>;
   control: Control<ProductFormValues>;
   errors: FieldErrors<ProductFormValues>;
   onCategoryChange: (category: string) => void;
   onCodeChange: (code: string) => void;
   onRegenerateSku: () => void;
+  onToggleDiscount: () => void;
+  onDiscountPercentChange: (value: string) => void;
   onImageModeChange: (mode: ProductImageMode) => void;
   onAddImageFromUrl: () => void;
   onImageFilesSelect: (files: File[]) => Promise<void> | void;
@@ -92,12 +97,17 @@ export default function ProductFormModal({
   includedItems,
   includedItemDraft,
   includedItemDraftIncluded,
+  discountEnabled,
+  discountPercentInput,
+  discountError,
   register,
   control,
   errors,
   onCategoryChange,
   onCodeChange,
   onRegenerateSku,
+  onToggleDiscount,
+  onDiscountPercentChange,
   onImageModeChange,
   onAddImageFromUrl,
   onImageFilesSelect,
@@ -122,6 +132,7 @@ export default function ProductFormModal({
   onClose,
 }: ProductFormModalProps) {
   const categoryValue = useWatch({ control, name: "category" });
+  const priceValue = useWatch({ control, name: "price" });
   const descriptionValue = useWatch({ control, name: "description" });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const glbInputRef = useRef<HTMLInputElement>(null);
@@ -338,6 +349,84 @@ export default function ProductFormModal({
                 </span>
               )}
             </div>
+          </div>
+
+          <div className="adminDiscountBox">
+            <div className="adminDiscountTop">
+              <button
+                type="button"
+                className={`adminDiscountToggleBtn ${discountEnabled ? "isActive" : ""}`}
+                aria-pressed={discountEnabled}
+                onClick={onToggleDiscount}
+              >
+                {discountEnabled
+                  ? "✓ Descuento aplicado"
+                  : "+ Aplicar descuento (opcional)"}
+              </button>
+
+              {discountEnabled && (
+                <div className="adminDiscountInputWrap">
+                  <label
+                    htmlFor="prod-discount-percent"
+                    className="adminSrOnly"
+                  >
+                    Porcentaje de descuento
+                  </label>
+                  <input
+                    id="prod-discount-percent"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={2}
+                    className="adminDiscountSquare"
+                    value={discountPercentInput}
+                    onChange={(event) =>
+                      onDiscountPercentChange(event.target.value)
+                    }
+                    placeholder="0"
+                    aria-invalid={Boolean(discountError)}
+                  />
+                  <span className="adminDiscountPercentSign">% OFF</span>
+                </div>
+              )}
+            </div>
+
+            {discountEnabled &&
+              Number(priceValue) > 0 &&
+              Number(discountPercentInput) >= 1 &&
+              Number(discountPercentInput) <= 99 && (
+                <p className="adminDiscountPreview">
+                  Precio final al público:{" "}
+                  <strong>
+                    {new Intl.NumberFormat("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      maximumFractionDigits: 0,
+                    }).format(
+                      Math.max(
+                        1,
+                        Math.round(
+                          Number(priceValue) *
+                            (1 - Number(discountPercentInput) / 100),
+                        ),
+                      ),
+                    )}
+                  </strong>{" "}
+                  <span>
+                    (antes{" "}
+                    {new Intl.NumberFormat("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      maximumFractionDigits: 0,
+                    }).format(Number(priceValue))}
+                    )
+                  </span>
+                </p>
+              )}
+
+            {discountError && (
+              <span className="adminFieldError">{discountError}</span>
+            )}
           </div>
 
           <div className="adminField">

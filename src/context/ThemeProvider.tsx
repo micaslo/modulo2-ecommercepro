@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { ThemeContext, type Theme, type ThemeContextValue } from "./themeContext";
 
-export const THEME_STORAGE_KEY = "tienda_liebre_theme";
+const THEME_STORAGE_KEY = "tienda_liebre_theme";
 
 function loadInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";

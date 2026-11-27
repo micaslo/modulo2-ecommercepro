@@ -211,12 +211,17 @@ export default function AdminPage() {
         includedItems={productForm.includedItems}
         includedItemDraft={productForm.includedItemDraft}
         includedItemDraftIncluded={productForm.includedItemDraftIncluded}
+        discountEnabled={productForm.discountEnabled}
+        discountPercentInput={productForm.discountPercentInput}
+        discountError={productForm.discountError}
         register={productForm.register}
         control={productForm.control}
         errors={productForm.errors}
         onCategoryChange={productForm.handleCategoryChange}
         onCodeChange={productForm.handleCodeManualChange}
         onRegenerateSku={productForm.regenerateSku}
+        onToggleDiscount={productForm.toggleDiscount}
+        onDiscountPercentChange={productForm.handleDiscountPercentChange}
         onImageModeChange={productForm.setImageMode}
         onAddImageFromUrl={productForm.addImageFromUrl}
         onImageFilesSelect={productForm.handleImageFiles}

@@ -70,9 +70,9 @@ export interface AuthContextValue {
   users: SessionUser[];
   isAuthenticated: boolean;
   isAdmin: boolean;
-  isGuest: boolean;
   login: (email: string, password: string) => AuthActionResult;
   register: (payload: RegisterPayload) => AuthActionResult;
+  resetPassword: (email: string, newPassword: string) => AuthActionResult;
   logout: () => void;
   updateProfile: (payload: ProfileUpdatePayload) => AuthActionResult;
   updateSavedCard: (card: SavedCard | null) => AuthActionResult;

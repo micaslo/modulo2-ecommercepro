@@ -35,13 +35,79 @@ const DISCOUNT_PERCENT_BY_KIND: Partial<
   gaming: 30,
 };
 
-function getOriginalPriceForKind(
+export function getCategoryDefaultDiscount(category: string): number {
+  const normalized = category
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  if (normalized.includes("tecnolog")) return 45;
+  if (normalized.includes("veh")) return 15;
+  if (normalized.includes("camar")) return 25;
+  if (normalized.includes("gaming")) return 30;
+  return 0;
+}
+
+function getOriginalPriceForDiscount(
   price: number,
-  productKind: ProductDetails["productKind"],
+  discountPercent: number,
 ): number | undefined {
-  const discountPercent = DISCOUNT_PERCENT_BY_KIND[productKind];
-  if (!discountPercent || price <= 0) return undefined;
+  if (discountPercent <= 0 || discountPercent >= 100 || price <= 0) {
+    return undefined;
+  }
   return Math.round(price / (1 - discountPercent / 100));
+}
+
+export interface ProductPricing {
+  finalPrice: number;
+  originalPrice?: number;
+  discountPercent: number;
+}
+
+export function getProductPricing(
+  product: Product,
+  productKind?: ProductDetails["productKind"],
+): ProductPricing {
+  if (typeof product.discountPercent === "number") {
+    const clamped = Math.max(0, Math.min(99, Math.round(product.discountPercent)));
+    if (clamped <= 0) {
+      return {
+        finalPrice: product.price,
+        originalPrice: undefined,
+        discountPercent: 0,
+      };
+    }
+
+    const originalPrice =
+      product.originalPrice && product.originalPrice > product.price
+        ? product.originalPrice
+        : getOriginalPriceForDiscount(product.price, clamped);
+
+    return {
+      finalPrice: product.price,
+      originalPrice,
+      discountPercent: clamped,
+    };
+  }
+
+  const presetKind = productKind ?? PRODUCT_DETAILS[product.id]?.productKind;
+  const defaultDiscount =
+    (presetKind ? DISCOUNT_PERCENT_BY_KIND[presetKind] : undefined) ??
+    getCategoryDefaultDiscount(product.category);
+
+  if (!defaultDiscount || product.price <= 0) {
+    return {
+      finalPrice: product.price,
+      originalPrice: undefined,
+      discountPercent: 0,
+    };
+  }
+
+  return {
+    finalPrice: product.price,
+    originalPrice: getOriginalPriceForDiscount(product.price, defaultDiscount),
+    discountPercent: defaultDiscount,
+  };
 }
 
 const PRODUCT_DETAILS: Record<string, PresetProductDetails> = {
@@ -882,14 +948,13 @@ export function getProductDetails(product: Product): ProductDetails {
 
   const preset = PRODUCT_DETAILS[product.id];
   if (preset) {
+    const pricing = getProductPricing(product, preset.productKind);
     return {
       ...preset,
       highlights: customHighlights ?? preset.highlights,
       includedItems:
         customIncludedItems ?? normalizeIncludedItems(preset.includedItems),
-      originalPrice:
-        getOriginalPriceForKind(product.price, preset.productKind) ??
-        preset.originalPrice,
+      originalPrice: pricing.originalPrice,
     };
   }
 
@@ -935,12 +1000,13 @@ export function getProductDetails(product: Product): ProductDetails {
           : "general";
 
   const hasFreeShipping = !isCar && product.price >= 300000;
+  const pricing = getProductPricing(product, productKind);
 
   return {
     productKind,
     condition: isCar ? "0 km" : "Nuevo",
     soldText: "+25 vendidos",
-    originalPrice: getOriginalPriceForKind(product.price, productKind),
+    originalPrice: pricing.originalPrice,
     installmentsCount: 12,
     shippingTitle: isCar
       ? "Entrega coordinada en concesionario"

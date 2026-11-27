@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImage } from "../../data/productMedia";
-import { getProductDetails } from "../../data/productDetails";
+import { getProductDetails, getProductPricing } from "../../data/productDetails";
 import { getProductPath } from "../../utils/productRoute";
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
@@ -242,6 +242,7 @@ export default function CatalogPage() {
           <section className="catalogGrid" aria-label="Listado de productos">
             {filteredProducts.map((product) => {
               const cover = getCoverImage(product);
+              const pricing = getProductPricing(product);
               const saved = isFavorite(product.id);
               const outOfStock = product.stock <= 0;
               const productFeedback =
@@ -304,9 +305,21 @@ export default function CatalogPage() {
                     </p>
 
                     <div className="catalogCardPricing">
-                      <strong className="catalogCardPrice">
-                        {formatPrice(product.price)}
-                      </strong>
+                      <div className="catalogCardPriceGroup">
+                        {pricing.originalPrice && pricing.discountPercent > 0 && (
+                          <div className="catalogCardDiscountRow">
+                            <span className="catalogCardOldPrice">
+                              {formatPrice(pricing.originalPrice)}
+                            </span>
+                            <span className="catalogCardDiscountBadge">
+                              {pricing.discountPercent}% OFF
+                            </span>
+                          </div>
+                        )}
+                        <strong className="catalogCardPrice">
+                          {formatPrice(pricing.finalPrice)}
+                        </strong>
+                      </div>
                       <span
                         className={`catalogStockBadge ${
                           outOfStock ? "isOut" : "isIn"

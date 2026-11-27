@@ -325,6 +325,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { ok: true, user: stripPassword(newUser) };
   }, []);
 
+  const resetPassword = useCallback(
+    (email: string, newPassword: string): AuthActionResult => {
+      const currentUsers = loadUsers();
+      const targetEmail = normalizeEmail(email);
+      const targetIndex = currentUsers.findIndex(
+        (u) => normalizeEmail(u.email) === targetEmail,
+      );
+
+      if (targetIndex === -1) {
+        return {
+          ok: false,
+          error:
+            "No encontramos ninguna cuenta registrada con ese correo electrónico.",
+        };
+      }
+
+      const updatedUser: RegisteredUser = {
+        ...currentUsers[targetIndex],
+        password: newPassword,
+      };
+      const nextUsers = currentUsers.map((u, idx) =>
+        idx === targetIndex ? updatedUser : u,
+      );
+      saveUsers(nextUsers);
+      setRegisteredUsers(nextUsers);
+
+      return { ok: true, user: stripPassword(updatedUser) };
+    },
+    [],
+  );
+
   const logout = useCallback(() => {
     saveSessionUserId(null);
     setSessionUserId(null);
@@ -492,9 +523,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       users,
       isAuthenticated: user !== null,
       isAdmin: user?.role === "admin",
-      isGuest: user?.role === "guest",
       login,
       register,
+      resetPassword,
       logout,
       updateProfile,
       updateSavedCard,
@@ -506,6 +537,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       users,
       login,
       register,
+      resetPassword,
       logout,
       updateProfile,
       updateSavedCard,

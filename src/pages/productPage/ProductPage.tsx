@@ -11,7 +11,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
 import { getProductMedia } from "../../data/productMedia";
-import { getProductDetails } from "../../data/productDetails";
+import { getProductDetails, getProductPricing } from "../../data/productDetails";
 import { getProductCategorySlug, getProductPath } from "../../utils/productRoute";
 import type { Product } from "../../types/productMedia";
 import ImageCarousel from "../../components/productPage/imageCarousel/ImageCarousel";
@@ -66,6 +66,7 @@ function ProductPageContent({
 
   const media = getProductMedia(product);
   const details = getProductDetails(product);
+  const pricing = getProductPricing(product, details.productKind);
   const isCar =
     details.productKind === "car" || product.category === "Vehículos";
 
@@ -85,16 +86,10 @@ function ProductPageContent({
   const activeImages = activeColorVariant?.images ?? media.images;
   const outOfStock = product.stock <= 0;
 
-  const discountPercent =
-    details.originalPrice && details.originalPrice > product.price
-      ? Math.round(
-          ((details.originalPrice - product.price) / details.originalPrice) *
-            100,
-        )
-      : 0;
+  const discountPercent = pricing.discountPercent;
 
   const installmentAmount = Math.round(
-    product.price / details.installmentsCount,
+    pricing.finalPrice / details.installmentsCount,
   );
 
   const averageRating =

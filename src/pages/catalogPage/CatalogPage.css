@@ -347,6 +347,33 @@
   margin-bottom: var(--space-3);
 }
 
+.catalogCardPriceGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.catalogCardDiscountRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.catalogCardOldPrice {
+  font-size: 0.76rem;
+  color: var(--text-subtle);
+  text-decoration: line-through;
+}
+
+.catalogCardDiscountBadge {
+  padding: 0.08rem 0.42rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 0.68rem;
+  font-weight: var(--fw-bold);
+}
+
 .catalogCardPrice {
   color: var(--color-price);
   font-size: var(--fs-lg);

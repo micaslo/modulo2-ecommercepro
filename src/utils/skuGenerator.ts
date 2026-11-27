@@ -17,7 +17,7 @@ const CATEGORY_SKU_PREFIX: Record<string, string> = {
   Otros: "OTR",
 };
 
-export function getCategorySkuPrefix(category: string): string {
+function getCategorySkuPrefix(category: string): string {
   const trimmed = category.trim();
   if (CATEGORY_SKU_PREFIX[trimmed]) {
     return CATEGORY_SKU_PREFIX[trimmed];

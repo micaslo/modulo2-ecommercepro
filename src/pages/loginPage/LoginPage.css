@@ -398,6 +398,11 @@
   background: var(--color-secondary-soft);
 }
 
+.loginMessage.success {
+  color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
 .loginSubmit {
   width: 100%;
   min-height: 48px;
@@ -425,51 +430,6 @@
 .loginSubmit:active {
   background: var(--color-primary-active);
   transform: scale(0.99);
-}
-
-.loginDivider {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.loginDivider span {
-  flex: 1;
-  height: 1px;
-  background: var(--border-color);
-}
-
-.loginDivider p {
-  margin: 0;
-  color: var(--text-subtle);
-  font-size: 0.76rem;
-  white-space: nowrap;
-}
-
-.loginSocial {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loginSocial button {
-  width: 52px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--bg-surface);
-  cursor: pointer;
-  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
-}
-
-.loginSocial button:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
 }
 
 .loginRegister {
@@ -517,4 +477,136 @@
     padding: 1.25rem;
     border-radius: var(--radius-md);
   }
+}
+
+.loginModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  padding: var(--space-4);
+  display: grid;
+  place-items: center;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(4px);
+}
+
+.loginModalCard {
+  position: relative;
+  width: min(100%, 440px);
+  padding: clamp(1.4rem, 3.5vw, 2rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+  text-align: left;
+}
+
+.loginModalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface-2);
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.loginModalClose:hover {
+  background: var(--border-color);
+  color: var(--text-main);
+}
+
+.loginModalEyebrow {
+  display: inline-block;
+  margin-bottom: 0.65rem;
+  padding: 0.24rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-active);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.loginModalTitle {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.loginModalCopy {
+  margin: 0 0 1.15rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.loginModalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.loginModalTogglePwd {
+  align-self: flex-start;
+  margin-top: -0.35rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loginModalTogglePwd:hover {
+  text-decoration: underline;
+}
+
+.loginModalActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.loginModalSecondaryBtn {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.loginModalSecondaryBtn:hover {
+  background: var(--bg-surface-2);
+  color: var(--text-main);
+}
+
+.loginModalSuccessIcon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0.85rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 1.5rem;
+  font-weight: 800;
 }

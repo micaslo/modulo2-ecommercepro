@@ -210,7 +210,31 @@ export const savedCardSchema = z
     }
   });
 
+export const forgotPasswordEmailSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, "Ingresá tu correo electrónico.")
+    .pipe(z.email("Ingresá un correo electrónico válido.")),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8, "La contraseña debe tener al menos 8 caracteres.")
+      .regex(/[A-Za-z]/, "La contraseña debe incluir al menos una letra.")
+      .regex(/\d/, "La contraseña debe incluir al menos un número."),
+    confirmPassword: z.string().min(1, "Confirmá tu nueva contraseña."),
+  })
+  .refine((values) => values.newPassword === values.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Las contraseñas no coinciden.",
+  });
+
 export type RegisterFormValues = z.infer<typeof registerSchema>;
 export type LoginFormValues = z.infer<typeof loginSchema>;
+export type ForgotPasswordEmailValues = z.infer<typeof forgotPasswordEmailSchema>;
+export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
 export type ProfileUpdateValues = z.infer<typeof profileUpdateSchema>;
 export type SavedCardValues = z.infer<typeof savedCardSchema>;
