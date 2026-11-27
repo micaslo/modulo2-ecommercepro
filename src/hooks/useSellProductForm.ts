@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'
+import type { ChangeEvent, SyntheticEvent } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { sellProductSchema } from '../schemas/sellProductSchema'
@@ -63,7 +63,7 @@ export function useSellProductForm() {
     setValue('image', file, { shouldValidate: true, shouldDirty: true })
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>): void => {
     void rhfHandleSubmit((data) => {
       if (!data.image) return
 

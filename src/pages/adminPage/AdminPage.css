@@ -462,7 +462,6 @@
   color: var(--text-muted);
 }
 
-/* ===== Modales ===== */
 .adminModalBackdrop {
   position: fixed;
   inset: 0;
@@ -606,6 +605,85 @@
   font-size: var(--fs-xs);
 }
 
+.adminImageModeSwitch {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-2);
+}
+
+.adminImageModeBtn {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.adminImageModeBtn:hover {
+  color: var(--text-main);
+}
+
+.adminImageModeBtn.isActive {
+  background: var(--bg-surface);
+  border-color: var(--border-strong);
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.adminFileDropzone {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  padding: 1.1rem 1rem;
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-2);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.adminFileDropzone:hover,
+.adminFileDropzone.isDragging {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.adminFileDropzone.isInvalid {
+  border-color: var(--color-danger);
+}
+
+.adminFileDropzoneTitle {
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  word-break: break-word;
+}
+
+.adminFileDropzoneHint {
+  color: var(--text-subtle);
+  font-size: var(--fs-xs);
+}
+
+.adminFileInputHidden {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .adminImagePreview {
   display: flex;
   align-items: center;
@@ -620,14 +698,38 @@
 .adminImagePreview img {
   width: 52px;
   height: 52px;
+  flex-shrink: 0;
   object-fit: contain;
   border-radius: 6px;
   background: var(--bg-surface);
 }
 
 .adminImagePreview span {
+  flex: 1;
+  min-width: 0;
   font-size: var(--fs-xs);
   color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.adminImageClearBtn {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.adminImageClearBtn:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
 }
 
 .adminModalActions {

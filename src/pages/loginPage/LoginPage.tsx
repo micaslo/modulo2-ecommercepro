@@ -28,8 +28,6 @@ function LoginPage() {
     register,
     handleSubmit,
     getValues,
-    setValue,
-    clearErrors,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -76,14 +74,6 @@ function LoginPage() {
   };
 
   const onInvalid = () => {
-    setMessage("");
-  };
-
-  const fillDemoCredentials = (email: string, password: string) => {
-    setValue("email", email, { shouldDirty: true });
-    setValue("password", password, { shouldDirty: true });
-    setValue("notARobot", true, { shouldDirty: true });
-    clearErrors();
     setMessage("");
   };
 
@@ -279,30 +269,6 @@ function LoginPage() {
               Iniciar sesión
               <span aria-hidden="true">→</span>
             </button>
-
-            <div className="loginDemoBox">
-              <p className="loginDemoTitle">Cuentas de prueba</p>
-              <div className="loginDemoActions">
-                <button
-                  type="button"
-                  className="loginDemoBtn"
-                  onClick={() =>
-                    fillDemoCredentials("mmicaslo@gmail.com", "Invitado123")
-                  }
-                >
-                  Cargar Invitado
-                </button>
-                <button
-                  type="button"
-                  className="loginDemoBtn loginDemoBtnAdmin"
-                  onClick={() =>
-                    fillDemoCredentials("admin@tiendaliebre.com", "Admin1234")
-                  }
-                >
-                  Cargar Administrador
-                </button>
-              </div>
-            </div>
           </form>
         </section>
 

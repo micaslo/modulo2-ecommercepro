@@ -250,7 +250,6 @@
   color: var(--color-danger);
 }
 
-/* Vista de solo lectura */
 .profileInfoGrid {
   margin: 0;
   display: grid;
@@ -303,7 +302,6 @@
   padding: var(--space-1) 0;
 }
 
-/* Modo edición */
 .profileForm {
   display: grid;
   gap: var(--space-4);

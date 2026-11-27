@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import type { SellProductErrors, SellProductFormData } from '../types/sellProduct'
 
 export const sellProductCategories: string[] = [
   'Vehículos',
@@ -21,7 +20,7 @@ export const sellProductSchema = z.object({
     .string()
     .trim()
     .min(1, 'Ingresá tu email')
-    .email('El email no tiene un formato válido'),
+    .pipe(z.email('El email no tiene un formato válido')),
   productName: z
     .string()
     .trim()
@@ -51,17 +50,3 @@ export const sellProductSchema = z.object({
     .min(20, 'Describí tu producto (mínimo 20 caracteres)')
     .max(500, 'La descripción no puede superar los 500 caracteres'),
 })
-
-export function validateSellProduct(data: SellProductFormData): SellProductErrors {
-  const result = sellProductSchema.safeParse(data)
-  if (result.success) return {}
-
-  const errors: SellProductErrors = {}
-  for (const issue of result.error.issues) {
-    const field = issue.path[0] as keyof SellProductFormData
-    if (!errors[field]) {
-      errors[field] = issue.message
-    }
-  }
-  return errors
-}

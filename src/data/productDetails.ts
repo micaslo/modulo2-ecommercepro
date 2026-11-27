@@ -1,11 +1,28 @@
 import type { Product, ProductDetails } from "../types/productMedia";
 
+const DISCOUNT_PERCENT_BY_KIND: Partial<
+  Record<ProductDetails["productKind"], number>
+> = {
+  phone: 45,
+  car: 15,
+  camera: 25,
+  gaming: 30,
+};
+
+function getOriginalPriceForKind(
+  price: number,
+  productKind: ProductDetails["productKind"],
+): number | undefined {
+  const discountPercent = DISCOUNT_PERCENT_BY_KIND[productKind];
+  if (!discountPercent || price <= 0) return undefined;
+  return Math.round(price / (1 - discountPercent / 100));
+}
+
 const PRODUCT_DETAILS: Record<string, ProductDetails> = {
   "iphone-18-pro": {
     productKind: "phone",
     condition: "Nuevo",
     soldText: "+100 vendidos",
-    originalPrice: 2099000,
     installmentsCount: 12,
     shippingTitle: "Envío gratis a todo el país",
     shippingSubtitle: "Llegando en 24 a 48 hs hábiles · Envío asegurado",
@@ -130,7 +147,6 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     productKind: "phone",
     condition: "Nuevo",
     soldText: "+150 vendidos",
-    originalPrice: 1949000,
     installmentsCount: 12,
     shippingTitle: "Envío gratis a todo el país",
     shippingSubtitle: "Llegando mañana · Despacho inmediato",
@@ -256,7 +272,6 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     productKind: "car",
     condition: "0 km · Año 2026",
     soldText: "Concesionario oficial",
-    originalPrice: 41200000,
     installmentsCount: 12,
     shippingTitle: "Entrega coordinada en concesionario",
     shippingSubtitle: "Disponible para test drive · Patentamiento asistido",
@@ -364,7 +379,6 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     productKind: "car",
     condition: "0 km · Año 2026",
     soldText: "Concesionario oficial",
-    originalPrice: 65900000,
     installmentsCount: 12,
     shippingTitle: "Entrega coordinada en concesionario",
     shippingSubtitle: "Unidad en stock · Asesoramiento personalizado",
@@ -472,7 +486,6 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     productKind: "camera",
     condition: "Nuevo",
     soldText: "+25 vendidos",
-    originalPrice: 5490000,
     installmentsCount: 12,
     shippingTitle: "Envío gratis a todo el país",
     shippingSubtitle: "Llegando en 24 a 48 hs hábiles · Envío asegurado",
@@ -594,7 +607,6 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     productKind: "camera",
     condition: "Nuevo",
     soldText: "+10 vendidos",
-    originalPrice: 11590000,
     installmentsCount: 12,
     shippingTitle: "Envío gratis a todo el país",
     shippingSubtitle: "Llegando en 24 a 48 hs hábiles · Envío asegurado",
@@ -714,7 +726,6 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     productKind: "gaming",
     condition: "Nuevo",
     soldText: "+500 vendidos",
-    originalPrice: 184999,
     installmentsCount: 6,
     shippingTitle: "Envío gratis a todo el país",
     shippingSubtitle: "Llegando mañana · Despacho inmediato",
@@ -836,22 +847,37 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
 };
 
 export function getProductDetails(product: Product): ProductDetails {
-  if (PRODUCT_DETAILS[product.id]) {
-    return PRODUCT_DETAILS[product.id];
+  const preset = PRODUCT_DETAILS[product.id];
+  if (preset) {
+    return {
+      ...preset,
+      originalPrice:
+        getOriginalPriceForKind(product.price, preset.productKind) ??
+        preset.originalPrice,
+    };
   }
 
   const normalizedCat = product.category
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-  const normalizedName = `${product.id} ${product.name}`.toLowerCase();
+  const normalizedName = `${product.id} ${product.name}`
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
   const isCar =
     normalizedCat.includes("veh") || normalizedName.includes("chevrolet");
   const isPhone =
-    normalizedName.includes("iphone") ||
-    normalizedName.includes("samsung") ||
-    normalizedName.includes("galaxy");
+    !normalizedName.includes("watch") &&
+    (normalizedName.includes("iphone") ||
+      normalizedName.includes("samsung") ||
+      normalizedName.includes("galaxy") ||
+      normalizedName.includes("smartphone") ||
+      normalizedName.includes("celular") ||
+      normalizedName.includes("telefono") ||
+      normalizedName.includes("xiaomi") ||
+      normalizedName.includes("motorola"));
   const isCamera =
     normalizedCat.includes("camar") ||
     normalizedName.includes("canon") ||
@@ -878,6 +904,7 @@ export function getProductDetails(product: Product): ProductDetails {
     productKind,
     condition: isCar ? "0 km" : "Nuevo",
     soldText: "+25 vendidos",
+    originalPrice: getOriginalPriceForKind(product.price, productKind),
     installmentsCount: 12,
     shippingTitle: isCar
       ? "Entrega coordinada en concesionario"
