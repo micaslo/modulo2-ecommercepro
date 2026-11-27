@@ -10,7 +10,7 @@ import {
   type RegisterFormValues,
 } from "../../schemas/authSchema";
 
-export type CreateAccountData = {
+type CreateAccountData = {
   firstName: string;
   lastName: string;
   email: string;

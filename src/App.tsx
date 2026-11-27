@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/footer";
 import ButtonWsp from "./components/buttonWsp/ButtonWsp";
@@ -62,11 +62,6 @@ function App() {
             }
           />
           <Route path="/sobrenosotros" element={<AboutUs />} />
-          <Route
-            path="/sobre-nosotros"
-            element={<Navigate to="/sobrenosotros" replace />}
-          />
-          <Route path="/nosotros" element={<Navigate to="/sobrenosotros" replace />} />
           <Route path="/productos" element={<CatalogPage />} />
           <Route path="/categoria/:slug" element={<CategoryPage />} />
           <Route path="/mas-vendidos" element={<BestSellersPage />} />

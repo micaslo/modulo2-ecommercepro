@@ -109,14 +109,12 @@ export function useCart() {
         .filter((item) => item.productId === product.id)
         .reduce((sum, item) => sum + item.quantity, 0);
 
-      // Regla de autos: máximo 1 unidad por vehículo
       if (isCar) {
         if (totalExistingForProduct >= 1 || quantity > 1) {
           return { ok: false, reason: "car_limit" };
         }
       }
 
-      // Regla de stock general (sumando variantes de color del mismo producto)
       if (totalExistingForProduct + quantity > product.stock) {
         return { ok: false, reason: "stock_limit" };
       }

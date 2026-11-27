@@ -149,10 +149,11 @@ const BRAND_PLANS: Record<Exclude<CardBrand, "unknown">, RawPlan[]> = {
   ],
   mastercard: [
     { count: 1, interestRate: 0, cftnaLabel: "CFT 0,00%" },
-    { count: 3, interestRate: 0.12, cftnaLabel: "TEA 58,0% · CFT 72,4%" },
-    { count: 6, interestRate: 0.22, cftnaLabel: "TEA 66,5% · CFT 84,1%" },
-    { count: 9, interestRate: 0.34, cftnaLabel: "TEA 76,5% · CFT 97,8%" },
-    { count: 12, interestRate: 0.46, cftnaLabel: "TEA 82,0% · CFT 105,4%" },
+    { count: 3, interestRate: 0, cftnaLabel: "CFT 0,00%" },
+    { count: 6, interestRate: 0, cftnaLabel: "CFT 0,00%" },
+    { count: 9, interestRate: 0, cftnaLabel: "CFT 0,00%" },
+    { count: 12, interestRate: 0, cftnaLabel: "CFT 0,00%" },
+    { count: 18, interestRate: 0, cftnaLabel: "CFT 0,00%" },
   ],
 };
 

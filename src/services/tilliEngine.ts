@@ -696,7 +696,7 @@ function buildProductSpecificAnswer(
         ? ` (antes ${formatARS(details.originalPrice)})`
         : "";
     return {
-      text: `**${product.name}** está **${formatARS(product.price)}**${originalLine}.\nPodés pagarlo en hasta **${details.installmentsCount} cuotas sin interés de ${installmentAmount}** con Visa, o hasta 6 cuotas sin interés con Amex.\nTip: usá el cupón **LIEBRE25** en el carrito para un **25% OFF**.`,
+      text: `**${product.name}** está **${formatARS(product.price)}**${originalLine}.\nPodés pagarlo en hasta **${details.installmentsCount} cuotas sin interés de ${installmentAmount}** con Visa, hasta **18 cuotas sin interés** con Mastercard, o hasta 6 cuotas sin interés con Amex.\nTip: usá el cupón **LIEBRE25** en el carrito para un **25% OFF**.`,
       products: [toProductCard(product)],
       quickReplies: ["¿Qué incluye?", "¿Tiene garantía?", "Ver mi carrito"],
     };
@@ -951,7 +951,7 @@ export function generateTilliReply(
 
   if (/\b(pago|pagos|pagar|tarjeta|tarjetas|visa|mastercard|amex|cuota|cuotas|financiacion|interes)\b/.test(normalized) && matchedProducts.length === 0) {
     return {
-      text: `Aceptamos tarjetas de crédito y débito en el checkout:\n• **Visa:** 1, 3, 6, 9 y hasta **12 cuotas sin interés**\n• **American Express:** hasta **6 cuotas sin interés** (y 9 o 12 con financiación)\n• **Mastercard:** 1 pago sin interés, o 3, 6, 9 y 12 cuotas financiadas\n\nAdemás podés usar el cupón **LIEBRE25** para un **25% OFF**.`,
+      text: `Aceptamos tarjetas de crédito y débito en el checkout:\n• **Visa:** 1, 3, 6, 9 y hasta **12 cuotas sin interés**\n• **American Express:** hasta **6 cuotas sin interés** (y 9 o 12 con financiación)\n• **Mastercard:** 1, 3, 6, 9, 12 y hasta **18 cuotas sin interés**\n\nAdemás podés usar el cupón **LIEBRE25** para un **25% OFF**.`,
       actions: [{ label: "Ver mi carrito", kind: "route", to: "/cart" }],
       quickReplies: ["Cupones y ofertas", "Envíos a todo el país"],
     };

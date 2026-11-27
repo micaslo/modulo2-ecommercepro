@@ -159,7 +159,7 @@ export default function Hero() {
               <br />
               hasta 40% OFF
             </h2>
-            <Link to="/mas-vendidos" className="heroPromoLink">
+            <Link to="/error-404" className="heroPromoLink">
               Comprar ahora <span aria-hidden="true">↗</span>
             </Link>
             <img

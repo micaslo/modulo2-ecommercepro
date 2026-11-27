@@ -14,7 +14,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Breadcrumb */
 .productPageBreadcrumb {
   display: flex;
   align-items: center;
@@ -227,7 +226,6 @@
   text-decoration: underline;
 }
 
-/* Buy box derecha con borde degradado violeta -> naranja */
 .productBuyBox {
   display: flex;
   flex-direction: column;
@@ -422,7 +420,6 @@
   margin: 0 0 var(--space-3);
 }
 
-/* Descripción */
 .productDescription {
   display: flex;
   flex-direction: column;

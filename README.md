@@ -1,78 +1,118 @@
-# React + TypeScript + Vite
+# Tienda Liebre — E-Commerce Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Tienda Liebre** is a modern, full-featured e-commerce web application built with **React**, **TypeScript**, and **Vite**. It delivers a complete online shopping experience—including interactive **3D product previews**, category-based discounts, a multi-step checkout with credit card preview and installment plans, a virtual shopping assistant (**TilliBot**), light/dark themes, and a dedicated **Admin Panel** for inventory and user management.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Storefront & Promotions**
+  - Editorial hero carousel, Black Friday countdown banner, featured products carousel, and category-grouped **Best Sellers** flip cards.
+  - Dynamic category-based discounts: **45% OFF** on smartphones, **15% OFF** on vehicles, **25% OFF** on cameras & accessories, and **30% OFF** on gaming products.
+- **Catalog, Search & Filtering**
+  - Search by product name, SKU code, or category, filter by stock/category, and sort products across `/productos` and `/categoria/:slug`.
+- **Interactive Product Pages & 3D Viewer**
+  - Color variant galleries, interactive **360° 3D glTF 2.0 models** powered by `@google/model-viewer`, full technical specifications, related products, and customer reviews persisted in `localStorage`.
+- **Cart & Multi-Step Checkout**
+  - Persistent shopping cart with stock limits and promo code support (`LIEBRE25` for **25% OFF**).
+  - Live credit card preview (`react-credit-cards-2`) with automatic brand detection and dynamic installment plans:
+    - **Visa:** 1, 3, 6, 9, and up to **12 interest-free installments**
+    - **Mastercard:** 1, 3, 6, 9, 12, and up to **18 interest-free installments**
+    - **American Express:** up to **6 interest-free installments** (plus 9 and 12 financed)
+  - Order confirmation with a **printable invoice**.
+- **Authentication, Profile & Wishlist**
+  - Registration, login, protected routes, editable profile data, saved payment card for shopper accounts, and per-user wishlist (`/favoritos`).
+- **Admin Dashboard (`/admin`)**
+  - Inventory KPIs (total products, accumulated stock, low-stock alerts, registered users).
+  - Full product CRUD with unique SKU validation and mandatory product image support (either **Image URL** or **Upload from PC** via click/drag-and-drop with WebP optimization for `localStorage`).
+  - Registered user management with root-admin protection.
+- **TilliBot Virtual Assistant**
+  - Interactive chat assistant that searches products by category or budget, compares models side by side, checks cart status, explains installment/coupon options, and links to WhatsApp support.
+- **Additional Flows & UX**
+  - **Sell My Product** submission form, **Resellers** section, **How to Get There** store location, **About Us**, custom **404** error page, and **Light / Dark mode** toggle.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+---
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Category | Technologies |
+| --- | --- |
+| **Core** | React 19, TypeScript, Vite 8, React Compiler (`babel-plugin-react-compiler`) |
+| **Routing** | React Router DOM v7 |
+| **Forms & Validation** | React Hook Form, Zod v4, `@hookform/resolvers` |
+| **3D & UI** | `@google/model-viewer`, `react-credit-cards-2`, `react-icons`, Custom CSS Variables |
+| **Tooling & Deployment** | `pnpm`, ESLint 10, `typescript-eslint`, Vercel (`vercel.json` SPA rewrites) |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Demo Accounts & Promo Code
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+All accounts, inventory changes, reviews, cart items, and wishlists are stored locally in the browser (`localStorage`).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Role | Name | Email | Password |
+| --- | --- | --- | --- |
+| **Admin** | Sofía Admin | `admin@tiendaliebre.com` | `Admin1234` |
+| **Guest** | Micaela Soraire | `mmicaslo@gmail.com` | `Invitado123` |
+| **Guest** | Juan Pablo Reyes | `juan.reyes@gmail.com` | `Invitado456` |
 
+- **Checkout Promo Code:** `LIEBRE25` (**25% OFF**)
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** `>= 20`
+- **pnpm** (`npm install -g pnpm` or enable via `corepack enable`)
+
+### Installation & Local Development
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/micaslo/modulo2-ecommercepro.git
+cd modulo2-ecommercepro
+
+# 2. Install dependencies
+pnpm install
+
+# 3. Start the development server
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+### Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Starts the Vite development server with HMR and serves 3D model assets. |
+| `pnpm build` | Runs TypeScript type-checking (`tsc -b`) and builds the production bundle (`vite build`). |
+| `pnpm preview` | Previews the production build locally. |
+| `pnpm lint` | Runs ESLint across the entire repository. |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
 
+## Project Structure
+
+```text
+src/
+├── assets/          # Images, logos, and 3D glTF models
+├── components/      # Reusable UI components (Navbar, Footer, BestSellers, Checkout, Admin, TilliBot, etc.)
+├── context/         # AuthProvider, ThemeProvider, and React contexts
+├── data/            # Seed products, product details, media mappings, checkout config, and categories
+├── hooks/           # Custom hooks (useAuth, useCart, useProducts, useWishlist, form hooks)
+├── pages/           # Route-level pages (Hero, Catalog, Category, Product, Cart, Admin, Profile, Login, etc.)
+├── routes/          # ProtectedRoute wrapper for authenticated and admin-only routes
+├── schemas/         # Zod validation schemas for auth, checkout, products, resellers, and reviews
+├── services/        # TilliBot recommendation & conversation engine
+├── types/           # TypeScript interfaces and domain types
+└── utils/           # Helpers for routing and wishlist persistence
 ```
+
+---
+
+## Team
+
+- **Micaela** — Tech Leader (TL)
+- **Juan Pablo** — Scrum Master
+- **Luis** — Developer
+- **Rosario** — Developer

@@ -46,7 +46,7 @@ export type CardBrand = "visa" | "mastercard" | "amex" | "unknown";
 
 export interface InstallmentOption {
   count: number;
-  interestRate: number; // decimal e.g. 0.12 = 12%
+  interestRate: number;
   interestFree: boolean;
   cftnaLabel: string;
   totalWithInterest: number;

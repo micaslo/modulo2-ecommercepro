@@ -33,12 +33,7 @@ const DEFAULT_USERS: RegisteredUser[] = [
     dni: "36445120",
     cuit: "27-36445120-4",
     businessName: "Tienda Liebre S.A.",
-    savedCard: {
-      number: "4509 8412 3309 7741",
-      name: "SOFIA ADMIN",
-      expiry: "11/29",
-      cvc: "814",
-    },
+    savedCard: null,
     password: "Admin1234",
     role: "admin",
     createdAt: "2026-01-15T10:00:00.000Z",
@@ -165,16 +160,24 @@ function loadUsers(): RegisteredUser[] {
           };
         }
       }
-      if (
-        u.id === "admin-root-1" &&
-        (!u.address ||
+      if (u.id === "admin-root-1") {
+        const isLegacyAdmin =
+          !u.address ||
           u.email === "admin@detodito.com" ||
-          u.businessName === "Detodito Market S.A.")
-      ) {
+          u.businessName === "Detodito Market S.A.";
+        if (isLegacyAdmin) {
+          migrated = true;
+          return {
+            ...DEFAULT_USERS[0],
+            savedCard: null,
+          };
+        }
+      }
+      if (u.role === "admin" && u.savedCard) {
         migrated = true;
         return {
-          ...DEFAULT_USERS[0],
-          savedCard: u.savedCard ?? DEFAULT_USERS[0].savedCard,
+          ...u,
+          savedCard: null,
         };
       }
       return u;
@@ -400,6 +403,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const targetIndex = currentUsers.findIndex((u) => u.id === sessionUserId);
       if (targetIndex === -1) {
         return { ok: false, error: "No se encontró el usuario activo." };
+      }
+      if (currentUsers[targetIndex].role === "admin") {
+        return {
+          ok: false,
+          error: "Las cuentas de administrador no tienen tarjeta asociada.",
+        };
       }
 
       const updatedUser: RegisteredUser = {

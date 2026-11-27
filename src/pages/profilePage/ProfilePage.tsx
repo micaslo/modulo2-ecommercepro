@@ -116,8 +116,9 @@ function PersonalDataPanel({ user, onSave }: PersonalDataPanelProps) {
         <div>
           <h2 id="profile-edit-title">Datos personales</h2>
           <p>
-            Estos datos se completan automáticamente al momento de realizar una
-            compra.
+            {user.role === "admin"
+              ? "Información de tu cuenta de administrador."
+              : "Estos datos se completan automáticamente al momento de realizar una compra."}
           </p>
         </div>
 
@@ -1011,14 +1012,16 @@ export default function ProfilePage() {
           />
 
           <aside className="profileSidebar">
-            <SavedCardPanel
-              key={user.id}
-              user={user}
-              onSaveCard={(card) => {
-                const res = updateSavedCard(card);
-                return res.ok ? { ok: true } : { ok: false, error: res.error };
-              }}
-            />
+            {!isAdmin && (
+              <SavedCardPanel
+                key={user.id}
+                user={user}
+                onSaveCard={(card) => {
+                  const res = updateSavedCard(card);
+                  return res.ok ? { ok: true } : { ok: false, error: res.error };
+                }}
+              />
+            )}
 
             <section className="profilePanel profileDemoPanel">
               <header className="profilePanelHeader">

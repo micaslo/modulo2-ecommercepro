@@ -270,18 +270,12 @@
       "uri": "scene.bin"
     }
   ],
-  "extensionsRequired": [
-    "KHR_materials_pbrSpecularGlossiness"
-  ],
-  "extensionsUsed": [
-    "KHR_materials_pbrSpecularGlossiness"
-  ],
   "images": [
     {
       "uri": "textures/DSLR_diffuse.png"
     },
     {
-      "uri": "textures/DSLR_specularGlossiness.png"
+      "uri": "textures/DSLR_metallicRoughness.png"
     },
     {
       "uri": "textures/DSLR_normal.png"
@@ -289,33 +283,27 @@
   ],
   "materials": [
     {
-      "alphaMode": "BLEND",
+      "alphaMode": "OPAQUE",
       "doubleSided": true,
-      "extensions": {
-        "KHR_materials_pbrSpecularGlossiness": {
-          "diffuseFactor": [
-            1.0,
-            1.0,
-            1.0,
-            1.0
-          ],
-          "diffuseTexture": {
-            "index": 0
-          },
-          "glossinessFactor": 1.0,
-          "specularFactor": [
-            1.0,
-            1.0,
-            1.0
-          ],
-          "specularGlossinessTexture": {
-            "index": 1
-          }
-        }
-      },
       "name": "DSLR",
       "normalTexture": {
         "index": 2
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 1.0,
+        "metallicRoughnessTexture": {
+          "index": 1
+        },
+        "roughnessFactor": 1.0
       }
     }
   ],

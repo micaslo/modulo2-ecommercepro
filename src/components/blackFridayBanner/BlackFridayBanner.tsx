@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./BlackFridayBanner.css";
 
-// Lunes 30 de noviembre de 2026 a las 23:59:59 (hora Argentina, UTC-3)
 const BLACK_FRIDAY_END_TIMESTAMP = new Date("2026-11-30T23:59:59-03:00").getTime();
 
 interface TimeRemaining {
