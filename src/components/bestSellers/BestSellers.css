@@ -1,5 +1,6 @@
 .bestSellers {
   --bsCardH: 410px;
+  --bsMediaH: 220px;
 
   position: relative;
   overflow: hidden;
@@ -85,7 +86,7 @@
 
 .bestSellersArrow {
   position: absolute;
-  top: 125px;
+  top: calc(var(--bsMediaH) / 2 - 15px);
   z-index: 2;
   display: flex;
   align-items: center;
@@ -174,7 +175,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Reverso de card con borde degradado violeta (#61459B) -> naranja (#F57C00) */
 .bestSellersCardBack {
   justify-content: center;
   gap: 11px;
@@ -190,24 +190,28 @@
 .bestSellersCardMedia {
   position: relative;
   display: flex;
-  flex: 0 0 auto;
+  flex: 0 0 var(--bsMediaH);
+  width: 100%;
+  height: var(--bsMediaH);
+  overflow: hidden;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1 / 1;
-  padding: 18px;
+  padding: 16px;
   background: var(--bg-surface-2);
   border-bottom: 1px solid var(--border-color);
 }
 
 .bestSellersCardImage {
+  display: block;
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   object-position: center;
 }
 
 .bestSellersTechnology .bestSellersCardMedia {
-  overflow: hidden;
   padding: 14px;
 }
 
@@ -229,6 +233,7 @@
 .bestSellersCardBody {
   display: flex;
   flex: 1;
+  min-height: 0;
   flex-direction: column;
   gap: 6px;
   padding: 15px;
@@ -237,6 +242,7 @@
 .bestSellersCardTitle {
   display: -webkit-box;
   margin: 0;
+  min-height: calc(1.35em * 2);
   overflow: hidden;
   font-size: 0.86rem;
   font-weight: 600;
@@ -380,12 +386,14 @@
 
   .bestSellers {
     --bsCardH: 386px;
+    --bsMediaH: 196px;
   }
 }
 
 @media (max-width: 600px) {
   .bestSellers {
     --bsCardH: 368px;
+    --bsMediaH: 168px;
     padding: 1.75rem 0.85rem;
   }
 
@@ -407,7 +415,7 @@
   }
 
   .bestSellersArrow {
-    top: 84px;
+    top: calc(var(--bsMediaH) / 2 - 12px);
     width: 36px;
     height: 36px;
     font-size: 22px;

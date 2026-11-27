@@ -195,9 +195,15 @@ export default function AdminPage() {
       <ProductFormModal
         isOpen={productForm.isOpen}
         isEditing={productForm.isEditing}
+        imageMode={productForm.imageMode}
+        uploadedFileName={productForm.uploadedFileName}
+        isProcessingImage={productForm.isProcessingImage}
         register={productForm.register}
         control={productForm.control}
         errors={productForm.errors}
+        onImageModeChange={productForm.setImageMode}
+        onImageFileSelect={productForm.handleImageFile}
+        onClearImage={productForm.clearImage}
         onSubmit={productForm.handleSubmit}
         onClose={productForm.close}
       />

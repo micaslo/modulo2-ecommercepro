@@ -112,7 +112,6 @@ export default function Step3PaymentForm({
         </span>
       </div>
 
-      {/* Vista previa interactiva de react-credit-cards-2 */}
       <div className="creditCardShowcase">
         <div className="creditCardPreviewWrap">
           <Cards
@@ -339,7 +338,6 @@ export default function Step3PaymentForm({
           </div>
         </div>
 
-        {/* Selector dinámico de cuotas según marca detectada */}
         <div className="formSectionDivider">
           <span>
             <FaCreditCard size={13} /> Cuotas disponibles

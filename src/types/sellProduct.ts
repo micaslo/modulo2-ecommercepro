@@ -10,8 +10,6 @@ export interface SellProductFormData {
   description: string
 }
 
-export type SellProductErrors = Partial<Record<keyof SellProductFormData, string>>
-
 export interface SellProductReceipt {
   reference: string
   date: string

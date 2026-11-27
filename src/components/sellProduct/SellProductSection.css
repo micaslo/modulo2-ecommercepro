@@ -59,7 +59,6 @@
   color: var(--text-muted);
 }
 
-/* Card formulario con borde degradado violeta (#61459B) -> naranja (#F57C00) */
 .sellProductForm {
   padding: clamp(1.5rem, 3.5vw, 2.25rem);
   border-radius: var(--radius-lg);

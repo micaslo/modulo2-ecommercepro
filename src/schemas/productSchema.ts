@@ -26,8 +26,6 @@ export interface ProductFormValues {
   description: string;
 }
 
-export type ProductFormErrors = Partial<Record<keyof ProductFormValues, string>>;
-
 export function normalizeProductCode(code: string): string {
   return code.trim().toUpperCase();
 }
@@ -73,14 +71,14 @@ export const productFormSchema = z.object({
   image: z
     .string()
     .trim()
+    .min(1, "Ingresá una URL de imagen o cargá una desde tu PC.")
     .refine(
       (value) =>
-        value === "" ||
         value.startsWith("http://") ||
         value.startsWith("https://") ||
         value.startsWith("/") ||
         value.startsWith("data:image/"),
-      "La imagen debe ser una URL válida (http://, https:// o ruta relativa).",
+      "La imagen debe ser una URL válida (http://, https://) o un archivo cargado desde tu PC.",
     ),
   description: z
     .string()
@@ -110,36 +108,4 @@ export function createProductFormSchema(
       });
     }
   });
-}
-
-export function validateProductForm(
-  values: ProductFormValues,
-  existingProducts: Product[],
-  editingProductId?: string | null,
-): ProductFormErrors {
-  const errors: ProductFormErrors = {};
-  const result = productFormSchema.safeParse(values);
-
-  if (!result.success) {
-    for (const issue of result.error.issues) {
-      const field = issue.path[0] as keyof ProductFormValues | undefined;
-      if (field && !errors[field]) {
-        errors[field] = issue.message;
-      }
-    }
-  }
-
-  const normalizedCode = normalizeProductCode(values.code);
-  if (normalizedCode && !errors.code) {
-    const duplicate = existingProducts.find(
-      (product) =>
-        product.id !== editingProductId &&
-        normalizeProductCode(product.code ?? product.id) === normalizedCode,
-    );
-    if (duplicate) {
-      errors.code = `El código "${normalizedCode}" ya está en uso por "${duplicate.name}".`;
-    }
-  }
-
-  return errors;
 }

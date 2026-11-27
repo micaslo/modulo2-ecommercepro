@@ -17,7 +17,6 @@
   font: inherit;
 }
 
-/* Header minimalista */
 .loginHeader {
   width: 100%;
   min-width: 0;
@@ -119,7 +118,6 @@
   stroke-linecap: round;
 }
 
-/* Contenido principal */
 .loginContent {
   width: min(calc(100% - 2rem), 480px);
   min-width: 0;
@@ -176,7 +174,6 @@
   display: initial;
 }
 
-/* Card con borde degradado violeta (#61459B) -> naranja (#F57C00) */
 .loginCard {
   width: 100%;
   min-width: 0;
@@ -473,52 +470,6 @@
   border-color: var(--color-primary);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
-}
-
-.loginDemoBox {
-  width: 100%;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-}
-
-.loginDemoTitle {
-  margin: 0;
-  color: var(--text-subtle);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.loginDemoActions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
-}
-
-.loginDemoBtn {
-  min-height: 36px;
-  padding: 0.45rem 0.75rem;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--bg-surface-2);
-  color: var(--text-main);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
-}
-
-.loginDemoBtn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-.loginDemoBtnAdmin:hover {
-  border-color: var(--color-secondary);
-  color: var(--color-secondary);
 }
 
 .loginRegister {

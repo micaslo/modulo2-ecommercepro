@@ -1,15 +1,6 @@
-/* ==========================================================
-   TIENDA LIEBRE — Design System Minimalista Editorial
-   Logo:       #F27B1D
-   Naranja UI: #F57C00 (y derivados para hover/active/soft)
-   Contraste:  #61459B (violeta)
-   Fondo:      #FDFCF8 (crema minimalista)
-   ========================================================== */
-
 :root {
   color-scheme: light;
 
-  /* Marca y naranjas */
   --color-logo: #f27b1d;
   --color-primary: #f57c00;
   --color-primary-hover: #df6c00;
@@ -19,14 +10,12 @@
   --color-primary-ring: rgb(245 124 0 / 0.22);
   --color-on-primary: #ffffff;
 
-  /* Contraste (violeta) */
   --color-secondary: #61459b;
   --color-secondary-hover: #4e3582;
   --color-secondary-active: #3e286b;
   --color-secondary-soft: #f3effb;
   --color-on-secondary: #ffffff;
 
-  /* Fondos minimalistas */
   --bg-body: #fdfcf8;
   --bg-surface: #ffffff;
   --bg-surface-2: #f6f3ec;
@@ -34,18 +23,15 @@
   --bg-dark-2: #211e2d;
   --bg-overlay: rgb(22 20 31 / 0.56);
 
-  /* Textos */
   --text-main: #1a1822;
   --text-muted: #5f5b6b;
   --text-subtle: #8f8a9c;
   --text-link: #61459b;
 
-  /* Bordes */
   --border-color: #eae5dc;
   --border-strong: #d7cfc2;
   --focus-ring: #f57c00;
 
-  /* Estados */
   --color-success: #1f8a5b;
   --color-success-soft: #e7f6ee;
   --color-warning: #d97706;
@@ -55,24 +41,20 @@
   --color-info: #61459b;
   --color-info-soft: #f3effb;
 
-  /* Ecommerce */
   --color-price: #1a1822;
   --color-discount: #1f8a5b;
   --color-old-price: #9a95a6;
   --color-rating: #f57c00;
   --color-shipping: #1f8a5b;
 
-  /* Degradados */
   --gradient-brand: linear-gradient(135deg, #f57c00 0%, #ff9a36 100%);
   --gradient-border: linear-gradient(135deg, #61459b 0%, #f57c00 100%);
   --gradient-violet-orange: linear-gradient(135deg, #61459b 0%, #f57c00 100%);
 
-  /* Sombras sutiles (estética editorial limpia) */
   --shadow-sm: 0 1px 2px rgb(26 24 34 / 0.04);
   --shadow-md: 0 8px 24px rgb(26 24 34 / 0.07);
   --shadow-lg: 0 18px 44px rgb(26 24 34 / 0.10);
 
-  /* Tipografía */
   --font-base: "Inter", system-ui, -apple-system, sans-serif;
   --font-heading: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 
@@ -88,7 +70,6 @@
   --fw-bold: 700;
   --lh-base: 1.6;
 
-  /* Espaciado */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -97,23 +78,19 @@
   --space-6: 2rem;
   --space-7: 3rem;
 
-  /* Radios */
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  /* Layout */
   --container-max: 1220px;
   --navbar-height: 76px;
   --transition: 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Modo oscuro (<html data-theme="dark">) */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Marca y naranjas */
   --color-logo: #f27b1d;
   --color-primary: #f57c00;
   --color-primary-hover: #ff9429;
@@ -123,14 +100,12 @@
   --color-primary-ring: rgb(245 124 0 / 0.30);
   --color-on-primary: #ffffff;
 
-  /* Contraste (violeta adaptado a fondos oscuros) */
   --color-secondary: #8e70d4;
   --color-secondary-hover: #a186e0;
   --color-secondary-active: #7456bd;
   --color-secondary-soft: rgb(131 102 196 / 0.22);
   --color-on-secondary: #ffffff;
 
-  /* Fondos oscuros profundos con matiz violeta */
   --bg-body: #110f19;
   --bg-surface: #1a1726;
   --bg-surface-2: #241f35;
@@ -138,18 +113,15 @@
   --bg-dark-2: #211e2d;
   --bg-overlay: rgb(8 7 12 / 0.78);
 
-  /* Textos */
   --text-main: #f7f5f0;
   --text-muted: #bdb8ca;
   --text-subtle: #8e88a0;
   --text-link: #b9a1ee;
 
-  /* Bordes */
   --border-color: #2e2842;
   --border-strong: #413a59;
   --focus-ring: #ff9429;
 
-  /* Estados adaptados a modo oscuro */
   --color-success: #2cb87c;
   --color-success-soft: rgb(31 138 91 / 0.22);
   --color-warning: #f59e0b;
@@ -159,19 +131,16 @@
   --color-info: #a58be6;
   --color-info-soft: rgb(131 102 196 / 0.22);
 
-  /* Ecommerce */
   --color-price: #f7f5f0;
   --color-discount: #34d399;
   --color-old-price: #8e88a0;
   --color-rating: #ff9a36;
   --color-shipping: #34d399;
 
-  /* Degradados */
   --gradient-brand: linear-gradient(135deg, #f57c00 0%, #ff9a36 100%);
   --gradient-border: linear-gradient(135deg, #8e70d4 0%, #f57c00 100%);
   --gradient-violet-orange: linear-gradient(135deg, #8e70d4 0%, #f57c00 100%);
 
-  /* Sombras */
   --shadow-sm: 0 2px 6px rgb(0 0 0 / 0.28);
   --shadow-md: 0 10px 26px rgb(0 0 0 / 0.38);
   --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.48);
@@ -181,8 +150,6 @@
   background: var(--bg-surface);
   color: var(--text-main);
 }
-
-/* ===== ESTILOS BASE ===== */
 
 *,
 *::before,
@@ -227,7 +194,6 @@ a {
   outline-offset: 2px;
 }
 
-/* Botones globales minimalistas (pill como Coderhouse) */
 .btnPrimary,
 .btnSecondary {
   border: 0;
@@ -266,7 +232,6 @@ a {
   background: var(--color-secondary-hover);
 }
 
-/* Utilidad de card con borde degradado violeta (#61459B) -> naranja (#F57C00) */
 .cardGradientBorder {
   border: 1.5px solid transparent;
   background:

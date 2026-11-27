@@ -92,7 +92,6 @@
   color: var(--color-secondary);
 }
 
-/* Panel del formulario con borde degradado violeta (#61459B) -> naranja (#F57C00) */
 .resellersFormPanel {
   padding: clamp(1.5rem, 3vw, 2.35rem);
   border: 1.5px solid transparent;

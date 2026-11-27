@@ -14,7 +14,7 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     name: "Micaela",
-    role: "Team Leader (TL)",
+    role: "Tech Leader (TL)",
     photo: mica,
   },
   {

@@ -213,7 +213,6 @@ function parsePhoneImages(
   const sharedImages: string[] = [];
 
   for (const entry of entries) {
-    // Detecta patrones como iphone-back-burgundy-, iphone-front-black, samsung-back-pink
     const match = entry.baseName.match(/-(front|back)-([a-z]+)-?$/);
     if (match) {
       const view = match[1] as "front" | "back";

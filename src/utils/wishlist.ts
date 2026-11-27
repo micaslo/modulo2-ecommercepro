@@ -5,7 +5,7 @@ export function getWishlistStorageKey(userId?: string | null): string {
   return userId ? `${WISHLIST_STORAGE_KEY}:${userId}` : WISHLIST_STORAGE_KEY;
 }
 
-export function getWishlistIds(userId?: string | null): string[] {
+function getWishlistIds(userId?: string | null): string[] {
   try {
     const savedIds = localStorage.getItem(getWishlistStorageKey(userId));
     if (!savedIds) return [];
@@ -14,23 +14,6 @@ export function getWishlistIds(userId?: string | null): string[] {
     return Array.isArray(parsed)
       ? [...new Set(parsed.filter((id): id is string => typeof id === "string"))]
       : [];
-  } catch {
-    return [];
-  }
-}
-
-export function seedWishlistIfMissing(
-  defaultIds: string[],
-  userId?: string | null,
-): string[] {
-  try {
-    const key = getWishlistStorageKey(userId);
-    const saved = localStorage.getItem(key);
-    if (saved !== null) return getWishlistIds(userId);
-
-    const ids = [...new Set(defaultIds)].slice(0, 5);
-    localStorage.setItem(key, JSON.stringify(ids));
-    return ids;
   } catch {
     return [];
   }

@@ -4,7 +4,6 @@ import {
   PROMO_COUPONS,
   stripDigits,
 } from "../data/checkoutConfig";
-import type { CustomerFormData, PaymentFormData } from "../types/cart";
 
 export const couponFormSchema = z.object({
   code: z
@@ -18,9 +17,6 @@ export const couponFormSchema = z.object({
 });
 
 export type CouponFormValues = z.infer<typeof couponFormSchema>;
-
-export type CustomerFormErrors = Partial<Record<keyof CustomerFormData, string>>;
-export type PaymentFormErrors = Partial<Record<keyof PaymentFormData, string>>;
 
 export const customerFormSchema = z
   .object({
@@ -83,7 +79,6 @@ export const customerFormSchema = z
     businessName: z.string().trim(),
   })
   .superRefine((data, ctx) => {
-    // Validación de DNI (sin puntos, hasta 8 números)
     if (!data.dni) {
       ctx.addIssue({
         code: "custom",
@@ -110,7 +105,6 @@ export const customerFormSchema = z
       });
     }
 
-    // Monotributista, Responsable Inscripto y Exento requieren CUIT
     if (
       data.fiscalCondition === "monotributista" ||
       data.fiscalCondition === "responsable_inscripto" ||
@@ -132,7 +126,6 @@ export const customerFormSchema = z
       }
     }
 
-    // Responsable Inscripto y Exento requieren Razón Social
     if (
       data.fiscalCondition === "responsable_inscripto" ||
       data.fiscalCondition === "exento"
@@ -152,22 +145,6 @@ export const customerFormSchema = z
       }
     }
   });
-
-export function validateCustomerForm(
-  data: CustomerFormData,
-): CustomerFormErrors {
-  const result = customerFormSchema.safeParse(data);
-  if (result.success) return {};
-
-  const errors: CustomerFormErrors = {};
-  for (const issue of result.error.issues) {
-    const field = issue.path[0] as keyof CustomerFormData | undefined;
-    if (field && !errors[field]) {
-      errors[field] = issue.message;
-    }
-  }
-  return errors;
-}
 
 export const paymentFormSchema = z
   .object({
@@ -213,7 +190,6 @@ export const paymentFormSchema = z
       }
     }
 
-    // Validación de vencimiento MM/AA
     const expiryMatch = data.expiry.match(/^(\d{2})\/(\d{2})$/);
     if (!expiryMatch) {
       ctx.addIssue({
@@ -246,7 +222,6 @@ export const paymentFormSchema = z
       }
     }
 
-    // Validación de CVC/CVV/CID
     const cvcDigits = stripDigits(data.cvc);
     const expectedCvc = brand === "amex" ? 4 : 3;
     if (!cvcDigits) {
@@ -266,17 +241,3 @@ export const paymentFormSchema = z
       });
     }
   });
-
-export function validatePaymentForm(data: PaymentFormData): PaymentFormErrors {
-  const result = paymentFormSchema.safeParse(data);
-  if (result.success) return {};
-
-  const errors: PaymentFormErrors = {};
-  for (const issue of result.error.issues) {
-    const field = issue.path[0] as keyof PaymentFormData | undefined;
-    if (field && !errors[field]) {
-      errors[field] = issue.message;
-    }
-  }
-  return errors;
-}
