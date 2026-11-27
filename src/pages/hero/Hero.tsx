@@ -1,18 +1,6 @@
 import "./Hero.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import techImg from "../../assets/images/categories/tecnologia.webp";
-import homeImg from "../../assets/images/categories/hogar.webp";
-import fashionImg from "../../assets/images/categories/moda.webp";
-import beautyImg from "../../assets/images/categories/belleza.webp";
-
-const categories = [
-  { image: techImg, title: "Tecnología", subtitle: "Innovación para todos los días" },
-  { image: homeImg, title: "Hogar", subtitle: "Un espacio más tuyo" },
-  { image: fashionImg, title: "Moda", subtitle: "Tu estilo, a tu manera" },
-  { image: beautyImg, title: "Belleza", subtitle: "Pequeños grandes rituales" },
-];
-
 const slides = [
   {
     title: "Smartphones y tablets",
@@ -182,27 +170,6 @@ export default function Hero() {
             />
           </article>
         </aside>
-
-        <nav className="heroCategories" id="categorias" aria-label="Explorar categorías">
-          {categories.map((category) => (
-            <Link
-              className="heroCategory"
-              to="/error-404"
-              key={category.title}
-            >
-              <img
-                className="heroCategoryImage"
-                src={category.image}
-                alt={category.title}
-              />
-              <span className="heroCategoryCopy">
-                <strong>{category.title}</strong>
-                <small>{category.subtitle}</small>
-              </span>
-              <span className="heroCategoryArrow" aria-hidden="true">↗</span>
-            </Link>
-          ))}
-        </nav>
       </div>
     </section>
   );
