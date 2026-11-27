@@ -36,7 +36,7 @@
 .carouselTrack {
   position: relative;
   width: 100%;
-  height: 495px;
+  height: 520px;
 }
 
 .productCard {
@@ -138,6 +138,29 @@
   margin: 0.85rem 0 0.25rem;
   font-size: 0.96rem;
   line-height: 1.3;
+}
+
+.productDiscountMeta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+.productOldPrice {
+  font-size: 0.78rem;
+  color: var(--text-subtle);
+  text-decoration: line-through;
+}
+
+.productOffBadge {
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 0.7rem;
+  font-weight: 800;
 }
 
 .productPrice {

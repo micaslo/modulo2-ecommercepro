@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { stripDigits } from "../data/checkoutConfig";
 
-export function isValidCuil(cuil: string): boolean {
+function isValidCuil(cuil: string): boolean {
   if (!/^\d{11}$/.test(cuil)) return false;
 
   const allowedPrefixes = new Set(["20", "23", "24", "27", "30", "33", "34"]);

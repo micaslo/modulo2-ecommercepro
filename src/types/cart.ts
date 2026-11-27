@@ -17,7 +17,15 @@ export interface CartItem {
 
 export type CartActionResult =
   | { ok: true; reachedStockLimit?: boolean }
-  | { ok: false; reason: "car_limit" | "stock_limit" | "out_of_stock" };
+  | {
+      ok: false;
+      reason:
+        | "auth_required"
+        | "admin_forbidden"
+        | "car_limit"
+        | "stock_limit"
+        | "out_of_stock";
+    };
 
 export type CheckoutStep = 1 | 2 | 3 | 4;
 

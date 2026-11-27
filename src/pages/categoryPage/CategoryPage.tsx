@@ -4,12 +4,16 @@ import {
   getCategoryConfig,
   getUpcomingProducts,
 } from "../../data/categoryProducts";
-import { getProductDetails } from "../../data/productDetails";
+import { getProductDetails, getProductPricing } from "../../data/productDetails";
 import { getCoverImage } from "../../data/productMedia";
 import { useCart } from "../../hooks/useCart";
 import { useProducts } from "../../hooks/useProducts";
 import type { Product } from "../../types/productMedia";
 import { getProductPath } from "../../utils/productRoute";
+import {
+  AdminPurchaseBlockedModal,
+  LoginRequiredModal,
+} from "../../components/checkout/cartModals/CartModals";
 import "./CategoryPage.css";
 
 const formatPrice = (value: number) =>
@@ -29,6 +33,11 @@ export default function CategoryPage() {
     message: string;
     isError?: boolean;
   } | null>(null);
+  const [loginModal, setLoginModal] = useState<{
+    open: boolean;
+    productName: string;
+  }>({ open: false, productName: "" });
+  const [adminBlockedModalOpen, setAdminBlockedModalOpen] = useState(false);
 
   if (!config) {
     return <Navigate to="/error-404" replace />;
@@ -61,6 +70,14 @@ export default function CategoryPage() {
     });
 
     if (!result.ok) {
+      if (result.reason === "auth_required") {
+        setLoginModal({ open: true, productName: product.name });
+        return;
+      }
+      if (result.reason === "admin_forbidden") {
+        setAdminBlockedModalOpen(true);
+        return;
+      }
       const reasonMessage =
         result.reason === "car_limit"
           ? "Solo podés reservar 1 unidad de este vehículo."
@@ -109,6 +126,7 @@ export default function CategoryPage() {
           <div className="categoryGrid">
             {categoryProducts.map(({ product, detailPath }) => {
               const cover = getCoverImage(product);
+              const pricing = getProductPricing(product);
               const outOfStock = product.stock <= 0;
               const productFeedback =
                 feedback?.productId === product.id ? feedback : null;
@@ -149,9 +167,21 @@ export default function CategoryPage() {
                     <p className="categoryCardDescription">{product.description}</p>
 
                     <div className="categoryCardPricing">
-                      <strong className="categoryCardPrice">
-                        {formatPrice(product.price)}
-                      </strong>
+                      <div className="categoryCardPriceGroup">
+                        {pricing.originalPrice && pricing.discountPercent > 0 && (
+                          <div className="categoryCardDiscountRow">
+                            <span className="categoryCardOldPrice">
+                              {formatPrice(pricing.originalPrice)}
+                            </span>
+                            <span className="categoryCardDiscountBadge">
+                              {pricing.discountPercent}% OFF
+                            </span>
+                          </div>
+                        )}
+                        <strong className="categoryCardPrice">
+                          {formatPrice(pricing.finalPrice)}
+                        </strong>
+                      </div>
                       <span
                         className={`categoryStockBadge ${
                           outOfStock ? "isOut" : "isIn"
@@ -195,6 +225,17 @@ export default function CategoryPage() {
           </div>
         </section>
       </div>
+
+      <LoginRequiredModal
+        isOpen={loginModal.open}
+        productName={loginModal.productName}
+        onClose={() => setLoginModal({ open: false, productName: "" })}
+      />
+
+      <AdminPurchaseBlockedModal
+        isOpen={adminBlockedModalOpen}
+        onClose={() => setAdminBlockedModalOpen(false)}
+      />
     </main>
   );
 }

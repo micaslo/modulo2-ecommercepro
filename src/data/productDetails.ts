@@ -1,4 +1,30 @@
-import type { Product, ProductDetails } from "../types/productMedia";
+import type {
+  Product,
+  ProductDetails,
+  ProductIncludedItem,
+} from "../types/productMedia";
+
+type PresetProductDetails = Omit<ProductDetails, "includedItems"> & {
+  includedItems: string[];
+};
+
+function normalizeIncludedItems(
+  raw: Array<string | ProductIncludedItem>,
+): ProductIncludedItem[] {
+  return raw
+    .map((entry): ProductIncludedItem | null => {
+      if (typeof entry === "string") {
+        const label = entry.trim();
+        return label ? { label, included: true } : null;
+      }
+      if (entry && typeof entry === "object" && typeof entry.label === "string") {
+        const label = entry.label.trim();
+        return label ? { label, included: Boolean(entry.included) } : null;
+      }
+      return null;
+    })
+    .filter((item): item is ProductIncludedItem => item !== null);
+}
 
 const DISCOUNT_PERCENT_BY_KIND: Partial<
   Record<ProductDetails["productKind"], number>
@@ -9,16 +35,82 @@ const DISCOUNT_PERCENT_BY_KIND: Partial<
   gaming: 30,
 };
 
-function getOriginalPriceForKind(
+export function getCategoryDefaultDiscount(category: string): number {
+  const normalized = category
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  if (normalized.includes("tecnolog")) return 45;
+  if (normalized.includes("veh")) return 15;
+  if (normalized.includes("camar")) return 25;
+  if (normalized.includes("gaming")) return 30;
+  return 0;
+}
+
+function getOriginalPriceForDiscount(
   price: number,
-  productKind: ProductDetails["productKind"],
+  discountPercent: number,
 ): number | undefined {
-  const discountPercent = DISCOUNT_PERCENT_BY_KIND[productKind];
-  if (!discountPercent || price <= 0) return undefined;
+  if (discountPercent <= 0 || discountPercent >= 100 || price <= 0) {
+    return undefined;
+  }
   return Math.round(price / (1 - discountPercent / 100));
 }
 
-const PRODUCT_DETAILS: Record<string, ProductDetails> = {
+export interface ProductPricing {
+  finalPrice: number;
+  originalPrice?: number;
+  discountPercent: number;
+}
+
+export function getProductPricing(
+  product: Product,
+  productKind?: ProductDetails["productKind"],
+): ProductPricing {
+  if (typeof product.discountPercent === "number") {
+    const clamped = Math.max(0, Math.min(99, Math.round(product.discountPercent)));
+    if (clamped <= 0) {
+      return {
+        finalPrice: product.price,
+        originalPrice: undefined,
+        discountPercent: 0,
+      };
+    }
+
+    const originalPrice =
+      product.originalPrice && product.originalPrice > product.price
+        ? product.originalPrice
+        : getOriginalPriceForDiscount(product.price, clamped);
+
+    return {
+      finalPrice: product.price,
+      originalPrice,
+      discountPercent: clamped,
+    };
+  }
+
+  const presetKind = productKind ?? PRODUCT_DETAILS[product.id]?.productKind;
+  const defaultDiscount =
+    (presetKind ? DISCOUNT_PERCENT_BY_KIND[presetKind] : undefined) ??
+    getCategoryDefaultDiscount(product.category);
+
+  if (!defaultDiscount || product.price <= 0) {
+    return {
+      finalPrice: product.price,
+      originalPrice: undefined,
+      discountPercent: 0,
+    };
+  }
+
+  return {
+    finalPrice: product.price,
+    originalPrice: getOriginalPriceForDiscount(product.price, defaultDiscount),
+    discountPercent: defaultDiscount,
+  };
+}
+
+const PRODUCT_DETAILS: Record<string, PresetProductDetails> = {
   "iphone-18-pro": {
     productKind: "phone",
     condition: "Nuevo",
@@ -847,13 +939,22 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
 };
 
 export function getProductDetails(product: Product): ProductDetails {
+  const customHighlights = Array.isArray(product.highlights)
+    ? product.highlights.map((item) => item.trim()).filter(Boolean)
+    : undefined;
+  const customIncludedItems = Array.isArray(product.includedItems)
+    ? normalizeIncludedItems(product.includedItems)
+    : undefined;
+
   const preset = PRODUCT_DETAILS[product.id];
   if (preset) {
+    const pricing = getProductPricing(product, preset.productKind);
     return {
       ...preset,
-      originalPrice:
-        getOriginalPriceForKind(product.price, preset.productKind) ??
-        preset.originalPrice,
+      highlights: customHighlights ?? preset.highlights,
+      includedItems:
+        customIncludedItems ?? normalizeIncludedItems(preset.includedItems),
+      originalPrice: pricing.originalPrice,
     };
   }
 
@@ -899,12 +1000,13 @@ export function getProductDetails(product: Product): ProductDetails {
           : "general";
 
   const hasFreeShipping = !isCar && product.price >= 300000;
+  const pricing = getProductPricing(product, productKind);
 
   return {
     productKind,
     condition: isCar ? "0 km" : "Nuevo",
     soldText: "+25 vendidos",
-    originalPrice: getOriginalPriceForKind(product.price, productKind),
+    originalPrice: pricing.originalPrice,
     installmentsCount: 12,
     shippingTitle: isCar
       ? "Entrega coordinada en concesionario"
@@ -917,7 +1019,7 @@ export function getProductDetails(product: Product): ProductDetails {
         ? "Envío rápido y asegurado"
         : "Envío gratis en compras superiores a $300.000",
     warranty: "Garantía oficial de 12 meses",
-    highlights: [
+    highlights: customHighlights ?? [
       `Producto original de categoría ${product.category}.`,
       "Calidad garantizada con respaldo oficial.",
       "Atención personalizada ante cualquier consulta.",
@@ -937,7 +1039,9 @@ export function getProductDetails(product: Product): ProductDetails {
       },
     ],
     extendedDescription: [product.description],
-    includedItems: [product.name, "Documentación y garantía"],
+    includedItems:
+      customIncludedItems ??
+      normalizeIncludedItems([product.name, "Documentación y garantía"]),
     featureRatings: [
       { label: "Calidad general", score: 4.8 },
       { label: "Relación precio-calidad", score: 4.7 },

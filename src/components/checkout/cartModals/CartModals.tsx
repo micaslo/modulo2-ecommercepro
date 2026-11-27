@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaCarSide,
   FaExclamationTriangle,
+  FaLock,
   FaRobot,
   FaTag,
   FaTimes,
+  FaUserShield,
 } from "react-icons/fa";
+import { useAuth } from "../../../hooks/useAuth";
 import "./CartModals.css";
 
 interface StockLimitModalProps {
@@ -245,6 +249,180 @@ export function CouponAlreadyAppliedModal({
           <button
             type="button"
             className="btnPrimary cartModalPrimaryBtn"
+            onClick={onClose}
+          >
+            Entendido
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface LoginRequiredModalProps {
+  isOpen: boolean;
+  productName?: string;
+  onClose: () => void;
+}
+
+export function LoginRequiredModal({
+  isOpen,
+  productName,
+  onClose,
+}: LoginRequiredModalProps) {
+  const location = useLocation();
+  const returnTo = `${location.pathname}${location.search}`;
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="cartModalOverlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="login-required-modal-title"
+      onClick={onClose}
+    >
+      <div className="cartModalCard" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="cartModalClose"
+          onClick={onClose}
+          aria-label="Cerrar ventana"
+        >
+          <FaTimes />
+        </button>
+
+        <div className="cartModalIcon cartModalIconInfo">
+          <FaLock />
+        </div>
+
+        <h3 id="login-required-modal-title" className="cartModalTitle">
+          Iniciá sesión para comprar
+        </h3>
+
+        <p className="cartModalText">
+          {productName ? (
+            <>
+              Para agregar <strong>{productName}</strong> a tu carrito y realizar
+              una compra necesitás iniciar sesión. Tu carrito se guarda de forma
+              única para tu cuenta.
+            </>
+          ) : (
+            <>
+              Para agregar productos a tu carrito y finalizar una compra
+              necesitás iniciar sesión. Tu carrito se guarda de forma única para
+              tu cuenta.
+            </>
+          )}
+        </p>
+
+        <div className="cartModalActions">
+          <Link
+            to="/login"
+            state={{ from: returnTo }}
+            className="btnPrimary cartModalPrimaryBtn"
+            onClick={onClose}
+          >
+            Iniciar sesión
+          </Link>
+          <Link
+            to="/crear-cuenta"
+            state={{ from: returnTo }}
+            className="cartModalSecondaryBtn"
+            onClick={onClose}
+          >
+            Crear cuenta
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface AdminPurchaseBlockedModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function AdminPurchaseBlockedModal({
+  isOpen,
+  onClose,
+}: AdminPurchaseBlockedModalProps) {
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const returnTo = `${location.pathname}${location.search}`;
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const handleSwitchToUser = () => {
+    logout();
+    onClose();
+    navigate("/login", { state: { from: returnTo } });
+  };
+
+  return (
+    <div
+      className="cartModalOverlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="admin-purchase-modal-title"
+      onClick={onClose}
+    >
+      <div className="cartModalCard" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="cartModalClose"
+          onClick={onClose}
+          aria-label="Cerrar ventana"
+        >
+          <FaTimes />
+        </button>
+
+        <div className="cartModalIcon cartModalIconWarning">
+          <FaUserShield />
+        </div>
+
+        <h3 id="admin-purchase-modal-title" className="cartModalTitle">
+          Tenes que ingresar como usuarios para realizar una compra
+        </h3>
+
+        <p className="cartModalText">
+          Estás con la sesión de{" "}
+          <strong>{user?.name ?? "Sofía Admin"}</strong> (Administrador). Las
+          cuentas de administración no tienen permisos de compra ni carrito.
+        </p>
+
+        <div className="cartModalActions">
+          <button
+            type="button"
+            className="btnPrimary cartModalPrimaryBtn"
+            onClick={handleSwitchToUser}
+          >
+            Ingresar como usuario
+          </button>
+          <button
+            type="button"
+            className="cartModalSecondaryBtn"
             onClick={onClose}
           >
             Entendido

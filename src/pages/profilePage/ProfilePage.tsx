@@ -987,19 +987,21 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        <section className="profileStats" aria-label="Resumen de tu cuenta">
-          <Link to="/favoritos" className="profileStatCard">
-            <span className="profileStatLabel">Lista de deseos</span>
-            <strong className="profileStatValue">{wishlistCount}</strong>
-            <span className="profileStatHint">Ver productos guardados →</span>
-          </Link>
+        {!isAdmin && (
+          <section className="profileStats" aria-label="Resumen de tu cuenta">
+            <Link to="/favoritos" className="profileStatCard">
+              <span className="profileStatLabel">Lista de deseos</span>
+              <strong className="profileStatValue">{wishlistCount}</strong>
+              <span className="profileStatHint">Ver productos guardados →</span>
+            </Link>
 
-          <Link to="/cart" className="profileStatCard">
-            <span className="profileStatLabel">En tu carrito</span>
-            <strong className="profileStatValue">{cartCount}</strong>
-            <span className="profileStatHint">Ir al carrito de compras →</span>
-          </Link>
-        </section>
+            <Link to="/cart" className="profileStatCard">
+              <span className="profileStatLabel">En tu carrito</span>
+              <strong className="profileStatValue">{cartCount}</strong>
+              <span className="profileStatHint">Ir al carrito de compras →</span>
+            </Link>
+          </section>
+        )}
 
         <div className="profileLayout">
           <PersonalDataPanel

@@ -2,6 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import type { NewProduct, Product } from "../types/productMedia";
 import { initialProducts } from "../data/initialProducts";
 import { normalizeProductCode } from "../schemas/productSchema";
+import {
+  reserveSku,
+  suggestNextSku,
+  syncSkuSequencesWithProducts,
+} from "../utils/skuGenerator";
+import { deleteModelBlobFromIdb, isStoredModelRef } from "../utils/model3dStorage";
 
 export type { NewProduct };
 
@@ -30,37 +36,36 @@ function ensureProductCodes(products: Product[]): {
   changed: boolean;
 } {
   let changed = false;
-  const usedCodes = new Set<string>();
+  const resolved: Product[] = [];
 
-  const items = products.map((product, index) => {
+  for (const product of products) {
     const existingCode = product.code?.trim();
     if (existingCode) {
       const normalized = normalizeProductCode(existingCode);
-      usedCodes.add(normalized);
       if (normalized !== product.code) {
         changed = true;
-        return { ...product, code: normalized };
+        resolved.push({ ...product, code: normalized });
+      } else {
+        resolved.push(product);
       }
-      return product;
+      continue;
     }
 
     const seededCode = initialCodeById.get(product.id);
-    let candidate = seededCode
-      ? normalizeProductCode(seededCode)
-      : `DT-PRD-${String(index + 1).padStart(3, "0")}`;
+    const usedSoFar = new Set(
+      resolved.map((item) => normalizeProductCode(item.code ?? item.id)),
+    );
+    const candidate =
+      seededCode && !usedSoFar.has(normalizeProductCode(seededCode))
+        ? normalizeProductCode(seededCode)
+        : suggestNextSku(product.category, resolved);
 
-    let counter = 1;
-    while (usedCodes.has(candidate)) {
-      candidate = `DT-PRD-${String(index + 1 + counter).padStart(3, "0")}`;
-      counter += 1;
-    }
-
-    usedCodes.add(candidate);
     changed = true;
-    return { ...product, code: candidate };
-  });
+    resolved.push({ ...product, code: candidate });
+  }
 
-  return { items, changed };
+  syncSkuSequencesWithProducts(resolved);
+  return { items: resolved, changed };
 }
 
 function loadProducts(): Product[] {
@@ -71,6 +76,7 @@ function loadProducts(): Product[] {
     if (!saved) {
       localStorage.setItem(SEEDED_IDS_KEY, JSON.stringify(allInitialIds));
       saveProducts(initialProducts);
+      syncSkuSequencesWithProducts(initialProducts);
       return initialProducts;
     }
 
@@ -78,6 +84,7 @@ function loadProducts(): Product[] {
     if (!Array.isArray(parsed)) {
       localStorage.setItem(SEEDED_IDS_KEY, JSON.stringify(allInitialIds));
       saveProducts(initialProducts);
+      syncSkuSequencesWithProducts(initialProducts);
       return initialProducts;
     }
 
@@ -152,25 +159,12 @@ export function useProducts() {
     [products],
   );
 
-  const isCodeTaken = useCallback(
-    (code: string, excludeId?: string) => {
-      const normalized = normalizeProductCode(code);
-      if (!normalized) return false;
-      return products.some(
-        (p) =>
-          p.id !== excludeId &&
-          normalizeProductCode(p.code ?? p.id) === normalized,
-      );
-    },
-    [products],
-  );
-
   const addProduct = useCallback((data: NewProduct) => {
     const current = loadProducts();
     const id = generateProductId();
     const normalizedCode = data.code?.trim()
       ? normalizeProductCode(data.code)
-      : `DT-${id.slice(0, 6).toUpperCase()}`;
+      : suggestNextSku(data.category, current);
 
     const duplicate = current.some(
       (p) => normalizeProductCode(p.code ?? p.id) === normalizedCode,
@@ -186,6 +180,7 @@ export function useProducts() {
     };
     const next = [...current, newProduct];
     saveProducts(next);
+    reserveSku(normalizedCode, next);
     setProducts(next);
     notifyProductsUpdated();
     return newProduct;
@@ -214,15 +209,23 @@ export function useProducts() {
         : p,
     );
     saveProducts(next);
+    if (normalizedCode) {
+      reserveSku(normalizedCode, next);
+    }
     setProducts(next);
     notifyProductsUpdated();
   }, []);
 
   const deleteProduct = useCallback((id: string) => {
-    const next = loadProducts().filter((p) => p.id !== id);
+    const current = loadProducts();
+    const target = current.find((p) => p.id === id);
+    const next = current.filter((p) => p.id !== id);
     saveProducts(next);
     setProducts(next);
     notifyProductsUpdated();
+    if (target?.model3D && isStoredModelRef(target.model3D)) {
+      void deleteModelBlobFromIdb(target.model3D);
+    }
   }, []);
 
   return {
@@ -231,6 +234,5 @@ export function useProducts() {
     updateProduct,
     addProduct,
     getProductById,
-    isCodeTaken,
   };
 }

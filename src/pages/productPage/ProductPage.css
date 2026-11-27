@@ -458,12 +458,63 @@
 
 .descriptionIncluded ul {
   margin: 0;
-  padding-left: 1.2rem;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   font-size: var(--fs-sm);
   color: var(--text-muted);
+}
+
+.descriptionIncludedItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.descriptionIncludedIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: var(--fw-bold);
+}
+
+.descriptionIncludedItem.isIncluded .descriptionIncludedIcon {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.descriptionIncludedItem.isExcluded .descriptionIncludedIcon {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.descriptionIncludedItem.isExcluded .descriptionIncludedLabel {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+.descriptionIncludedStatus {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-pill);
+}
+
+.descriptionIncludedItem.isIncluded .descriptionIncludedStatus {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.descriptionIncludedItem.isExcluded .descriptionIncludedStatus {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 @media (max-width: 1080px) {

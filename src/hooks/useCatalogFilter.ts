@@ -11,7 +11,7 @@ export type CatalogSortOption =
 
 export type CatalogStockFilter = "all" | "in-stock" | "out-of-stock";
 
-export const ALL_CATEGORIES_VALUE = "Todas";
+const ALL_CATEGORIES_VALUE = "Todas";
 
 function normalizeText(value: string): string {
   return value

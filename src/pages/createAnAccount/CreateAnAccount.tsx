@@ -1,6 +1,6 @@
 import "./CreateAnAccount.css";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../hooks/useAuth";
@@ -27,6 +27,8 @@ export default function PageToCreateAnAccount({
 }: PageToCreateAnAccountProps) {
   const { register: registerAccount } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPath = (location.state as { from?: string } | null)?.from;
 
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -71,10 +73,11 @@ export default function PageToCreateAnAccount({
       return;
     }
 
+    const target = fromPath && fromPath !== "/admin" ? fromPath : "/perfil";
     setStatusMessage(
-      `¡Cuenta creada! Bienvenido/a, ${result.user.firstName}. Redirigiendo a tu perfil...`,
+      `¡Cuenta creada! Bienvenido/a, ${result.user.firstName}. Redirigiendo...`,
     );
-    navigate("/perfil");
+    navigate(target, { replace: true });
   }
 
   function onInvalid() {
@@ -105,7 +108,7 @@ export default function PageToCreateAnAccount({
             <p className="createAccountEyebrow">Bienvenido a tu tienda</p>
             <h1>Todo lo que buscas, en un solo lugar.</h1>
             <p>
-              Creá tu cuenta de invitado para guardar favoritos y disfrutar una
+              Creá tu cuenta de usuario para guardar favoritos y disfrutar una
               experiencia de compra más simple.
             </p>
           </div>
@@ -121,7 +124,7 @@ export default function PageToCreateAnAccount({
           <header className="createAccountHeading">
             <p className="createAccountEyebrow">Empezá ahora</p>
             <h2 id="create-account-title">Crear cuenta</h2>
-            <p>Completá tus datos para registrarte como usuario Invitado.</p>
+            <p>Completá tus datos para crear tu cuenta de usuario.</p>
           </header>
 
           <form
@@ -289,7 +292,10 @@ export default function PageToCreateAnAccount({
           </form>
 
           <p className="createAccountLogin">
-            ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
+            ¿Ya tienes una cuenta?{" "}
+            <Link to="/login" state={fromPath ? { from: fromPath } : undefined}>
+              Inicia sesión
+            </Link>
           </p>
         </div>
       </section>

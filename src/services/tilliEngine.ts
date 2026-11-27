@@ -11,7 +11,7 @@ import type {
   TilliProductCard,
 } from "../types/tilli";
 
-export const STORE_WHATSAPP_NUMBER = "5493813190987";
+const STORE_WHATSAPP_NUMBER = "5493813190987";
 
 const STORE_INFO = {
   name: "Tienda Liebre",
@@ -36,7 +36,7 @@ export interface TilliBotReply {
   quickReplies?: string[];
 }
 
-export function buildWhatsappUrl(message: string): string {
+function buildWhatsappUrl(message: string): string {
   return `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
@@ -601,9 +601,21 @@ function buildProductSpecificAnswer(
   const media = getProductMedia(product);
 
   if (/\b(incluye|caja|trae|viene|accesorios|contenido)\b/.test(normalized)) {
-    const itemsList = details.includedItems.map((item) => `• ${item}`).join("\n");
+    if (details.includedItems.length === 0) {
+      return {
+        text: `**${product.name}** no tiene un detalle específico de contenido de caja cargado.`,
+        quickReplies: ["¿Tiene garantía?", "¿Cuántas cuotas tiene?", "Envío y entrega"],
+      };
+    }
+    const itemsList = details.includedItems
+      .map((item) =>
+        item.included
+          ? `• ✓ ${item.label}`
+          : `• ✕ ${item.label} (no incluido)`,
+      )
+      .join("\n");
     return {
-      text: `Esto es lo que incluye **${product.name}**:\n${itemsList}`,
+      text: `Contenido de la caja de **${product.name}**:\n${itemsList}`,
       quickReplies: ["¿Tiene garantía?", "¿Cuántas cuotas tiene?", "Envío y entrega"],
     };
   }
@@ -840,6 +852,25 @@ export function generateTilliReply(
   }
 
   if (/\b(carrito|mi compra|mis compras|cuanto llevo|checkout|finalizar compra|mi pedido)\b/.test(normalized)) {
+    if (cart.isAdmin) {
+      return {
+        text: "Tenes que ingresar como usuarios para realizar una compra. Las cuentas de administrador no tienen carrito ni permisos de compra.",
+        actions: [{ label: "Ir al Panel Admin", kind: "route", to: "/admin" }],
+        quickReplies: ["Ver catálogo", "Medios de pago y cuotas"],
+      };
+    }
+
+    if (cart.isAuthenticated === false) {
+      return {
+        text: "Para ver tu carrito personal y comprar necesitás iniciar sesión. Así tus productos quedan guardados únicamente en tu cuenta.",
+        actions: [
+          { label: "Iniciar sesión", kind: "route", to: "/login" },
+          { label: "Crear cuenta", kind: "route", to: "/crear-cuenta" },
+        ],
+        quickReplies: ["Ver catálogo", "Cupones y ofertas"],
+      };
+    }
+
     if (cart.totalItems === 0) {
       return {
         text: "Tu carrito está vacío por ahora. Si querés te recomiendo algún producto y lo agregás con un clic desde acá.",

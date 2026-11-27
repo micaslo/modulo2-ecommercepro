@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImage } from "../../data/productMedia";
-import { getProductDetails } from "../../data/productDetails";
+import { getProductDetails, getProductPricing } from "../../data/productDetails";
 import { getProductPath } from "../../utils/productRoute";
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
@@ -14,6 +14,10 @@ import { useProducts } from "../../hooks/useProducts";
 import { useWishlist } from "../../hooks/useWishlist";
 import type { Product } from "../../types/productMedia";
 import { HeartIcon } from "../../components/productPage/productIcons/ProductIcons";
+import {
+  AdminPurchaseBlockedModal,
+  LoginRequiredModal,
+} from "../../components/checkout/cartModals/CartModals";
 import "./CatalogPage.css";
 
 const formatPrice = (value: number) =>
@@ -33,6 +37,11 @@ export default function CatalogPage() {
     message: string;
     isError?: boolean;
   } | null>(null);
+  const [loginModal, setLoginModal] = useState<{
+    open: boolean;
+    productName: string;
+  }>({ open: false, productName: "" });
+  const [adminBlockedModalOpen, setAdminBlockedModalOpen] = useState(false);
 
   const {
     categories,
@@ -62,6 +71,14 @@ export default function CatalogPage() {
     });
 
     if (!result.ok) {
+      if (result.reason === "auth_required") {
+        setLoginModal({ open: true, productName: product.name });
+        return;
+      }
+      if (result.reason === "admin_forbidden") {
+        setAdminBlockedModalOpen(true);
+        return;
+      }
       const reasonMessage =
         result.reason === "car_limit"
           ? "Solo podés reservar 1 unidad de este vehículo."
@@ -225,6 +242,7 @@ export default function CatalogPage() {
           <section className="catalogGrid" aria-label="Listado de productos">
             {filteredProducts.map((product) => {
               const cover = getCoverImage(product);
+              const pricing = getProductPricing(product);
               const saved = isFavorite(product.id);
               const outOfStock = product.stock <= 0;
               const productFeedback =
@@ -287,9 +305,21 @@ export default function CatalogPage() {
                     </p>
 
                     <div className="catalogCardPricing">
-                      <strong className="catalogCardPrice">
-                        {formatPrice(product.price)}
-                      </strong>
+                      <div className="catalogCardPriceGroup">
+                        {pricing.originalPrice && pricing.discountPercent > 0 && (
+                          <div className="catalogCardDiscountRow">
+                            <span className="catalogCardOldPrice">
+                              {formatPrice(pricing.originalPrice)}
+                            </span>
+                            <span className="catalogCardDiscountBadge">
+                              {pricing.discountPercent}% OFF
+                            </span>
+                          </div>
+                        )}
+                        <strong className="catalogCardPrice">
+                          {formatPrice(pricing.finalPrice)}
+                        </strong>
+                      </div>
                       <span
                         className={`catalogStockBadge ${
                           outOfStock ? "isOut" : "isIn"
@@ -338,6 +368,17 @@ export default function CatalogPage() {
           </section>
         )}
       </div>
+
+      <LoginRequiredModal
+        isOpen={loginModal.open}
+        productName={loginModal.productName}
+        onClose={() => setLoginModal({ open: false, productName: "" })}
+      />
+
+      <AdminPurchaseBlockedModal
+        isOpen={adminBlockedModalOpen}
+        onClose={() => setAdminBlockedModalOpen(false)}
+      />
     </main>
   );
 }

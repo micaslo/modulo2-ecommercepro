@@ -18,8 +18,9 @@ function subscribeToWishlist(callback: () => void) {
 }
 
 export function useWishlist() {
-  const { user, isAuthenticated } = useAuth();
-  const userId = user?.id ?? null;
+  const { user, isAuthenticated, isAdmin } = useAuth();
+  const canUseWishlist = isAuthenticated && !isAdmin;
+  const userId = canUseWishlist ? (user?.id ?? null) : null;
 
   const rawSnapshot = useSyncExternalStore(
     subscribeToWishlist,
@@ -47,8 +48,8 @@ export function useWishlist() {
   }, [rawSnapshot, userId]);
 
   const isFavorite = useCallback(
-    (productId: string) => isAuthenticated && wishlistIds.includes(productId),
-    [isAuthenticated, wishlistIds],
+    (productId: string) => canUseWishlist && wishlistIds.includes(productId),
+    [canUseWishlist, wishlistIds],
   );
 
   const toggle = useCallback(
@@ -75,7 +76,7 @@ export function useWishlist() {
   return {
     wishlistIds,
     count: wishlistIds.length,
-    canUseWishlist: isAuthenticated,
+    canUseWishlist,
     isFavorite,
     toggle,
     remove,

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { getProductPricing } from "../../data/productDetails";
 import { getCoverImage } from "../../data/productMedia";
 import { getProductPath } from "../../utils/productRoute";
 import type { Product } from "../../types/productMedia";
@@ -99,6 +100,7 @@ export default function ProductsTable({
             <tbody>
               {visibleProducts.map((product) => {
                 const thumb = getCoverImage(product);
+                const pricing = getProductPricing(product);
                 const stockStatus =
                   product.stock <= 0
                     ? "isOut"
@@ -134,7 +136,17 @@ export default function ProductsTable({
                       </span>
                     </td>
                     <td className="adminPriceCell">
-                      {formatPrice(product.price)}
+                      <div>{formatPrice(pricing.finalPrice)}</div>
+                      {pricing.originalPrice && pricing.discountPercent > 0 && (
+                        <div className="adminPriceMeta">
+                          <span className="adminPriceOld">
+                            {formatPrice(pricing.originalPrice)}
+                          </span>
+                          <span className="adminPriceOff">
+                            {pricing.discountPercent}% OFF
+                          </span>
+                        </div>
+                      )}
                     </td>
                     <td>
                       <span className={`adminStockPill ${stockStatus}`}>

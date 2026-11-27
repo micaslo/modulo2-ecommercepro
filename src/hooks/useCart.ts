@@ -1,95 +1,77 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
+import { useAuth } from "./useAuth";
+import {
+  CART_UPDATED_EVENT,
+  getCartStorageKey,
+  loadUserCartFromStorage,
+  parseCartItems,
+  saveUserCartToStorage,
+} from "../utils/cartStorage";
 import type {
   AddToCartPayload,
   CartActionResult,
   CartItem,
 } from "../types/cart";
 
-const CART_STORAGE_KEY = "detodito_cart_v1";
-const CART_UPDATED_EVENT = "detodito-cart-updated";
-
 function makeCartItemKey(
   productId: string,
   colorId?: string,
   isCar?: boolean,
 ): string {
-  
   if (isCar) return productId;
   return colorId ? `${productId}__${colorId}` : productId;
 }
 
-function loadCartFromStorage(): CartItem[] {
-  try {
-    const raw = localStorage.getItem(CART_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(
-      (item): item is CartItem =>
-        Boolean(item) &&
-        typeof item.key === "string" &&
-        typeof item.productId === "string" &&
-        typeof item.name === "string" &&
-        typeof item.price === "number" &&
-        typeof item.quantity === "number" &&
-        item.quantity > 0,
-    );
-  } catch {
-    return [];
-  }
-}
-
-function saveCartToStorage(items: CartItem[]) {
-  try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-  } catch (error) {
-    console.error("No se pudo guardar el carrito en localStorage:", error);
-  }
-}
-
-function notifyCartUpdated() {
-  window.dispatchEvent(new Event(CART_UPDATED_EVENT));
+function subscribeToCart(callback: () => void) {
+  window.addEventListener(CART_UPDATED_EVENT, callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener(CART_UPDATED_EVENT, callback);
+    window.removeEventListener("storage", callback);
+  };
 }
 
 export function useCart() {
-  const [items, setItems] = useState<CartItem[]>(loadCartFromStorage);
+  const { user, isAuthenticated, isAdmin } = useAuth();
+  const canUseCart = isAuthenticated && !isAdmin;
+  const userId = user?.id ?? null;
+  const cartOwnerId = canUseCart ? userId : null;
 
-  useEffect(() => {
-    const syncCart = () => {
-      setItems(loadCartFromStorage());
-    };
-
-    const handleStorage = (event: StorageEvent) => {
-      if (event.key === null || event.key === CART_STORAGE_KEY) {
-        syncCart();
+  const rawSnapshot = useSyncExternalStore(
+    subscribeToCart,
+    () => {
+      if (!cartOwnerId) return "[]";
+      try {
+        return localStorage.getItem(getCartStorageKey(cartOwnerId)) ?? "[]";
+      } catch {
+        return "[]";
       }
-    };
+    },
+    () => "[]",
+  );
 
-    window.addEventListener(CART_UPDATED_EVENT, syncCart);
-    window.addEventListener("storage", handleStorage);
+  const items = useMemo<CartItem[]>(
+    () => (cartOwnerId ? parseCartItems(rawSnapshot) : []),
+    [rawSnapshot, cartOwnerId],
+  );
 
-    return () => {
-      window.removeEventListener(CART_UPDATED_EVENT, syncCart);
-      window.removeEventListener("storage", handleStorage);
-    };
-  }, []);
-
-  const persist = useCallback((nextItems: CartItem[]) => {
-    saveCartToStorage(nextItems);
-    setItems(nextItems);
-    notifyCartUpdated();
-  }, []);
-
-  const getProductQuantityInCart = useCallback(
-    (productId: string) =>
-      items
-        .filter((item) => item.productId === productId)
-        .reduce((sum, item) => sum + item.quantity, 0),
-    [items],
+  const persist = useCallback(
+    (nextItems: CartItem[]) => {
+      if (!cartOwnerId) return;
+      saveUserCartToStorage(cartOwnerId, nextItems);
+    },
+    [cartOwnerId],
   );
 
   const addToCart = useCallback(
     (payload: AddToCartPayload): CartActionResult => {
+      if (!userId) {
+        return { ok: false, reason: "auth_required" };
+      }
+      if (isAdmin || !cartOwnerId) {
+        return { ok: false, reason: "admin_forbidden" };
+      }
+
       const {
         product,
         quantity,
@@ -104,7 +86,7 @@ export function useCart() {
         return { ok: false, reason: "out_of_stock" };
       }
 
-      const currentItems = loadCartFromStorage();
+      const currentItems = loadUserCartFromStorage(cartOwnerId);
       const totalExistingForProduct = currentItems
         .filter((item) => item.productId === product.id)
         .reduce((sum, item) => sum + item.quantity, 0);
@@ -160,12 +142,17 @@ export function useCart() {
         reachedStockLimit: !isCar && newTotalForProduct >= product.stock,
       };
     },
-    [persist],
+    [persist, userId, isAdmin, cartOwnerId],
   );
 
   const incrementItem = useCallback(
     (key: string): CartActionResult => {
-      const currentItems = loadCartFromStorage();
+      if (!userId) return { ok: false, reason: "auth_required" };
+      if (isAdmin || !cartOwnerId) {
+        return { ok: false, reason: "admin_forbidden" };
+      }
+
+      const currentItems = loadUserCartFromStorage(cartOwnerId);
       const target = currentItems.find((item) => item.key === key);
       if (!target) return { ok: false, reason: "out_of_stock" };
 
@@ -189,12 +176,14 @@ export function useCart() {
       const reachedStockLimit = totalForProduct + 1 >= target.stock;
       return { ok: true, reachedStockLimit };
     },
-    [persist],
+    [persist, userId, isAdmin, cartOwnerId],
   );
 
   const decrementItem = useCallback(
     (key: string) => {
-      const currentItems = loadCartFromStorage();
+      if (!cartOwnerId) return;
+
+      const currentItems = loadUserCartFromStorage(cartOwnerId);
       const target = currentItems.find((item) => item.key === key);
       if (!target) return;
 
@@ -208,20 +197,23 @@ export function useCart() {
             );
       persist(nextItems);
     },
-    [persist],
+    [persist, cartOwnerId],
   );
 
   const removeItem = useCallback(
     (key: string) => {
-      const currentItems = loadCartFromStorage();
+      if (!cartOwnerId) return;
+
+      const currentItems = loadUserCartFromStorage(cartOwnerId);
       persist(currentItems.filter((item) => item.key !== key));
     },
-    [persist],
+    [persist, cartOwnerId],
   );
 
   const clearCart = useCallback(() => {
+    if (!cartOwnerId) return;
     persist([]);
-  }, [persist]);
+  }, [persist, cartOwnerId]);
 
   const totalItems = useMemo(
     () => items.reduce((sum, item) => sum + item.quantity, 0),
@@ -242,6 +234,5 @@ export function useCart() {
     decrementItem,
     removeItem,
     clearCart,
-    getProductQuantityInCart,
   };
 }

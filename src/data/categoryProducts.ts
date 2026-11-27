@@ -18,7 +18,7 @@ export interface CategoryConfig {
   description: string;
 }
 
-export const categoryConfigs: CategoryConfig[] = [
+const categoryConfigs: CategoryConfig[] = [
   {
     slug: "tecnologia",
     label: "Tecnología",
@@ -57,7 +57,7 @@ function imageFor(id: string): string {
   return imageModules[`../assets/images/categoryProducts/${id}.webp`] ?? "";
 }
 
-export const upcomingCategoryProducts: Product[] = [
+const upcomingCategoryProducts: Product[] = [
   {
     id: "galaxy-watch-8",
     code: "DT-TEC-P01",
