@@ -906,16 +906,6 @@ export function generateTilliReply(
     };
   }
 
-  if (/\b(vender|publicar|subir producto|mi producto|publicacion)\b/.test(normalized)) {
-    return {
-      text: "¿Querés vender en la tienda? Desde la sección **Vender mi producto** podés completar tus datos junto con el nombre, categoría, estado (nuevo o usado), precio, foto y descripción del artículo. Nuestro equipo revisa la publicación y te contacta en menos de 24 horas hábiles.",
-      actions: [
-        { label: "Ir a Vender mi producto", kind: "route", to: "/sell-my-product" },
-      ],
-      quickReplies: ["Ver catálogo", "Programa de revendedores"],
-    };
-  }
-
   if (/\b(whatsapp|wsp|humano|asesor|persona|contacto|llamar|soporte|reclamo)\b/.test(normalized)) {
     const contextDetail = currentProduct
       ? `Hola! Estaba hablando con Tilli sobre ${currentProduct.name} y necesito ayuda de un asesor.`
