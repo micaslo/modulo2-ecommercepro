@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,20 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"error" | "info">("error");
+  const [recoveryOpen, setRecoveryOpen] = useState(false);
+  const [recoveryEmail, setRecoveryEmail] = useState("");
+  const [recoverySent, setRecoverySent] = useState(false);
+
+  useEffect(() => {
+    if (!recoveryOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setRecoveryOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [recoveryOpen]);
 
   const {
     register,
@@ -78,15 +92,10 @@ function LoginPage() {
   };
 
   const handleForgotPassword = () => {
-    if (!getValues("email").trim()) {
-      showMessage("Primero ingresá tu correo electrónico.");
-      return;
-    }
-
-    showMessage(
-      "La recuperación de contraseña todavía no está conectada.",
-      "info",
-    );
+    setRecoveryEmail(getValues("email").trim());
+    setRecoverySent(false);
+    setMessage("");
+    setRecoveryOpen(true);
   };
 
   return (
@@ -280,6 +289,86 @@ function LoginPage() {
           </Link>
         </div>
       </section>
+
+      {recoveryOpen && (
+        <div className="loginRecoveryOverlay">
+          <section
+            className="loginRecoveryModal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="login-recovery-title"
+          >
+            <button
+              type="button"
+              className="loginRecoveryClose"
+              onClick={() => setRecoveryOpen(false)}
+              aria-label="Cerrar recuperación de contraseña"
+            >
+              ×
+            </button>
+
+            {recoverySent ? (
+              <>
+                <span className="loginRecoverySuccessIcon" aria-hidden="true">
+                  ✓
+                </span>
+                <h2 id="login-recovery-title">Solicitud registrada</h2>
+                <p>
+                  Si la cuenta <strong>{recoveryEmail}</strong> existe,
+                  recibirías un correo con las instrucciones para recuperar tu
+                  contraseña. Esta demo no envía correos reales.
+                </p>
+                <button
+                  type="button"
+                  className="loginSubmit"
+                  onClick={() => setRecoveryOpen(false)}
+                >
+                  Volver al inicio de sesión
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="loginRecoveryEyebrow">Recuperación de cuenta</span>
+                <h2 id="login-recovery-title">¿Olvidaste tu contraseña?</h2>
+                <p>
+                  Ingresá tu correo electrónico para continuar con la
+                  recuperación de tu cuenta.
+                </p>
+
+                <form
+                  className="loginRecoveryForm"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    setRecoverySent(true);
+                  }}
+                >
+                  <label htmlFor="login-recovery-email">Correo electrónico</label>
+                  <input
+                    id="login-recovery-email"
+                    type="email"
+                    required
+                    autoFocus
+                    placeholder="usuario@ejemplo.com"
+                    value={recoveryEmail}
+                    onChange={(event) => setRecoveryEmail(event.target.value)}
+                  />
+                  <button type="submit" className="loginSubmit">
+                    Enviar instrucciones
+                  </button>
+                </form>
+
+                <button
+                  type="button"
+                  className="loginRecoveryCancel"
+                  onClick={() => setRecoveryOpen(false)}
+                >
+                  Cancelar
+                </button>
+              </>
+            )}
+          </section>
+        </div>
+      )}
     </main>
   );
 }
