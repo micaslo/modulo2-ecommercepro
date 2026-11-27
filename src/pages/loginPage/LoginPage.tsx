@@ -275,7 +275,10 @@ function LoginPage() {
         <div className="loginRegister">
           <span>¿No tenés una cuenta?</span>
 
-          <Link to="/crear-cuenta">
+          <Link
+            to="/crear-cuenta"
+            state={fromPath ? { from: fromPath } : undefined}
+          >
             Registrate <span aria-hidden="true">›</span>
           </Link>
         </div>

@@ -21,7 +21,9 @@ import Model3DViewer from "../../components/productPage/model3DViewer/Model3DVie
 import RelatedProducts from "../../components/productPage/relatedProducts/RelatedProducts";
 import ProductReviews from "../../components/productPage/productReviews/ProductReviews";
 import {
+  AdminPurchaseBlockedModal,
   CarAgentModal,
+  LoginRequiredModal,
   StockLimitModal,
 } from "../../components/checkout/cartModals/CartModals";
 import {
@@ -58,6 +60,8 @@ function ProductPageContent({
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [stockModalOpen, setStockModalOpen] = useState(false);
   const [carModalOpen, setCarModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [adminBlockedModalOpen, setAdminBlockedModalOpen] = useState(false);
   const isFavorite = checkIsFavorite(product.id);
 
   const media = getProductMedia(product);
@@ -122,7 +126,11 @@ function ProductPageContent({
     });
 
     if (!result.ok) {
-      if (result.reason === "car_limit") {
+      if (result.reason === "auth_required") {
+        setLoginModalOpen(true);
+      } else if (result.reason === "admin_forbidden") {
+        setAdminBlockedModalOpen(true);
+      } else if (result.reason === "car_limit") {
         setCarModalOpen(true);
       } else if (result.reason === "stock_limit") {
         setStockModalOpen(true);
@@ -345,19 +353,21 @@ function ProductPageContent({
         </aside>
       </section>
 
-      <section className="productPageSection pageCard productHighlightsSection">
-        <div className="sectionHeader">
-          <h2>Lo que tenés que saber de este producto</h2>
-          <a href="#caracteristicas" className="productJumpLink">
-            Ver características ↓
-          </a>
-        </div>
-        <ul className="productHighlightsList">
-          {details.highlights.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
+      {details.highlights.length > 0 && (
+        <section className="productPageSection pageCard productHighlightsSection">
+          <div className="sectionHeader">
+            <h2>Lo que tenés que saber de este producto</h2>
+            <a href="#caracteristicas" className="productJumpLink">
+              Ver características ↓
+            </a>
+          </div>
+          <ul className="productHighlightsList">
+            {details.highlights.map((item, index) => (
+              <li key={`${item}-${index}`}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <ProductSpecs
         productKind={details.productKind}
@@ -407,9 +417,27 @@ function ProductPageContent({
                 ? "¿Qué incluye la entrega?"
                 : "¿Qué incluye la caja?"}
             </h3>
-            <ul>
-              {details.includedItems.map((item) => (
-                <li key={item}>{item}</li>
+            <ul className="descriptionIncludedList">
+              {details.includedItems.map((item, index) => (
+                <li
+                  key={`${item.label}-${index}`}
+                  className={
+                    item.included
+                      ? "descriptionIncludedItem isIncluded"
+                      : "descriptionIncludedItem isExcluded"
+                  }
+                >
+                  <span
+                    className="descriptionIncludedIcon"
+                    aria-hidden="true"
+                  >
+                    {item.included ? "✓" : "✕"}
+                  </span>
+                  <span className="descriptionIncludedLabel">{item.label}</span>
+                  <span className="descriptionIncludedStatus">
+                    {item.included ? "Incluido" : "No incluido"}
+                  </span>
+                </li>
               ))}
             </ul>
           </div>
@@ -434,6 +462,17 @@ function ProductPageContent({
         isOpen={carModalOpen}
         productName={product.name}
         onClose={() => setCarModalOpen(false)}
+      />
+
+      <LoginRequiredModal
+        isOpen={loginModalOpen}
+        productName={product.name}
+        onClose={() => setLoginModalOpen(false)}
+      />
+
+      <AdminPurchaseBlockedModal
+        isOpen={adminBlockedModalOpen}
+        onClose={() => setAdminBlockedModalOpen(false)}
       />
     </main>
   );

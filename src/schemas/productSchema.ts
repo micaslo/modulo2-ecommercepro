@@ -30,6 +30,15 @@ export function normalizeProductCode(code: string): string {
   return code.trim().toUpperCase();
 }
 
+export function isValidProductImageValue(value: string): boolean {
+  return (
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("/") ||
+    value.startsWith("data:image/")
+  );
+}
+
 export const productFormSchema = z.object({
   code: z
     .string()
@@ -68,18 +77,7 @@ export const productFormSchema = z.object({
         Number(value) >= 0,
       "El stock debe ser un número entero mayor o igual a 0.",
     ),
-  image: z
-    .string()
-    .trim()
-    .min(1, "Ingresá una URL de imagen o cargá una desde tu PC.")
-    .refine(
-      (value) =>
-        value.startsWith("http://") ||
-        value.startsWith("https://") ||
-        value.startsWith("/") ||
-        value.startsWith("data:image/"),
-      "La imagen debe ser una URL válida (http://, https://) o un archivo cargado desde tu PC.",
-    ),
+  image: z.string().trim(),
   description: z
     .string()
     .trim()
@@ -90,8 +88,27 @@ export const productFormSchema = z.object({
 export function createProductFormSchema(
   existingProducts: Product[],
   editingProductId?: string | null,
+  hasExistingImages = false,
 ) {
   return productFormSchema.superRefine((values, ctx) => {
+    const trimmedImage = values.image.trim();
+    if (!trimmedImage) {
+      if (!hasExistingImages) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["image"],
+          message: "Ingresá una URL de imagen o cargá una desde tu PC.",
+        });
+      }
+    } else if (!isValidProductImageValue(trimmedImage)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["image"],
+        message:
+          "La imagen debe ser una URL válida (http://, https://) o un archivo cargado desde tu PC.",
+      });
+    }
+
     const normalizedCode = normalizeProductCode(values.code);
     if (!normalizedCode) return;
 

@@ -379,12 +379,96 @@ function resolveConfig(product: Product): MediaConfigEntry | undefined {
   return undefined;
 }
 
+function getCustomImages(product: Product): string[] {
+  const candidates = [
+    ...(Array.isArray(product.images) ? product.images : []),
+    ...(product.image ? [product.image] : []),
+  ]
+    .map((img) => img.trim())
+    .filter(Boolean);
+
+  return Array.from(new Set(candidates));
+}
+
+export function getBundledProductImages(product: Product): string[] {
+  const config = resolveConfig(product);
+  if (!config) return [];
+
+  const entries = getFolderEntries(config.imagesDir);
+  let colors: ProductColorVariant[] = [];
+  if (config.mode === "phone") {
+    colors = parsePhoneImages(entries, config.defaultColor);
+  } else if (config.mode === "car") {
+    colors = parseCarImages(entries, config.defaultColor);
+  } else if (config.mode === "controller") {
+    colors = parseControllerImages(
+      entries,
+      config.defaultColor,
+      config.colorOverrides,
+    );
+  }
+
+  const ordered = [
+    ...(colors[0]?.images ?? []),
+    ...colors.flatMap((variant) => variant.images),
+    ...entries.map((entry) => entry.url),
+  ].filter(Boolean);
+
+  return Array.from(new Set(ordered));
+}
+
+export interface EditableProductImage {
+  url: string;
+  source: "bundled" | "custom";
+}
+
+export function getEditableProductImages(
+  product: Product,
+): EditableProductImage[] {
+  const removedSet = new Set(product.removedImages ?? []);
+  const customImages = getCustomImages(product).filter(
+    (url) => !removedSet.has(url),
+  );
+  const bundledImages = getBundledProductImages(product).filter(
+    (url) => !removedSet.has(url),
+  );
+
+  const seen = new Set<string>();
+  const result: EditableProductImage[] = [];
+
+  for (const url of bundledImages) {
+    if (seen.has(url)) continue;
+    seen.add(url);
+    result.push({ url, source: "bundled" });
+  }
+
+  for (const url of customImages) {
+    if (seen.has(url)) continue;
+    seen.add(url);
+    result.push({ url, source: "custom" });
+  }
+
+  return result;
+}
+
 export function getProductMedia(product: Product): ProductMedia {
   const config = resolveConfig(product);
+  const customImages = getCustomImages(product);
+  const removedSet = new Set(product.removedImages ?? []);
+
+  const resolvedModel3D =
+    product.model3D !== undefined
+      ? product.model3D.trim() || undefined
+      : config?.modelDir
+        ? `/models/${config.modelDir}/scene.gltf`
+        : undefined;
+
   if (!config) {
+    const visibleCustom = customImages.filter((img) => !removedSet.has(img));
     return {
-      images: product.image ? [product.image] : [],
+      images: visibleCustom,
       colors: [],
+      model3D: resolvedModel3D,
     };
   }
 
@@ -402,15 +486,32 @@ export function getProductMedia(product: Product): ProductMedia {
     );
   }
 
-  const fallbackImages = entries.map((e) => e.url);
+  const visibleCustom = customImages.filter((img) => !removedSet.has(img));
+  const filteredColors = colors
+    .map((variant) => {
+      const kept = variant.images.filter((img) => !removedSet.has(img));
+      if (kept.length === 0) return null;
+      const merged = Array.from(new Set([...kept, ...visibleCustom]));
+      return {
+        ...variant,
+        previewImage: kept[0] ?? merged[0] ?? "",
+        images: merged,
+      };
+    })
+    .filter((variant): variant is ProductColorVariant => variant !== null);
+
+  const fallbackImages = entries
+    .map((e) => e.url)
+    .filter((img) => !removedSet.has(img));
+
   const defaultImages =
-    colors[0]?.images ??
-    (fallbackImages.length ? fallbackImages : product.image ? [product.image] : []);
+    filteredColors[0]?.images ??
+    Array.from(new Set([...fallbackImages, ...visibleCustom]));
 
   return {
     images: defaultImages,
-    colors,
-    model3D: config.modelDir ? `/models/${config.modelDir}/scene.gltf` : undefined,
+    colors: filteredColors,
+    model3D: resolvedModel3D,
   };
 }
 

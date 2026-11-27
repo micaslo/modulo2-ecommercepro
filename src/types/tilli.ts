@@ -42,6 +42,8 @@ export interface TilliMessage {
 }
 
 export interface TilliCartSnapshot {
+  isAuthenticated?: boolean;
+  isAdmin?: boolean;
   totalItems: number;
   subtotal: number;
   itemNames: Array<{ name: string; quantity: number; price: number }>;

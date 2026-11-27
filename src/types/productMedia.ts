@@ -1,3 +1,8 @@
+export interface ProductIncludedItem {
+  label: string;
+  included: boolean;
+}
+
 export interface Product {
   id: string;
   code?: string;
@@ -5,6 +10,11 @@ export interface Product {
   price: number;
   category: string;
   image: string;
+  images?: string[];
+  removedImages?: string[];
+  model3D?: string;
+  highlights?: string[];
+  includedItems?: ProductIncludedItem[];
   description: string;
   stock: number;
 }
@@ -92,7 +102,7 @@ export interface ProductDetails {
   keySpecs: ProductKeySpec[];
   specGroups: ProductSpecGroup[];
   extendedDescription: string[];
-  includedItems: string[];
+  includedItems: ProductIncludedItem[];
   featureRatings: ProductFeatureRating[];
   reviews: ProductReview[];
 }

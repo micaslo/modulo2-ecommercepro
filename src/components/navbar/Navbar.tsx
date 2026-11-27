@@ -3,6 +3,7 @@ import type { SubmitEvent } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useWishlist } from "../../hooks/useWishlist";
+import { AdminPurchaseBlockedModal } from "../checkout/cartModals/CartModals";
 import ThemeToggle from "../themeToggle/ThemeToggle";
 import logoDarkText from "../../assets/images/logo/tl-imagotype-black.webp";
 import logoWhiteText from "../../assets/images/logo/tl-imagotype-white.webp";
@@ -68,9 +69,10 @@ export default function Navbar({
   userName,
 }: NavbarProps) {
   const { user, isAuthenticated, isAdmin } = useAuth();
-  const { count: personalWishlistCount } = useWishlist();
+  const { count: personalWishlistCount, canUseWishlist } = useWishlist();
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [adminCartModalOpen, setAdminCartModalOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -188,7 +190,7 @@ export default function Navbar({
           <div className="navbarActions">
             <ThemeToggle className="navbarThemeToggle" />
 
-            {isAuthenticated && (
+            {canUseWishlist && (
               <Link
                 to="/favoritos"
                 className="navbarIconBtn"
@@ -208,7 +210,13 @@ export default function Navbar({
               to="/cart"
               className="navbarCart"
               aria-label={`Carrito, ${cartCount} productos`}
-              onClick={closeMenu}
+              onClick={(event) => {
+                closeMenu();
+                if (isAdmin) {
+                  event.preventDefault();
+                  setAdminCartModalOpen(true);
+                }
+              }}
             >
               <span className="navbarCartIcon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
@@ -296,7 +304,7 @@ export default function Navbar({
               </li>
             ))}
 
-            {isAuthenticated && (
+            {canUseWishlist && (
               <li>
                 <NavLink
                   to="/favoritos"
@@ -359,6 +367,11 @@ export default function Navbar({
           </div>
         </div>
       </nav>
+
+      <AdminPurchaseBlockedModal
+        isOpen={adminCartModalOpen}
+        onClose={() => setAdminCartModalOpen(false)}
+      />
     </header>
   );
 }

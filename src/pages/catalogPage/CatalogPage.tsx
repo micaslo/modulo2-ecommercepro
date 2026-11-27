@@ -14,6 +14,10 @@ import { useProducts } from "../../hooks/useProducts";
 import { useWishlist } from "../../hooks/useWishlist";
 import type { Product } from "../../types/productMedia";
 import { HeartIcon } from "../../components/productPage/productIcons/ProductIcons";
+import {
+  AdminPurchaseBlockedModal,
+  LoginRequiredModal,
+} from "../../components/checkout/cartModals/CartModals";
 import "./CatalogPage.css";
 
 const formatPrice = (value: number) =>
@@ -33,6 +37,11 @@ export default function CatalogPage() {
     message: string;
     isError?: boolean;
   } | null>(null);
+  const [loginModal, setLoginModal] = useState<{
+    open: boolean;
+    productName: string;
+  }>({ open: false, productName: "" });
+  const [adminBlockedModalOpen, setAdminBlockedModalOpen] = useState(false);
 
   const {
     categories,
@@ -62,6 +71,14 @@ export default function CatalogPage() {
     });
 
     if (!result.ok) {
+      if (result.reason === "auth_required") {
+        setLoginModal({ open: true, productName: product.name });
+        return;
+      }
+      if (result.reason === "admin_forbidden") {
+        setAdminBlockedModalOpen(true);
+        return;
+      }
       const reasonMessage =
         result.reason === "car_limit"
           ? "Solo podés reservar 1 unidad de este vehículo."
@@ -338,6 +355,17 @@ export default function CatalogPage() {
           </section>
         )}
       </div>
+
+      <LoginRequiredModal
+        isOpen={loginModal.open}
+        productName={loginModal.productName}
+        onClose={() => setLoginModal({ open: false, productName: "" })}
+      />
+
+      <AdminPurchaseBlockedModal
+        isOpen={adminBlockedModalOpen}
+        onClose={() => setAdminBlockedModalOpen(false)}
+      />
     </main>
   );
 }

@@ -117,11 +117,14 @@ export default function Step1CartList({
                       <button
                         type="button"
                         className="btnPrimary quickCatalogAddBtn"
+                        disabled={product.stock <= 0}
                         onClick={() => onQuickAddProduct(product)}
                       >
-                        {details.productKind === "car"
-                          ? "Reservar"
-                          : "Agregar"}
+                        {product.stock <= 0
+                          ? "Sin stock"
+                          : details.productKind === "car"
+                            ? "Reservar"
+                            : "Agregar"}
                       </button>
                       <Link
                         to={getProductPath(product)}

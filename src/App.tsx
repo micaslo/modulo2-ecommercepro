@@ -87,14 +87,31 @@ function App() {
           <Route
             path="/favoritos"
             element={
-              <ProtectedRoute sectionName="tu lista de deseos">
+              <ProtectedRoute
+                allowedRoles={["guest"]}
+                sectionName="tu lista de deseos"
+                forbiddenTitle="La lista de deseos es solo para usuarios"
+                forbiddenCopy="Las cuentas de administrador no tienen lista de deseos. Si querés guardar favoritos, ingresá con una cuenta de usuario."
+              >
                 <WishList />
               </ProtectedRoute>
             }
           />
           <Route path="/productos/:category/:id" element={<ProductPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute
+                allowedRoles={["guest"]}
+                sectionName="tu carrito de compras"
+                forbiddenTitle="Tenes que ingresar como usuarios para realizar una compra"
+                forbiddenCopy="Las cuentas de administrador no tienen permisos de compra ni carrito. Iniciá sesión con una cuenta de usuario para comprar."
+              >
+                <CartPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/resellers" element={<ResellersSection />} />
           <Route path="/registro" element={<PageToCreateAnAccount />} />
           <Route path="/crear-cuenta" element={<PageToCreateAnAccount />} />

@@ -1,4 +1,30 @@
-import type { Product, ProductDetails } from "../types/productMedia";
+import type {
+  Product,
+  ProductDetails,
+  ProductIncludedItem,
+} from "../types/productMedia";
+
+type PresetProductDetails = Omit<ProductDetails, "includedItems"> & {
+  includedItems: string[];
+};
+
+function normalizeIncludedItems(
+  raw: Array<string | ProductIncludedItem>,
+): ProductIncludedItem[] {
+  return raw
+    .map((entry): ProductIncludedItem | null => {
+      if (typeof entry === "string") {
+        const label = entry.trim();
+        return label ? { label, included: true } : null;
+      }
+      if (entry && typeof entry === "object" && typeof entry.label === "string") {
+        const label = entry.label.trim();
+        return label ? { label, included: Boolean(entry.included) } : null;
+      }
+      return null;
+    })
+    .filter((item): item is ProductIncludedItem => item !== null);
+}
 
 const DISCOUNT_PERCENT_BY_KIND: Partial<
   Record<ProductDetails["productKind"], number>
@@ -18,7 +44,7 @@ function getOriginalPriceForKind(
   return Math.round(price / (1 - discountPercent / 100));
 }
 
-const PRODUCT_DETAILS: Record<string, ProductDetails> = {
+const PRODUCT_DETAILS: Record<string, PresetProductDetails> = {
   "iphone-18-pro": {
     productKind: "phone",
     condition: "Nuevo",
@@ -847,10 +873,20 @@ const PRODUCT_DETAILS: Record<string, ProductDetails> = {
 };
 
 export function getProductDetails(product: Product): ProductDetails {
+  const customHighlights = Array.isArray(product.highlights)
+    ? product.highlights.map((item) => item.trim()).filter(Boolean)
+    : undefined;
+  const customIncludedItems = Array.isArray(product.includedItems)
+    ? normalizeIncludedItems(product.includedItems)
+    : undefined;
+
   const preset = PRODUCT_DETAILS[product.id];
   if (preset) {
     return {
       ...preset,
+      highlights: customHighlights ?? preset.highlights,
+      includedItems:
+        customIncludedItems ?? normalizeIncludedItems(preset.includedItems),
       originalPrice:
         getOriginalPriceForKind(product.price, preset.productKind) ??
         preset.originalPrice,
@@ -917,7 +953,7 @@ export function getProductDetails(product: Product): ProductDetails {
         ? "Envío rápido y asegurado"
         : "Envío gratis en compras superiores a $300.000",
     warranty: "Garantía oficial de 12 meses",
-    highlights: [
+    highlights: customHighlights ?? [
       `Producto original de categoría ${product.category}.`,
       "Calidad garantizada con respaldo oficial.",
       "Atención personalizada ante cualquier consulta.",
@@ -937,7 +973,9 @@ export function getProductDetails(product: Product): ProductDetails {
       },
     ],
     extendedDescription: [product.description],
-    includedItems: [product.name, "Documentación y garantía"],
+    includedItems:
+      customIncludedItems ??
+      normalizeIncludedItems([product.name, "Documentación y garantía"]),
     featureRatings: [
       { label: "Calidad general", score: 4.8 },
       { label: "Relación precio-calidad", score: 4.7 },

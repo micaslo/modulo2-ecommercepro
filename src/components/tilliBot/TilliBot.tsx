@@ -19,8 +19,10 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import { formatARS } from "../../data/checkoutConfig";
+import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
 import { useProducts } from "../../hooks/useProducts";
+import { AdminPurchaseBlockedModal } from "../checkout/cartModals/CartModals";
 import { getProductPath } from "../../utils/productRoute";
 import {
   createMessageId,
@@ -74,6 +76,7 @@ export default function TilliBot() {
   const location = useLocation();
   const navigate = useNavigate();
   const { products, getProductById } = useProducts();
+  const { isAuthenticated, isAdmin } = useAuth();
   const { items: cartItems, totalItems, subtotal, addToCart } = useCart();
 
   const currentProduct = useMemo(() => {
@@ -100,6 +103,7 @@ export default function TilliBot() {
   const [cartFeedback, setCartFeedback] = useState<
     Record<string, { ok: boolean; text: string }>
   >({});
+  const [adminBlockedModalOpen, setAdminBlockedModalOpen] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -193,6 +197,8 @@ export default function TilliBot() {
       products,
       currentProduct,
       cart: {
+        isAuthenticated,
+        isAdmin,
         totalItems,
         subtotal,
         itemNames: cartItems.map((item) => ({
@@ -245,6 +251,30 @@ export default function TilliBot() {
         ...prev,
         [card.id]: { ok: true, text: "Agregado" },
       }));
+    } else if (result.reason === "auth_required") {
+      setCartFeedback((prev) => ({
+        ...prev,
+        [card.id]: { ok: false, text: "Iniciá sesión" },
+      }));
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: createMessageId("bot"),
+          sender: "bot",
+          text: `Para agregar **${product.name}** a tu carrito y poder comprar necesitás iniciar sesión. Tu carrito se guarda de forma única para tu cuenta.`,
+          timestamp: formatTimeNow(),
+          actions: [
+            { label: "Iniciar sesión", kind: "route", to: "/login" },
+            { label: "Crear cuenta", kind: "route", to: "/crear-cuenta" },
+          ],
+        },
+      ]);
+    } else if (result.reason === "admin_forbidden") {
+      setCartFeedback((prev) => ({
+        ...prev,
+        [card.id]: { ok: false, text: "Solo usuarios" },
+      }));
+      setAdminBlockedModalOpen(true);
     } else if (result.reason === "car_limit") {
       setCartFeedback((prev) => ({
         ...prev,
@@ -273,7 +303,13 @@ export default function TilliBot() {
 
   const handleActionClick = (action: TilliActionLink) => {
     if (action.kind === "route") {
-      navigate(action.to);
+      if (action.to === "/login" || action.to === "/crear-cuenta") {
+        navigate(action.to, {
+          state: { from: `${location.pathname}${location.search}` },
+        });
+      } else {
+        navigate(action.to);
+      }
       if (window.innerWidth <= 540) {
         setIsOpen(false);
       }
@@ -619,6 +655,11 @@ export default function TilliBot() {
       >
         {isOpen ? <FaTimes /> : <FaRobot />}
       </button>
+
+      <AdminPurchaseBlockedModal
+        isOpen={adminBlockedModalOpen}
+        onClose={() => setAdminBlockedModalOpen(false)}
+      />
     </div>
   );
 }

@@ -8,12 +8,16 @@ interface ProtectedRouteProps {
   children: ReactNode;
   allowedRoles?: UserRole[];
   sectionName?: string;
+  forbiddenTitle?: string;
+  forbiddenCopy?: string;
 }
 
 export default function ProtectedRoute({
   children,
   allowedRoles,
   sectionName = "esta sección",
+  forbiddenTitle,
+  forbiddenCopy,
 }: ProtectedRouteProps) {
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
@@ -35,13 +39,14 @@ export default function ProtectedRoute({
           <div className="protectedActions">
             <Link
               to="/login"
-              state={{ from: location.pathname }}
+              state={{ from: `${location.pathname}${location.search}` }}
               className="btnPrimary protectedLinkBtn"
             >
               Iniciar sesión
             </Link>
             <Link
               to="/crear-cuenta"
+              state={{ from: `${location.pathname}${location.search}` }}
               className="btnSecondary protectedLinkBtn"
             >
               Crear cuenta
@@ -53,9 +58,13 @@ export default function ProtectedRoute({
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
+    const requiresAdmin =
+      allowedRoles.includes("admin") && !allowedRoles.includes("guest");
     const handleSwitchAccount = () => {
       logout();
-      navigate("/login", { state: { from: location.pathname } });
+      navigate("/login", {
+        state: { from: `${location.pathname}${location.search}` },
+      });
     };
 
     return (
@@ -64,23 +73,46 @@ export default function ProtectedRoute({
           <span className="protectedEyebrow protectedEyebrowDanger">
             PERMISO DENEGADO
           </span>
-          <h1 id="forbidden-title">Acceso exclusivo para Administradores</h1>
+          <h1 id="forbidden-title">
+            {forbiddenTitle ??
+              (requiresAdmin
+                ? "Acceso exclusivo para Administradores"
+                : "Acceso exclusivo para Usuarios")}
+          </h1>
           <p className="protectedCopy">
-            Tu sesión actual corresponde al perfil <strong>Invitado</strong> (
-            {user.email}). Para acceder al Panel de Administración necesitás
-            iniciar sesión con una cuenta de <strong>Administrador</strong>.
+            {forbiddenCopy ? (
+              forbiddenCopy
+            ) : requiresAdmin ? (
+              <>
+                Tu sesión actual corresponde al perfil <strong>Invitado</strong>{" "}
+                ({user.email}). Para acceder al Panel de Administración necesitás
+                iniciar sesión con una cuenta de <strong>Administrador</strong>.
+              </>
+            ) : (
+              <>
+                Tu sesión actual corresponde al perfil{" "}
+                <strong>Administrador</strong> ({user.email}). Para acceder a{" "}
+                {sectionName} necesitás iniciar sesión con una cuenta de{" "}
+                <strong>Usuario</strong>.
+              </>
+            )}
           </p>
 
           <div className="protectedActions">
-            <Link to="/perfil" className="btnPrimary protectedLinkBtn">
-              Volver a mi perfil
+            <Link
+              to={requiresAdmin ? "/perfil" : "/admin"}
+              className="btnPrimary protectedLinkBtn"
+            >
+              {requiresAdmin ? "Volver a mi perfil" : "Ir al Panel Admin"}
             </Link>
             <button
               type="button"
               className="btnSecondary protectedLinkBtn"
               onClick={handleSwitchAccount}
             >
-              Ingresar con otra cuenta
+              {requiresAdmin
+                ? "Ingresar con otra cuenta"
+                : "Ingresar como usuario"}
             </button>
           </div>
         </section>

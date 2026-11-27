@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react
 import { AuthContext } from "./authContext";
 import { stripDigits } from "../data/checkoutConfig";
 import { clearUserWishlistStorage } from "../utils/wishlist";
+import { clearUserCartStorage } from "../utils/cartStorage";
 import type {
   AuthActionResult,
   AuthContextValue,
@@ -451,6 +452,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       saveUsers(nextUsers);
       setRegisteredUsers(nextUsers);
       clearUserWishlistStorage(userId);
+      clearUserCartStorage(userId);
 
       return { ok: true };
     },
