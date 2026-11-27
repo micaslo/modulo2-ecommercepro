@@ -74,9 +74,6 @@ export default function Footer() {
             <li>
               <Link to="/resellers">Revendedores</Link>
             </li>
-            <li>
-              <Link to="/sell-my-product">Vender mi producto</Link>
-            </li>
           </ul>
         </nav>
 

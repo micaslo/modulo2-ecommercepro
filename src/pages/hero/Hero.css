@@ -359,75 +359,6 @@
   mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
 }
 
-.heroCategories {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.85rem;
-  margin-top: 1rem;
-}
-
-.heroCategory {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  min-width: 0;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background: var(--bg-surface);
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
-}
-
-.heroCategory:hover {
-  transform: translateY(-2px);
-  border-color: var(--color-secondary);
-  box-shadow: var(--shadow-sm);
-}
-
-.heroCategoryImage {
-  box-sizing: border-box;
-  flex: 0 0 3rem;
-  width: 3rem;
-  height: 3rem;
-  padding: 4px;
-  border-radius: 13px;
-  object-fit: contain;
-  background: var(--bg-surface-2);
-  border: 1px solid var(--border-color);
-}
-
-.heroCategoryCopy {
-  display: grid;
-  gap: 0.14rem;
-  min-width: 0;
-}
-
-.heroCategoryCopy strong {
-  font-family: var(--font-heading);
-  font-size: 0.88rem;
-  color: var(--text-main);
-}
-
-.heroCategoryCopy small {
-  overflow: hidden;
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.heroCategoryArrow {
-  margin-left: auto;
-  color: var(--text-subtle);
-  font-size: 0.95rem;
-  transition: color var(--transition), transform var(--transition);
-}
-
-.heroCategory:hover .heroCategoryArrow {
-  color: var(--color-primary);
-  transform: translate(2px, -2px);
-}
-
 @media (max-width: 960px) {
   .heroCarousel {
     height: clamp(390px, 52vw, 480px);
@@ -437,9 +368,6 @@
     width: min(68%, 560px);
   }
 
-  .heroCategories {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 640px) {
@@ -489,34 +417,6 @@
     grid-template-columns: 1fr;
   }
 
-  .heroCategories {
-    gap: 0.65rem;
-  }
-
-  .heroCategory {
-    gap: .55rem;
-    padding: .7rem .65rem;
-    border-radius: 14px;
-  }
-
-  .heroCategoryImage {
-    flex-basis: 2.6rem;
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 11px;
-  }
-
-  .heroCategoryCopy strong {
-    font-size: .74rem;
-  }
-
-  .heroCategoryCopy small {
-    font-size: .59rem;
-  }
-
-  .heroCategoryArrow {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

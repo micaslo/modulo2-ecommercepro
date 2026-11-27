@@ -3,7 +3,6 @@ import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/footer";
 import ButtonWsp from "./components/buttonWsp/ButtonWsp";
 import TilliBot from "./components/tilliBot/TilliBot";
-import SellProductSection from "./components/sellProduct/SellProductSection";
 import AboutUs from "./components/aboutUs/AboutUs";
 import BlackFridayBanner from "./components/blackFridayBanner/BlackFridayBanner";
 import Hero from "./pages/hero/Hero";
@@ -97,7 +96,6 @@ function App() {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/resellers" element={<ResellersSection />} />
-          <Route path="/sell-my-product" element={<SellProductSection />} />
           <Route path="/registro" element={<PageToCreateAnAccount />} />
           <Route path="/crear-cuenta" element={<PageToCreateAnAccount />} />
           <Route path="/como-llegar" element={<HowToGetThere />} />
