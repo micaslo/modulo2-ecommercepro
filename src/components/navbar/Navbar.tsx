@@ -58,7 +58,6 @@ const baseNavLinks = [
   { label: "Catálogo", to: "/productos", highlight: true },
   { label: "Más vendidos", to: "/mas-vendidos" },
   { label: "Revendedores", to: "/resellers" },
-  { label: "Vender", to: "/sell-my-product" },
   { label: "Nosotros", to: "/sobrenosotros" },
 ];
 
